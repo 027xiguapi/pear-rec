@@ -1,147 +1,83 @@
-import React, { useEffect } from "react";
-import { Link, Routes, Route } from "react-router-dom";
-import {
-  ScissorOutlined,
-  VideoCameraOutlined,
-  CameraOutlined,
-  AudioOutlined,
-  DownOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-} from "@ant-design/icons";
-
-import { Card, Col, Row, Dropdown, Space } from "antd";
-// import type { MenuProps } from "antd";
+import React, { useEffect, useState, useRef } from "react";
+import { Col, Row } from "antd";
+import CutScreenCard from "renderer/components/card/cutScreenCard";
+import RecordVideoCard from "renderer/components/card/recordVideoCard";
+import RecordScreenCard from "renderer/components/card/recordScreenCard";
+import RecordAudioCard from "renderer/components/card/recordAudioCard";
 import "./index.scss";
 
-// const items: MenuProps["items"] = [
-//   {
-//     label: (
-//       <a
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         href="https://www.antgroup.com"
-//       >
-//         1st menu item
-//       </a>
-//     ),
-//     key: "0",
-//   },
-//   {
-//     label: (
-//       <a
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         href="https://www.aliyun.com"
-//       >
-//         2nd menu item
-//       </a>
-//     ),
-//     key: "1",
-//   },
-// ];
-
-function handleCutScreen() {
-  console.log(123);
-}
-
-function handleRecordScreen() {
-  console.log(123);
-}
-
-function handleRecordVideo() {
-  console.log(123);
-}
-
-function handleRecordAudio() {
-  console.log(123);
-}
-
 const Home: React.FC = () => {
+  const cscRef = useRef(null);
+  const rscRef = useRef(null);
+  const rvcRef = useRef(null);
+  const racRef = useRef(null);
+
+  const [videoinputDevices, setVideoinputDevices] = useState([]);// 视频输入 (摄像头)
+  const [audioinputDevices, setAudioinputDevices] = useState([]);// 音频输入 (麦克风)
+  const [audiooutputDevices, setAudiooutputDevices] = useState([]);// 音频输出 (扬声器)
+
   useEffect(() => {
     window.electronAPI?.setTitle("梨子REC|pear REC");
+    getDevices();
   }, []);
 
-  
+  function getDevices() {
+    return new Promise((resolve, reject) => {
+      navigator.mediaDevices
+        .enumerateDevices()
+        .then((devices) => {
+          let videoinputDevices: MediaDeviceInfo[] = []; 
+          let audioinputDevices: MediaDeviceInfo[] = []; 
+          let audiooutputDevices: MediaDeviceInfo[] = []; 
+          devices.forEach((device) => {
+            // 没有授予硬件权限时，deviceId为空字符串
+            if (device.deviceId == "") {
+              return;
+            }
+            if (device.kind == "videoinput") {
+              videoinputDevices.push(device);
+            } else if (device.kind == "audioinput") {
+              audioinputDevices.push(device);
+            } else if (device.kind == "audiooutput") {
+              audiooutputDevices.push(device);
+            } else {
+              console.log("Some other kind of source/device: ", device);
+            }
+          });
+
+          setVideoinputDevices(videoinputDevices);
+          setAudioinputDevices(audioinputDevices);
+          setAudiooutputDevices(audiooutputDevices);
+          console.log("videoinputDevices", videoinputDevices);
+          console.log("audioinputDevices", audioinputDevices);
+          console.log("audiooutputDevices", audiooutputDevices);
+          rvcRef.current.setIsRecordVideo(
+            videoinputDevices.length ? true : false
+          );
+          racRef.current.setIsRecordAudio(
+            audioinputDevices.length ? true : false
+          );
+          resolve({ flag: true, devices: devices });
+        })
+        .catch((err) => {
+          reject({ flag: false, err });
+        });
+    });
+  }
+
   return (
     <Row className="home" gutter={16}>
       <Col span={6}>
-        <Card
-          title="截屏"
-          hoverable
-          bordered={false}
-          extra={"More"}
-          style={{ maxWidth: 300 }}
-        >
-          <div className="cardContent">
-            <Link to="/cutScreen">
-              <ScissorOutlined
-                style={{ fontSize: "45px" }}
-                onClick={handleCutScreen}
-              />
-            </Link>
-            {/* <Dropdown menu={{ items }}>
-            <Space>
-              
-              <DownOutlined />
-            </Space>
-          </Dropdown> */}
-          </div>
-        </Card>
+        <CutScreenCard ref={cscRef} />
       </Col>
       <Col span={6}>
-        <Card
-          title="录屏"
-          hoverable
-          bordered={false}
-          extra={<a href="#">More</a>}
-          style={{ maxWidth: 300 }}
-        >
-          <div className="cardContent">
-            <Link to="/recordScreen">
-              <CameraOutlined
-                style={{ fontSize: "45px" }}
-                onClick={handleRecordScreen}
-              />
-            </Link>
-          </div>
-        </Card>
+        <RecordScreenCard ref={rscRef} />
       </Col>
       <Col span={6}>
-        <Card
-          title="录像"
-          hoverable
-          bordered={false}
-          extra={<a href="#">More</a>}
-          style={{ maxWidth: 300 }}
-        >
-          <div className="cardContent">
-            <Link to="/recordVideo">
-              <VideoCameraOutlined
-                style={{ fontSize: "45px" }}
-                onClick={handleRecordVideo}
-              />
-            </Link>
-          </div>
-        </Card>
+        <RecordVideoCard ref={rvcRef} />
       </Col>
       <Col span={6}>
-        <Card
-          title="录音"
-          hoverable
-          bordered={false}
-          extra={<a href="#">More</a>}
-          style={{ maxWidth: 300 }}
-        >
-          <div className="cardContent">
-            <Link to="/recordAudio">
-              <AudioOutlined
-                style={{ fontSize: "45px" }}
-                onClick={handleRecordAudio}
-              />
-            </Link>
-          </div>
-        </Card>
+        <RecordAudioCard ref={racRef} />
       </Col>
     </Row>
   );

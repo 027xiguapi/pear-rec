@@ -10,5 +10,6 @@ declare global {
 
   interface Window {
     electronAPI: any,
+    mediajs: any,
   }
 }
