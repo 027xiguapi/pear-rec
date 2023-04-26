@@ -47,6 +47,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.4.2",
     "electron-squirrel-startup": "^1.0.0",
+    "js-web-screen-shot": "^1.9.5",
     "konva": "^9.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

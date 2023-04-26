@@ -4,8 +4,10 @@
 // 在 preload 脚本中。
 import { ipcRenderer, contextBridge } from "electron";
 import { openCutScreen, closeCutScreen, setCutScreen, getCutScreen } from "./electronAPI/cutScreen";
+import { send, sendSync, on, once, invoke } from "./electronAPI/ipcRenderer";
 import { setTitle } from "./electronAPI/app";
 import { store } from "../stores";
+import { setClipboardImg } from "./electronAPI/clipboard";
 
 import {
   increment,
@@ -67,10 +69,16 @@ function handleStream(stream: MediaProvider) {
 
 contextBridge.exposeInMainWorld('electronAPI', {
   setTitle,
+  setClipboardImg,
+
   openCutScreen,
   closeCutScreen,
   setCutScreen,
   getCutScreen,
+
+  ipcRenderer: {
+    send, sendSync, on, once, invoke,
+  },
 
   handleStore: () => {
     const { getState, dispatch, subscribe } = store;

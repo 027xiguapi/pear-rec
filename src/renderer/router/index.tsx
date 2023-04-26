@@ -5,6 +5,7 @@ import { store } from "@/stores";
 import "./index.scss";
 
 import Home from "renderer/pages/home";
+import ShotScreen from "renderer/pages/shotScreen";
 import CutScreen from "renderer/pages/cutScreen";
 import RecordScreen from "renderer/pages/recorderScreen";
 import RecordVideo from "renderer/pages/recorderVideo";
@@ -15,7 +16,8 @@ const App: FC = () => (
     <div className="app">
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/cutScreen" element={<CutScreen />}></Route>
+        {/* <Route path="/cutScreen" element={<CutScreen />}></Route> */}
+        <Route path="/shotScreen" element={<ShotScreen />}></Route>
         <Route path="/recordScreen" element={<RecordScreen />}></Route>
         <Route path="/recordVideo" element={<RecordVideo />}></Route>
         <Route path="/recordAudio" element={<RecordAudio />}></Route>
