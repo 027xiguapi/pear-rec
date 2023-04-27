@@ -12,7 +12,9 @@ import { IpcEvents } from "@/ipcEvents";
 
 const CutScreenCard = forwardRef((props: any, ref: any) => {
   const Navigate = useNavigate();
-  useImperativeHandle(ref, () => ({}));
+  useImperativeHandle(ref, () => ({
+    handleCutScreen
+  }));
   const [size, setSize] = useState<SizeType>("large");
   const [isCutScreen, setIsCutScreen] = useState(true);
 

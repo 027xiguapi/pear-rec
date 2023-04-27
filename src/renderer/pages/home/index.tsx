@@ -18,10 +18,17 @@ const Home: React.FC = () => {
   const [audiooutputDevices, setAudiooutputDevices] = useState([]);// 音频输出 (扬声器)
 
   useEffect(() => {
-    // window.electronAPI?.setTitle("梨子REC|pear REC");
     window.electronAPI?.ipcRenderer.send(IpcEvents.EV_SET_TITLE, "梨子REC");
+    document.addEventListener("keydown", handleKeydown);
     getDevices();
   }, []);
+
+  
+  function handleKeydown(event: any) {
+    if ((event.metaKey || event.altKey) && event.code === "KeyQ") {
+      cscRef.current.handleShotScreen();
+    }
+  }
 
   function getDevices() {
     return new Promise((resolve, reject) => {
