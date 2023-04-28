@@ -1,0 +1,37 @@
+.header {
+  height: 40px;
+  width: 100%;
+  background-color: rgba(204, 201, 201, 0.2);
+  display: flex;
+  .left {
+    width: 100px;
+    height: 100%;
+    line-height: 40px;
+    text-align: left;
+  }
+  .drgan {
+    flex: auto;
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
+  }
+  .right {
+    width: 100px;
+  }
+  .icon-s {
+    font-size: 28px;
+    color: #ccc;
+    padding-left: 10px;
+  }
+  .left span {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    color: #ccc;
+    padding-left: 10px;
+  }
+  .right .icon-s {
+    font-size: 24px;
+    padding-top: 8px;
+  }
+}

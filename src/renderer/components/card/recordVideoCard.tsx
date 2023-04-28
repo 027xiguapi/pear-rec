@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { VideoCameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import type { SizeType } from "antd/es/config-provider/SizeContext";
+import { IpcEvents } from "@/ipcEvents";
 
 const RecordVideoCard = forwardRef((props: any, ref: any) => {
   const Navigate = useNavigate();
@@ -15,8 +16,8 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
   const [size, setSize] = useState<SizeType>("large");
   const [isRecordVideo, setIsRecordVideo] = useState(true);
 
-  function handleRecordVideo() {
-    Navigate("/recordVideo");
+  function handleRecorderVideo() {
+    Navigate("/recorderVideo");
   }
 
   return (
@@ -33,7 +34,7 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
           disabled={!isRecordVideo}
           icon={<VideoCameraOutlined />}
           size={size}
-          onClick={handleRecordVideo}
+          onClick={handleRecorderVideo}
         />
       </div>
     </Card>

@@ -4,6 +4,8 @@ interface Params {
   audio?: boolean;
   video?: boolean;
   screen?: boolean;
+  desktop?: boolean;
+  source?: any;
   onStop?: (url: string, blobList: Blob[]) => void;
   askPermissionOnMount?: boolean;
 }
@@ -13,6 +15,8 @@ const useMediaRecorder = (params: Params) => {
     audio = true,
     video = false,
     screen = false,
+    desktop = false,
+    source = null,
     askPermissionOnMount = false,
     onStop = () => null,
   } = params;
@@ -26,19 +30,24 @@ const useMediaRecorder = (params: Params) => {
   const mediaBlobs = useRef<Blob[]>([]);
 
   const getMediaStream = useCallback(async () => {
-    if (screen) {
+    if (desktop) {
       const constraints = {
-        audio: {
-          mandatory: {
-            chromeMediaSource: 'desktop'
-          }
-        },
+        audio: audio
+          ? {
+              mandatory: {
+                chromeMediaSource: "desktop",
+              },
+            }
+          : false,
         video: {
           mandatory: {
-            chromeMediaSource: 'desktop'
-          }
-        }
-      }
+            chromeMediaSource: "desktop",
+            chromeMediaSourceId: source.id,
+          },
+        },
+      };
+      mediaStream.current = await (navigator.mediaDevices as any).getUserMedia(constraints);
+    } else if (screen) {
       mediaStream.current = await navigator.mediaDevices.getDisplayMedia({ video: true });
       // mediaStream.current = await navigator.mediaDevices.getUserMedia(constraints);
       mediaStream.current?.getTracks()[0].addEventListener('ended', () => {
@@ -51,7 +60,7 @@ const useMediaRecorder = (params: Params) => {
     } else {
       mediaStream.current = await navigator.mediaDevices.getUserMedia(({ video, audio }))
     }
-  }, [screen, video, audio])
+  }, [screen, video, audio, desktop, source])
 
   const toggleMute = (isMute: boolean) => {
     mediaStream.current?.getAudioTracks().forEach(track => track.enabled = !isMute);

@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Col, Row } from "antd";
 import { IpcEvents } from "@/ipcEvents";
-import CutScreenCard from "renderer/components/card/cutScreenCard";
+import Header from "@/renderer/components/common/header";
+import CutScreenCard from "@/renderer/components/card/shotScreenCard";
 import RecordVideoCard from "renderer/components/card/recordVideoCard";
 import RecordScreenCard from "renderer/components/card/recordScreenCard";
 import RecordAudioCard from "renderer/components/card/recordAudioCard";
@@ -13,9 +14,9 @@ const Home: React.FC = () => {
   const rvcRef = useRef(null);
   const racRef = useRef(null);
 
-  const [videoinputDevices, setVideoinputDevices] = useState([]);// 视频输入 (摄像头)
-  const [audioinputDevices, setAudioinputDevices] = useState([]);// 音频输入 (麦克风)
-  const [audiooutputDevices, setAudiooutputDevices] = useState([]);// 音频输出 (扬声器)
+  const [videoinputDevices, setVideoinputDevices] = useState([]); // 视频输入 (摄像头)
+  const [audioinputDevices, setAudioinputDevices] = useState([]); // 音频输入 (麦克风)
+  const [audiooutputDevices, setAudiooutputDevices] = useState([]); // 音频输出 (扬声器)
 
   useEffect(() => {
     window.electronAPI?.ipcRenderer.send(IpcEvents.EV_SET_TITLE, "梨子REC");
@@ -23,7 +24,6 @@ const Home: React.FC = () => {
     getDevices();
   }, []);
 
-  
   function handleKeydown(event: any) {
     if ((event.metaKey || event.altKey) && event.code === "KeyQ") {
       cscRef.current.handleShotScreen();
@@ -35,9 +35,9 @@ const Home: React.FC = () => {
       navigator.mediaDevices
         .enumerateDevices()
         .then((devices) => {
-          let videoinputDevices: MediaDeviceInfo[] = []; 
-          let audioinputDevices: MediaDeviceInfo[] = []; 
-          let audiooutputDevices: MediaDeviceInfo[] = []; 
+          let videoinputDevices: MediaDeviceInfo[] = [];
+          let audioinputDevices: MediaDeviceInfo[] = [];
+          let audiooutputDevices: MediaDeviceInfo[] = [];
           devices.forEach((device) => {
             // 没有授予硬件权限时，deviceId为空字符串
             if (device.deviceId == "") {
@@ -75,20 +75,23 @@ const Home: React.FC = () => {
   }
 
   return (
-    <Row className="home" gutter={16}>
-      <Col span={6}>
-        <CutScreenCard ref={cscRef} />
-      </Col>
-      <Col span={6}>
-        <RecordScreenCard ref={rscRef} />
-      </Col>
-      <Col span={6}>
-        <RecordVideoCard ref={rvcRef} />
-      </Col>
-      <Col span={6}>
-        <RecordAudioCard ref={racRef} />
-      </Col>
-    </Row>
+    <div className="home">
+      <Header />
+      <Row gutter={16}>
+        <Col span={6}>
+          <CutScreenCard ref={cscRef} />
+        </Col>
+        <Col span={6}>
+          <RecordScreenCard ref={rscRef} />
+        </Col>
+        <Col span={6}>
+          <RecordVideoCard ref={rvcRef} />
+        </Col>
+        <Col span={6}>
+          <RecordAudioCard ref={racRef} />
+        </Col>
+      </Row>
+    </div>
   );
 };
 

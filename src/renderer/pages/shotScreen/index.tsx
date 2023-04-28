@@ -5,9 +5,7 @@ import "./index.scss";
 
 async function getDesktopCapturerSource() {
   return await window.electronAPI?.ipcRenderer.invoke(
-    IpcEvents.EV_SEND_DESKTOP_CAPTURER_SOURCE,
-    []
-  );
+    IpcEvents.EV_SEND_DESKTOP_CAPTURER_SOURCE);
 }
 
 async function getInitStream(

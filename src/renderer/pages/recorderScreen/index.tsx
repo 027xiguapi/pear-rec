@@ -1,8 +1,63 @@
-import React, { useState, useRef } from "react";
-import useMediaRecorder from "../../components/useMediaRecorder";
+import React, { useState, useRef, useEffect } from "react";
+import useMediaRecorder from "renderer/components/useMediaRecorder";
+import { IpcEvents } from "@/ipcEvents";
 import "./index.scss";
 
-const RecordScreen = () => {
+async function getDesktopCapturerSource() {
+  return await window.electronAPI?.ipcRenderer.invoke(
+    IpcEvents.EV_GET_ALL_DESKTOP_CAPTURER_SOURCE
+  );
+}
+
+async function getInitStream(
+  source: { id: string },
+  audio?: boolean
+): Promise<MediaStream | null> {
+  return new Promise((resolve, _reject) => {
+    (navigator.mediaDevices as any)
+      .getUserMedia({
+        audio: audio
+          ? {
+              mandatory: {
+                chromeMediaSource: "desktop",
+              },
+            }
+          : false,
+        video: {
+          mandatory: {
+            chromeMediaSource: "desktop",
+            chromeMediaSourceId: source.id,
+          },
+        },
+      })
+      .then((stream: MediaStream) => {
+        resolve(stream);
+      })
+      .catch((error: any) => {
+        console.log(error);
+        resolve(null);
+      });
+  });
+}
+
+const RecorderScreen = () => {
+  const [source, setSource] = useState({});
+
+  useEffect(() => {
+    window.electronAPI?.ipcRenderer.send(
+      IpcEvents.EV_SET_TITLE,
+      "录屏|梨子REC"
+    );
+    doScreenRecorder();
+  }, []);
+
+  const previewVideo = useRef<HTMLVideoElement>(null);
+
+  async function doScreenRecorder() {
+    const sources = await getDesktopCapturerSource();
+    setSource(sources.filter((e: any) => e.id == "screen:0:0")[0]);
+  }
+
   const {
     mediaUrl,
     isMuted,
@@ -16,10 +71,10 @@ const RecordScreen = () => {
   } = useMediaRecorder({
     audio: true,
     screen: true,
+    desktop: true,
+    source: source,
     onStop: (url: string) => alert(`录屏完成，${url}`),
   });
-
-  const previewVideo = useRef<HTMLVideoElement>(null);
 
   return (
     <div>
@@ -48,4 +103,4 @@ const RecordScreen = () => {
   );
 };
 
-export default RecordScreen;
+export default RecorderScreen;
