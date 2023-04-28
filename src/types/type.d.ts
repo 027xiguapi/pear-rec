@@ -3,13 +3,13 @@
 export {};
 
 declare global {
-  interface IElectionApi {
-    openDialog: () => Promise<any>
-    startDrag: (fileName: string) => void
-  }
+	interface IElectionApi {
+		openDialog: () => Promise<any>;
+		startDrag: (fileName: string) => void;
+	}
 
-  interface Window {
-    electronAPI: any,
-    mediajs: any,
-  }
+	interface Window {
+		electronAPI: any;
+		mediajs: any;
+	}
 }

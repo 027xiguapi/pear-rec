@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron";
 
 const setTitle = (title: string) => {
-    ipcRenderer.send('set-title', title);
-}
+	ipcRenderer.send("set-title", title);
+};
 
-export { setTitle }
+export { setTitle };

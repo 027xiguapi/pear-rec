@@ -1,8 +1,8 @@
 import React, {
-  useEffect,
-  useState,
-  useImperativeHandle,
-  forwardRef,
+	useEffect,
+	useState,
+	useImperativeHandle,
+	forwardRef,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { CameraOutlined } from "@ant-design/icons";
@@ -11,35 +11,35 @@ import type { SizeType } from "antd/es/config-provider/SizeContext";
 import { IpcEvents } from "@/ipcEvents";
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
-  const Navigate = useNavigate();
-  useImperativeHandle(ref, () => ({}));
-  const [size, setSize] = useState<SizeType>("large");
-  const [isRecordScreen, setIsRecordScreen] = useState(true);
+	const Navigate = useNavigate();
+	useImperativeHandle(ref, () => ({}));
+	const [size, setSize] = useState<SizeType>("large");
+	const [isRecordScreen, setIsRecordScreen] = useState(true);
 
-  function handleCutScreen() {
-    // Navigate(`/recordScreen`);
-    window.electronAPI.ipcRenderer.send(IpcEvents.EV_OPEN_RECORDER_SCREEN_WIN);
-  }
+	function handleCutScreen() {
+		// Navigate(`/recordScreen`);
+		window.electronAPI.ipcRenderer.send(IpcEvents.EV_OPEN_RECORDER_SCREEN_WIN);
+	}
 
-  return (
-    <Card
-      title="录屏"
-      hoverable
-      bordered={false}
-      extra={<a href="#">More</a>}
-      style={{ maxWidth: 300 }}
-    >
-      <div className="cardContent">
-        <Button
-          type="link"
-          disabled={!isRecordScreen}
-          icon={<CameraOutlined />}
-          size={size}
-          onClick={handleCutScreen}
-        />
-      </div>
-    </Card>
-  );
+	return (
+		<Card
+			title="录屏"
+			hoverable
+			bordered={false}
+			extra={<a href="#">More</a>}
+			style={{ maxWidth: 300 }}
+		>
+			<div className="cardContent">
+				<Button
+					type="link"
+					disabled={!isRecordScreen}
+					icon={<CameraOutlined />}
+					size={size}
+					onClick={handleCutScreen}
+				/>
+			</div>
+		</Card>
+	);
 });
 
 export default RecordScreenCard;

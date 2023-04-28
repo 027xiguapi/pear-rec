@@ -26,8 +26,10 @@
  * ```
  */
 
-import 'renderer/index.scss';
+import "renderer/index.scss";
 // Add this to the end of the existing file
-import 'renderer/app';
+import "renderer/app";
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
+console.log(
+	'👋 This message is being logged by "renderer.js", included via webpack',
+);
