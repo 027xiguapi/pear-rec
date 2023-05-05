@@ -2,10 +2,12 @@ import { BrowserWindow, webContents, ipcMain, desktopCapturer } from "electron";
 import { IpcEvents } from "../ipcEvents";
 import { createShotScreenWindow } from "./shotScreenWin";
 import { createRecorderScreenWin } from "./recorderScreenWin";
+import { createViewImageWin } from "./viewImageWin";
 import { mainWindow } from "./index";
 
 let shotScreenWin: BrowserWindow | null = null;
 let recorderScreenWin: BrowserWindow | null = null;
+let viewImageWin: BrowserWindow | null = null;
 
 const selfWindws = async () =>
 	await Promise.all(
@@ -65,7 +67,7 @@ export function initIpcMain() {
 		mainWindow.show();
 	});
 
-	// // 打开关闭录屏窗口
+	// 打开关闭录屏窗口
 	function closeShotScreenWin() {
 		shotScreenWin && shotScreenWin.close();
 		shotScreenWin = null;
@@ -85,6 +87,24 @@ export function initIpcMain() {
 	ipcMain.on(IpcEvents.EV_CLOSE_SHOT_SCREEN_WIN, async () => {
 		closeShotScreenWin();
 		mainWindow.show();
+	});
+
+	ipcMain.on(IpcEvents.EV_OPEN_VIEW_IMAGE_WIN, () => {
+		viewImageWin = createViewImageWin();
+		viewImageWin.show();
+	});
+
+	ipcMain.on(IpcEvents.EV_CLOSE_VIEW_IMAGE_WIN, async () => {
+		viewImageWin && viewImageWin.close();
+		viewImageWin = null;
+	});
+
+	ipcMain.on(IpcEvents.EV_HIDE_VIEW_IMAGE_WIN, async () => {
+		viewImageWin && viewImageWin.minimize();
+	});
+
+	ipcMain.on(IpcEvents.EV_FULL_SCREEN_VIEW_IMAGE_WIN, async () => {
+		viewImageWin && viewImageWin.maximize();
 	});
 
 	ipcMain.handle(

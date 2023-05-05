@@ -4,6 +4,7 @@ import {
 	BorderOutlined,
 	CloseOutlined,
 } from "@ant-design/icons";
+import { Button } from "antd";
 import { IpcEvents } from "@/ipcEvents";
 import "./index.scss";
 
@@ -16,9 +17,14 @@ const Header = () => {
 		window.electronAPI?.ipcRenderer.send(IpcEvents.EV_CLOSE_MAIN_WIN);
 	}
 
+	function handleGoWin() {
+		window.electronAPI?.ipcRenderer.send(IpcEvents.EV_OPEN_VIEW_IMAGE_WIN);
+	}
+
 	return (
 		<div className="header">
 			<div className="left">
+				<Button onClick={handleGoWin}>图片</Button>
 				<span>REC</span>
 			</div>
 			<div className="drgan"></div>

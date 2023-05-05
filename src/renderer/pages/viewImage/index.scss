@@ -1,0 +1,26 @@
+.viewImage {
+	.viewImageHeader {
+		background-color: white;
+		height: 40px;
+		z-index: 100;
+		position: absolute;
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		.viewImageHeaderLeft {
+			min-width: 240px;
+		}
+		.viewImageHeaderCenter {
+			-webkit-app-region: drag;
+			flex-grow: 1;
+		}
+		.viewImageHeaderRight {
+			min-width: 110px;
+		}
+		.toolbarIcon {
+			width: 35px;
+			height: 40px;
+			font-size: 16px;
+		}
+	}
+}

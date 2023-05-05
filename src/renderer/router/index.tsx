@@ -10,6 +10,7 @@ import CutScreen from "renderer/pages/cutScreen";
 import RecorderScreen from "renderer/pages/recorderScreen";
 import RecordVideo from "renderer/pages/recorderVideo";
 import RecordAudio from "renderer/pages/recorderAudio";
+import ViewImage from "renderer/pages/viewImage";
 
 const App: FC = () => (
 	<Provider store={store}>
@@ -21,6 +22,7 @@ const App: FC = () => (
 				<Route path="/RecorderScreen" element={<RecorderScreen />}></Route>
 				<Route path="/recorderVideo" element={<RecordVideo />}></Route>
 				<Route path="/recorderAudio" element={<RecordAudio />}></Route>
+				<Route path="/viewImage" element={<ViewImage />}></Route>
 			</Routes>
 		</div>
 	</Provider>

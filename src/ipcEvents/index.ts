@@ -24,4 +24,10 @@ export enum IpcEvents {
 
 	// 获取窗口设备窗口
 	EV_GET_ALL_DESKTOP_CAPTURER_SOURCE = "ev:get-desktop-capturer_source",
+
+	// 打开关闭图片预览窗口
+	EV_OPEN_VIEW_IMAGE_WIN = "ev:open-view_image-win",
+	EV_CLOSE_VIEW_IMAGE_WIN = "ev:close-view_image-win",
+	EV_HIDE_VIEW_IMAGE_WIN = "ev:hide-view_image-win",
+	EV_FULL_SCREEN_VIEW_IMAGE_WIN = "ev:full-screen-view_image-win",
 }

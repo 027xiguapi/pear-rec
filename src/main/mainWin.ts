@@ -16,7 +16,7 @@ const createWindow = (): BrowserWindow => {
 			// nodeIntegration: true, // makd sure to use `path` and `fs` in react module
 			// enableRemoteModule: true,
 			// contextIsolation: true
-			// webSecurity: false,
+			webSecurity: true,
 			// enableRemoteModule: true,
 			// contextIsolation: true,
 			// webSecurity: false
