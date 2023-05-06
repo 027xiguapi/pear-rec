@@ -1,62 +1,51 @@
 {
-  "name": "pear",
-  "productName": "pear REC",
-  "version": "1.0.0",
-  "description": "pear REC",
-  "main": ".webpack/main",
-  "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
-  },
-  "keywords": [],
-  "author": {
-    "name": "027xiguapi",
-    "email": "458813868@qq.com"
-  },
+  "name": "electron-vite-project",
+  "version": "2.2.0",
+  "main": "dist-electron/main/index.js",
+  "description": "Electron Vite React boilerplate.",
+  "author": "草鞋没号 <308487730@qq.com>",
   "license": "MIT",
-  "devDependencies": {
-    "@electron-forge/cli": "^6.1.1",
-    "@electron-forge/maker-deb": "^6.1.1",
-    "@electron-forge/maker-rpm": "^6.1.1",
-    "@electron-forge/maker-squirrel": "^6.1.1",
-    "@electron-forge/maker-zip": "^6.1.1",
-    "@electron-forge/plugin-webpack": "^6.1.1",
-    "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "@vercel/webpack-asset-relocator-loader": "1.7.3",
-    "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.0.0",
-    "electron": "24.1.2",
-    "eslint": "^8.0.1",
-    "eslint-plugin-import": "^2.25.0",
-    "fork-ts-checker-webpack-plugin": "^7.2.13",
-    "node-loader": "^2.0.0",
-    "prettier": "^2.8.8",
-    "sass": "^1.62.0",
-    "sass-loader": "^13.2.2",
-    "style-loader": "^3.0.0",
-    "ts-loader": "^9.2.2",
-    "ts-node": "^10.0.0",
-    "typescript": "~4.5.4"
+  "private": true,
+  "debug": {
+    "env": {
+      "VITE_DEV_SERVER_URL": "http://127.0.0.1:7777/"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && electron-builder",
+    "preview": "vite preview",
+    "pree2e": "vite build --mode=test",
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
-    "antd": "^5.4.2",
-    "electron-squirrel-startup": "^1.0.0",
-    "js-web-screen-shot": "^1.9.5",
-    "konva": "^9.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-konva": "^18.2.7",
+    "antd": "^5.4.6",
+    "electron-updater": "^5.3.0",
+    "js-web-screen-shot": "^1.9.6",
     "react-photo-view": "^1.2.3",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.10.0",
-    "react-screenshots": "^0.5.22",
-    "redux": "^4.2.1"
+    "react-router-dom": "^6.11.1",
+    "react-screenshots": "^0.5.22"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.32.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "electron": "^23.2.0",
+    "electron-builder": "^23.6.0",
+    "eslint": "^8.40.0",
+    "prettier": "^2.8.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.60.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.1.4",
+    "vite-plugin-electron": "^0.11.2",
+    "vite-plugin-electron-renderer": "^0.14.1"
+  },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0"
   }
 }
