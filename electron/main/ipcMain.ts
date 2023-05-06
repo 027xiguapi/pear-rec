@@ -1,4 +1,10 @@
-import { BrowserWindow, webContents, ipcMain, desktopCapturer } from "electron";
+import {
+	BrowserWindow,
+	webContents,
+	ipcMain,
+	desktopCapturer,
+	dialog,
+} from "electron";
 import { IpcEvents } from "./ipcEvents";
 import { createShotScreenWindow } from "./shotScreenWin";
 import { createRecorderScreenWin } from "./recorderScreenWin";
@@ -32,6 +38,24 @@ const selfWindws = async () =>
 	);
 
 export function initIpcMain() {
+	// 打开图片
+	ipcMain.handle("get-images", async (event, title) => {
+		let res = await dialog.showOpenDialog({
+			title: title,
+			buttonLabel: "按此打开文件",
+			// defaultPath: app.getAppPath("aaa"),
+			properties: ["multiSelections"],
+			filters: [
+				{ name: "图片", extensions: ["jpg", "jpeg", "png", "webp", "svg"] },
+				// { name: "视频", extensions: ["mkv", "avi", "mp4"] },
+			],
+		});
+		const images = res.filePaths.map((filePath, index) => {
+			return { src: `myapp:///${filePath}`, key: index };
+		});
+		return images;
+	});
+
 	// 打开关闭主窗口
 	ipcMain.on(IpcEvents.EV_OPEN_MAIN_WIN, () => {
 		mainWin!.show();

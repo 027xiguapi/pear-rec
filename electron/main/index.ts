@@ -5,6 +5,7 @@ import { update } from "./update";
 
 import { createMainWin } from "./mainWin";
 import { initIpcMain } from "./ipcMain";
+import { registerFileProtocol } from "./protocol";
 
 // The built directory structure
 //
@@ -48,7 +49,10 @@ async function createWindow() {
 	mainWin = createMainWin();
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+	registerFileProtocol();
+	createWindow();
+});
 
 app.on("window-all-closed", () => {
 	mainWin = null;
