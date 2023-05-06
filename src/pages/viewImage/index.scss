@@ -1,7 +1,7 @@
 .viewImage {
 	.viewImageHeader {
 		background-color: white;
-		height: 40px;
+		height: 32px;
 		z-index: 100;
 		position: absolute;
 		width: 100%;
@@ -17,10 +17,10 @@
 		.viewImageHeaderRight {
 			min-width: 110px;
 		}
-		.toolbarIcon {
-			width: 35px;
-			height: 40px;
-			font-size: 16px;
-		}
+		// .toolbarIcon {
+		// 	width: 35px;
+		// 	height: 40px;
+		// 	font-size: 14px;
+		// }
 	}
 }

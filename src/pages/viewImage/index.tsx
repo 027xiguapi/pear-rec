@@ -19,6 +19,7 @@ import {
 } from "@ant-design/icons";
 import "react-photo-view/dist/react-photo-view.css";
 import { IpcEvents } from "@/ipcEvents";
+import WinBar from "@/components/common/winBar";
 import "./index.scss";
 
 const ViewImage = () => {
@@ -40,19 +41,6 @@ const ViewImage = () => {
 		console.log(121);
 	}
 
-	function handleClose() {
-		setVisible(false);
-		ipcRenderer.send(IpcEvents.EV_CLOSE_VIEW_IMAGE_WIN);
-	}
-
-	function handleHide() {
-		ipcRenderer.send(IpcEvents.EV_HIDE_VIEW_IMAGE_WIN);
-	}
-
-	function handleFullScreen() {
-		ipcRenderer.send(IpcEvents.EV_FULL_SCREEN_VIEW_IMAGE_WIN);
-	}
-
 	function handlePrinter() {}
 
 	function handleRotate() {}
@@ -65,14 +53,14 @@ const ViewImage = () => {
 				images={images.map((item) => ({ src: item, key: item }))}
 				visible={visible}
 				bannerVisible={false}
-				maskOpacity={0}
-				onClose={() => handleClose()}
+				maskOpacity={0.1}
+				onClose={() => {}}
 				index={index}
 				onIndexChange={setIndex}
 				maskClosable={false}
 				pullClosable={false}
 				portalContainer={viewImageRef.current as HTMLElement}
-				overlayRender={({ rotate, onRotate, scale, onScale, onClose }) => {
+				overlayRender={({ rotate, onRotate, scale, onScale }) => {
 					return (
 						<div className="viewImageHeader">
 							<div className="viewImageHeaderLeft">
@@ -124,7 +112,7 @@ const ViewImage = () => {
 									type="text"
 									icon={<PrinterOutlined />}
 									className="toolbarIcon"
-									title="恢复"
+									title="打印"
 									onClick={handlePrinter}
 								/>
 								{/* <MinusCircleOutlined
@@ -159,7 +147,8 @@ const ViewImage = () => {
 								/> */}
 							</div>
 							<div className="viewImageHeaderCenter"></div>
-							<div className="viewImageHeaderRight">
+							<WinBar />
+							{/* <div className="viewImageHeaderRight">
 								<Button
 									type="text"
 									icon={<MinusOutlined />}
@@ -181,22 +170,7 @@ const ViewImage = () => {
 									title="关闭"
 									onClick={() => handleClose()}
 								/>
-								{/* <MinusOutlined
-									className="toolbarIcon"
-									title="隐藏"
-									onClick={() => handleHide()}
-								/>
-								<BorderOutlined
-									className="toolbarIcon"
-									title="全屏"
-									onClick={() => handleFullScreen()}
-								/>
-								<CloseOutlined
-									className="toolbarIcon"
-									title="关闭"
-									onClick={() => handleClose()}
-								/> */}
-							</div>
+							</div> */}
 						</div>
 					);
 				}}

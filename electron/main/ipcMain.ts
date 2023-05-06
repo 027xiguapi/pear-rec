@@ -89,22 +89,34 @@ export function initIpcMain() {
 		mainWin!.show();
 	});
 
-	ipcMain.on(IpcEvents.EV_OPEN_VIEW_IMAGE_WIN, () => {
+	ipcMain.on("vi:open-win", () => {
 		viewImageWin = createViewImageWin();
 		viewImageWin!.show();
 	});
 
-	ipcMain.on(IpcEvents.EV_CLOSE_VIEW_IMAGE_WIN, async () => {
+	ipcMain.on("vi:close-win", () => {
 		viewImageWin && viewImageWin.close();
 		viewImageWin = null;
 	});
 
-	ipcMain.on(IpcEvents.EV_HIDE_VIEW_IMAGE_WIN, async () => {
+	ipcMain.on("vi:hide-win", () => {
+		viewImageWin && viewImageWin.hide();
+	});
+
+	ipcMain.on("vi:minimize-win", () => {
 		viewImageWin && viewImageWin.minimize();
 	});
 
-	ipcMain.on(IpcEvents.EV_FULL_SCREEN_VIEW_IMAGE_WIN, async () => {
+	ipcMain.on("vi:maximize-win", () => {
 		viewImageWin && viewImageWin.maximize();
+	});
+
+	ipcMain.on("vi:unmaximize-win", () => {
+		viewImageWin && viewImageWin.unmaximize();
+	});
+
+	ipcMain.on("vi:set-always-on-top", (e, isAlwaysOnTop) => {
+		viewImageWin!.setAlwaysOnTop(isAlwaysOnTop);
 	});
 
 	ipcMain.handle(

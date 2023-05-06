@@ -21,8 +21,7 @@ const Header = () => {
 	}
 
 	function handleGoWin() {
-		// window.electronAPI?.ipcRenderer.send(IpcEvents.EV_OPEN_VIEW_IMAGE_WIN);
-		ipcRenderer.send(IpcEvents.EV_OPEN_VIEW_IMAGE_WIN);
+		ipcRenderer.send("vi:open-win");
 	}
 
 	return (
