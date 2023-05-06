@@ -40,7 +40,7 @@ const ViewImage = () => {
 	function handlePrinter() {}
 
 	async function handleOpenImage() {
-		const images = await ipcRenderer.invoke("get-images", "选择图片");
+		const images = await ipcRenderer.invoke("vi:get-images", "选择图片");
 		setImages(images);
 	}
 

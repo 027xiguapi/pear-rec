@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ScissorOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import type { SizeType } from "antd/es/config-provider/SizeContext";
-import { IpcEvents } from "@/ipcEvents";
+import { ipcRenderer } from "electron";
 
 const ShotScreenCard = forwardRef((props: any, ref: any) => {
 	const Navigate = useNavigate();
@@ -21,7 +21,7 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 	function handleCutScreen() {
 		// Navigate("/cutScreen");
 		// Navigate(`/shotScreen`);
-		window.electronAPI.ipcRenderer.send(IpcEvents.EV_OPEN_SHOT_SCREEN_WIN, []);
+		ipcRenderer.send("ss:open-win");
 	}
 
 	return (

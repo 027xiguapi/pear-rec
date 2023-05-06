@@ -1,9 +1,18 @@
 import { BrowserWindow } from "electron";
-import path from "path";
 import { getScreenSize, isDev } from "./utils";
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
+import { join } from "node:path";
 
-function createShotScreenWindow(): BrowserWindow {
+process.env.DIST_ELECTRON = join(__dirname, "../");
+process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
+process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
+	? join(process.env.DIST_ELECTRON, "../public")
+	: process.env.DIST;
+
+const preload = join(__dirname, "../preload/index.js");
+const url = process.env.VITE_DEV_SERVER_URL;
+const indexHtml = join(process.env.DIST, "index.html");
+
+function createShotScreenWin(): BrowserWindow {
 	const { width, height } = getScreenSize();
 	const shotScreenWindow = new BrowserWindow({
 		width, // 宽度(px), 默认值为 800
@@ -20,18 +29,19 @@ function createShotScreenWindow(): BrowserWindow {
 		simpleFullscreen: true, // 在 macOS 上使用 pre-Lion 全屏
 		alwaysOnTop: false, // 窗口是否永远在别的窗口的上面
 		webPreferences: {
-			preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-			sandbox: false,
+			preload,
+			nodeIntegration: true,
+			contextIsolation: false,
 		},
 	});
 
 	shotScreenWindow.webContents.openDevTools();
-	shotScreenWindow.setIgnoreMouseEvents(true);
+	// shotScreenWindow.setIgnoreMouseEvents(true);
 
 	if (isDev) {
-		shotScreenWindow.loadURL("http://localhost:3000/main_window#/shotScreen");
+		shotScreenWindow.loadURL(url + "#/shotScreen");
 	} else {
-		shotScreenWindow.loadFile(path.join(__dirname, "../dist/index.html"), {
+		shotScreenWindow.loadFile(indexHtml, {
 			hash: "shotScreen",
 		});
 	}
@@ -41,4 +51,4 @@ function createShotScreenWindow(): BrowserWindow {
 	return shotScreenWindow;
 }
 
-export { createShotScreenWindow };
+export { createShotScreenWin };

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ScreenShot from "js-web-screen-shot";
 import { IpcEvents } from "@/ipcEvents";
+import { ipcRenderer } from "electron";
 import "./index.scss";
 
 async function getDesktopCapturerSource() {
-	return await window.electronAPI?.ipcRenderer.invoke(
-		IpcEvents.EV_SEND_DESKTOP_CAPTURER_SOURCE,
-	);
+	return await ipcRenderer.invoke("ss:get-desktop-capturer-source");
 }
 
 async function getInitStream(
@@ -45,10 +44,6 @@ const ShotScreen = () => {
 	let isShoting = false;
 
 	useEffect(() => {
-		window.electronAPI?.ipcRenderer.send(
-			IpcEvents.EV_SET_TITLE,
-			"截图|梨子REC",
-		);
 		doScreenShot();
 	}, []);
 
@@ -84,7 +79,7 @@ const ShotScreen = () => {
 
 	function closeScreenShot() {
 		isShoting = false;
-		window.electronAPI?.ipcRenderer.send(IpcEvents.EV_CLOSE_SHOT_SCREEN_WIN);
+		ipcRenderer.send("ss:close-win");
 	}
 
 	function clipboardScreenShotImg() {

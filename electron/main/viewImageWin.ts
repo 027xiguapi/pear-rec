@@ -8,7 +8,6 @@ import {
 } from "electron";
 import { getScreenSize, isDev } from "./utils";
 import { join } from "node:path";
-import { update } from "./update";
 
 process.env.DIST_ELECTRON = join(__dirname, "../");
 process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
@@ -55,7 +54,7 @@ function createViewImageWin(): BrowserWindow {
 		// Open devTool if the app is not packaged
 		viewImageWin.webContents.openDevTools();
 	} else {
-		viewImageWin.loadFile(indexHtml);
+		viewImageWin.loadFile(indexHtml, { hash: "viewImage" });
 	}
 
 	return viewImageWin;
