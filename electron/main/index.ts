@@ -1,10 +1,9 @@
 import { app, BrowserWindow, shell, ipcMain } from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
-import { update } from "./update";
-
-import { createMainWin } from "./mainWin";
+import { createMainWin, closeMainWin, focusMainWin } from "./mainWin";
 import { initIpcMain } from "./ipcMain";
+import { initTray } from "./tray";
 import { registerFileProtocol } from "./protocol";
 
 // The built directory structure
@@ -39,32 +38,28 @@ if (!app.requestSingleInstanceLock()) {
 // Read more on https://www.electronjs.org/docs/latest/tutorial/security
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
-let mainWin: BrowserWindow | null = null;
 // Here, you can also use other preload
 const preload = join(__dirname, "../preload/index.js");
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, "index.html");
 
 async function createWindow() {
-	mainWin = createMainWin();
+	createMainWin();
 }
 
 app.whenReady().then(() => {
 	registerFileProtocol();
 	createWindow();
+	initTray();
 });
 
 app.on("window-all-closed", () => {
-	mainWin = null;
+	closeMainWin();
 	if (process.platform !== "darwin") app.quit();
 });
 
 app.on("second-instance", () => {
-	if (mainWin) {
-		// Focus on the main window if the user tried to open another
-		if (mainWin.isMinimized()) mainWin.restore();
-		mainWin.focus();
-	}
+	focusMainWin();
 });
 
 app.on("activate", () => {
@@ -95,4 +90,4 @@ ipcMain.handle("open-win", (_, arg) => {
 
 initIpcMain();
 
-export { mainWin };
+export { app };

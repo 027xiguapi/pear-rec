@@ -27,7 +27,6 @@ const Header = () => {
 	return (
 		<div className="header">
 			<div className="left">
-				<Button onClick={handleGoWin}>图片</Button>
 				<span>REC</span>
 			</div>
 			<div className="drgan"></div>

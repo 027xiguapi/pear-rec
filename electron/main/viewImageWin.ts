@@ -6,15 +6,17 @@ import {
 	shell,
 	ipcMain,
 } from "electron";
-import { PUBLIC, readDirectory } from "./utils";
+import { PUBLIC, readDirectory, DIST } from "./utils";
 import { join } from "node:path";
 
 const preload = join(__dirname, "../preload/index.js");
 const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(process.env.DIST, "index.html");
+const indexHtml = join(DIST, "index.html");
+
+let viewImageWin: BrowserWindow | null = null;
 
 function createViewImageWin(): BrowserWindow {
-	const viewImageWin = new BrowserWindow({
+	viewImageWin = new BrowserWindow({
 		icon: join(PUBLIC, "logo@2x.ico"),
 		width: 800, // 宽度(px), 默认值为 800
 		height: 600, // 高度(px), 默认值为 600
@@ -45,18 +47,51 @@ function createViewImageWin(): BrowserWindow {
 		// electron-vite-vue#298
 		viewImageWin.loadURL(url + "#/viewImage");
 		// Open devTool if the app is not packaged
-		viewImageWin.webContents.openDevTools();
+		// viewImageWin.webContents.openDevTools();
 	} else {
 		viewImageWin.loadFile(indexHtml, { hash: "viewImage" });
 	}
 
 	viewImageWin.once("ready-to-show", async () => {
-		viewImageWin.show();
+		viewImageWin!.show();
 		let images = await readDirectory();
-		viewImageWin.webContents.send("vi:set-images", images);
+		viewImageWin!.webContents.send("vi:set-images", images);
 	});
 
 	return viewImageWin;
 }
 
-export { createViewImageWin };
+function closeViewImageWin() {
+	viewImageWin!.close();
+	viewImageWin = null;
+}
+
+function hideViewImageWin() {
+	viewImageWin!.hide();
+}
+
+function minimizeViewImageWin() {
+	viewImageWin!.minimize();
+}
+
+function maximizeViewImageWin() {
+	viewImageWin!.maximize();
+}
+
+function unmaximizeViewImageWin() {
+	viewImageWin!.unmaximize();
+}
+
+function setAlwaysOnTopViewImageWin(isAlwaysOnTop: boolean) {
+	viewImageWin!.setAlwaysOnTop(isAlwaysOnTop);
+}
+
+export {
+	createViewImageWin,
+	closeViewImageWin,
+	hideViewImageWin,
+	minimizeViewImageWin,
+	maximizeViewImageWin,
+	unmaximizeViewImageWin,
+	setAlwaysOnTopViewImageWin,
+};

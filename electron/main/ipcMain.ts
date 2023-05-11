@@ -6,17 +6,22 @@ import {
 	dialog,
 } from "electron";
 import { join, dirname } from "node:path";
-import * as fs from "fs";
 import { IpcEvents } from "./ipcEvents";
-import { createShotScreenWin } from "./shotScreenWin";
+import { closeShotScreenWin, openShotScreenWin } from "./shotScreenWin";
 import { createRecorderScreenWin } from "./recorderScreenWin";
-import { createViewImageWin } from "./viewImageWin";
-import { mainWin } from "./index";
+import {
+	createViewImageWin,
+	closeViewImageWin,
+	hideViewImageWin,
+	minimizeViewImageWin,
+	maximizeViewImageWin,
+	unmaximizeViewImageWin,
+	setAlwaysOnTopViewImageWin,
+} from "./viewImageWin";
+import { hideMainWin, showMainWin, minimizeMainWin } from "./mainWin";
 import { downloadFile } from "./utils";
 
-let shotScreenWin: BrowserWindow | null = null;
 let recorderScreenWin: BrowserWindow | null = null;
-let viewImageWin: BrowserWindow | null = null;
 
 const selfWindws = async () =>
 	await Promise.all(
@@ -43,15 +48,15 @@ const selfWindws = async () =>
 export function initIpcMain() {
 	// 打开关闭主窗口
 	ipcMain.on(IpcEvents.EV_OPEN_MAIN_WIN, () => {
-		mainWin!.show();
+		showMainWin();
 	});
 
 	ipcMain.on(IpcEvents.EV_CLOSE_MAIN_WIN, () => {
-		mainWin!.hide();
+		hideMainWin();
 	});
 
 	ipcMain.on(IpcEvents.EV_HIDE_MAIN_WIN, () => {
-		mainWin!.minimize();
+		minimizeMainWin();
 	});
 
 	// 打开关闭录屏窗口
@@ -67,71 +72,57 @@ export function initIpcMain() {
 
 	ipcMain.on(IpcEvents.EV_OPEN_RECORDER_SCREEN_WIN, () => {
 		closeRecorderScreenWin();
-		mainWin!.hide();
+		hideMainWin();
 		openRecorderScreenWin();
 	});
 
 	ipcMain.on(IpcEvents.EV_CLOSE_RECORDER_SCREEN_WIN, () => {
 		closeRecorderScreenWin();
-		mainWin!.show();
+		showMainWin();
 	});
-
-	// 打开关闭录屏窗口
-	function closeShotScreenWin() {
-		shotScreenWin && shotScreenWin.close();
-		shotScreenWin = null;
-	}
-
-	function openShotScreenWin() {
-		shotScreenWin = createShotScreenWin();
-		shotScreenWin!.show();
-	}
 
 	ipcMain.on("ss:open-win", () => {
 		closeShotScreenWin();
-		mainWin!.hide();
+		hideMainWin();
 		openShotScreenWin();
 	});
 
 	ipcMain.on("ss:close-win", () => {
 		closeShotScreenWin();
-		mainWin!.show();
 	});
 
 	ipcMain.on("ss:save-image", (e, fileInfo) => {
 		downloadFile(fileInfo);
-		viewImageWin = createViewImageWin();
+		createViewImageWin();
 	});
 
 	// 图片展示
 	ipcMain.on("vi:open-win", () => {
-		viewImageWin = createViewImageWin();
-		// viewImageWin!.show();
+		createViewImageWin();
 	});
 
 	ipcMain.on("vi:close-win", () => {
-		viewImageWin && viewImageWin.close();
-		viewImageWin = null;
+		closeViewImageWin();
 	});
 
 	ipcMain.on("vi:hide-win", () => {
-		viewImageWin && viewImageWin.hide();
+		hideViewImageWin();
 	});
 
 	ipcMain.on("vi:minimize-win", () => {
-		viewImageWin && viewImageWin.minimize();
+		minimizeViewImageWin();
 	});
 
 	ipcMain.on("vi:maximize-win", () => {
-		viewImageWin && viewImageWin.maximize();
+		maximizeViewImageWin();
 	});
 
 	ipcMain.on("vi:unmaximize-win", () => {
-		viewImageWin && viewImageWin.unmaximize();
+		unmaximizeViewImageWin();
 	});
 
 	ipcMain.on("vi:set-always-on-top", (e, isAlwaysOnTop) => {
-		viewImageWin!.setAlwaysOnTop(isAlwaysOnTop);
+		setAlwaysOnTopViewImageWin(isAlwaysOnTop);
 	});
 
 	// 打开图片

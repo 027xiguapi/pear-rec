@@ -37,8 +37,11 @@ function downloadFile(fileInfo: any) {
 function readDirectory() {
 	const directoryPath = join(PEER_FILES, "/ss");
 	const files = fs.readdirSync(directoryPath); // 读取目录内容
-	const images = files.map((filePath, index) => {
+	let images = files.map((filePath, index) => {
 		return { src: `peerrec:///${directoryPath}/${filePath}`, key: index };
+	});
+	images = images.sort((a, b) => {
+		return b.key - a.key;
 	});
 	return images;
 }

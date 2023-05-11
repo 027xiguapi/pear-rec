@@ -1,20 +1,16 @@
 import { BrowserWindow } from "electron";
-import { getScreenSize, isDev } from "./utils";
+import { getScreenSize, DIST } from "./utils";
 import { join } from "node:path";
-
-process.env.DIST_ELECTRON = join(__dirname, "../");
-process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
-	? join(process.env.DIST_ELECTRON, "../public")
-	: process.env.DIST;
 
 const preload = join(__dirname, "../preload/index.js");
 const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(process.env.DIST, "index.html");
+const indexHtml = join(DIST, "index.html");
+
+let shotScreenWin: BrowserWindow | null = null;
 
 function createShotScreenWin(): BrowserWindow {
 	const { width, height } = getScreenSize();
-	const shotScreenWindow = new BrowserWindow({
+	shotScreenWin = new BrowserWindow({
 		width, // 宽度(px), 默认值为 800
 		height, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
@@ -35,20 +31,55 @@ function createShotScreenWin(): BrowserWindow {
 		},
 	});
 
-	shotScreenWindow.webContents.openDevTools();
+	// shotScreenWin.webContents.openDevTools();
 	// shotScreenWindow.setIgnoreMouseEvents(true);
 
-	if (isDev) {
-		shotScreenWindow.loadURL(url + "#/shotScreen");
+	if (url) {
+		shotScreenWin.loadURL(url + "#/shotScreen");
 	} else {
-		shotScreenWindow.loadFile(indexHtml, {
+		shotScreenWin.loadFile(indexHtml, {
 			hash: "shotScreen",
 		});
 	}
-	shotScreenWindow.maximize();
-	shotScreenWindow.setFullScreen(true);
+	shotScreenWin.maximize();
+	shotScreenWin.setFullScreen(true);
 
-	return shotScreenWindow;
+	return shotScreenWin;
 }
 
-export { createShotScreenWin };
+// 打开关闭录屏窗口
+function closeShotScreenWin() {
+	shotScreenWin?.close();
+	shotScreenWin = null;
+}
+
+function openShotScreenWin() {
+	shotScreenWin = createShotScreenWin();
+	shotScreenWin!.show();
+}
+
+function hideShotScreenWin() {
+	shotScreenWin!.hide();
+}
+
+function minimizeShotScreenWin() {
+	shotScreenWin!.minimize();
+}
+
+function maximizeShotScreenWin() {
+	shotScreenWin!.maximize();
+}
+
+function unmaximizeShotScreenWin() {
+	shotScreenWin!.unmaximize();
+}
+
+export {
+	createShotScreenWin,
+	closeShotScreenWin,
+	openShotScreenWin,
+	hideShotScreenWin,
+	minimizeShotScreenWin,
+	maximizeShotScreenWin,
+	unmaximizeShotScreenWin,
+};

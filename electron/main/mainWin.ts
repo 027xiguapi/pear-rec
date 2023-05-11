@@ -6,23 +6,20 @@ import {
 	shell,
 	ipcMain,
 } from "electron";
+import { PUBLIC, DIST } from "./utils";
 import { join } from "node:path";
 import { update } from "./update";
 
-process.env.DIST_ELECTRON = join(__dirname, "../");
-process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
-	? join(process.env.DIST_ELECTRON, "../public")
-	: process.env.DIST;
-
 const preload = join(__dirname, "../preload/index.js");
 const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(process.env.DIST, "index.html");
+const indexHtml = join(DIST, "index.html");
+
+let mainWin: BrowserWindow | null = null;
 
 const createMainWin = (): BrowserWindow => {
-	const mainWin = new BrowserWindow({
+	mainWin = new BrowserWindow({
 		title: "Main window",
-		icon: join(process.env.PUBLIC, "logo@2x.ico"),
+		icon: join(PUBLIC, "logo@2x.ico"),
 		webPreferences: {
 			preload,
 			// Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -44,7 +41,7 @@ const createMainWin = (): BrowserWindow => {
 
 	// Test actively push message to the Electron-Renderer
 	mainWin.webContents.on("did-finish-load", () => {
-		mainWin?.webContents.send(
+		mainWin!.webContents.send(
 			"main-process-message",
 			new Date().toLocaleString(),
 		);
@@ -62,4 +59,51 @@ const createMainWin = (): BrowserWindow => {
 	return mainWin;
 };
 
-export { createMainWin };
+function closeMainWin() {
+	mainWin!.close();
+	mainWin = null;
+}
+
+function openMainWin() {
+	mainWin = createMainWin();
+	mainWin!.show();
+}
+
+function showMainWin() {
+	mainWin!.show();
+}
+
+function hideMainWin() {
+	mainWin!.hide();
+}
+
+function minimizeMainWin() {
+	mainWin!.minimize();
+}
+
+function maximizeMainWin() {
+	mainWin!.maximize();
+}
+
+function unmaximizeMainWin() {
+	mainWin!.unmaximize();
+}
+
+function focusMainWin() {
+	if (mainWin) {
+		// Focus on the main window if the user tried to open another
+		if (mainWin.isMinimized()) mainWin.restore();
+		mainWin.focus();
+	}
+}
+
+export {
+	mainWin,
+	createMainWin,
+	closeMainWin,
+	openMainWin,
+	hideMainWin,
+	showMainWin,
+	focusMainWin,
+	minimizeMainWin,
+};
