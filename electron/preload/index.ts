@@ -12,7 +12,6 @@ import {
 import { send, sendSync, on, once, invoke } from "./electronAPI/ipcRenderer";
 import { setTitle } from "./electronAPI/app";
 // import { store } from "../stores";
-import { setClipboardImg } from "./electronAPI/clipboard";
 
 // import { increment, decrement, selectCount } from "../stores/reducer/counter";
 // import { updateUser, selectUser } from "../stores/reducer/user";
@@ -67,7 +66,6 @@ function handleStream(stream: MediaProvider) {
 
 // contextBridge.exposeInMainWorld("electronAPI", {
 // 	setTitle,
-// 	setClipboardImg,
 
 // 	openCutScreen,
 // 	closeCutScreen,

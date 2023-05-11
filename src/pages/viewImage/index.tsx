@@ -22,15 +22,13 @@ const ViewImage = () => {
 	const photoSliderRef = useRef(null);
 	const [visible, setVisible] = useState(false);
 	const [index, setIndex] = useState(0);
-	const [images, setImages] = useState([
-		{
-			src: "https://devpress.csdnimg.cn/4361079b8d1340e5af1478a316d7d1ff.jpg",
-			key: "1",
-		},
-	]);
+	const [images, setImages] = useState([]);
 
 	useEffect(() => {
 		setVisible(true);
+		ipcRenderer.on("vi:set-images", (e, images) => {
+			images.length && setImages(images);
+		});
 	}, []);
 
 	function handleDownload() {}

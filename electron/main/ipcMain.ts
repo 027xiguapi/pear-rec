@@ -5,11 +5,14 @@ import {
 	desktopCapturer,
 	dialog,
 } from "electron";
+import { join, dirname } from "node:path";
+import * as fs from "fs";
 import { IpcEvents } from "./ipcEvents";
 import { createShotScreenWin } from "./shotScreenWin";
 import { createRecorderScreenWin } from "./recorderScreenWin";
 import { createViewImageWin } from "./viewImageWin";
 import { mainWin } from "./index";
+import { downloadFile } from "./utils";
 
 let shotScreenWin: BrowserWindow | null = null;
 let recorderScreenWin: BrowserWindow | null = null;
@@ -95,9 +98,15 @@ export function initIpcMain() {
 		mainWin!.show();
 	});
 
+	ipcMain.on("ss:save-image", (e, fileInfo) => {
+		downloadFile(fileInfo);
+		viewImageWin = createViewImageWin();
+	});
+
+	// 图片展示
 	ipcMain.on("vi:open-win", () => {
 		viewImageWin = createViewImageWin();
-		viewImageWin!.show();
+		// viewImageWin!.show();
 	});
 
 	ipcMain.on("vi:close-win", () => {
@@ -138,7 +147,7 @@ export function initIpcMain() {
 			],
 		});
 		const images = res.filePaths.map((filePath, index) => {
-			return { src: `myapp:///${filePath}`, key: index };
+			return { src: `peerrec:///${filePath}`, key: index };
 		});
 		return images;
 	});

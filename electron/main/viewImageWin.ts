@@ -6,23 +6,16 @@ import {
 	shell,
 	ipcMain,
 } from "electron";
-import { getScreenSize, isDev } from "./utils";
+import { PUBLIC, readDirectory } from "./utils";
 import { join } from "node:path";
-
-process.env.DIST_ELECTRON = join(__dirname, "../");
-process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
-	? join(process.env.DIST_ELECTRON, "../public")
-	: process.env.DIST;
 
 const preload = join(__dirname, "../preload/index.js");
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, "index.html");
 
 function createViewImageWin(): BrowserWindow {
-	const { width, height } = getScreenSize();
 	const viewImageWin = new BrowserWindow({
-		icon: join(process.env.PUBLIC, "logo@2x.ico"),
+		icon: join(PUBLIC, "logo@2x.ico"),
 		width: 800, // 宽度(px), 默认值为 800
 		height: 600, // 高度(px), 默认值为 600
 		minHeight: 400,
@@ -56,6 +49,12 @@ function createViewImageWin(): BrowserWindow {
 	} else {
 		viewImageWin.loadFile(indexHtml, { hash: "viewImage" });
 	}
+
+	viewImageWin.once("ready-to-show", async () => {
+		viewImageWin.show();
+		let images = await readDirectory();
+		viewImageWin.webContents.send("vi:set-images", images);
+	});
 
 	return viewImageWin;
 }

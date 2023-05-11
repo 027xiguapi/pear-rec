@@ -1,7 +1,7 @@
 import { protocol } from "electron";
 
 export function registerFileProtocol() {
-	protocol.registerFileProtocol("myapp", (request, callback) => {
+	protocol.registerFileProtocol("peerrec", (request, callback) => {
 		const url = request.url.substr(8); // 去掉协议头 'myapp://'
 		const decodedUrl = decodeURIComponent(url); // 解码 URL
 		try {

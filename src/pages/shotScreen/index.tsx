@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ScreenShot from "js-web-screen-shot";
-import { IpcEvents } from "@/ipcEvents";
-import { ipcRenderer } from "electron";
+import { ipcRenderer, clipboard, nativeImage } from "electron";
 import "./index.scss";
 
 async function getDesktopCapturerSource() {
@@ -83,7 +82,9 @@ const ShotScreen = () => {
 	}
 
 	function clipboardScreenShotImg() {
-		window.electronAPI?.setClipboardImg(screenShotImg);
+		const image = nativeImage.createFromDataURL(screenShotImg);
+		clipboard.writeImage(image);
+		ipcRenderer.send("ss:save-image", { base64Url: screenShotImg });
 	}
 
 	return <div className="shotScreen"></div>;
