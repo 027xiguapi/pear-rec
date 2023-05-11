@@ -1,11 +1,7 @@
 import { app, screen, BrowserWindow, shell, ipcMain } from "electron";
-import { PUBLIC, DIST } from "./utils";
+import { PUBLIC, preload, url, indexHtml } from "./utils";
 import { join } from "node:path";
 import { update } from "./update";
-
-const preload = join(__dirname, "../preload/index.js");
-const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(DIST, "index.html");
 
 let mainWin: BrowserWindow | null = null;
 

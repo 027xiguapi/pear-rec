@@ -5,6 +5,11 @@ import { createMainWin, closeMainWin, focusMainWin } from "./mainWin";
 import { initIpcMain } from "./ipcMain";
 import { initTray } from "./tray";
 import { registerFileProtocol } from "./protocol";
+import {
+	registerGlobalShortcut,
+	unregisterGlobalShortcut,
+	unregisterAllGlobalShortcut,
+} from "./globalShortcut";
 
 // The built directory structure
 //
@@ -51,6 +56,11 @@ app.whenReady().then(() => {
 	registerFileProtocol();
 	createWindow();
 	initTray();
+	registerGlobalShortcut();
+});
+
+app.on("will-quit", () => {
+	unregisterAllGlobalShortcut();
 });
 
 app.on("window-all-closed", () => {
@@ -71,23 +81,4 @@ app.on("activate", () => {
 	}
 });
 
-// New window example arg: new windows url
-ipcMain.handle("open-win", (_, arg) => {
-	const childWindow = new BrowserWindow({
-		webPreferences: {
-			preload,
-			nodeIntegration: true,
-			contextIsolation: false,
-		},
-	});
-
-	if (process.env.VITE_DEV_SERVER_URL) {
-		childWindow.loadURL(`${url}#${arg}`);
-	} else {
-		childWindow.loadFile(indexHtml, { hash: arg });
-	}
-});
-
 initIpcMain();
-
-export { app };

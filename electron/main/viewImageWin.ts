@@ -6,12 +6,8 @@ import {
 	shell,
 	ipcMain,
 } from "electron";
-import { PUBLIC, readDirectory, DIST } from "./utils";
+import { PUBLIC, readDirectory, preload, url, indexHtml } from "./utils";
 import { join } from "node:path";
-
-const preload = join(__dirname, "../preload/index.js");
-const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(DIST, "index.html");
 
 let viewImageWin: BrowserWindow | null = null;
 

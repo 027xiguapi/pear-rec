@@ -1,6 +1,5 @@
-import { Menu, Tray } from "electron";
+import { Menu, Tray, app } from "electron";
 import { join } from "node:path";
-import { app } from "./index";
 import { PUBLIC } from "./utils";
 import { showMainWin } from "./mainWin";
 import { openViewImageWin } from "./viewImageWin";

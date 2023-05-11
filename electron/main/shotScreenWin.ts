@@ -1,10 +1,5 @@
 import { BrowserWindow } from "electron";
-import { getScreenSize, DIST } from "./utils";
-import { join } from "node:path";
-
-const preload = join(__dirname, "../preload/index.js");
-const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(DIST, "index.html");
+import { getScreenSize, preload, url, indexHtml } from "./utils";
 
 let shotScreenWin: BrowserWindow | null = null;
 
