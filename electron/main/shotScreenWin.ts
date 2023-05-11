@@ -54,30 +54,37 @@ function closeShotScreenWin() {
 }
 
 function openShotScreenWin() {
-	shotScreenWin = createShotScreenWin();
-	shotScreenWin!.show();
+	if (!shotScreenWin) {
+		shotScreenWin = createShotScreenWin();
+	}
+	shotScreenWin?.show();
+}
+
+function showShotScreenWin() {
+	shotScreenWin?.show();
 }
 
 function hideShotScreenWin() {
-	shotScreenWin!.hide();
+	shotScreenWin?.hide();
 }
 
 function minimizeShotScreenWin() {
-	shotScreenWin!.minimize();
+	shotScreenWin?.minimize();
 }
 
 function maximizeShotScreenWin() {
-	shotScreenWin!.maximize();
+	shotScreenWin?.maximize();
 }
 
 function unmaximizeShotScreenWin() {
-	shotScreenWin!.unmaximize();
+	shotScreenWin?.unmaximize();
 }
 
 export {
 	createShotScreenWin,
 	closeShotScreenWin,
 	openShotScreenWin,
+	showShotScreenWin,
 	hideShotScreenWin,
 	minimizeShotScreenWin,
 	maximizeShotScreenWin,

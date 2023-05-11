@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { CameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import type { SizeType } from "antd/es/config-provider/SizeContext";
-import { IpcEvents } from "@/ipcEvents";
+import { ipcRenderer } from "electron";
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
 	const Navigate = useNavigate();
@@ -17,8 +17,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 	const [isRecordScreen, setIsRecordScreen] = useState(true);
 
 	function handleCutScreen() {
-		// Navigate(`/recordScreen`);
-		window.electronAPI.ipcRenderer.send(IpcEvents.EV_OPEN_RECORDER_SCREEN_WIN);
+		ipcRenderer.send("rs:open-win");
 	}
 
 	return (

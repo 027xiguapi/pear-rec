@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { VideoCameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import type { SizeType } from "antd/es/config-provider/SizeContext";
-import { IpcEvents } from "@/ipcEvents";
+import { ipcRenderer } from "electron";
 
 const RecordVideoCard = forwardRef((props: any, ref: any) => {
 	const Navigate = useNavigate();
@@ -17,7 +17,8 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
 	const [isRecordVideo, setIsRecordVideo] = useState(true);
 
 	function handleRecorderVideo() {
-		Navigate("/recorderVideo");
+		// Navigate("/recorderVideo");
+		ipcRenderer.send("rv:open-win");
 	}
 
 	return (

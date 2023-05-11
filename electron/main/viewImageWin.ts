@@ -53,41 +53,49 @@ function createViewImageWin(): BrowserWindow {
 	}
 
 	viewImageWin.once("ready-to-show", async () => {
-		viewImageWin!.show();
+		viewImageWin?.show();
 		let images = await readDirectory();
-		viewImageWin!.webContents.send("vi:set-images", images);
+		viewImageWin?.webContents.send("vi:set-images", images);
 	});
 
 	return viewImageWin;
 }
 
+function openViewImageWin() {
+	if (!viewImageWin) {
+		viewImageWin = createViewImageWin();
+	}
+	viewImageWin.show();
+}
+
 function closeViewImageWin() {
-	viewImageWin!.close();
+	viewImageWin?.close();
 	viewImageWin = null;
 }
 
 function hideViewImageWin() {
-	viewImageWin!.hide();
+	viewImageWin?.hide();
 }
 
 function minimizeViewImageWin() {
-	viewImageWin!.minimize();
+	viewImageWin?.minimize();
 }
 
 function maximizeViewImageWin() {
-	viewImageWin!.maximize();
+	viewImageWin?.maximize();
 }
 
 function unmaximizeViewImageWin() {
-	viewImageWin!.unmaximize();
+	viewImageWin?.unmaximize();
 }
 
 function setAlwaysOnTopViewImageWin(isAlwaysOnTop: boolean) {
-	viewImageWin!.setAlwaysOnTop(isAlwaysOnTop);
+	viewImageWin?.setAlwaysOnTop(isAlwaysOnTop);
 }
 
 export {
 	createViewImageWin,
+	openViewImageWin,
 	closeViewImageWin,
 	hideViewImageWin,
 	minimizeViewImageWin,

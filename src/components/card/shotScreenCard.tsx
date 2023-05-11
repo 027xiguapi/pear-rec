@@ -19,8 +19,6 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 	const [isCutScreen, setIsCutScreen] = useState(true);
 
 	function handleCutScreen() {
-		// Navigate("/cutScreen");
-		// Navigate(`/shotScreen`);
 		ipcRenderer.send("ss:open-win");
 	}
 

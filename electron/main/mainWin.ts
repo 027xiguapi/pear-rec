@@ -1,11 +1,4 @@
-import {
-	app,
-	screen,
-	BrowserWindow,
-	desktopCapturer,
-	shell,
-	ipcMain,
-} from "electron";
+import { app, screen, BrowserWindow, shell, ipcMain } from "electron";
 import { PUBLIC, DIST } from "./utils";
 import { join } from "node:path";
 import { update } from "./update";

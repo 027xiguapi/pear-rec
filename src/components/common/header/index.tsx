@@ -4,24 +4,16 @@ import {
 	BorderOutlined,
 	CloseOutlined,
 } from "@ant-design/icons";
-import { Button } from "antd";
 import { ipcRenderer } from "electron";
-import { IpcEvents } from "@/ipcEvents";
 import "./index.scss";
 
 const Header = () => {
 	async function handleHideWin() {
-		// window.electronAPI?.ipcRenderer.send(IpcEvents.EV_HIDE_MAIN_WIN);
-		ipcRenderer.send(IpcEvents.EV_HIDE_MAIN_WIN);
+		ipcRenderer.send("ma:minimize-win");
 	}
 
 	function handleCloseWin() {
-		// window.electronAPI?.ipcRenderer.send(IpcEvents.EV_CLOSE_MAIN_WIN);
-		ipcRenderer.send(IpcEvents.EV_CLOSE_MAIN_WIN);
-	}
-
-	function handleGoWin() {
-		ipcRenderer.send("vi:open-win");
+		ipcRenderer.send("ma:hide-win");
 	}
 
 	return (

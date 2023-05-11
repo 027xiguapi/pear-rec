@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { app } from "./index";
 import { PUBLIC } from "./utils";
 import { showMainWin } from "./mainWin";
+import { openViewImageWin } from "./viewImageWin";
 
 export function initTray() {
 	let appIcon = new Tray(join(PUBLIC, "logo@2x.ico"));
@@ -69,10 +70,9 @@ export function initTray() {
 			},
 		},
 		{
-			label: "设置",
+			label: "查看图片",
 			click: () => {
-				// Store.initRenderer();
-				// create_main_window("setting.html");
+				openViewImageWin();
 			},
 		},
 		{

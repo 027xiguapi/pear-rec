@@ -30,7 +30,7 @@ const RecorderScreen = () => {
 
 			<button
 				onClick={() =>
-					(previewVideo.current.srcObject = getMediaStream() || null)
+					(previewVideo.current!.srcObject = getMediaStream() || null)
 				}
 			>
 				预览

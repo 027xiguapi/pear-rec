@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Col, Row } from "antd";
-import { IpcEvents } from "@/ipcEvents";
 import Header from "@/components/common/header";
 import CutScreenCard from "@/components/card/shotScreenCard";
 import RecordVideoCard from "@/components/card/recordVideoCard";
@@ -19,7 +18,6 @@ const Home: React.FC = () => {
 	const [audiooutputDevices, setAudiooutputDevices] = useState([]); // 音频输出 (扬声器)
 
 	useEffect(() => {
-		window.electronAPI?.ipcRenderer.send(IpcEvents.EV_SET_TITLE, "梨子REC");
 		document.addEventListener("keydown", handleKeydown);
 		getDevices();
 	}, []);

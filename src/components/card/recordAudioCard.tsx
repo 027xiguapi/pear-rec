@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import type { SizeType } from "antd/es/config-provider/SizeContext";
+import { ipcRenderer } from "electron";
 
 const RecordAudioCard = forwardRef((props: any, ref: any) => {
 	const Navigate = useNavigate();
@@ -16,7 +17,7 @@ const RecordAudioCard = forwardRef((props: any, ref: any) => {
 	const [isRecordAudio, setIsRecordAudio] = useState(true);
 
 	function handleRecordAudio() {
-		Navigate(`/recordAudio`);
+		ipcRenderer.send("ra:open-win");
 	}
 
 	return (

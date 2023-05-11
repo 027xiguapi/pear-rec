@@ -46,16 +46,15 @@ const selfWindws = async () =>
 	);
 
 export function initIpcMain() {
-	// 打开关闭主窗口
-	ipcMain.on(IpcEvents.EV_OPEN_MAIN_WIN, () => {
+	ipcMain.on("ma:show-win", () => {
 		showMainWin();
 	});
 
-	ipcMain.on(IpcEvents.EV_CLOSE_MAIN_WIN, () => {
+	ipcMain.on("ma:hide-win", () => {
 		hideMainWin();
 	});
 
-	ipcMain.on(IpcEvents.EV_HIDE_MAIN_WIN, () => {
+	ipcMain.on("ma:minimize-win", () => {
 		minimizeMainWin();
 	});
 

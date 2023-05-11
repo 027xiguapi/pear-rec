@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import useMediaRecorder from "@/components/useMediaRecorder";
-import { IpcEvents } from "@/ipcEvents";
 import "./index.scss";
 
 async function getDesktopCapturerSource() {
-	return await window.electronAPI?.ipcRenderer.invoke(
-		IpcEvents.EV_GET_ALL_DESKTOP_CAPTURER_SOURCE,
-	);
+	return await window.electronAPI?.ipcRenderer
+		.invoke
+		// IpcEvents.EV_GET_ALL_DESKTOP_CAPTURER_SOURCE,
+		();
 }
 
 async function getInitStream(
@@ -44,10 +44,10 @@ const RecorderScreen = () => {
 	const [source, setSource] = useState({});
 
 	useEffect(() => {
-		window.electronAPI?.ipcRenderer.send(
-			IpcEvents.EV_SET_TITLE,
-			"录屏|梨子REC",
-		);
+		// window.electronAPI?.ipcRenderer.send(
+		// 	IpcEvents.EV_SET_TITLE,
+		// 	"录屏|梨子REC",
+		// );
 		doScreenRecorder();
 	}, []);
 
