@@ -49,7 +49,7 @@ function closeShotScreenWin() {
 }
 
 function openShotScreenWin() {
-	if (!shotScreenWin) {
+	if (!shotScreenWin || shotScreenWin?.isDestroyed()) {
 		shotScreenWin = createShotScreenWin();
 	}
 	shotScreenWin?.show();

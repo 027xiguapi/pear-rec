@@ -52,11 +52,11 @@ export function initTray() {
 			type: "separator",
 		},
 		{
-			label: "浏览器打开",
+			label: "开机自启动",
 			type: "checkbox",
 			checked: true,
 			click: (i) => {
-				// store.set("浏览器中打开", i.checked);
+				app.setLoginItemSettings({ openAtLogin: i.checked });
 			},
 		},
 		{

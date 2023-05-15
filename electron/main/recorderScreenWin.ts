@@ -49,7 +49,7 @@ function closeRecorderScreenWin() {
 }
 
 function openRecorderScreenWin() {
-	if (!recorderScreenWin) {
+	if (!recorderScreenWin || recorderScreenWin?.isDestroyed()) {
 		recorderScreenWin = createRecorderScreenWin();
 	}
 	recorderScreenWin?.show();

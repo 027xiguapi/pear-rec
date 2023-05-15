@@ -58,7 +58,7 @@ function createViewImageWin(): BrowserWindow {
 }
 
 function openViewImageWin() {
-	if (!viewImageWin) {
+	if (!viewImageWin || viewImageWin?.isDestroyed()) {
 		viewImageWin = createViewImageWin();
 	}
 	viewImageWin.show();

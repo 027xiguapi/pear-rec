@@ -11,7 +11,7 @@ import {
 	closeRecorderScreenWin,
 } from "./recorderScreenWin";
 import {
-	createViewImageWin,
+	openViewImageWin,
 	closeViewImageWin,
 	hideViewImageWin,
 	minimizeViewImageWin,
@@ -19,6 +19,15 @@ import {
 	unmaximizeViewImageWin,
 	setAlwaysOnTopViewImageWin,
 } from "./viewImageWin";
+import {
+	openViewVideoWin,
+	closeViewVideoWin,
+	hideViewVideoWin,
+	minimizeViewVideoWin,
+	maximizeViewVideoWin,
+	unmaximizeViewVideoWin,
+	setAlwaysOnTopViewVideoWin,
+} from "./viewVideoWin";
 import { hideMainWin, showMainWin, minimizeMainWin } from "./mainWin";
 import { downloadFile } from "./utils";
 
@@ -80,12 +89,12 @@ export function initIpcMain() {
 
 	ipcMain.on("ss:save-image", (e, fileInfo) => {
 		downloadFile(fileInfo);
-		createViewImageWin();
+		openViewImageWin();
 	});
 
 	// 图片展示
 	ipcMain.on("vi:open-win", () => {
-		createViewImageWin();
+		openViewImageWin();
 	});
 
 	ipcMain.on("vi:close-win", () => {
@@ -110,6 +119,35 @@ export function initIpcMain() {
 
 	ipcMain.on("vi:set-always-on-top", (e, isAlwaysOnTop) => {
 		setAlwaysOnTopViewImageWin(isAlwaysOnTop);
+	});
+
+	// 视频音频展示
+	ipcMain.on("vv:open-win", () => {
+		openViewVideoWin();
+	});
+
+	ipcMain.on("vv:close-win", () => {
+		closeViewVideoWin();
+	});
+
+	ipcMain.on("vv:hide-win", () => {
+		hideViewVideoWin();
+	});
+
+	ipcMain.on("vv:minimize-win", () => {
+		minimizeViewVideoWin();
+	});
+
+	ipcMain.on("vv:maximize-win", () => {
+		maximizeViewVideoWin();
+	});
+
+	ipcMain.on("vv:unmaximize-win", () => {
+		unmaximizeViewVideoWin();
+	});
+
+	ipcMain.on("vv:set-always-on-top", (e, isAlwaysOnTop) => {
+		setAlwaysOnTopViewVideoWin(isAlwaysOnTop);
 	});
 
 	// 打开图片

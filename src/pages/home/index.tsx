@@ -75,20 +75,22 @@ const Home: React.FC = () => {
 	return (
 		<div className="home">
 			<Header />
-			<Row gutter={16}>
-				<Col span={6}>
-					<CutScreenCard ref={cscRef} />
-				</Col>
-				<Col span={6}>
-					<RecordScreenCard ref={rscRef} />
-				</Col>
-				<Col span={6}>
-					<RecordVideoCard ref={rvcRef} />
-				</Col>
-				<Col span={6}>
-					<RecordAudioCard ref={racRef} />
-				</Col>
-			</Row>
+			<div className="container">
+				<Row gutter={16}>
+					<Col span={6}>
+						<CutScreenCard ref={cscRef} />
+					</Col>
+					<Col span={6}>
+						<RecordScreenCard ref={rscRef} />
+					</Col>
+					<Col span={6}>
+						<RecordVideoCard ref={rvcRef} />
+					</Col>
+					<Col span={6}>
+						<RecordAudioCard ref={racRef} />
+					</Col>
+				</Row>
+			</div>
 		</div>
 	);
 };
