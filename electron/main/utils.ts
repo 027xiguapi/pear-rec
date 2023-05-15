@@ -23,9 +23,9 @@ function getScreenSize() {
 }
 
 function downloadFile(fileInfo: any) {
-	let { base64Url, fileName, fileType = "png" } = fileInfo;
+	let { base64String, fileName, fileType = "png" } = fileInfo;
 	fileName || (fileName = Number(new Date()));
-	const url = base64Url.split(",")[1]; // 移除前缀，获取base64数据部分
+	const url = base64String.split(",")[1]; // 移除前缀，获取base64数据部分
 	const buffer = Buffer.from(url, "base64"); // 将base64数据转化为buffer
 	const imagePath = join(PEER_FILES, `/ss/${fileName}.${fileType}`); // 下载路径
 

@@ -29,7 +29,7 @@ import {
 	setAlwaysOnTopViewVideoWin,
 } from "./viewVideoWin";
 import { hideMainWin, showMainWin, minimizeMainWin } from "./mainWin";
-import { downloadFile } from "./utils";
+import { downloadFile, getScreenSize } from "./utils";
 
 const selfWindws = async () =>
 	await Promise.all(
@@ -77,6 +77,22 @@ export function initIpcMain() {
 		showMainWin();
 	});
 
+	ipcMain.handle("ss:get-shot-screen-img", async () => {
+		let { width, height } = getScreenSize();
+		const sources = [
+			...(await desktopCapturer.getSources({
+				types: ["screen"],
+				thumbnailSize: {
+					width,
+					height,
+				},
+			})),
+		];
+		const source = sources.filter((e: any) => e.id == "screen:0:0")[0];
+		const img = source.thumbnail.toDataURL();
+		return img;
+	});
+
 	ipcMain.on("ss:open-win", () => {
 		closeShotScreenWin();
 		hideMainWin();
@@ -90,6 +106,13 @@ export function initIpcMain() {
 	ipcMain.on("ss:save-image", (e, fileInfo) => {
 		downloadFile(fileInfo);
 		openViewImageWin();
+	});
+
+	ipcMain.handle("ss:get-desktop-capturer-source", async (_event, _args) => {
+		return [
+			...(await desktopCapturer.getSources({ types: ["screen"] })),
+			...(await selfWindws()),
+		];
 	});
 
 	// 图片展示
@@ -166,13 +189,6 @@ export function initIpcMain() {
 			return { src: `peerrec:///${filePath}`, key: index };
 		});
 		return images;
-	});
-
-	ipcMain.handle("ss:get-desktop-capturer-source", async (_event, _args) => {
-		return [
-			...(await desktopCapturer.getSources({ types: ["screen"] })),
-			...(await selfWindws()),
-		];
 	});
 
 	// ipcMain.on(IpcEvents.EV_SET_TITLE, (event, title) => {

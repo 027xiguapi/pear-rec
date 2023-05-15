@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Plyr from "plyr";
 import "plyr/dist/plyr.css";
 import source from "@/assets/video/frag_bunny.mp4";
-import poster from "@/assets/imgs/logo.png";
 import "./index.scss";
 
 const ViewVideo = () => {

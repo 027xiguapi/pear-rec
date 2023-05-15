@@ -3,12 +3,6 @@ import { loading } from "./electronAPI/loading";
 loading();
 
 import { ipcRenderer, contextBridge } from "electron";
-import {
-	openCutScreen,
-	closeCutScreen,
-	setCutScreen,
-	getCutScreen,
-} from "./electronAPI/cutScreen";
 import { send, sendSync, on, once, invoke } from "./electronAPI/ipcRenderer";
 import { setTitle } from "./electronAPI/app";
 // import { store } from "../stores";

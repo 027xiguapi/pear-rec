@@ -1,93 +1,62 @@
-import React, { useEffect, useState } from "react";
-import ScreenShot from "js-web-screen-shot";
+import React, { useCallback, useEffect, useState } from "react";
+import Screenshots, { Bounds } from "react-screenshots";
 import { ipcRenderer, clipboard, nativeImage } from "electron";
+// import url from "@/assets/imgs/1.jpg";
+import "react-screenshots/lib/style.css";
 import "./index.scss";
 
-async function getDesktopCapturerSource() {
-	return await ipcRenderer.invoke("ss:get-desktop-capturer-source");
-}
-
-async function getInitStream(
-	source: { id: string },
-	audio?: boolean,
-): Promise<MediaStream | null> {
-	return new Promise((resolve, _reject) => {
-		(navigator.mediaDevices as any)
-			.getUserMedia({
-				audio: audio
-					? {
-							mandatory: {
-								chromeMediaSource: "desktop",
-							},
-					  }
-					: false,
-				video: {
-					mandatory: {
-						chromeMediaSource: "desktop",
-						chromeMediaSourceId: source.id,
-					},
-				},
-			})
-			.then((stream: MediaStream) => {
-				resolve(stream);
-			})
-			.catch((error: any) => {
-				console.log(error);
-				resolve(null);
-			});
-	});
-}
-
-const ShotScreen = () => {
+export default function ShotScreen() {
 	const [screenShotImg, setScreenShotImg] = useState("");
-	let isShoting = false;
 
 	useEffect(() => {
-		doScreenShot();
+		getShotScreenImg();
 	}, []);
 
-	useEffect(() => {
-		screenShotImg && clipboardScreenShotImg();
-		screenShotImg && closeScreenShot();
-	}, [screenShotImg]);
+	async function getShotScreenImg() {
+		const img = await ipcRenderer.invoke("ss:get-shot-screen-img");
+		setScreenShotImg(img);
+		console.log(img);
+		return img;
+	}
 
-	async function doScreenShot() {
-		if (isShoting) return;
-		isShoting = true;
-		const sources = await getDesktopCapturerSource();
-		const stream = await getInitStream(
-			sources.filter((e: any) => e.id == "screen:0:0")[0],
-		);
-
-		new ScreenShot({
-			enableWebRtc: true,
-			screenFlow: stream!,
-			level: 999,
-			completeCallback: (screenShotImg: string) => {
-				completeScreenShot(screenShotImg);
-			},
-			closeCallback: () => {
-				closeScreenShot();
-			},
+	const onSave = useCallback((blob: Blob, bounds: Bounds) => {
+		blobToBase64(blob, (base64String: any) => {
+			ipcRenderer.send("ss:save-image", { base64String });
 		});
-	}
+	}, []);
 
-	function completeScreenShot(screenShotImg: any) {
-		setScreenShotImg(screenShotImg);
-	}
+	const onCancel = useCallback(() => {
+		ipcRenderer.send("ss:close-win");
+	}, []);
 
-	function closeScreenShot() {
-		isShoting = false;
+	const onOk = useCallback((blob: Blob, bounds: Bounds) => {
+		blobToBase64(blob, clipboardScreenShotImg);
+	}, []);
+
+	function clipboardScreenShotImg(screenShotImg: any) {
+		const image = nativeImage.createFromDataURL(screenShotImg);
+		clipboard.writeImage(image);
+		ipcRenderer.send("ss:save-image", { base64String: screenShotImg });
 		ipcRenderer.send("ss:close-win");
 	}
 
-	function clipboardScreenShotImg() {
-		const image = nativeImage.createFromDataURL(screenShotImg);
-		clipboard.writeImage(image);
-		ipcRenderer.send("ss:save-image", { base64Url: screenShotImg });
+	function blobToBase64(blob: any, callback: any) {
+		const reader = new FileReader();
+		reader.readAsDataURL(blob);
+		reader.onload = function (event) {
+			const base64String = event.target!.result;
+			callback(base64String);
+		};
 	}
 
-	return <div className="shotScreen"></div>;
-};
-
-export default ShotScreen;
+	return (
+		<Screenshots
+			url={screenShotImg}
+			width={window.innerWidth}
+			height={window.innerHeight}
+			onSave={onSave}
+			onCancel={onCancel}
+			onOk={onOk}
+		/>
+	);
+}
