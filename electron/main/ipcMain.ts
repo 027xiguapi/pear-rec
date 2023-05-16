@@ -29,7 +29,7 @@ import {
 	setAlwaysOnTopViewVideoWin,
 } from "./viewVideoWin";
 import { hideMainWin, showMainWin, minimizeMainWin } from "./mainWin";
-import { downloadFile, getScreenSize } from "./utils";
+import { saveFile, getScreenSize } from "./utils";
 
 const selfWindws = async () =>
 	await Promise.all(
@@ -103,9 +103,9 @@ export function initIpcMain() {
 		closeShotScreenWin();
 	});
 
-	ipcMain.on("ss:save-image", (e, fileInfo) => {
-		downloadFile(fileInfo);
-		openViewImageWin();
+	ipcMain.on("ss:save-img", async (e, fileInfo) => {
+		await saveFile(fileInfo);
+		await openViewImageWin();
 	});
 
 	ipcMain.handle("ss:get-desktop-capturer-source", async (_event, _args) => {

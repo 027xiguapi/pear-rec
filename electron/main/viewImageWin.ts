@@ -69,6 +69,11 @@ function closeViewImageWin() {
 	viewImageWin = null;
 }
 
+function destroyViewImageWin() {
+	viewImageWin?.destroy();
+	viewImageWin = null;
+}
+
 function hideViewImageWin() {
 	viewImageWin?.hide();
 }

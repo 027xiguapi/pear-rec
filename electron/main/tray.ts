@@ -2,50 +2,47 @@ import { Menu, Tray, app } from "electron";
 import { join } from "node:path";
 import { PUBLIC } from "./utils";
 import { showMainWin } from "./mainWin";
+import { openShotScreenWin } from "./shotScreenWin";
+import { openRecorderScreenWin } from "./recorderScreenWin";
 import { openViewImageWin } from "./viewImageWin";
+import { openViewVideoWin } from "./viewVideoWin";
 
 export function initTray() {
 	let appIcon = new Tray(join(PUBLIC, "logo@2x.ico"));
 	const contextMenu = Menu.buildFromTemplate([
 		{
-			label: "自动识别",
+			label: "截图",
 			click: () => {
-				// auto_open();
+				openShotScreenWin();
 			},
 		},
 		{
-			label: "截屏搜索",
+			label: "录屏",
 			click: () => {
-				// setTimeout(() => {
-				// 	full_screen();
-				// }, store.get("主搜索功能.截屏搜索延迟"));
+				openRecorderScreenWin();
 			},
 		},
 		{
-			label: "选中搜索",
+			label: "录音",
 			click: () => {},
 		},
 		{
-			label: "剪贴板搜索",
+			label: "录像",
 			click: () => {},
 		},
 		{
 			type: "separator",
 		},
 		{
-			label: "OCR(文字识别)",
+			label: "查看图片",
 			click: () => {
-				// let x = capture_all();
-				// clip_window.webContents.send("reflash", x, null, null, "ocr");
-				// x = null;
+				openViewImageWin();
 			},
 		},
 		{
-			label: "以图搜图",
+			label: "查看视频",
 			click: () => {
-				// let x = capture_all();
-				// clip_window.webContents.send("reflash", x, null, null, "image_search");
-				// x = null;
+				openViewVideoWin();
 			},
 		},
 		{
@@ -69,7 +66,7 @@ export function initTray() {
 			},
 		},
 		{
-			label: "查看图片",
+			label: "设置",
 			click: () => {
 				openViewImageWin();
 			},

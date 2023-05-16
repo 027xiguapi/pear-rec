@@ -21,7 +21,7 @@ export default function ShotScreen() {
 
 	const onSave = useCallback((blob: Blob, bounds: Bounds) => {
 		blobToBase64(blob, (base64String: any) => {
-			ipcRenderer.send("ss:save-image", { base64String });
+			ipcRenderer.send("ss:save-img", { base64String });
 		});
 	}, []);
 
@@ -33,10 +33,10 @@ export default function ShotScreen() {
 		blobToBase64(blob, clipboardScreenShotImg);
 	}, []);
 
-	function clipboardScreenShotImg(screenShotImg: any) {
-		const image = nativeImage.createFromDataURL(screenShotImg);
+	function clipboardScreenShotImg(base64String: any) {
+		const image = nativeImage.createFromDataURL(base64String);
 		clipboard.writeImage(image);
-		ipcRenderer.send("ss:save-image", { base64String: screenShotImg });
+		ipcRenderer.send("ss:save-img", { base64String });
 		ipcRenderer.send("ss:close-win");
 	}
 

@@ -37,6 +37,21 @@ function downloadFile(fileInfo: any) {
 	fs.writeFileSync(imagePath, buffer); // 将buffer写入本地文件
 }
 
+function saveFile(fileInfo: any) {
+	let { base64String, fileName, fileType = "png" } = fileInfo;
+	fileName || (fileName = Number(new Date()));
+	const url = base64String.split(",")[1]; // 移除前缀，获取base64数据部分
+	const buffer = Buffer.from(url, "base64"); // 将base64数据转化为buffer
+	const filePath = join(PEER_FILES, `/ss/${fileName}.${fileType}`); // 下载路径
+
+	const directory = dirname(filePath); // 获取文件目录
+	if (!fs.existsSync(directory)) {
+		// 检查目录是否存在
+		fs.mkdirSync(directory, { recursive: true }); // 不存在则创建目录
+	}
+	fs.writeFileSync(filePath, buffer); // 将buffer写入本地文件
+}
+
 function readDirectory() {
 	const directoryPath = join(PEER_FILES, "/ss");
 	const files = fs.readdirSync(directoryPath); // 读取目录内容
@@ -49,4 +64,4 @@ function readDirectory() {
 	return images;
 }
 
-export { getScreenSize, downloadFile, readDirectory };
+export { getScreenSize, downloadFile, saveFile, readDirectory };

@@ -19,7 +19,6 @@ import "./index.scss";
 
 const ViewImage = () => {
 	const viewImageRef = useRef<HTMLDivElement | null>(null);
-	const photoSliderRef = useRef(null);
 	const [visible, setVisible] = useState(false);
 	const [index, setIndex] = useState(0);
 	const [images, setImages] = useState([]);

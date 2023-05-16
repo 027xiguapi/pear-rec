@@ -14,8 +14,8 @@ const WinBar = () => {
 	const [isMaximize, setIsMaximize] = useState(false);
 	const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
 
-	async function handleHideWin() {
-		ipcRenderer.send("vi:hide-win");
+	async function handleCloseWin() {
+		ipcRenderer.send("vi:close-win");
 	}
 
 	function handleMinimizeWin() {
@@ -70,7 +70,7 @@ const WinBar = () => {
 				icon={<CloseOutlined />}
 				className="toolbarIcon"
 				title="关闭"
-				onClick={() => handleHideWin()}
+				onClick={() => handleCloseWin()}
 			/>
 		</div>
 	);
