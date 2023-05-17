@@ -52,11 +52,11 @@ function saveFile(fileInfo: any) {
 	fs.writeFileSync(filePath, buffer); // 将buffer写入本地文件
 }
 
-function readDirectory() {
-	const directoryPath = join(PEER_FILES, "/ss");
+function readDirectory(directory: any) {
+	const directoryPath = directory || join(PEER_FILES, "/ss");
 	const files = fs.readdirSync(directoryPath); // 读取目录内容
 	let images = files.map((filePath, index) => {
-		return { src: `peerrec:///${directoryPath}/${filePath}`, key: index };
+		return { src: `pearrec:///${directoryPath}/${filePath}`, key: index };
 	});
 	images = images.sort((a, b) => {
 		return b.key - a.key;
@@ -64,4 +64,21 @@ function readDirectory() {
 	return images;
 }
 
-export { getScreenSize, downloadFile, saveFile, readDirectory };
+function readDirectoryVideo(filePath: any) {
+	filePath = filePath.replace(/\\/g, "/");
+	return `pearrec:///${filePath}`;
+}
+
+function readDirectoryImg(filePath: any) {
+	filePath = filePath.replace(/\\/g, "/");
+	return `pearrec:///${filePath}`;
+}
+
+export {
+	getScreenSize,
+	downloadFile,
+	saveFile,
+	readDirectory,
+	readDirectoryVideo,
+	readDirectoryImg,
+};

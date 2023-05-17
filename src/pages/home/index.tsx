@@ -5,6 +5,8 @@ import CutScreenCard from "@/components/card/shotScreenCard";
 import RecordVideoCard from "@/components/card/recordVideoCard";
 import RecordScreenCard from "@/components/card/recordScreenCard";
 import RecordAudioCard from "@/components/card/recordAudioCard";
+import ViewImageCard from "@/components/card/viewImageCard";
+import ViewVideoCard from "@/components/card/viewVideoCard";
 import "./index.scss";
 
 const Home: React.FC = () => {
@@ -76,7 +78,7 @@ const Home: React.FC = () => {
 		<div className="home">
 			<Header />
 			<div className="container">
-				<Row gutter={16}>
+				<Row className="cardRow" justify="center" gutter={16}>
 					<Col span={6}>
 						<CutScreenCard ref={cscRef} />
 					</Col>
@@ -88,6 +90,14 @@ const Home: React.FC = () => {
 					</Col>
 					<Col span={6}>
 						<RecordAudioCard ref={racRef} />
+					</Col>
+				</Row>
+				<Row className="cardRow" justify="center" gutter={16}>
+					<Col span={8}>
+						<ViewImageCard />
+					</Col>
+					<Col span={8}>
+						<ViewVideoCard />
 					</Col>
 				</Row>
 			</div>

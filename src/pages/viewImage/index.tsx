@@ -21,12 +21,15 @@ const ViewImage = () => {
 	const viewImageRef = useRef<HTMLDivElement | null>(null);
 	const [visible, setVisible] = useState(false);
 	const [index, setIndex] = useState(0);
-	const [images, setImages] = useState([]);
+	const [images, setImages] = useState<any>([]);
 
 	useEffect(() => {
 		setVisible(true);
-		ipcRenderer.on("vi:set-images", (e, images) => {
-			images.length && setImages(images);
+		ipcRenderer.on("vi:set-img", (e, img) => {
+			if (img) {
+				const images = [{ src: img, key: 0 }];
+				setImages(images);
+			}
 		});
 	}, []);
 

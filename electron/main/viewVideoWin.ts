@@ -1,13 +1,7 @@
-import {
-	app,
-	screen,
-	BrowserWindow,
-	desktopCapturer,
-	shell,
-	ipcMain,
-} from "electron";
-import { PUBLIC, readDirectory, preload, url, indexHtml } from "./utils";
+import { BrowserWindow } from "electron";
 import { join } from "node:path";
+import { PUBLIC, readDirectoryVideo, preload, url, indexHtml } from "./utils";
+import { getHistoryVideo } from "./store";
 
 let viewVideoWin: BrowserWindow | null = null;
 
@@ -50,8 +44,9 @@ function createViewVideoWin(): BrowserWindow {
 
 	viewVideoWin.once("ready-to-show", async () => {
 		viewVideoWin?.show();
-		let images = await readDirectory();
-		viewVideoWin?.webContents.send("vi:set-images", images);
+		const filePath = getHistoryVideo();
+		let video = await readDirectoryVideo(filePath);
+		viewVideoWin?.webContents.send("vv:set-video", video);
 	});
 
 	return viewVideoWin;

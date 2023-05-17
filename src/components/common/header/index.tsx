@@ -24,7 +24,7 @@ const Header = () => {
 	return (
 		<div className="header">
 			<div className="left">
-				<img className="logo" src={logo} alt="logo" onClick={handleOpenView} />
+				<img className="logo" src={logo} alt="logo" />
 				<span>REC</span>
 			</div>
 			<div className="drgan"></div>

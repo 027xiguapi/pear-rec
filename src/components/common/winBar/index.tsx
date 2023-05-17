@@ -18,6 +18,10 @@ const WinBar = () => {
 		ipcRenderer.send("vi:close-win");
 	}
 
+	async function handleHideWin() {
+		ipcRenderer.send("vi:hide-win");
+	}
+
 	function handleMinimizeWin() {
 		ipcRenderer.send("vi:minimize-win");
 	}
@@ -70,7 +74,7 @@ const WinBar = () => {
 				icon={<CloseOutlined />}
 				className="toolbarIcon"
 				title="关闭"
-				onClick={() => handleCloseWin()}
+				onClick={() => handleHideWin()}
 			/>
 		</div>
 	);

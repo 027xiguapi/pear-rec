@@ -29,6 +29,7 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 			bordered={false}
 			extra={"More"}
 			style={{ maxWidth: 300 }}
+			onClick={handleCutScreen}
 		>
 			<div className="cardContent">
 				<Button
@@ -36,7 +37,6 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 					disabled={!isCutScreen}
 					icon={<ScissorOutlined />}
 					size={size}
-					onClick={handleCutScreen}
 				/>
 			</div>
 		</Card>

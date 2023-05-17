@@ -30,6 +30,14 @@ import {
 } from "./viewVideoWin";
 import { hideMainWin, showMainWin, minimizeMainWin } from "./mainWin";
 import { saveFile, getScreenSize } from "./utils";
+import {
+	setHistory,
+	setHistoryImg,
+	setHistoryVideo,
+	getHistory,
+	getHistoryImg,
+	getHistoryVideo,
+} from "./store";
 
 const selfWindws = async () =>
 	await Promise.all(
@@ -186,29 +194,39 @@ export function initIpcMain() {
 			],
 		});
 		const images = res.filePaths.map((filePath, index) => {
-			return { src: `peerrec:///${filePath}`, key: index };
+			return { src: `pearrec:///${filePath}`, key: index };
 		});
 		return images;
 	});
 
-	// ipcMain.on(IpcEvents.EV_SET_TITLE, (event, title) => {
-	// 	const webContents = event.sender;
-	// 	const win = BrowserWindow.fromWebContents(webContents);
-	// 	win!.setTitle(title);
-	// });
+	ipcMain.handle("vi:get-img", async (event, title) => {
+		let res = await dialog.showOpenDialog({
+			title: title,
+			buttonLabel: "按此打开文件",
+			properties: ["openFile"],
+			filters: [
+				{ name: "图片", extensions: ["jpg", "jpeg", "png", "webp", "svg"] },
+			],
+		});
+		res.filePaths.map((filePath, index) => {
+			setHistoryImg(filePath);
+		});
+		const img = getHistoryImg();
+		return img;
+	});
 
-	// ipcMain.handle(
-	// 	IpcEvents.EV_GET_ALL_DESKTOP_CAPTURER_SOURCE,
-	// 	async (_event, _args) => {
-	// 		let sources = await desktopCapturer.getSources({
-	// 			types: ["screen", "window"], // 设定需要捕获的是"屏幕"，还是"窗口"
-	// 			thumbnailSize: {
-	// 				height: 300, // 窗口或屏幕的截图快照高度
-	// 				width: 300, // 窗口或屏幕的截图快照宽度
-	// 			},
-	// 			fetchWindowIcons: true, // 如果视频源是窗口且有图标，则设置该值可以捕获到的窗口图标
-	// 		});
-	// 		return sources;
-	// 	},
-	// );
+	// 打开视频
+	ipcMain.handle("vv:get-video", async (e) => {
+		let res = await dialog.showOpenDialog({
+			title: "选择视频",
+			buttonLabel: "按此打开文件",
+			properties: ["openFile"],
+			filters: [{ name: "视频", extensions: ["mkv", "avi", "mp4", "webm"] }],
+		});
+		res.filePaths.map((filePath, index) => {
+			setHistoryVideo(filePath);
+		});
+		const video = getHistoryVideo();
+		return video;
+	});
 }

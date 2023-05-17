@@ -28,6 +28,7 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
 			bordered={false}
 			extra={<a href="#">More</a>}
 			style={{ maxWidth: 300 }}
+			onClick={handleRecorderVideo}
 		>
 			<div className="cardContent">
 				<Button
@@ -35,7 +36,6 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
 					disabled={!isRecordVideo}
 					icon={<VideoCameraOutlined />}
 					size={size}
-					onClick={handleRecorderVideo}
 				/>
 			</div>
 		</Card>

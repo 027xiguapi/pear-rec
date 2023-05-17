@@ -1,13 +1,7 @@
-import {
-	app,
-	screen,
-	BrowserWindow,
-	desktopCapturer,
-	shell,
-	ipcMain,
-} from "electron";
-import { PUBLIC, readDirectory, preload, url, indexHtml } from "./utils";
-import { join } from "node:path";
+import { BrowserWindow } from "electron";
+import { join, dirname } from "node:path";
+import { PUBLIC, readDirectoryImg, preload, url, indexHtml } from "./utils";
+import { getHistoryImg } from "./store";
 
 let viewImageWin: BrowserWindow | null = null;
 
@@ -50,8 +44,9 @@ function createViewImageWin(): BrowserWindow {
 
 	viewImageWin.once("ready-to-show", async () => {
 		viewImageWin?.show();
-		let images = await readDirectory();
-		viewImageWin?.webContents.send("vi:set-images", images);
+		const filePath = getHistoryImg();
+		let img = await readDirectoryImg(filePath);
+		viewImageWin?.webContents.send("vi:set-img", img);
 	});
 
 	return viewImageWin;

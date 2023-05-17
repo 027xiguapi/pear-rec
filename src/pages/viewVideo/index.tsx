@@ -1,18 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Plyr from "plyr";
 import "plyr/dist/plyr.css";
-import source from "@/assets/video/frag_bunny.mp4";
+import { ipcRenderer } from "electron";
 import "./index.scss";
 
 const ViewVideo = () => {
+	const [source, setSource] = useState("");
+	const sourceRef = useRef<HTMLSourceElement>(null);
 	useEffect(() => {
-		const player = new Plyr("#player");
-		console.log("ViewVideo", Plyr);
+		ipcRenderer.on("vv:set-video", (e, video) => {
+			setSource(video);
+		});
 	}, []);
+
+	useEffect(() => {
+		if (source) {
+			const player = new Plyr("#player");
+		}
+	}, [source]);
+
 	return (
 		<div className="viewVideo">
 			<video id="player" playsInline controls>
-				<source src={source} type="video/mp4" />
+				<source ref={sourceRef} src={source} type="video/mp4" />
 			</video>
 		</div>
 	);

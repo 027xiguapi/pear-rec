@@ -2,7 +2,11 @@
 	.container {
 		overflow: hidden;
 		padding: 10px;
-		height: 160px;
+		height: 330px;
+		.cardRow {
+			margin-bottom: 10px;
+			text-align: center;
+		}
 	}
 	.cardContent {
 		text-align: center;

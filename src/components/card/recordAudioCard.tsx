@@ -27,6 +27,7 @@ const RecordAudioCard = forwardRef((props: any, ref: any) => {
 			bordered={false}
 			extra={<a href="#">More</a>}
 			style={{ maxWidth: 300 }}
+			onClick={handleRecordAudio}
 		>
 			<div className="cardContent">
 				<Button
@@ -34,7 +35,6 @@ const RecordAudioCard = forwardRef((props: any, ref: any) => {
 					disabled={!isRecordAudio}
 					icon={isRecordAudio ? <AudioOutlined /> : <AudioMutedOutlined />}
 					size={size}
-					onClick={handleRecordAudio}
 				/>
 			</div>
 		</Card>

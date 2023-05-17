@@ -27,6 +27,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 			bordered={false}
 			extra={<a href="#">More</a>}
 			style={{ maxWidth: 300 }}
+			onClick={handleCutScreen}
 		>
 			<div className="cardContent">
 				<Button
@@ -34,7 +35,6 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 					disabled={!isRecordScreen}
 					icon={<CameraOutlined />}
 					size={size}
-					onClick={handleCutScreen}
 				/>
 			</div>
 		</Card>
