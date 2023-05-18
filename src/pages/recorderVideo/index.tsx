@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import useMediaRecorder from "../../components/useMediaRecorder";
+import { ipcRenderer } from "electron";
 
 const RecorderVideo = () => {
 	const {
@@ -15,7 +16,12 @@ const RecorderVideo = () => {
 	} = useMediaRecorder({
 		audio: true,
 		video: true,
-		onStop: (url: string) => alert(`录像完成，${url}`),
+		onStop: (url: string) => {
+			console.log(`录像完成，${url}`);
+			ipcRenderer.send("rv:download-record", {
+				downloadUrl: url,
+			});
+		},
 	});
 
 	const previewVideo = useRef<HTMLVideoElement>(null);
@@ -29,7 +35,7 @@ const RecorderVideo = () => {
 
 			<button
 				onClick={() =>
-					(previewVideo.current.srcObject = getMediaStream() || null)
+					(previewVideo.current!.srcObject = getMediaStream() || null)
 				}
 			>
 				预览

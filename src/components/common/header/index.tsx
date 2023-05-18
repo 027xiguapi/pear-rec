@@ -4,6 +4,7 @@ import {
 	BorderOutlined,
 	CloseOutlined,
 } from "@ant-design/icons";
+import { Button } from "antd";
 import { ipcRenderer } from "electron";
 import "./index.scss";
 import logo from "@/assets/imgs/logo.ico";
@@ -29,8 +30,18 @@ const Header = () => {
 			</div>
 			<div className="drgan"></div>
 			<div className="right">
-				<MinusOutlined className="icon-s" onClick={handleHideWin} />
-				<CloseOutlined className="icon-s" onClick={handleCloseWin} />
+				<Button
+					type="text"
+					icon={<MinusOutlined />}
+					title="最小化"
+					onClick={handleHideWin}
+				/>
+				<Button
+					type="text"
+					icon={<CloseOutlined />}
+					title="关闭"
+					onClick={handleCloseWin}
+				/>
 			</div>
 		</div>
 	);

@@ -28,7 +28,12 @@ const RecordAudio = () => {
 		getAudioStream,
 	} = useMediaRecorder({
 		audio: true,
-		onStop: (url: string) => alert(`录音完成，${url}`),
+		onStop: (url: string) => {
+			console.log(`录音完成，${url}`);
+			ipcRenderer.send("ra:download-record", {
+				downloadUrl: url,
+			});
+		},
 	});
 
 	function handleStartRecord() {

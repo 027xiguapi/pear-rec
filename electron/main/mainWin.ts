@@ -7,8 +7,8 @@ let mainWin: BrowserWindow | null = null;
 
 const createMainWin = (): BrowserWindow => {
 	mainWin = new BrowserWindow({
-		title: "Main window",
-		icon: join(PUBLIC, "logo@2x.ico"),
+		// title: "Main window",
+		// icon: join(PUBLIC, "logo@2x.ico"),
 		frame: false,
 		webPreferences: {
 			preload,
@@ -30,12 +30,7 @@ const createMainWin = (): BrowserWindow => {
 	}
 
 	// Test actively push message to the Electron-Renderer
-	mainWin.webContents.on("did-finish-load", () => {
-		mainWin!.webContents.send(
-			"main-process-message",
-			new Date().toLocaleString(),
-		);
-	});
+	mainWin.webContents.on("did-finish-load", () => {});
 
 	// Make all links open with the browser, not with the application
 	mainWin.webContents.setWindowOpenHandler(({ url }) => {

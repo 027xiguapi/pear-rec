@@ -4,6 +4,8 @@ import { PUBLIC } from "./utils";
 import { showMainWin } from "./mainWin";
 import { openShotScreenWin } from "./shotScreenWin";
 import { openRecorderScreenWin } from "./recorderScreenWin";
+import { openRecorderAudioWin } from "./recorderAudioWin";
+import { openRecorderVideoWin } from "./recorderVideoWin";
 import { openViewImageWin } from "./viewImageWin";
 import { openViewVideoWin } from "./viewVideoWin";
 
@@ -24,11 +26,15 @@ export function initTray() {
 		},
 		{
 			label: "录音",
-			click: () => {},
+			click: () => {
+				openRecorderAudioWin();
+			},
 		},
 		{
 			label: "录像",
-			click: () => {},
+			click: () => {
+				openRecorderVideoWin();
+			},
 		},
 		{
 			type: "separator",

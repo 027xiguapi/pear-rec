@@ -5,12 +5,24 @@ import {
 	desktopCapturer,
 	dialog,
 } from "electron";
+
+import { hideMainWin, showMainWin, minimizeMainWin } from "./mainWin";
 import { closeShotScreenWin, openShotScreenWin } from "./shotScreenWin";
 import {
 	openRecorderScreenWin,
 	closeRecorderScreenWin,
 	downloadURLRecorderScreenWin,
 } from "./recorderScreenWin";
+import {
+	closeRecorderAudioWin,
+	openRecorderAudioWin,
+	downloadURLRecorderAudioWin,
+} from "./recorderAudioWin";
+import {
+	closeRecorderVideoWin,
+	openRecorderVideoWin,
+	downloadURLRecorderVideoWin,
+} from "./recorderVideoWin";
 import {
 	openViewImageWin,
 	closeViewImageWin,
@@ -29,7 +41,6 @@ import {
 	unmaximizeViewVideoWin,
 	setAlwaysOnTopViewVideoWin,
 } from "./viewVideoWin";
-import { hideMainWin, showMainWin, minimizeMainWin } from "./mainWin";
 import { saveFile, getScreenSize } from "./utils";
 import {
 	setHistory,
@@ -94,18 +105,6 @@ export function initIpcMain() {
 	});
 
 	ipcMain.on("rs:download-record", (e, fileInfo) => {
-		// dialog.showOpenDialog(
-		// 	{
-		// 		properties: ["openFile", "openDirectory"],
-		// 	},
-		// 	(files: any) => {
-		// 		saveUrl = files[0]; // 保存文件路径
-		// 		if (!saveUrl) return; // 如果用户没有选择路径,则不再向下进行
-		// 		let url = JSON.parse(args);
-		// 		downloadUrl = url.downloadUrl; // 获取渲染进程传递过来的 下载链接
-		// 		mainWindow.webContents.downloadURL(downloadUrl); // 触发 will-download 事件
-		// 	},
-		// );
 		const downloadUrl = fileInfo.downloadUrl;
 		downloadURLRecorderScreenWin(downloadUrl);
 	});
@@ -253,5 +252,39 @@ export function initIpcMain() {
 		});
 		const video = getHistoryVideo();
 		return video;
+	});
+
+	// 录音
+	ipcMain.on("ra:open-win", () => {
+		closeRecorderAudioWin();
+		hideMainWin();
+		openRecorderAudioWin();
+	});
+
+	ipcMain.on("ra:close-win", () => {
+		closeRecorderAudioWin();
+		showMainWin();
+	});
+
+	ipcMain.on("ra:download-record", (e, fileInfo) => {
+		const downloadUrl = fileInfo.downloadUrl;
+		downloadURLRecorderAudioWin(downloadUrl);
+	});
+
+	// 录像
+	ipcMain.on("rv:open-win", () => {
+		closeRecorderVideoWin();
+		hideMainWin();
+		openRecorderVideoWin();
+	});
+
+	ipcMain.on("rv:close-win", () => {
+		closeRecorderVideoWin();
+		showMainWin();
+	});
+
+	ipcMain.on("rv:download-record", (e, fileInfo) => {
+		const downloadUrl = fileInfo.downloadUrl;
+		downloadURLRecorderVideoWin(downloadUrl);
 	});
 }

@@ -11,13 +11,11 @@ import type { SizeType } from "antd/es/config-provider/SizeContext";
 import { ipcRenderer } from "electron";
 
 const RecordVideoCard = forwardRef((props: any, ref: any) => {
-	const Navigate = useNavigate();
 	useImperativeHandle(ref, () => ({ setIsRecordVideo }));
 	const [size, setSize] = useState<SizeType>("large");
 	const [isRecordVideo, setIsRecordVideo] = useState(true);
 
 	function handleRecorderVideo() {
-		// Navigate("/recorderVideo");
 		ipcRenderer.send("rv:open-win");
 	}
 
