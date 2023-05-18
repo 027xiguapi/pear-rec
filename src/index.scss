@@ -91,6 +91,39 @@ table {
 	border-spacing: 0;
 }
 
+@keyframes blink {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 1;
+	}
+	50.01% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@-webkit-keyframes blink {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 1;
+	}
+	50.01% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.blink {
+	animation: blink 1s linear infinite;
+}
+
 body {
 	height: 100vh;
 	width: 100vw;

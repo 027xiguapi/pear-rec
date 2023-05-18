@@ -9,6 +9,7 @@ const createMainWin = (): BrowserWindow => {
 	mainWin = new BrowserWindow({
 		title: "Main window",
 		icon: join(PUBLIC, "logo@2x.ico"),
+		frame: false,
 		webPreferences: {
 			preload,
 			// Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -23,7 +24,7 @@ const createMainWin = (): BrowserWindow => {
 		// electron-vite-vue#298
 		mainWin.loadURL(url);
 		// Open devTool if the app is not packaged
-		mainWin.webContents.openDevTools();
+		mainWin.webContents.openDevTools({ mode: "detach", activate: true });
 	} else {
 		mainWin.loadFile(indexHtml);
 	}

@@ -86,7 +86,9 @@ const useMediaRecorder = (params: Params) => {
 	const startRecord = async () => {
 		await getMediaStream();
 
-		mediaRecorder.current = new MediaRecorder(mediaStream.current);
+		mediaRecorder.current = new MediaRecorder(
+			mediaStream.current as MediaStream,
+		);
 		mediaRecorder.current.ondataavailable = (blobEvent) => {
 			mediaBlobs.current.push(blobEvent.data);
 		};

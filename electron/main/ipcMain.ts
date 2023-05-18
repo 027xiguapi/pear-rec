@@ -9,6 +9,7 @@ import { closeShotScreenWin, openShotScreenWin } from "./shotScreenWin";
 import {
 	openRecorderScreenWin,
 	closeRecorderScreenWin,
+	downloadURLRecorderScreenWin,
 } from "./recorderScreenWin";
 import {
 	openViewImageWin,
@@ -85,8 +86,32 @@ export function initIpcMain() {
 		showMainWin();
 	});
 
+	ipcMain.handle("rs:get-desktop-capturer-source", async () => {
+		return [
+			...(await desktopCapturer.getSources({ types: ["screen"] })),
+			...(await selfWindws()),
+		];
+	});
+
+	ipcMain.on("rs:download-record", (e, fileInfo) => {
+		// dialog.showOpenDialog(
+		// 	{
+		// 		properties: ["openFile", "openDirectory"],
+		// 	},
+		// 	(files: any) => {
+		// 		saveUrl = files[0]; // 保存文件路径
+		// 		if (!saveUrl) return; // 如果用户没有选择路径,则不再向下进行
+		// 		let url = JSON.parse(args);
+		// 		downloadUrl = url.downloadUrl; // 获取渲染进程传递过来的 下载链接
+		// 		mainWindow.webContents.downloadURL(downloadUrl); // 触发 will-download 事件
+		// 	},
+		// );
+		const downloadUrl = fileInfo.downloadUrl;
+		downloadURLRecorderScreenWin(downloadUrl);
+	});
+
 	ipcMain.handle("ss:get-shot-screen-img", async () => {
-		let { width, height } = getScreenSize();
+		const { width, height } = getScreenSize();
 		const sources = [
 			...(await desktopCapturer.getSources({
 				types: ["screen"],
@@ -116,7 +141,7 @@ export function initIpcMain() {
 		await openViewImageWin();
 	});
 
-	ipcMain.handle("ss:get-desktop-capturer-source", async (_event, _args) => {
+	ipcMain.handle("ss:get-desktop-capturer-source", async () => {
 		return [
 			...(await desktopCapturer.getSources({ types: ["screen"] })),
 			...(await selfWindws()),

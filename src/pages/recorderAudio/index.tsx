@@ -1,7 +1,23 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import useMediaRecorder from "../../components/useMediaRecorder";
+import { ipcRenderer } from "electron";
+import {
+	BsArrowsMove,
+	BsRecordCircle,
+	BsPower,
+	BsStop,
+	BsPlay,
+	BsPause,
+	BsMicMute,
+	BsMic,
+	BsXLg,
+} from "react-icons/bs";
+import { Button } from "antd";
+import "./index.scss";
 
 const RecordAudio = () => {
+	const [isPlay, setIsPlay] = useState(false);
+	const [isPause, setIsPause] = useState(false);
 	const {
 		mediaUrl,
 		startRecord,
@@ -15,27 +31,88 @@ const RecordAudio = () => {
 		onStop: (url: string) => alert(`录音完成，${url}`),
 	});
 
-	const previewAudio = useRef<HTMLAudioElement>(null);
+	function handleStartRecord() {
+		console.log("handleStartRecord");
+		setIsPlay(true);
+		startRecord();
+	}
+
+	function handlePauseRecord() {
+		console.log("handlePauseRecord");
+		setIsPause(true);
+		pauseRecord();
+	}
+
+	function handleResumeRecord() {
+		console.log("handleResumeRecord");
+		setIsPause(false);
+		resumeRecord();
+	}
+
+	function handleStopRecord() {
+		console.log("handleStopRecord");
+		setIsPlay(false);
+		stopRecord();
+	}
 
 	return (
-		<div>
-			<h2>录音</h2>
-			<audio src={mediaUrl} controls />
-
-			<audio ref={previewAudio} controls />
-
-			<button
-				onClick={() =>
-					(previewAudio.current!.srcObject = getAudioStream() || null)
-				}
-			>
-				预览
-			</button>
-			<button onClick={startRecord}>开始</button>
-			<button onClick={pauseRecord}>暂停</button>
-			<button onClick={resumeRecord}>恢复</button>
-			<button onClick={stopRecord}>停止</button>
-			<button onClick={clearBlobUrl}>清除 URL</button>
+		<div className="recordAudio">
+			<Button
+				size="large"
+				type="text"
+				className="move"
+				icon={<BsArrowsMove />}
+			/>
+			<Button
+				size="large"
+				type="text"
+				danger={isPlay}
+				className={`record ${isPlay && !isPause ? "blink" : ""}`}
+				icon={<BsRecordCircle />}
+			/>
+			{isPlay ? (
+				<>
+					{isPause ? (
+						<Button
+							size="large"
+							type="text"
+							onClick={handleResumeRecord}
+							icon={<BsPlay />}
+							title="恢复"
+						/>
+					) : (
+						<Button
+							size="large"
+							type="text"
+							onClick={handlePauseRecord}
+							icon={<BsPause />}
+							title="暂停"
+						/>
+					)}
+					<Button
+						size="large"
+						type="text"
+						onClick={handleStopRecord}
+						icon={<BsStop />}
+						title="停止"
+					/>
+					{/* <Button
+						size="large"
+						type="text"
+						onClick={clearBlobUrl}
+						icon={<BsXLg />}
+						title="清除"
+					/> */}
+				</>
+			) : (
+				<Button
+					size="large"
+					type="link"
+					onClick={handleStartRecord}
+					icon={<BsPower />}
+					title="开始"
+				/>
+			)}
 		</div>
 	);
 };

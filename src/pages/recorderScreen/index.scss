@@ -1,0 +1,14 @@
+.recorderScreen {
+	text-align: center;
+	.ant-btn {
+		line-height: 32px;
+		font-size: 24px;
+	}
+	.move {
+		-webkit-app-region: drag;
+		float: left;
+	}
+	.record {
+		cursor: default;
+	}
+}

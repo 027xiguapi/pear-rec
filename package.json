@@ -1,9 +1,12 @@
 {
-  "name": "electron-vite-project",
+  "name": "pear-rec",
   "version": "2.2.0",
   "main": "dist-electron/main/index.js",
-  "description": "Electron Vite React boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "description": "pear REC",
+  "author": {
+    "name": "027xiguapi",
+    "email": "458813868@qq.com"
+  },
   "license": "MIT",
   "private": true,
   "debug": {
@@ -25,6 +28,7 @@
     "electron-updater": "^5.3.0",
     "js-web-screen-shot": "^1.9.6",
     "plyr": "^3.7.8",
+    "react-icons": "^4.8.0",
     "react-photo-view": "^1.2.3",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.1",
