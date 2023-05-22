@@ -1,7 +1,16 @@
-import { BrowserWindow } from "electron";
+import {
+	app,
+	BrowserWindow,
+	shell,
+	dialog,
+	DownloadItem,
+	WebContents,
+} from "electron";
+import path from "node:path";
 import { getScreenSize, preload, url, indexHtml } from "./utils";
 
 let shotScreenWin: BrowserWindow | null = null;
+let savePath: string = "";
 
 function createShotScreenWin(): BrowserWindow {
 	const { width, height } = getScreenSize();
@@ -39,12 +48,39 @@ function createShotScreenWin(): BrowserWindow {
 	shotScreenWin.maximize();
 	shotScreenWin.setFullScreen(true);
 
+	shotScreenWin?.webContents.session.on(
+		"will-download",
+		(e: any, item: DownloadItem, webContents: WebContents) => {
+			console.log(e);
+			console.log(item);
+			console.log(webContents);
+			const fileName = item.getFilename();
+			// const filePath = app.getPath("downloads") + "/" + item.getFilename();
+			const filePath = path.join(
+				savePath || app.getPath("downloads"),
+				item.getFilename(),
+			);
+			console.log(filePath);
+			item.setSavePath(filePath);
+
+			item.once("done", (event: any, state: any) => {
+				if (state === "completed") {
+					console.log("Download successfully");
+					setTimeout(() => {
+						closeShotScreenWin();
+						shell.showItemInFolder(filePath);
+					}, 1000);
+				}
+			});
+		},
+	);
+
 	return shotScreenWin;
 }
 
 // 打开关闭录屏窗口
 function closeShotScreenWin() {
-	shotScreenWin?.close();
+	shotScreenWin?.isDestroyed() && shotScreenWin?.close();
 	shotScreenWin = null;
 }
 
@@ -75,6 +111,25 @@ function unmaximizeShotScreenWin() {
 	shotScreenWin?.unmaximize();
 }
 
+async function downloadURLShotScreenWin(
+	downloadUrl: string,
+	isShowDialog?: boolean,
+) {
+	savePath = "";
+	isShowDialog && (savePath = await showOpenDialogShotScreenWin());
+	shotScreenWin?.webContents.downloadURL(downloadUrl);
+}
+
+async function showOpenDialogShotScreenWin() {
+	let res = await dialog.showOpenDialog({
+		properties: ["openDirectory"],
+	});
+
+	const filePath = res.filePaths[0] || "";
+
+	return filePath;
+}
+
 export {
 	createShotScreenWin,
 	closeShotScreenWin,
@@ -84,4 +139,5 @@ export {
 	minimizeShotScreenWin,
 	maximizeShotScreenWin,
 	unmaximizeShotScreenWin,
+	downloadURLShotScreenWin,
 };

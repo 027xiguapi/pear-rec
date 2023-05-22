@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
 	MinusOutlined,
-	BorderOutlined,
+	SettingOutlined,
 	CloseOutlined,
 } from "@ant-design/icons";
 import { Button } from "antd";
@@ -18,8 +18,9 @@ const Header = () => {
 		ipcRenderer.send("ma:hide-win");
 	}
 
-	function handleOpenView() {
-		ipcRenderer.send("vv:open-win");
+	function handleOpenSettingWin() {
+		ipcRenderer.send("se:open-win");
+		ipcRenderer.send("ma:hide-win");
 	}
 
 	return (
@@ -30,6 +31,12 @@ const Header = () => {
 			</div>
 			<div className="drgan"></div>
 			<div className="right">
+				<Button
+					type="text"
+					icon={<SettingOutlined />}
+					title="设置"
+					onClick={handleOpenSettingWin}
+				/>
 				<Button
 					type="text"
 					icon={<MinusOutlined />}

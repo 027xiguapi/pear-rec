@@ -7,8 +7,10 @@ let mainWin: BrowserWindow | null = null;
 
 const createMainWin = (): BrowserWindow => {
 	mainWin = new BrowserWindow({
-		// title: "Main window",
-		// icon: join(PUBLIC, "logo@2x.ico"),
+		title: "Pear REC",
+		icon: join(PUBLIC, "logo@2x.ico"),
+		width: 750, // 宽度(px)
+		height: 450, // 高度(px)
 		frame: false,
 		webPreferences: {
 			preload,

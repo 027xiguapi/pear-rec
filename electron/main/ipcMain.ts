@@ -1,4 +1,5 @@
 import {
+	app,
 	BrowserWindow,
 	webContents,
 	ipcMain,
@@ -7,7 +8,11 @@ import {
 } from "electron";
 
 import { hideMainWin, showMainWin, minimizeMainWin } from "./mainWin";
-import { closeShotScreenWin, openShotScreenWin } from "./shotScreenWin";
+import {
+	closeShotScreenWin,
+	openShotScreenWin,
+	downloadURLShotScreenWin,
+} from "./shotScreenWin";
 import {
 	openRecorderScreenWin,
 	closeRecorderScreenWin,
@@ -41,6 +46,7 @@ import {
 	unmaximizeViewVideoWin,
 	setAlwaysOnTopViewVideoWin,
 } from "./viewVideoWin";
+import { openSettingWin, closeSettingWin } from "./settingWin";
 import { saveFile, getScreenSize } from "./utils";
 import {
 	setHistory,
@@ -49,6 +55,9 @@ import {
 	getHistory,
 	getHistoryImg,
 	getHistoryVideo,
+	getUser,
+	getFilePath,
+	setFilePath,
 } from "./store";
 
 const selfWindws = async () =>
@@ -135,9 +144,14 @@ export function initIpcMain() {
 		closeShotScreenWin();
 	});
 
-	ipcMain.on("ss:save-img", async (e, fileInfo) => {
-		await saveFile(fileInfo);
+	ipcMain.on("ss:save-img", async (e, downloadUrl) => {
+		// await saveFile(fileInfo);
+		downloadURLShotScreenWin(downloadUrl);
 		await openViewImageWin();
+	});
+
+	ipcMain.on("ss:download-img", async (e, downloadUrl) => {
+		downloadURLShotScreenWin(downloadUrl, true);
 	});
 
 	ipcMain.handle("ss:get-desktop-capturer-source", async () => {
@@ -286,5 +300,47 @@ export function initIpcMain() {
 	ipcMain.on("rv:download-record", (e, fileInfo) => {
 		const downloadUrl = fileInfo.downloadUrl;
 		downloadURLRecorderVideoWin(downloadUrl);
+	});
+
+	// 设置
+	ipcMain.on("se:open-win", () => {
+		closeSettingWin();
+		openSettingWin();
+	});
+
+	ipcMain.on("se:close-win", () => {
+		closeSettingWin();
+		showMainWin();
+	});
+
+	ipcMain.handle("se:set-filePath", async () => {
+		let res = await dialog.showOpenDialog({
+			properties: ["openDirectory"],
+		});
+		let filePath = "";
+		if (res.canceled) {
+			filePath = "";
+		} else {
+			filePath = res.filePaths[0] || "";
+			setFilePath(filePath);
+		}
+		return filePath;
+	});
+
+	ipcMain.handle("se:get-filePath", () => {
+		return getFilePath();
+	});
+
+	ipcMain.handle("se:get-user", () => {
+		return getUser();
+	});
+
+	ipcMain.on("se:set-openAtLogin", (e, isOpen) => {
+		console.log(12, isOpen);
+		app.setLoginItemSettings({ openAtLogin: isOpen });
+	});
+
+	ipcMain.handle("se:get-openAtLogin", () => {
+		return app.getLoginItemSettings();
 	});
 }

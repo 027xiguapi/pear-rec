@@ -15,14 +15,12 @@ export default function ShotScreen() {
 	async function getShotScreenImg() {
 		const img = await ipcRenderer.invoke("ss:get-shot-screen-img");
 		setScreenShotImg(img);
-		console.log(img);
 		return img;
 	}
 
 	const onSave = useCallback((blob: Blob, bounds: Bounds) => {
-		blobToBase64(blob, (base64String: any) => {
-			ipcRenderer.send("ss:save-img", { base64String });
-		});
+		const downloadUrl = URL.createObjectURL(blob);
+		ipcRenderer.send("ss:download-img", downloadUrl);
 	}, []);
 
 	const onCancel = useCallback(() => {
@@ -30,24 +28,25 @@ export default function ShotScreen() {
 	}, []);
 
 	const onOk = useCallback((blob: Blob, bounds: Bounds) => {
-		blobToBase64(blob, clipboardScreenShotImg);
+		const downloadUrl = URL.createObjectURL(blob);
+		ipcRenderer.send("ss:save-img", downloadUrl);
 	}, []);
 
-	function clipboardScreenShotImg(base64String: any) {
-		const image = nativeImage.createFromDataURL(base64String);
-		clipboard.writeImage(image);
-		ipcRenderer.send("ss:save-img", { base64String });
-		ipcRenderer.send("ss:close-win");
-	}
+	// function clipboardScreenShotImg(base64String: any) {
+	// 	const image = nativeImage.createFromDataURL(base64String);
+	// 	clipboard.writeImage(image);
+	// 	ipcRenderer.send("ss:save-img", { base64String });
+	// 	ipcRenderer.send("ss:close-win");
+	// }
 
-	function blobToBase64(blob: any, callback: any) {
-		const reader = new FileReader();
-		reader.readAsDataURL(blob);
-		reader.onload = function (event) {
-			const base64String = event.target!.result;
-			callback(base64String);
-		};
-	}
+	// function blobToBase64(blob: any, callback: any) {
+	// 	const reader = new FileReader();
+	// 	reader.readAsDataURL(blob);
+	// 	reader.onload = function (event) {
+	// 		const base64String = event.target!.result;
+	// 		callback(base64String);
+	// 	};
+	// }
 
 	return (
 		<Screenshots

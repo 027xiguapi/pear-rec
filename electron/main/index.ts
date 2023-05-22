@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { createMainWin, closeMainWin, focusMainWin } from "./mainWin";
 import { initIpcMain } from "./ipcMain";
 import { initTray } from "./tray";
+import { initConfig } from "./config";
 import { registerFileProtocol } from "./protocol";
 import {
 	registerGlobalShortcut,
@@ -43,11 +44,6 @@ if (!app.requestSingleInstanceLock()) {
 // Read more on https://www.electronjs.org/docs/latest/tutorial/security
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
-// Here, you can also use other preload
-const preload = join(__dirname, "../preload/index.js");
-const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(process.env.DIST, "index.html");
-
 async function createWindow() {
 	createMainWin();
 }
@@ -82,3 +78,4 @@ app.on("activate", () => {
 });
 
 initIpcMain();
+initConfig();

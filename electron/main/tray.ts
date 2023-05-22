@@ -8,6 +8,7 @@ import { openRecorderAudioWin } from "./recorderAudioWin";
 import { openRecorderVideoWin } from "./recorderVideoWin";
 import { openViewImageWin } from "./viewImageWin";
 import { openViewVideoWin } from "./viewVideoWin";
+import { openSettingWin } from "./settingWin";
 
 export function initTray() {
 	let appIcon = new Tray(join(PUBLIC, "logo@2x.ico"));
@@ -51,17 +52,17 @@ export function initTray() {
 				openViewVideoWin();
 			},
 		},
-		{
-			type: "separator",
-		},
-		{
-			label: "开机自启动",
-			type: "checkbox",
-			checked: true,
-			click: (i) => {
-				app.setLoginItemSettings({ openAtLogin: i.checked });
-			},
-		},
+		// {
+		// 	type: "separator",
+		// },
+		// {
+		// 	label: "开机自启动",
+		// 	type: "checkbox",
+		// 	checked: true,
+		// 	click: (i) => {
+		// 		app.setLoginItemSettings({ openAtLogin: i.checked });
+		// 	},
+		// },
 		{
 			type: "separator",
 		},
@@ -74,7 +75,7 @@ export function initTray() {
 		{
 			label: "设置",
 			click: () => {
-				openViewImageWin();
+				openSettingWin();
 			},
 		},
 		{
