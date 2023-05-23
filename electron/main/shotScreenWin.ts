@@ -5,9 +5,12 @@ import {
 	dialog,
 	DownloadItem,
 	WebContents,
+	clipboard,
+	nativeImage,
 } from "electron";
 import path from "node:path";
-import { getScreenSize, preload, url, indexHtml } from "./utils";
+import { getScreenSize, preload, url, indexHtml, PUBLIC } from "./utils";
+import { getFilePath } from "./store";
 
 let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = "";
@@ -15,6 +18,8 @@ let savePath: string = "";
 function createShotScreenWin(): BrowserWindow {
 	const { width, height } = getScreenSize();
 	shotScreenWin = new BrowserWindow({
+		title: "Pear REC",
+		icon: path.join(PUBLIC, "logo@2x.ico"),
 		width, // 宽度(px), 默认值为 800
 		height, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
@@ -36,7 +41,6 @@ function createShotScreenWin(): BrowserWindow {
 	});
 
 	// shotScreenWin.webContents.openDevTools();
-	// shotScreenWindow.setIgnoreMouseEvents(true);
 
 	if (url) {
 		shotScreenWin.loadURL(url + "#/shotScreen");
@@ -51,24 +55,16 @@ function createShotScreenWin(): BrowserWindow {
 	shotScreenWin?.webContents.session.on(
 		"will-download",
 		(e: any, item: DownloadItem, webContents: WebContents) => {
-			console.log(e);
-			console.log(item);
-			console.log(webContents);
 			const fileName = item.getFilename();
-			// const filePath = app.getPath("downloads") + "/" + item.getFilename();
-			const filePath = path.join(
-				savePath || app.getPath("downloads"),
-				item.getFilename(),
-			);
-			console.log(filePath);
-			item.setSavePath(filePath);
-
+			const filePath = getFilePath() as string;
+			const ssFilePath = path.join(savePath || `${filePath}/ss`, `${fileName}`);
+			item.setSavePath(ssFilePath);
 			item.once("done", (event: any, state: any) => {
 				if (state === "completed") {
-					console.log("Download successfully");
+					copyImg(ssFilePath);
 					setTimeout(() => {
 						closeShotScreenWin();
-						shell.showItemInFolder(filePath);
+						// shell.showItemInFolder(ssFilePath);
 					}, 1000);
 				}
 			});
@@ -80,7 +76,7 @@ function createShotScreenWin(): BrowserWindow {
 
 // 打开关闭录屏窗口
 function closeShotScreenWin() {
-	shotScreenWin?.isDestroyed() && shotScreenWin?.close();
+	shotScreenWin?.isDestroyed() || shotScreenWin?.close();
 	shotScreenWin = null;
 }
 
@@ -125,9 +121,14 @@ async function showOpenDialogShotScreenWin() {
 		properties: ["openDirectory"],
 	});
 
-	const filePath = res.filePaths[0] || "";
+	const savePath = res.filePaths[0] || "";
 
-	return filePath;
+	return savePath;
+}
+
+function copyImg(filePath: string) {
+	const image = nativeImage.createFromPath(filePath);
+	clipboard.writeImage(image);
 }
 
 export {

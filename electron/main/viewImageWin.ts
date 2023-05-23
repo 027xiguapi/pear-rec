@@ -1,11 +1,19 @@
 import { BrowserWindow } from "electron";
 import { join, dirname } from "node:path";
-import { PUBLIC, readDirectoryImg, preload, url, indexHtml } from "./utils";
-import { getHistoryImg } from "./store";
+import {
+	PUBLIC,
+	readDirectory,
+	readDirectoryImg,
+	preload,
+	url,
+	indexHtml,
+} from "./utils";
+import { getHistoryImg, getFilePath } from "./store";
 
 let viewImageWin: BrowserWindow | null = null;
+let historyImgPath: string = "";
 
-function createViewImageWin(): BrowserWindow {
+function createViewImageWin(isHistory?: boolean): BrowserWindow {
 	viewImageWin = new BrowserWindow({
 		icon: join(PUBLIC, "logo@2x.ico"),
 		width: 800, // 宽度(px), 默认值为 800
@@ -35,26 +43,25 @@ function createViewImageWin(): BrowserWindow {
 
 	if (url) {
 		// electron-vite-vue#298
-		viewImageWin.loadURL(url + "#/viewImage");
+		viewImageWin.loadURL(url + `#/viewImage?${isHistory ? "history=1" : ""}`);
 		// Open devTool if the app is not packaged
 		// viewImageWin.webContents.openDevTools();
 	} else {
-		viewImageWin.loadFile(indexHtml, { hash: "viewImage" });
+		viewImageWin.loadFile(indexHtml, {
+			hash: `viewImage?${isHistory ? "history=1" : ""}`,
+		});
 	}
 
 	viewImageWin.once("ready-to-show", async () => {
 		viewImageWin?.show();
-		const filePath = getHistoryImg();
-		let img = await readDirectoryImg(filePath);
-		viewImageWin?.webContents.send("vi:set-img", img);
 	});
 
 	return viewImageWin;
 }
 
-function openViewImageWin() {
+function openViewImageWin(isHistory?: boolean) {
 	if (!viewImageWin || viewImageWin?.isDestroyed()) {
-		viewImageWin = createViewImageWin();
+		viewImageWin = createViewImageWin(isHistory);
 	}
 	viewImageWin.show();
 }
@@ -89,6 +96,33 @@ function setAlwaysOnTopViewImageWin(isAlwaysOnTop: boolean) {
 	viewImageWin?.setAlwaysOnTop(isAlwaysOnTop);
 }
 
+function getHistoryImgPath() {
+	historyImgPath = (getHistoryImg() as string) || "";
+	return historyImgPath;
+}
+
+async function sendHistoryImg() {
+	const filePath = getHistoryImgPath();
+	let img = await readDirectoryImg(filePath);
+	return img;
+	// console.log("sendHistoryImg", img);
+	// viewImageWin?.webContents.send("vi:set-img", img);
+}
+
+function getSsImgPath() {
+	const filePath = getFilePath() as string;
+	const ssFilePath = `${filePath}/ss`;
+	return ssFilePath;
+}
+
+async function getSsImgs() {
+	const ssFilePath = getSsImgPath();
+	let imgs = await readDirectory(ssFilePath);
+	// console.log(imgs);
+	// viewImageWin?.webContents.send("vi:set-imgs", imgs);
+	return imgs;
+}
+
 export {
 	createViewImageWin,
 	openViewImageWin,
@@ -98,4 +132,6 @@ export {
 	maximizeViewImageWin,
 	unmaximizeViewImageWin,
 	setAlwaysOnTopViewImageWin,
+	sendHistoryImg,
+	getSsImgs,
 };

@@ -1,5 +1,5 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
-import { getScreenSize, preload, url, indexHtml } from "./utils";
+import { getScreenSize, preload, url, indexHtml, PUBLIC } from "./utils";
 import { join, dirname } from "node:path";
 
 let recorderScreenWin: BrowserWindow | null = null;
@@ -7,6 +7,8 @@ let recorderScreenWin: BrowserWindow | null = null;
 function createRecorderScreenWin(): BrowserWindow {
 	const { width, height } = getScreenSize();
 	recorderScreenWin = new BrowserWindow({
+		title: "Pear REC",
+		icon: join(PUBLIC, "logo@2x.ico"),
 		width: 240, // 宽度(px), 默认值为 800
 		height: 40, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
@@ -85,7 +87,7 @@ function createRecorderScreenWin(): BrowserWindow {
 
 // 打开关闭录屏窗口
 function closeRecorderScreenWin() {
-	recorderScreenWin?.close();
+	recorderScreenWin?.isDestroyed() || recorderScreenWin?.close();
 	recorderScreenWin = null;
 }
 

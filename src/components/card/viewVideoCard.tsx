@@ -6,14 +6,12 @@ import React, {
 } from "react";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import type { SizeType } from "antd/es/config-provider/SizeContext";
 import { ipcRenderer } from "electron";
 
 const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
 		handleViewVideo,
 	}));
-	const [size, setSize] = useState<SizeType>("large");
 
 	function handleViewVideo() {
 		ipcRenderer.send("vv:open-win");
@@ -46,7 +44,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 			onClick={handleViewVideo}
 		>
 			<div className="cardContent">
-				<Button type="link" icon={<PlayCircleOutlined />} size={size} />
+				<PlayCircleOutlined />
 			</div>
 		</Card>
 	);

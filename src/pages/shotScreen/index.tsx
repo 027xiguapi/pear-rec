@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Screenshots, { Bounds } from "react-screenshots";
-import { ipcRenderer, clipboard, nativeImage } from "electron";
-// import url from "@/assets/imgs/1.jpg";
+import { ipcRenderer } from "electron";
 import "react-screenshots/lib/style.css";
 import "./index.scss";
 

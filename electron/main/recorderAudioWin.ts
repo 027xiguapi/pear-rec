@@ -49,7 +49,6 @@ function createRecorderAudioWin(): BrowserWindow {
 			const filePath = app.getPath("downloads") + "/" + item.getFilename();
 			// const filePath = join("/rs", item.getFilename());
 			// 无需对话框提示， 直接将文件保存到路径
-			console.log(filePath);
 			item.setSavePath(filePath);
 
 			item.on("updated", (event: any, state: any) => {
@@ -86,7 +85,7 @@ function createRecorderAudioWin(): BrowserWindow {
 
 // 打开关闭录屏窗口
 function closeRecorderAudioWin() {
-	recorderAudioWin?.isDestroyed() && recorderAudioWin?.close();
+	recorderAudioWin?.isDestroyed() || recorderAudioWin?.close();
 	recorderAudioWin = null;
 }
 

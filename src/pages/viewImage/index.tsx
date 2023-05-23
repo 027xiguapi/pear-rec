@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { ipcRenderer } from "electron";
 import { PhotoProvider, PhotoView, PhotoSlider } from "react-photo-view";
 import { Button, Row, Col } from "antd";
@@ -18,6 +19,7 @@ import WinBar from "@/components/common/winBar";
 import "./index.scss";
 
 const ViewImage = () => {
+	const [search, setSearch] = useSearchParams();
 	const viewImageRef = useRef<HTMLDivElement | null>(null);
 	const [visible, setVisible] = useState(false);
 	const [index, setIndex] = useState(0);
@@ -25,12 +27,8 @@ const ViewImage = () => {
 
 	useEffect(() => {
 		setVisible(true);
-		ipcRenderer.on("vi:set-img", (e, img) => {
-			if (img) {
-				const images = [{ src: img, key: 0 }];
-				setImages(images);
-			}
-		});
+		setSsImg();
+		search.get("history") ? setHistoryImg() : setSsImg();
 	}, []);
 
 	function handleDownload() {}
@@ -47,6 +45,19 @@ const ViewImage = () => {
 	function handleRotate() {}
 
 	function handleScale() {}
+
+	async function setHistoryImg() {
+		const img = await ipcRenderer.invoke("vi:set-img");
+		if (img) {
+			const images = [{ src: img, key: 0 }];
+			setImages(images);
+		}
+	}
+
+	async function setSsImg() {
+		const imgs = await ipcRenderer.invoke("vi:set-imgs");
+		setImages(imgs);
+	}
 
 	return (
 		<div className="viewImage" ref={viewImageRef}>

@@ -20,7 +20,6 @@ const Header = () => {
 
 	function handleOpenSettingWin() {
 		ipcRenderer.send("se:open-win");
-		ipcRenderer.send("ma:hide-win");
 	}
 
 	return (

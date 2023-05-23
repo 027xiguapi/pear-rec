@@ -6,17 +6,15 @@ import React, {
 } from "react";
 import { PictureOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import type { SizeType } from "antd/es/config-provider/SizeContext";
 import { ipcRenderer } from "electron";
 
 const ViewImageCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
 		handleViewImage,
 	}));
-	const [size, setSize] = useState<SizeType>("large");
 
 	function handleViewImage() {
-		ipcRenderer.send("vi:open-win");
+		ipcRenderer.send("vi:open-win", true);
 	}
 
 	function handleOpenFile(e: any) {
@@ -28,7 +26,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 		const img = await ipcRenderer.invoke("vi:get-img");
 		if (img) {
 			ipcRenderer.send("ma:hide-win");
-			ipcRenderer.send("vi:open-win");
+			ipcRenderer.send("vi:open-win", true);
 		}
 	}
 
@@ -46,7 +44,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 			onClick={handleViewImage}
 		>
 			<div className="cardContent">
-				<Button type="link" icon={<PictureOutlined />} size={size} />
+				<PictureOutlined />
 			</div>
 		</Card>
 	);

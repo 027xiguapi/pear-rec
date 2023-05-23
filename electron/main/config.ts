@@ -37,9 +37,9 @@ function initUser() {
 function initFilePath() {
 	const filePath = getFilePath();
 	if (!filePath) {
-		const appPath = app.getAppPath();
+		const documentsPath = app.getPath("documents");
 		const uuid = getUserUuid() as string;
-		const filePath = path.join(appPath, uuid);
+		const filePath = path.join(documentsPath, `Peer Files/${uuid}`);
 		setFilePath(filePath);
 	}
 }

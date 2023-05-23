@@ -4,15 +4,12 @@ import React, {
 	useImperativeHandle,
 	forwardRef,
 } from "react";
-import { useNavigate } from "react-router-dom";
 import { VideoCameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import type { SizeType } from "antd/es/config-provider/SizeContext";
 import { ipcRenderer } from "electron";
 
 const RecordVideoCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({ setIsRecordVideo }));
-	const [size, setSize] = useState<SizeType>("large");
 	const [isRecordVideo, setIsRecordVideo] = useState(true);
 
 	function handleRecorderVideo() {
@@ -29,12 +26,7 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
 			onClick={handleRecorderVideo}
 		>
 			<div className="cardContent">
-				<Button
-					type="link"
-					disabled={!isRecordVideo}
-					icon={<VideoCameraOutlined />}
-					size={size}
-				/>
+				<VideoCameraOutlined />
 			</div>
 		</Card>
 	);

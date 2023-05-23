@@ -12,7 +12,6 @@ function createSettingWin(): BrowserWindow {
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		width: 600, // 宽度(px)
 		height: 380, // 高度(px)
-		// frame: false,
 		webPreferences: {
 			preload,
 			// Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -23,8 +22,7 @@ function createSettingWin(): BrowserWindow {
 		},
 	});
 
-	settingWin.webContents.openDevTools();
-	// settingWin.setIgnoreMouseEvents(true);
+	// settingWin.webContents.openDevTools();
 
 	if (url) {
 		settingWin.loadURL(url + "#/setting");
@@ -39,7 +37,7 @@ function createSettingWin(): BrowserWindow {
 
 // 打开关闭录屏窗口
 function closeSettingWin() {
-	settingWin?.isDestroyed() && settingWin?.close();
+	settingWin?.isDestroyed() || settingWin?.close();
 	settingWin = null;
 }
 

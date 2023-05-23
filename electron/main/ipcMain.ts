@@ -36,6 +36,8 @@ import {
 	maximizeViewImageWin,
 	unmaximizeViewImageWin,
 	setAlwaysOnTopViewImageWin,
+	sendHistoryImg,
+	getSsImgs,
 } from "./viewImageWin";
 import {
 	openViewVideoWin,
@@ -162,8 +164,8 @@ export function initIpcMain() {
 	});
 
 	// 图片展示
-	ipcMain.on("vi:open-win", () => {
-		openViewImageWin();
+	ipcMain.on("vi:open-win", (e, isHistory) => {
+		openViewImageWin(isHistory);
 	});
 
 	ipcMain.on("vi:close-win", () => {
@@ -188,6 +190,16 @@ export function initIpcMain() {
 
 	ipcMain.on("vi:set-always-on-top", (e, isAlwaysOnTop) => {
 		setAlwaysOnTopViewImageWin(isAlwaysOnTop);
+	});
+
+	ipcMain.handle("vi:set-img", async () => {
+		const imgs = await sendHistoryImg();
+		return imgs;
+	});
+
+	ipcMain.handle("vi:set-imgs", async () => {
+		const imgs = await getSsImgs();
+		return imgs;
 	});
 
 	// 视频音频展示
@@ -336,7 +348,6 @@ export function initIpcMain() {
 	});
 
 	ipcMain.on("se:set-openAtLogin", (e, isOpen) => {
-		console.log(12, isOpen);
 		app.setLoginItemSettings({ openAtLogin: isOpen });
 	});
 

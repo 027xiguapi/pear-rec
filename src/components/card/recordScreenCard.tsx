@@ -4,16 +4,12 @@ import React, {
 	useImperativeHandle,
 	forwardRef,
 } from "react";
-import { useNavigate } from "react-router-dom";
 import { CameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import type { SizeType } from "antd/es/config-provider/SizeContext";
 import { ipcRenderer } from "electron";
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
-	const Navigate = useNavigate();
 	useImperativeHandle(ref, () => ({}));
-	const [size, setSize] = useState<SizeType>("large");
 	const [isRecordScreen, setIsRecordScreen] = useState(true);
 
 	function handleCutScreen() {
@@ -30,12 +26,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 			onClick={handleCutScreen}
 		>
 			<div className="cardContent">
-				<Button
-					type="link"
-					disabled={!isRecordScreen}
-					icon={<CameraOutlined />}
-					size={size}
-				/>
+				<CameraOutlined />
 			</div>
 		</Card>
 	);
