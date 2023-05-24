@@ -97,7 +97,7 @@ function setAlwaysOnTopViewImageWin(isAlwaysOnTop: boolean) {
 }
 
 function getHistoryImgPath() {
-	historyImgPath = (getHistoryImg() as string) || "";
+	const historyImgPath = (getHistoryImg() as string) || "";
 	return historyImgPath;
 }
 

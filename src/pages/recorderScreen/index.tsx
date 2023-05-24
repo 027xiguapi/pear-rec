@@ -49,10 +49,7 @@ const RecorderScreen = () => {
 		desktop: true,
 		source: source,
 		onStop: (url, blob) => {
-			console.log(`录屏完成，${url}`, blob);
-			ipcRenderer.send("rs:download-record", {
-				downloadUrl: url,
-			});
+			ipcRenderer.send("rs:download-record", url);
 		},
 	});
 

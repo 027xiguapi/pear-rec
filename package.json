@@ -2,7 +2,7 @@
   "name": "pear-rec",
   "version": "2.2.0",
   "main": "dist-electron/main/index.js",
-  "description": "pear REC",
+  "description": "pear-rec",
   "author": {
     "name": "027xiguapi",
     "email": "458813868@qq.com"

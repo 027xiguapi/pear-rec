@@ -1,6 +1,7 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
-import { getScreenSize, preload, url, indexHtml, PUBLIC } from "./utils";
 import { join, dirname } from "node:path";
+import { getScreenSize, preload, url, indexHtml, PUBLIC } from "./utils";
+import { getFilePath, setHistoryVideo } from "./store";
 
 let recorderScreenWin: BrowserWindow | null = null;
 
@@ -46,37 +47,17 @@ function createRecorderScreenWin(): BrowserWindow {
 		"will-download",
 		(event: any, item: any, webContents: any) => {
 			const fileName = item.getFilename();
-			// const filePath = "G:\\rs\\aaa.wav";
-			const filePath = app.getPath("downloads") + "/" + item.getFilename();
-			// const filePath = join("/rs", item.getFilename());
-			// 无需对话框提示， 直接将文件保存到路径
-			console.log(filePath);
-			item.setSavePath(filePath);
+			const filePath = getFilePath() as string;
+			const rsFilePath = join(`${filePath}/rs`, `${fileName}`);
+			item.setSavePath(rsFilePath);
 
-			item.on("updated", (event: any, state: any) => {
-				if (state === "interrupted") {
-					console.log("Download is interrupted but can be resumed");
-				} else if (state === "progressing") {
-					if (item.isPaused()) {
-						console.log("Download is paused");
-					} else {
-						console.log(`Received bytes: ${item.getReceivedBytes()}`);
-					}
-				}
-			});
 			item.once("done", (event: any, state: any) => {
 				if (state === "completed") {
-					console.log("Download successfully");
+					setHistoryVideo(rsFilePath);
 					setTimeout(() => {
 						closeRecorderScreenWin();
 						// shell.showItemInFolder(filePath);
 					}, 1000);
-				} else {
-					console.log(`Download failed: ${state}`);
-					dialog.showErrorBox(
-						"下载失败",
-						`文件 ${item.getFilename()} 因为某些原因被中断下载`,
-					);
 				}
 			});
 		},

@@ -37,7 +37,7 @@ function createViewVideoWin(): BrowserWindow {
 		// electron-vite-vue#298
 		viewVideoWin.loadURL(url + "#/viewVideo");
 		// Open devTool if the app is not packaged
-		viewVideoWin.webContents.openDevTools();
+		// viewVideoWin.webContents.openDevTools();
 	} else {
 		viewVideoWin.loadFile(indexHtml, { hash: "viewVideo" });
 	}
@@ -84,6 +84,17 @@ function setAlwaysOnTopViewVideoWin(isAlwaysOnTop: boolean) {
 	viewVideoWin?.setAlwaysOnTop(isAlwaysOnTop);
 }
 
+function getHistoryVideoPath() {
+	const historyVideoPath = (getHistoryVideo() as string) || "";
+	return historyVideoPath;
+}
+
+async function sendHistoryVideo() {
+	const filePath = getHistoryVideoPath();
+	let video = await readDirectoryVideo(filePath);
+	return video;
+}
+
 export {
 	createViewVideoWin,
 	openViewVideoWin,
@@ -93,4 +104,5 @@ export {
 	maximizeViewVideoWin,
 	unmaximizeViewVideoWin,
 	setAlwaysOnTopViewVideoWin,
+	sendHistoryVideo,
 };

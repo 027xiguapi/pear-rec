@@ -7,17 +7,18 @@ import "./index.scss";
 const ViewVideo = () => {
 	const [source, setSource] = useState("");
 	const sourceRef = useRef<HTMLSourceElement>(null);
-	useEffect(() => {
-		ipcRenderer.on("vv:set-video", (e, video) => {
-			setSource(video);
-		});
-	}, []);
 
 	useEffect(() => {
+		setVideo();
 		if (source) {
 			const player = new Plyr("#player");
 		}
 	}, [source]);
+
+	async function setVideo() {
+		const video = await ipcRenderer.invoke("vv:set-video");
+		setSource(video);
+	}
 
 	return (
 		<div className="viewVideo">

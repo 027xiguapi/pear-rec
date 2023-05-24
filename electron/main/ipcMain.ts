@@ -47,6 +47,7 @@ import {
 	maximizeViewVideoWin,
 	unmaximizeViewVideoWin,
 	setAlwaysOnTopViewVideoWin,
+	sendHistoryVideo,
 } from "./viewVideoWin";
 import { openSettingWin, closeSettingWin } from "./settingWin";
 import { saveFile, getScreenSize } from "./utils";
@@ -115,9 +116,10 @@ export function initIpcMain() {
 		];
 	});
 
-	ipcMain.on("rs:download-record", (e, fileInfo) => {
-		const downloadUrl = fileInfo.downloadUrl;
+	ipcMain.on("rs:download-record", async (e, downloadUrl) => {
+		// const downloadUrl = fileInfo.downloadUrl;
 		downloadURLRecorderScreenWin(downloadUrl);
+		openViewVideoWin();
 	});
 
 	ipcMain.handle("ss:get-shot-screen-img", async () => {
@@ -228,6 +230,11 @@ export function initIpcMain() {
 
 	ipcMain.on("vv:set-always-on-top", (e, isAlwaysOnTop) => {
 		setAlwaysOnTopViewVideoWin(isAlwaysOnTop);
+	});
+
+	ipcMain.handle("vv:set-video", async () => {
+		const imgs = await sendHistoryVideo();
+		return imgs;
 	});
 
 	// 打开图片
