@@ -1,4 +1,14 @@
 .viewImage {
+	.viewImageTools {
+		z-index: 10000;
+		position: absolute;
+		left: 0;
+		top: 0;
+		.active {
+			color: #1677ff;
+		}
+	}
+
 	.viewImageHeader {
 		background-color: white;
 		height: 32px;
@@ -7,20 +17,28 @@
 		width: 100%;
 		display: flex;
 		flex-direction: row;
-		.viewImageHeaderLeft {
-			min-width: 290px;
+	}
+}
+
+.viewImageBox {
+	.rc-image-preview-mask {
+		background-color: transparent;
+	}
+	.rc-image-preview-operations {
+		flex-direction: row;
+		background-color: #f0f0f0;
+		.rc-image-preview-operations-operation:first-child {
+			margin-left: 33px;
 		}
-		.viewImageHeaderCenter {
-			-webkit-app-region: drag;
+		.rc-image-preview-operations-operation {
+			padding: 6px;
+			margin-left: 5px;
+			color: #000;
+		}
+		.rc-image-preview-operations-operation-region {
 			flex-grow: 1;
+			height: 33px;
+			-webkit-app-region: drag;
 		}
-		.viewImageHeaderRight {
-			min-width: 110px;
-		}
-		// .toolbarIcon {
-		// 	width: 35px;
-		// 	height: 40px;
-		// 	font-size: 14px;
-		// }
 	}
 }

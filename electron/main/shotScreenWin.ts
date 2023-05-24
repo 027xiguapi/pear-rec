@@ -10,7 +10,7 @@ import {
 } from "electron";
 import path from "node:path";
 import { getScreenSize, preload, url, indexHtml, PUBLIC } from "./utils";
-import { getFilePath } from "./store";
+import { getFilePath, setHistoryImg } from "./store";
 
 let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = "";
@@ -62,6 +62,7 @@ function createShotScreenWin(): BrowserWindow {
 			item.once("done", (event: any, state: any) => {
 				if (state === "completed") {
 					copyImg(ssFilePath);
+					setHistoryImg(ssFilePath);
 					setTimeout(() => {
 						closeShotScreenWin();
 						// shell.showItemInFolder(ssFilePath);

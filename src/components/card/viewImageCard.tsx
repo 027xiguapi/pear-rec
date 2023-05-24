@@ -1,9 +1,4 @@
-import React, {
-	useEffect,
-	useState,
-	useImperativeHandle,
-	forwardRef,
-} from "react";
+import React, { useImperativeHandle, forwardRef } from "react";
 import { PictureOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import { ipcRenderer } from "electron";
@@ -37,7 +32,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 			bordered={false}
 			extra={
 				<Button type="link" onClick={handleOpenFile}>
-					更多
+					打开
 				</Button>
 			}
 			style={{ maxWidth: 300 }}

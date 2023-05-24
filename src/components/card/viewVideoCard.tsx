@@ -37,7 +37,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 			bordered={false}
 			extra={
 				<Button type="link" onClick={handleOpenFile}>
-					更多
+					打开
 				</Button>
 			}
 			style={{ maxWidth: 300 }}

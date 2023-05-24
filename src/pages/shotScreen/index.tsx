@@ -31,22 +31,6 @@ export default function ShotScreen() {
 		ipcRenderer.send("ss:save-img", downloadUrl);
 	}, []);
 
-	// function clipboardScreenShotImg(base64String: any) {
-	// 	const image = nativeImage.createFromDataURL(base64String);
-	// 	clipboard.writeImage(image);
-	// 	ipcRenderer.send("ss:save-img", { base64String });
-	// 	ipcRenderer.send("ss:close-win");
-	// }
-
-	// function blobToBase64(blob: any, callback: any) {
-	// 	const reader = new FileReader();
-	// 	reader.readAsDataURL(blob);
-	// 	reader.onload = function (event) {
-	// 		const base64String = event.target!.result;
-	// 		callback(base64String);
-	// 	};
-	// }
-
 	return (
 		<Screenshots
 			url={screenShotImg}

@@ -23,7 +23,7 @@ function createViewImageWin(isHistory?: boolean): BrowserWindow {
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		// useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
 		// movable: true, // 是否可移动
-		frame: false, // 有无边框窗口
+		frame: true, // 有无边框窗口
 		// resizable: false, // 窗口大小是否可调整
 		// hasShadow: false, // 窗口是否有阴影
 		// transparent: true, // 使窗口透明
@@ -32,8 +32,8 @@ function createViewImageWin(isHistory?: boolean): BrowserWindow {
 		// simpleFullscreen: true, // 在 macOS 上使用 pre-Lion 全屏
 		// alwaysOnTop: false, // 窗口是否永远在别的窗口的上面
 		modal: true,
-		// titleBarStyle: "hidden",
-		// titleBarOverlay: true,
+		titleBarStyle: "hidden",
+		titleBarOverlay: true,
 		webPreferences: {
 			preload,
 			nodeIntegration: true,
@@ -105,8 +105,6 @@ async function sendHistoryImg() {
 	const filePath = getHistoryImgPath();
 	let img = await readDirectoryImg(filePath);
 	return img;
-	// console.log("sendHistoryImg", img);
-	// viewImageWin?.webContents.send("vi:set-img", img);
 }
 
 function getSsImgPath() {
@@ -118,8 +116,6 @@ function getSsImgPath() {
 async function getSsImgs() {
 	const ssFilePath = getSsImgPath();
 	let imgs = await readDirectory(ssFilePath);
-	// console.log(imgs);
-	// viewImageWin?.webContents.send("vi:set-imgs", imgs);
 	return imgs;
 }
 

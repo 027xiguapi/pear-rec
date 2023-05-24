@@ -147,9 +147,8 @@ export function initIpcMain() {
 	});
 
 	ipcMain.on("ss:save-img", async (e, downloadUrl) => {
-		// await saveFile(fileInfo);
 		downloadURLShotScreenWin(downloadUrl);
-		await openViewImageWin();
+		await openViewImageWin(true);
 	});
 
 	ipcMain.on("ss:download-img", async (e, downloadUrl) => {
