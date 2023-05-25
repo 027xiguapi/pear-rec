@@ -22,6 +22,7 @@ import {
 	closeRecorderAudioWin,
 	openRecorderAudioWin,
 	downloadURLRecorderAudioWin,
+	setSizeRecorderAudioWin,
 } from "./recorderAudioWin";
 import {
 	closeRecorderVideoWin,
@@ -298,10 +299,20 @@ export function initIpcMain() {
 		showMainWin();
 	});
 
-	ipcMain.on("ra:download-record", (e, fileInfo) => {
-		const downloadUrl = fileInfo.downloadUrl;
+	ipcMain.on("ra:download-record", (e, downloadUrl) => {
+		// const downloadUrl = fileInfo.downloadUrl;
 		downloadURLRecorderAudioWin(downloadUrl);
 	});
+
+	ipcMain.on("ra:start-record", () => {
+		setSizeRecorderAudioWin(420, 70);
+	});
+
+	ipcMain.on("ra:pause-record", () => {
+		setSizeRecorderAudioWin(365, 70);
+	});
+
+	ipcMain.on("ra:stop-record", () => {});
 
 	// 录像
 	ipcMain.on("rv:open-win", () => {

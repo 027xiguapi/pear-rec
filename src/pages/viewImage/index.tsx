@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ipcRenderer } from "electron";
 import { Button, Empty } from "antd";
-import Image from "@/components/Image";
+import Image from "@/components/image";
 import {
 	FileImageOutlined,
 	ZoomInOutlined,

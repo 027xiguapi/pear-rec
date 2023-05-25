@@ -1,6 +1,7 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
-import { preload, url, indexHtml, PUBLIC } from "./utils";
 import { join, dirname } from "node:path";
+import { preload, url, indexHtml, PUBLIC } from "./utils";
+import { getFilePath } from "./store";
 
 let recorderAudioWin: BrowserWindow | null = null;
 
@@ -8,19 +9,19 @@ function createRecorderAudioWin(): BrowserWindow {
 	recorderAudioWin = new BrowserWindow({
 		title: "录音",
 		icon: join(PUBLIC, "logo@2x.ico"),
-		// width: 800, // 宽度(px), 默认值为 800
-		// height: 600, // 高度(px), 默认值为 600
+		width: 365, // 宽度(px), 默认值为 800
+		height: 70, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		// useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
 		// movable: false, // 是否可移动
-		// frame: false, // 无边框窗口
-		// resizable: false, // 窗口大小是否可调整
+		frame: false, // 无边框窗口
+		resizable: false, // 窗口大小是否可调整
 		// hasShadow: false, // 窗口是否有阴影
-		// transparent: true, // 使窗口透明
+		transparent: true, // 使窗口透明
 		// fullscreenable: false, // 窗口是否可以进入全屏状态
 		// fullscreen: false, // 窗口是否全屏
 		// simpleFullscreen: false, // 在 macOS 上使用 pre-Lion 全屏
-		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+		// alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
 		webPreferences: {
 			preload,
 			nodeIntegration: true,
@@ -28,53 +29,29 @@ function createRecorderAudioWin(): BrowserWindow {
 		},
 	});
 
-	// recorderAudioWin.setIgnoreMouseEvents(true);
-
 	if (url) {
 		recorderAudioWin.loadURL(url + "#/recorderAudio");
-		recorderAudioWin.webContents.openDevTools();
+		// recorderAudioWin.webContents.openDevTools();
 	} else {
 		recorderAudioWin.loadFile(indexHtml, {
 			hash: "recorderAudio",
 		});
 	}
-	// recorderAudioWin.maximize();
-	// recorderAudioWin.setFullScreen(true);
 
 	recorderAudioWin?.webContents.session.on(
 		"will-download",
 		(event: any, item: any, webContents: any) => {
 			const fileName = item.getFilename();
-			// const filePath = "G:\\rs\\aaa.wav";
-			const filePath = app.getPath("downloads") + "/" + item.getFilename();
-			// const filePath = join("/rs", item.getFilename());
-			// 无需对话框提示， 直接将文件保存到路径
-			item.setSavePath(filePath);
+			const filePath = getFilePath() as string;
+			const rsFilePath = join(`${filePath}/ra`, `${fileName}`);
+			item.setSavePath(rsFilePath);
 
-			item.on("updated", (event: any, state: any) => {
-				if (state === "interrupted") {
-					console.log("Download is interrupted but can be resumed");
-				} else if (state === "progressing") {
-					if (item.isPaused()) {
-						console.log("Download is paused");
-					} else {
-						console.log(`Received bytes: ${item.getReceivedBytes()}`);
-					}
-				}
-			});
 			item.once("done", (event: any, state: any) => {
 				if (state === "completed") {
-					console.log("Download successfully");
 					setTimeout(() => {
 						closeRecorderAudioWin();
 						// shell.showItemInFolder(filePath);
 					}, 1000);
-				} else {
-					console.log(`Download failed: ${state}`);
-					dialog.showErrorBox(
-						"下载失败",
-						`文件 ${item.getFilename()} 因为某些原因被中断下载`,
-					);
 				}
 			});
 		},
@@ -100,9 +77,15 @@ function downloadURLRecorderAudioWin(downloadUrl: string) {
 	recorderAudioWin?.webContents.downloadURL(downloadUrl);
 }
 
+function setSizeRecorderAudioWin(width: number, height: number) {
+	console.log(recorderAudioWin?.setSize, width, height);
+	recorderAudioWin?.setSize(width, height);
+}
+
 export {
 	createRecorderAudioWin,
 	closeRecorderAudioWin,
 	openRecorderAudioWin,
 	downloadURLRecorderAudioWin,
+	setSizeRecorderAudioWin,
 };
