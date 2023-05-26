@@ -21,7 +21,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 			title="录屏"
 			hoverable
 			bordered={false}
-			extra={<a href="#">More</a>}
+			extra={<a href="#">更多</a>}
 			style={{ maxWidth: 300 }}
 			onClick={handleCutScreen}
 		>

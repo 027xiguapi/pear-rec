@@ -1,6 +1,7 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
-import { preload, url, indexHtml, PUBLIC } from "./utils";
 import { join, dirname } from "node:path";
+import { preload, url, indexHtml, PUBLIC } from "./utils";
+import { getFilePath, setHistoryVideo } from "./store";
 
 let recorderVideoWin: BrowserWindow | null = null;
 
@@ -20,15 +21,13 @@ function createRecorderVideoWin(): BrowserWindow {
 		// fullscreenable: false, // 窗口是否可以进入全屏状态
 		// fullscreen: false, // 窗口是否全屏
 		// simpleFullscreen: false, // 在 macOS 上使用 pre-Lion 全屏
-		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+		// alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
 		webPreferences: {
 			preload,
 			nodeIntegration: true,
 			contextIsolation: false,
 		},
 	});
-
-	// recorderVideoWin.setIgnoreMouseEvents(true);
 
 	if (url) {
 		recorderVideoWin.loadURL(url + "#/recorderVideo");
@@ -38,40 +37,23 @@ function createRecorderVideoWin(): BrowserWindow {
 			hash: "recorderVideo",
 		});
 	}
-	// recorderVideoWin.maximize();
-	// recorderVideoWin.setFullScreen(true);
 
 	recorderVideoWin?.webContents.session.on(
 		"will-download",
 		(event: any, item: any, webContents: any) => {
 			const fileName = item.getFilename();
-			// const filePath = "G:\\rs\\aaa.wav";
-			const filePath = app.getPath("downloads") + "/" + item.getFilename();
-			// const filePath = join("/rs", item.getFilename());
-			// 无需对话框提示， 直接将文件保存到路径
-			console.log(filePath);
-			item.setSavePath(filePath);
+			const filePath = getFilePath() as string;
+			const rvFilePath = join(`${filePath}/rv`, `${fileName}`);
+			item.setSavePath(rvFilePath);
 
-			item.on("updated", (event: any, state: any) => {
-				if (state === "interrupted") {
-					console.log("Download is interrupted but can be resumed");
-				} else if (state === "progressing") {
-					if (item.isPaused()) {
-						console.log("Download is paused");
-					} else {
-						console.log(`Received bytes: ${item.getReceivedBytes()}`);
-					}
-				}
-			});
 			item.once("done", (event: any, state: any) => {
 				if (state === "completed") {
-					console.log("Download successfully");
+					setHistoryVideo(rvFilePath);
 					setTimeout(() => {
 						closeRecorderVideoWin();
 						// shell.showItemInFolder(filePath);
 					}, 1000);
 				} else {
-					console.log(`Download failed: ${state}`);
 					dialog.showErrorBox(
 						"下载失败",
 						`文件 ${item.getFilename()} 因为某些原因被中断下载`,

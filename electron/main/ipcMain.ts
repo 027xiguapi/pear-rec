@@ -355,8 +355,7 @@ export function initIpcMain() {
 		showMainWin();
 	});
 
-	ipcMain.on("rv:download-record", (e, fileInfo) => {
-		const downloadUrl = fileInfo.downloadUrl;
+	ipcMain.on("rv:download-record", (e, downloadUrl) => {
 		downloadURLRecorderVideoWin(downloadUrl);
 	});
 

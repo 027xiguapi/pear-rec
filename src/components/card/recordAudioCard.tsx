@@ -21,7 +21,6 @@ const RecordAudioCard = forwardRef((props: any, ref: any) => {
 			title="录音"
 			hoverable
 			bordered={false}
-			// extra={<a href="#">More</a>}
 			style={{ maxWidth: 300 }}
 			onClick={handleRecordAudio}
 		>

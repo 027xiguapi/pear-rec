@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join, dirname } from "node:path";
-import { getScreenSize, preload, url, indexHtml, PUBLIC } from "./utils";
+import { preload, url, indexHtml, PUBLIC } from "./utils";
 import { getFilePath, setHistoryVideo } from "./store";
 
 let recorderScreenWin: BrowserWindow | null = null;

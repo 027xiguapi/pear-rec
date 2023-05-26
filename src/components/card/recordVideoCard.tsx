@@ -21,7 +21,7 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
 			title="录像"
 			hoverable
 			bordered={false}
-			extra={<a href="#">More</a>}
+			extra={<a href="#">更多</a>}
 			style={{ maxWidth: 300 }}
 			onClick={handleRecorderVideo}
 		>
