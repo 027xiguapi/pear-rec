@@ -7,10 +7,10 @@ let recorderAudioWin: BrowserWindow | null = null;
 
 function createRecorderAudioWin(): BrowserWindow {
 	recorderAudioWin = new BrowserWindow({
-		title: "录音",
+		title: "pear-rec 录音",
 		icon: join(PUBLIC, "logo@2x.ico"),
-		width: 365, // 宽度(px), 默认值为 800
-		height: 70, // 高度(px), 默认值为 600
+		width: 260, // 宽度(px), 默认值为 800
+		height: 43, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		// useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
 		// movable: false, // 是否可移动
@@ -21,7 +21,7 @@ function createRecorderAudioWin(): BrowserWindow {
 		// fullscreenable: false, // 窗口是否可以进入全屏状态
 		// fullscreen: false, // 窗口是否全屏
 		// simpleFullscreen: false, // 在 macOS 上使用 pre-Lion 全屏
-		// alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
 		webPreferences: {
 			preload,
 			nodeIntegration: true,
@@ -73,19 +73,30 @@ function openRecorderAudioWin() {
 	recorderAudioWin?.show();
 }
 
+function hideRecorderAudioWin() {
+	recorderAudioWin?.hide();
+}
+
+function minimizeRecorderAudioWin() {
+	recorderAudioWin?.minimize();
+}
+
 function downloadURLRecorderAudioWin(downloadUrl: string) {
 	recorderAudioWin?.webContents.downloadURL(downloadUrl);
 }
 
 function setSizeRecorderAudioWin(width: number, height: number) {
-	console.log(recorderAudioWin?.setSize, width, height);
+	recorderAudioWin?.setResizable(true);
 	recorderAudioWin?.setSize(width, height);
+	recorderAudioWin?.setResizable(false);
 }
 
 export {
 	createRecorderAudioWin,
 	closeRecorderAudioWin,
 	openRecorderAudioWin,
+	hideRecorderAudioWin,
+	minimizeRecorderAudioWin,
 	downloadURLRecorderAudioWin,
 	setSizeRecorderAudioWin,
 };

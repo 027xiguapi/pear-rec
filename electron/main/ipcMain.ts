@@ -16,11 +16,16 @@ import {
 import {
 	openRecorderScreenWin,
 	closeRecorderScreenWin,
+	hideRecorderScreenWin,
+	minimizeRecorderScreenWin,
 	downloadURLRecorderScreenWin,
+	setSizeRecorderScreenWin,
 } from "./recorderScreenWin";
 import {
 	closeRecorderAudioWin,
 	openRecorderAudioWin,
+	hideRecorderAudioWin,
+	minimizeRecorderAudioWin,
 	downloadURLRecorderAudioWin,
 	setSizeRecorderAudioWin,
 } from "./recorderAudioWin";
@@ -99,6 +104,7 @@ export function initIpcMain() {
 		minimizeMainWin();
 	});
 
+	// 录屏
 	ipcMain.on("rs:open-win", () => {
 		closeRecorderScreenWin();
 		hideMainWin();
@@ -110,6 +116,14 @@ export function initIpcMain() {
 		showMainWin();
 	});
 
+	ipcMain.on("rs:hide-win", () => {
+		hideRecorderScreenWin();
+	});
+
+	ipcMain.on("rs:minimize-win", () => {
+		minimizeRecorderScreenWin();
+	});
+
 	ipcMain.handle("rs:get-desktop-capturer-source", async () => {
 		return [
 			...(await desktopCapturer.getSources({ types: ["screen"] })),
@@ -118,11 +132,19 @@ export function initIpcMain() {
 	});
 
 	ipcMain.on("rs:download-record", async (e, downloadUrl) => {
-		// const downloadUrl = fileInfo.downloadUrl;
 		downloadURLRecorderScreenWin(downloadUrl);
 		openViewVideoWin();
 	});
 
+	ipcMain.on("rs:start-record", () => {
+		setSizeRecorderScreenWin(285, 43);
+	});
+
+	ipcMain.on("rs:pause-record", () => {
+		setSizeRecorderScreenWin(253, 43);
+	});
+
+	// 截图
 	ipcMain.handle("ss:get-shot-screen-img", async () => {
 		const { width, height } = getScreenSize();
 		const sources = [
@@ -299,17 +321,24 @@ export function initIpcMain() {
 		showMainWin();
 	});
 
+	ipcMain.on("ra:hide-win", () => {
+		hideRecorderAudioWin();
+	});
+
+	ipcMain.on("ra:minimize-win", () => {
+		minimizeRecorderAudioWin();
+	});
+
 	ipcMain.on("ra:download-record", (e, downloadUrl) => {
-		// const downloadUrl = fileInfo.downloadUrl;
 		downloadURLRecorderAudioWin(downloadUrl);
 	});
 
 	ipcMain.on("ra:start-record", () => {
-		setSizeRecorderAudioWin(420, 70);
+		setSizeRecorderAudioWin(285, 43);
 	});
 
 	ipcMain.on("ra:pause-record", () => {
-		setSizeRecorderAudioWin(365, 70);
+		setSizeRecorderAudioWin(260, 43);
 	});
 
 	ipcMain.on("ra:stop-record", () => {});

@@ -15,6 +15,7 @@ let historyImgPath: string = "";
 
 function createViewImageWin(isHistory?: boolean): BrowserWindow {
 	viewImageWin = new BrowserWindow({
+		title: "pear-rec 图片预览",
 		icon: join(PUBLIC, "logo@2x.ico"),
 		width: 800, // 宽度(px), 默认值为 800
 		height: 600, // 高度(px), 默认值为 600

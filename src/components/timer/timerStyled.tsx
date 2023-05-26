@@ -5,7 +5,7 @@ const TimerContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	height: 60px;
+	height: 35px;
 `;
 
 const SepartorContainer = styled.span`
@@ -13,7 +13,7 @@ const SepartorContainer = styled.span`
 	flex-direction: column;
 	align-items: center;
 	align-self: flex-end;
-	margin: 0 0 10px 0px;
+	margin: 0 0 5px 0px;
 `;
 
 const Separtor = styled.span`
@@ -22,7 +22,7 @@ const Separtor = styled.span`
 	height: 6px;
 	background-color: #404549;
 	border-radius: 6px;
-	margin: 5px 0px;
+	margin: 3px 0px;
 `;
 
 export default function TimerStyled({ seconds, minutes, hours, days }: any) {

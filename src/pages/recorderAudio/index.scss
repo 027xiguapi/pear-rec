@@ -3,32 +3,44 @@
 	padding: 3px 0 3px 3px;
 	background-color: #ffffff;
 	border-radius: 5px;
+	display: flex;
 	.stopwatch {
 		display: flex;
 		text-align: center;
-		height: 60px;
+		align-items: center;
+		height: 35px;
 		.stopwatchTools {
-			margin-right: 10px;
-			// margin-left: 10px;
-			height: 60px;
-			// background-color: #404549;
-			border: 1px solid #f0f0f0;
-			// box-shadow: 0 1px 2px 0 rgb(0 0 0 / 3%), 0 1px 6px -1px rgb(0 0 0 / 2%),
-			// 	0 2px 4px 0 rgb(0 0 0 / 2%);
-			border-radius: 5px;
+			height: 35px;
 			.icon {
 				-webkit-app-region: no-drag;
 				cursor: pointer;
-				font-size: 35px;
-				border-right: 1px solid #f0f0f0;
-				// color: white;
+				font-size: 30px;
 				color: #1677ff;
-				margin-top: 13px;
-				width: 42px;
+				margin-top: 3px;
+				width: 30px;
 			}
-			.icon:last-child {
-				border-right: 0px;
+			.stopBtn {
+				color: red;
 			}
+			.icon:hover {
+				background-color: rgba(0, 0, 0, 0.06);
+			}
+		}
+		.toggleTimer {
+			background-color: #f0f0f0;
+			color: #fff;
+			width: 5px;
+			height: 100%;
+			line-height: 35px;
+			font-size: 11px;
+			margin-right: 5px;
+		}
+	}
+	.winBar {
+		font-size: 22px;
+		border-left: 5px solid #f0f0f0;
+		.ant-btn {
+			-webkit-app-region: no-drag;
 		}
 	}
 }

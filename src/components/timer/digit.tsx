@@ -26,12 +26,11 @@ const SingleDigit = styled.span`
 	position: relative;
 	display: flex;
 	flex: 0 1 25%;
-	font-size: 30px;
+	font-size: 24px;
 	background-color: #fff;
 	border-radius: 5px;
-	padding: 10px 12px;
+	padding: 4px 1px;
 	color: #404549;
-	border: 1px solid #f0f0f0;
 	&:first-child {
 		margin-right: 2px;
 	}

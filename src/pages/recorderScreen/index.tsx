@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from "react";
-import useMediaRecorder from "@/components/useMediaRecorder";
 import { ipcRenderer } from "electron";
+import { useStopwatch } from "react-timer-hook";
 import {
-	BsArrowsMove,
-	BsRecordCircle,
-	BsPower,
 	BsStop,
-	BsPlay,
-	BsPause,
-	BsMicMute,
 	BsMic,
-	BsXLg,
+	BsMicMute,
+	BsPlayFill,
+	BsPause,
+	BsArrowRepeat,
+	BsFillStopFill,
+	BsChevronLeft,
+	BsChevronRight,
 } from "react-icons/bs";
+import {
+	PushpinOutlined,
+	MinusOutlined,
+	BorderOutlined,
+	BlockOutlined,
+	CloseOutlined,
+} from "@ant-design/icons";
 import { Button } from "antd";
+import TimerStyled from "@/components/timer/timerStyled";
+import useMediaRecorder from "@/components/useMediaRecorder";
 import "./index.scss";
 
 async function getDesktopCapturerSource() {
@@ -20,6 +29,8 @@ async function getDesktopCapturerSource() {
 }
 
 const RecorderScreen = () => {
+	const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
+		useStopwatch({ autoStart: false });
 	const [source, setSource] = useState({});
 	const [isPlay, setIsPlay] = useState(false);
 	const [isPause, setIsPause] = useState(false);
@@ -57,12 +68,14 @@ const RecorderScreen = () => {
 		console.log("handleStartRecord");
 		setIsPlay(true);
 		startRecord();
+		start();
 	}
 
 	function handlePauseRecord() {
 		console.log("handlePauseRecord");
 		setIsPause(true);
 		pauseRecord();
+		pause();
 	}
 
 	function handleResumeRecord() {
@@ -82,71 +95,72 @@ const RecorderScreen = () => {
 		toggleMute(!isMuted);
 	}
 
+	async function handleCloseWin() {
+		ipcRenderer.send("rs:close-win");
+	}
+
+	async function handleHideWin() {
+		ipcRenderer.send("rs:hide-win");
+	}
+
+	function handleMinimizeWin() {
+		ipcRenderer.send("rs:minimize-win");
+	}
+
 	return (
 		<div className="recorderScreen">
-			<Button
-				size="large"
-				type="text"
-				className="move"
-				icon={<BsArrowsMove />}
-			/>
-			<Button
-				size="large"
-				type="text"
-				danger={isPlay}
-				className={`record ${isPlay && !isPause ? "blink" : ""}`}
-				icon={<BsRecordCircle />}
-			/>
-			{isPlay ? (
-				<>
-					{isPause ? (
+			<div className="recorderTools">
+				{isRunning ? (
+					<>
 						<Button
-							size="large"
 							type="text"
-							onClick={handleResumeRecord}
-							icon={<BsPlay />}
-							title="恢复"
-						/>
-					) : (
-						<Button
-							size="large"
-							type="text"
-							onClick={handlePauseRecord}
 							icon={<BsPause />}
+							className="toolbarIcon pauseBtn"
 							title="暂停"
+							onClick={handlePauseRecord}
 						/>
-					)}
+						<Button
+							className={`toolbarIcon toggleMuteBtn ${isMuted ? "" : "muted"}`}
+							type="text"
+							onClick={handleToggleMute}
+							icon={isMuted ? <BsMicMute /> : <BsMic />}
+							title={isMuted ? "打开声音" : "禁音"}
+						/>
+						<Button
+							type="text"
+							icon={<BsFillStopFill />}
+							className="toolbarIcon stopBtn"
+							title="停止"
+							onClick={handleStopRecord}
+						/>
+					</>
+				) : (
 					<Button
-						size="large"
 						type="text"
-						onClick={handleStopRecord}
-						icon={<BsStop />}
-						title="停止"
+						icon={<BsPlayFill />}
+						className="toolbarIcon playBtn"
+						title="开始"
+						onClick={handleStartRecord}
 					/>
-					<Button
-						size="large"
-						type="text"
-						onClick={handleToggleMute}
-						icon={isMuted ? <BsMic /> : <BsMicMute />}
-						title={isMuted ? "打开声音" : "禁音"}
-					/>
-					{/* <Button
-						size="large"
-						type="text"
-						onClick={clearBlobUrl}
-						icon={<BsXLg />}
-						title="清除"
-					/> */}
-				</>
-			) : (
+				)}
+			</div>
+			<TimerStyled seconds={seconds} minutes={minutes} hours={hours} />
+			<div className="winBar">
 				<Button
-					size="large"
-					type="link"
-					onClick={handleStartRecord}
-					icon={<BsPower />}
-					title="开始"
+					type="text"
+					icon={<MinusOutlined />}
+					className="toolbarIcon"
+					title="最小化"
+					onClick={handleMinimizeWin}
 				/>
-			)}
+				<Button
+					type="text"
+					icon={<CloseOutlined />}
+					className="toolbarIcon"
+					title="关闭"
+					onClick={handleCloseWin}
+				/>
+			</div>
 		</div>
 	);
 };

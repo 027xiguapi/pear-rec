@@ -18,7 +18,7 @@ let savePath: string = "";
 function createShotScreenWin(): BrowserWindow {
 	const { width, height } = getScreenSize();
 	shotScreenWin = new BrowserWindow({
-		title: "Pear REC",
+		title: "pear-rec 截屏",
 		icon: path.join(PUBLIC, "logo@2x.ico"),
 		width, // 宽度(px), 默认值为 800
 		height, // 高度(px), 默认值为 600

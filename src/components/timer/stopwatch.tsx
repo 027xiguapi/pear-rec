@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useStopwatch } from "react-timer-hook";
-import { BsStop, BsPlay, BsPause, BsArrowRepeat } from "react-icons/bs";
+import {
+	BsStop,
+	BsPlayFill,
+	BsPause,
+	BsArrowRepeat,
+	BsFillStopFill,
+	BsChevronLeft,
+	BsChevronRight,
+} from "react-icons/bs";
 import { Button } from "antd";
 import { ipcRenderer } from "electron";
 import TimerStyled from "./timerStyled";
@@ -58,18 +66,31 @@ function Stopwatch({ expiryTimestamp }: any) {
 			<div className="stopwatchTools">
 				{isRunning ? (
 					<>
-						<BsPause className="icon" title="暂停" onClick={handlePause} />
+						<BsPause
+							className="icon pauseBtn"
+							title="暂停"
+							onClick={handlePause}
+						/>
 						{/* <BsArrowRepeat
 							className="icon"
 							title="重置"
 							onClick={handleReset}
 						/> */}
-						<BsStop className="icon" title="停止" onClick={handleStop} />
+						<BsFillStopFill
+							className="icon stopBtn"
+							title="停止"
+							onClick={handleStop}
+						/>
 					</>
 				) : (
-					<BsPlay className="icon" title="开始" onClick={handleStart} />
+					<BsPlayFill
+						className="icon playBtn"
+						title="开始"
+						onClick={handleStart}
+					/>
 				)}
 			</div>
+			<div className="toggleTimer"></div>
 			<TimerStyled seconds={seconds} minutes={minutes} hours={hours} />
 		</div>
 	);
