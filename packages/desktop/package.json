@@ -1,0 +1,62 @@
+{
+  "name": "@pear-rec/desktop",
+  "version": "1.0.0",
+  "main": "dist-electron/main/index.js",
+  "description": "pear-rec",
+  "author": {
+    "name": "027xiguapi",
+    "email": "458813868@qq.com"
+  },
+  "license": "MIT",
+  "private": true,
+  "debug": {
+    "env": {
+      "VITE_DEV_SERVER_URL": "http://127.0.0.1:7777/"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && electron-builder",
+    "preview": "vite preview",
+    "pree2e": "vite build --mode=test",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "@pear-rec/recorder": "workspace:^",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@types/uuid": "^9.0.1",
+    "antd": "^5.4.6",
+    "dayjs": "^1.11.7",
+    "electron-store": "^8.1.0",
+    "electron-updater": "^5.3.0",
+    "js-web-screen-shot": "^1.9.6",
+    "plyr": "^3.7.8",
+    "react-icons": "^4.8.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.11.1",
+    "react-screenshots": "^0.5.22",
+    "react-timer-hook": "^3.0.6",
+    "styled-components": "^6.0.0-rc.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.32.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "electron": "^23.2.0",
+    "electron-builder": "^23.6.0",
+    "eslint": "^8.40.0",
+    "prettier": "^2.8.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.60.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.1.4",
+    "vite-plugin-electron": "^0.11.2",
+    "vite-plugin-electron-renderer": "^0.14.1"
+  },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0"
+  }
+}
