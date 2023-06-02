@@ -15,7 +15,7 @@ release
 *.local
 
 # Editor directories and files
-.vscode/.debug.env
+.vscode
 .idea
 .DS_Store
 *.suo
@@ -32,3 +32,6 @@ yarn.lock
 /playwright-report/
 /playwright/.cache/
 Peer Files/
+
+# docs
+cache/

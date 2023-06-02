@@ -2,11 +2,19 @@
   "name": "pear-rec",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:docs": "pnpm run -C packages/docs dev",
+    "dev:desktop": "pnpm run -C packages/desktop dev",
+    "dev:recorder": "pnpm run -C packages/recorder dev",
+    "build:docs": "pnpm run -C packages/docs build",
+    "build:desktop": "pnpm run -C packages/desktop build",
+    "build:recorder": "pnpm run -C packages/recorder build",
+    "preview:docs": "pnpm run -C packages/docs preview",
+    "deploy:docs": "pnpm run -C packages/docs deploy"
   },
+  "dependencies": {},
+  "devDependencies": {},
   "keywords": [],
-  "author": "",
+  "author": "027xiguapi",
   "license": "ISC"
 }

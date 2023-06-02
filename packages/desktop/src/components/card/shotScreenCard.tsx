@@ -4,7 +4,6 @@ import React, {
 	useImperativeHandle,
 	forwardRef,
 } from "react";
-import { useNavigate } from "react-router-dom";
 import { ScissorOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import { ipcRenderer } from "electron";
