@@ -6,13 +6,13 @@
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview",
-    "deploy": "sh deploy.sh"
+    "deploy": "bash deploy.sh"
   },
   "devDependencies": {
     "vitepress": "1.0.0-beta.1"
   },
   "keywords": [],
   "author": "027xiguapi",
-  "license": "ISC",
+  "license": "MIT",
   "description": ""
 }

@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
 
 export default defineConfig({
   build: {
     lib: {
-      entry: './lib/main.ts',
-      name: 'Recorder',
-      fileName: 'recorder'
-    }
-  }
-})
+      entry: "./lib/main.ts",
+      name: "recorder",
+      fileName: "recorder",
+    },
+  },
+});

@@ -1,16 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ipcRenderer } from "electron";
 import { useStopwatch } from "react-timer-hook";
-import { BsPlayFill, BsPause, BsFillStopFill } from "react-icons/bs";
+import {
+	BsPlayFill,
+	BsPauseFill,
+	BsFillStopFill,
+	BsTrash,
+	BsRecordFill,
+	BsCheckLg,
+} from "react-icons/bs";
 import { MinusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import TimerStyled from "@/components/timer/timerStyled";
+import Wavesurfer from "@/components/wavesurfer";
+import Timer from "@pear-rec/timer/lib/index";
 import { audio } from "@pear-rec/recorder";
-import "./index.scss";
+import styles from "./index.module.scss";
 
 const RecordAudio = () => {
+	const wavesurferRef = useRef<any>();
 	const [record, setRecord] = useState<any>();
 	const [isPause, setIsPause] = useState(false);
+	const [isPlay, setIsPlay] = useState(false);
 	const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
 		useStopwatch({ autoStart: false });
 
@@ -20,37 +30,29 @@ const RecordAudio = () => {
 
 	function initRecord() {
 		const _record = audio();
-    console.log(_record)
 		_record.create();
-		_record
-			.on("error", (type: any, message: any) => {
-				console.log(type, message);
-			});
+
+		_record.oncreate(() => {
+			console.log(_record.getMediaState());
+		});
+
+		_record.on("error", (type: any, message: any) => {
+			console.log(type, message);
+		});
 		_record.onstop(() => {
-				const url = _record.getBlobUrl();
-				ipcRenderer.send("ra:download-record", url);
-			});
+			const url = _record.getBlobUrl();
+			ipcRenderer.send("ra:download-record", url);
+		});
 		setRecord(_record);
-	}
-
-	async function handleCloseWin() {
-		ipcRenderer.send("ra:close-win");
-	}
-
-	async function handleHideWin() {
-		ipcRenderer.send("ra:hide-win");
-	}
-
-	function handleMinimizeWin() {
-		ipcRenderer.send("ra:minimize-win");
 	}
 
 	function handleStartRecord() {
 		console.log("handleStartRecord");
 		start();
-		isPause ? record.resume() : record.start();
+		record.start();
 		setIsPause(false);
-		ipcRenderer.send("ra:start-record");
+		setIsPlay(true);
+		wavesurferRef.current.play();
 	}
 
 	function handlePauseRecord() {
@@ -58,61 +60,93 @@ const RecordAudio = () => {
 		pause();
 		setIsPause(true);
 		record.pause();
-		ipcRenderer.send("ra:pause-record");
+		wavesurferRef.current.pause();
+	}
+
+	function handleResumeRecord() {
+		console.log("handleResumeRecord");
+		record.resume();
+		setIsPause(false);
+		setIsPlay(true);
+		wavesurferRef.current.play();
 	}
 
 	function handleStopRecord() {
 		console.log("handleStopRecord");
 		record.stop();
-		ipcRenderer.send("ra:stop-record");
+		setIsPause(false);
+		setIsPlay(false);
+		wavesurferRef.current.stop();
+	}
+
+	function handleDestroyRecord() {
+		console.log("handleDestroyRecord");
+		// record.reset();
+		reset(undefined, false);
+		setIsPause(false);
+		setIsPlay(false);
+		wavesurferRef.current.reset();
 	}
 
 	return (
-		<div className="recordAudio">
+		<div className={styles.recordAudio}>
+			<div className="timer">
+				<Timer seconds={seconds} minutes={minutes} hours={hours} />
+			</div>
+			<Wavesurfer ref={wavesurferRef} />
 			<div className="recorderTools">
-				{isRunning ? (
-					<>
-						<Button
-							type="text"
-							icon={<BsPause />}
-							className="toolbarIcon pauseBtn"
-							title="暂停"
-							onClick={handlePauseRecord}
-						/>
-						<Button
-							type="text"
-							icon={<BsFillStopFill />}
-							className="toolbarIcon stopBtn"
-							title="停止"
-							onClick={handleStopRecord}
-						/>
-					</>
+				<Button
+					shape="circle"
+					icon={<BsTrash />}
+					className="toolbarIcon resetBtn"
+					title="删除"
+					disabled={!isPlay}
+					onClick={handleDestroyRecord}
+				/>
+				{isPlay ? (
+					<Button
+						danger
+						type="primary"
+						shape="circle"
+						icon={<BsCheckLg />}
+						className="toolbarIcon stopBtn"
+						title="保存"
+						disabled={!isPlay}
+						onClick={handleStopRecord}
+					/>
 				) : (
 					<Button
-						type="text"
-						icon={<BsPlayFill />}
+						danger
+						type="primary"
+						shape="circle"
+						icon={<BsRecordFill />}
 						className="toolbarIcon playBtn"
 						title="开始"
 						onClick={handleStartRecord}
 					/>
 				)}
-			</div>
-			<TimerStyled seconds={seconds} minutes={minutes} hours={hours} />
-			<div className="winBar">
-				<Button
-					type="text"
-					icon={<MinusOutlined rev={undefined} />}
-					className="toolbarIcon"
-					title="最小化"
-					onClick={() => handleMinimizeWin()}
-				/>
-				<Button
-					type="text"
-					icon={<CloseOutlined rev={undefined} />}
-					className="toolbarIcon"
-					title="关闭"
-					onClick={() => handleCloseWin()}
-				/>
+
+				{isPause ? (
+					<Button
+						type="primary"
+						shape="circle"
+						icon={<BsPlayFill />}
+						className="toolbarIcon resumeBtn"
+						title="继续"
+						disabled={!isPlay}
+						onClick={handleResumeRecord}
+					/>
+				) : (
+					<Button
+						type="primary"
+						shape="circle"
+						icon={<BsPauseFill />}
+						className="toolbarIcon pauseBtn"
+						title="暂停"
+						disabled={!isPlay}
+						onClick={handlePauseRecord}
+					/>
+				)}
 			</div>
 		</div>
 	);

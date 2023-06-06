@@ -7,8 +7,8 @@
     "dist",
     "index.d.ts"
   ],
-  "main": "./dist/recorder.umd.cjs",
-  "module": "./dist/recorder.js",
+  "main": "./lib/main.ts",
+  "module": "./lib/main.ts",
   "types": "./index.d.ts",
   "exports": {
     "types": "./index.d.ts",
@@ -28,6 +28,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "description": ""
 }

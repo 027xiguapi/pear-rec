@@ -16,5 +16,13 @@
   "devDependencies": {},
   "keywords": [],
   "author": "027xiguapi",
-  "license": "ISC"
+  "homepage": "https://027xiguapi.github.io/pear-rec",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:027xiguapi/pear-rec.git"
+  },
+  "bugs": {
+    "url": "https://github.com/027xiguapi/pear-rec/issues"
+  },
+  "license": "MIT"
 }

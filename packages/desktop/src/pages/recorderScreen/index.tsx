@@ -20,7 +20,7 @@ import {
 	CloseOutlined,
 } from "@ant-design/icons";
 import { Button } from "antd";
-import TimerStyled from "@/components/timer/timerStyled";
+import Timer from "@pear-rec/timer/lib/index";
 import useMediaRecorder from "@/components/useMediaRecorder";
 import "./index.scss";
 
@@ -144,18 +144,18 @@ const RecorderScreen = () => {
 					/>
 				)}
 			</div>
-			<TimerStyled seconds={seconds} minutes={minutes} hours={hours} />
+			<Timer seconds={seconds} minutes={minutes} hours={hours} />
 			<div className="winBar">
 				<Button
 					type="text"
-					icon={<MinusOutlined />}
+					icon={<MinusOutlined rev={undefined} />}
 					className="toolbarIcon"
 					title="最小化"
 					onClick={handleMinimizeWin}
 				/>
 				<Button
 					type="text"
-					icon={<CloseOutlined />}
+					icon={<CloseOutlined rev={undefined} />}
 					className="toolbarIcon"
 					title="关闭"
 					onClick={handleCloseWin}

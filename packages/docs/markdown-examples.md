@@ -81,6 +81,27 @@ This is a dangerous warning.
 This is a details block.
 :::
 
+## react
+
+https://stackblitz.com/edit/vite-dnqmyv?file=package.json
+
+```
+<div ref="el" />
+
+<script setup>
+import { createElement } from 'react'
+import { createRoot } from 'react-dom/client'
+import { ref, onMounted } from 'vue'
+import FooBar from './FooBar'
+
+const el = ref()
+onMounted(() => {
+  const root = createRoot(el.value)
+  root.render(createElement(FooBar, {}, null))
+})
+</script>
+```
+
 ## More
 
 Check out the documentation for the [full list of markdown extensions](https://vitepress.dev/guide/markdown).

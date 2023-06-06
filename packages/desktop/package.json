@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@pear-rec/recorder": "workspace:^",
+    "@pear-rec/timer": "workspace:^",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/uuid": "^9.0.1",
     "antd": "^5.4.6",
