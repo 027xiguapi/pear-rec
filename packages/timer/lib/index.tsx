@@ -1,8 +1,7 @@
-import React from "react";
 import Digit from "../components/digit";
 import styles from "./index.module.scss";
 
-export default function TimerStyled({
+export default function Timer({
   seconds,
   minutes,
   hours,

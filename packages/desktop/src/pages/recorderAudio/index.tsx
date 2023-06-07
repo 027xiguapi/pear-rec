@@ -9,11 +9,11 @@ import {
 	BsRecordFill,
 	BsCheckLg,
 } from "react-icons/bs";
-import { MinusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Wavesurfer from "@/components/wavesurfer";
-import Timer from "@pear-rec/timer/lib/index";
+import Timer from "@pear-rec/timer";
 import { audio } from "@pear-rec/recorder";
+import "@pear-rec/timer/dist/style.css";
 import styles from "./index.module.scss";
 
 const RecordAudio = () => {

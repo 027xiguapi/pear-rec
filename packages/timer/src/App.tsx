@@ -4,10 +4,9 @@ import Timer from "../lib/index";
 import "./App.css";
 
 function App() {
-  const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
-    useStopwatch({ autoStart: true });
+  const { seconds, minutes, hours } = useStopwatch({ autoStart: true });
 
-  const [isShowTitle, setIsShowTitle] = useState(true);
+  const [isShowTitle] = useState(true);
   return (
     <div className="separator">
       <h2>UseStopwatch Demo</h2>

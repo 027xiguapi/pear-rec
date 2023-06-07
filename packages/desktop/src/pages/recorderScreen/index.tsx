@@ -20,8 +20,9 @@ import {
 	CloseOutlined,
 } from "@ant-design/icons";
 import { Button } from "antd";
-import Timer from "@pear-rec/timer/lib/index";
+import Timer from "@pear-rec/timer";
 import useMediaRecorder from "@/components/useMediaRecorder";
+import "@pear-rec/timer/dist/style.css";
 import "./index.scss";
 
 async function getDesktopCapturerSource() {

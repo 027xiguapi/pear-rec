@@ -1,5 +1,5 @@
 {
-  "name": "@pear-rec/timer",
+  "name": "@pear-rec/image",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -26,8 +26,8 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "main": "./dist/timer.umd.js",
-  "module": "./dist/timer.es.js",
+  "main": "./dist/image.umd.js",
+  "module": "./dist/image.es.js",
   "types": "./index.d.ts",
   "keywords": [],
   "author": "",

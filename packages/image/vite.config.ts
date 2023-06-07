@@ -7,9 +7,9 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: resolve(__dirname, "lib/index.tsx"),
-      name: "timer",
-      fileName: (format) => `timer.${format}.js`,
+      entry: resolve(__dirname, "components/index.ts"),
+      name: "image",
+      fileName: (format) => `image.${format}.js`,
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖

@@ -7,12 +7,18 @@
     "dist",
     "index.d.ts"
   ],
-  "main": "./lib/main.ts",
-  "module": "./lib/main.ts",
+  "main": "./dist/recorder.umd.js",
+  "module": "./dist/recorder.es.js",
   "types": "./index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "watch": "tsc && vite build -w",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "webrtc-adapter": "^8.2.2"
   },
   "devDependencies": {
     "typescript": "^4.9.4",

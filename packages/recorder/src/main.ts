@@ -1,3 +1,3 @@
-import { audio, video, screen } from '../lib/main';
+import { audio, video, screen } from "../lib";
 
-console.log({audio, video, screen})
+console.log({ audio, video, screen });

@@ -1,3 +1,3 @@
-import Digit from "./components/digit";
+import Timer from "./lib/index";
 
-export default Digit;
+export default Timer;

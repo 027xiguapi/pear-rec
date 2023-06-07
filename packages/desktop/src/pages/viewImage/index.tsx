@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ipcRenderer } from "electron";
 import { Button, Empty } from "antd";
-import Image from "@/components/image";
+import Image from "@pear-rec/image";
 import {
 	FileImageOutlined,
 	ZoomInOutlined,
@@ -19,6 +19,7 @@ import {
 	SwapOutlined,
 	PushpinOutlined,
 } from "@ant-design/icons";
+import "@pear-rec/image/dist/style.css";
 import "./index.scss";
 
 const ViewImage = () => {
@@ -71,7 +72,7 @@ const ViewImage = () => {
 					<div className="viewImageTools">
 						<Button
 							type="text"
-							icon={<PushpinOutlined />}
+							icon={<PushpinOutlined rev={undefined} />}
 							className={`toolbarIcon ${isAlwaysOnTop ? "active" : ""}`}
 							title="置顶"
 							onClick={() => handleToggleAlwaysOnTopWin()}
@@ -82,14 +83,14 @@ const ViewImage = () => {
 						rootClassName="viewImageBox"
 						preview={{
 							icons: {
-								rotateLeft: <RotateLeftOutlined />,
-								rotateRight: <RotateRightOutlined />,
-								zoomIn: <ZoomInOutlined />,
-								zoomOut: <ZoomOutOutlined />,
-								left: <LeftOutlined />,
-								right: <RightOutlined />,
-								flipX: <SwapOutlined />,
-								flipY: <SwapOutlined rotate={90} />,
+								rotateLeft: <RotateLeftOutlined rev={undefined} />,
+								rotateRight: <RotateRightOutlined rev={undefined} />,
+								zoomIn: <ZoomInOutlined rev={undefined} />,
+								zoomOut: <ZoomOutOutlined rev={undefined} />,
+								left: <LeftOutlined rev={undefined} />,
+								right: <RightOutlined rev={undefined} />,
+								flipX: <SwapOutlined rev={undefined} />,
+								flipY: <SwapOutlined rev={undefined} rotate={90} />,
 							},
 							visible,
 							getContainer: "#root",

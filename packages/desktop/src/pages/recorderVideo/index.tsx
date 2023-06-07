@@ -8,6 +8,7 @@ import {
 	BsPause,
 	BsFillStopFill,
 } from "react-icons/bs";
+import * as recorder from "@pear-rec/recorder";
 import "./index.scss";
 
 const RecorderVideo = () => {
@@ -22,7 +23,7 @@ const RecorderVideo = () => {
 	}, []);
 
 	async function initRecord() {
-		const _record = window.mediajs.video();
+		const _record = recorder.video();
 		_record.create();
 		_record
 			.oncreate(() => {
@@ -30,14 +31,13 @@ const RecorderVideo = () => {
 				previewVideo.current!.srcObject = mediaStream;
 			})
 			.onstop(() => {
-				_record
-					.on("error", (type: any, message: any) => {
-						console.log(type, message);
-					})
-					.onstop(() => {
-						const url = _record.getBlobUrl();
-						ipcRenderer.send("rv:download-record", url);
-					});
+				_record.on("error", (type: any, message: any) => {
+					console.log(type, message);
+				});
+				_record.onstop(() => {
+					const url = _record.getBlobUrl();
+					ipcRenderer.send("rv:download-record", url);
+				});
 			});
 		setRecord(_record);
 	}
