@@ -69,6 +69,7 @@ const RecorderScreen = () => {
 		setIsPlay(true);
 		startRecord();
 		start();
+		ipcRenderer.send("rs:start-record");
 	}
 
 	function handlePauseRecord() {
@@ -76,12 +77,14 @@ const RecorderScreen = () => {
 		setIsPause(true);
 		pauseRecord();
 		pause();
+		ipcRenderer.send("rs:pause-record");
 	}
 
 	function handleResumeRecord() {
 		console.log("handleResumeRecord");
 		setIsPause(false);
 		resumeRecord();
+		ipcRenderer.send("rs:start-record");
 	}
 
 	function handleStopRecord() {

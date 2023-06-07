@@ -51,7 +51,7 @@ pnpm run build:desktop
 已经勾选的功能是开发过程最新功能，但可能还没发布在最新版本
 
 - [x] 截屏
-  - [x] 基本实现(js-web-screen-shot)
+  - [x] 基本实现(react-screenshots)
   - [x] 框选裁切
   - [x] 框选大小位置可调整
   - [x] 取色器

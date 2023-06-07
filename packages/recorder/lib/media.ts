@@ -226,8 +226,8 @@ class Media extends EventTarget {
 
     // 将 stream 转成 blob 来存放
     this.mediaRecorder.ondataavailable = (blobEvent: BlobEvent) => {
-      this.emit("dataavailable", blobEvent);
       this.mediaBlobs.push(blobEvent.data);
+      this.emit("dataavailable", blobEvent);
     };
 
     this.mediaRecorder.onstart = (event: any) => {
@@ -420,9 +420,11 @@ class Media extends EventTarget {
   reset() {
     if (!this.isReady()) return this;
     try {
-      this.mediaStream?.getTracks().forEach((track) => track.stop());
-      this.mediaBlobs = [];
-      this.emit("reset");
+      this.mediaRecorder?.stop();
+      this.once("dataavailable", () => {
+        this.mediaBlobs = [];
+        this.emit("reset");
+      });
       return this;
     } catch (err) {
       this.emit("error", { type: "reset", message: err });
@@ -500,7 +502,7 @@ class Media extends EventTarget {
       (this.mediaType == "video" ? "video/mp4" : "audio/wav");
 
     const blobProperty: BlobPropertyBag = Object.assign(
-      { type: chunk.type },
+      { type: chunk && chunk.type },
       { type: type }
     );
 

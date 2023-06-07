@@ -10,11 +10,6 @@
   "main": "./lib/main.ts",
   "module": "./lib/main.ts",
   "types": "./index.d.ts",
-  "exports": {
-    "types": "./index.d.ts",
-    "import": "./dist/recorder.js",
-    "require": "./dist/recorder.umd.cjs"
-  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build"

@@ -9,8 +9,8 @@ function createRecorderAudioWin(): BrowserWindow {
 	recorderAudioWin = new BrowserWindow({
 		title: "pear-rec 录音",
 		icon: join(PUBLIC, "logo@2x.ico"),
-		width: 400, // 宽度(px), 默认值为 800
-		height: 700, // 高度(px), 默认值为 600
+		width: 350, // 宽度(px), 默认值为 800
+		height: 650, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		// useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
 		// movable: false, // 是否可移动
@@ -50,7 +50,7 @@ function createRecorderAudioWin(): BrowserWindow {
 				if (state === "completed") {
 					setTimeout(() => {
 						closeRecorderAudioWin();
-						// shell.showItemInFolder(filePath);
+						shell.showItemInFolder(rsFilePath);
 					}, 1000);
 				}
 			});

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Screenshots, { Bounds } from "react-screenshots";
 import { ipcRenderer } from "electron";
 import "react-screenshots/lib/style.css";
-import "./index.scss";
+import styles from "./index.module.scss";
 
 export default function ShotScreen() {
 	const [screenShotImg, setScreenShotImg] = useState("");
@@ -32,13 +32,15 @@ export default function ShotScreen() {
 	}, []);
 
 	return (
-		<Screenshots
-			url={screenShotImg}
-			width={window.innerWidth}
-			height={window.innerHeight}
-			onSave={onSave}
-			onCancel={onCancel}
-			onOk={onOk}
-		/>
+		<div className={styles.shotScreen}>
+			<Screenshots
+				url={screenShotImg}
+				width={window.innerWidth}
+				height={window.innerHeight}
+				onSave={onSave}
+				onCancel={onCancel}
+				onOk={onOk}
+			/>
+		</div>
 	);
 }

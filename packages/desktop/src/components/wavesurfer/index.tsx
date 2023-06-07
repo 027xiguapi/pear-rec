@@ -27,7 +27,7 @@ const Wavesurfer = forwardRef((props: any, ref: any) => {
 	}));
 
 	function initFrame() {
-		const bufferLength = 64;
+		const bufferLength = 100;
 		const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 		const ctx = canvas.getContext("2d");
 		setCtx(ctx);

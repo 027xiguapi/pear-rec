@@ -21,7 +21,7 @@ const RecordAudio = () => {
 	const [record, setRecord] = useState<any>();
 	const [isPause, setIsPause] = useState(false);
 	const [isPlay, setIsPlay] = useState(false);
-	const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
+	const { seconds, minutes, hours, isRunning, start, pause, reset } =
 		useStopwatch({ autoStart: false });
 
 	useEffect(() => {
@@ -32,16 +32,13 @@ const RecordAudio = () => {
 		const _record = audio();
 		_record.create();
 
-		_record.oncreate(() => {
-			console.log(_record.getMediaState());
-		});
-
 		_record.on("error", (type: any, message: any) => {
 			console.log(type, message);
 		});
 		_record.onstop(() => {
+			const blob = _record.getBlob();
 			const url = _record.getBlobUrl();
-			ipcRenderer.send("ra:download-record", url);
+			blob?.size && ipcRenderer.send("ra:download-record", url);
 		});
 		setRecord(_record);
 	}
@@ -74,14 +71,15 @@ const RecordAudio = () => {
 	function handleStopRecord() {
 		console.log("handleStopRecord");
 		record.stop();
+		reset(undefined, false);
 		setIsPause(false);
 		setIsPlay(false);
 		wavesurferRef.current.stop();
 	}
 
-	function handleDestroyRecord() {
-		console.log("handleDestroyRecord");
-		// record.reset();
+	function handleResetRecord() {
+		console.log("handleResetRecord");
+		record.reset();
 		reset(undefined, false);
 		setIsPause(false);
 		setIsPlay(false);
@@ -101,7 +99,7 @@ const RecordAudio = () => {
 					className="toolbarIcon resetBtn"
 					title="删除"
 					disabled={!isPlay}
-					onClick={handleDestroyRecord}
+					onClick={handleResetRecord}
 				/>
 				{isPlay ? (
 					<Button

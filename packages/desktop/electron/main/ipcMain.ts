@@ -137,11 +137,11 @@ export function initIpcMain() {
 	});
 
 	ipcMain.on("rs:start-record", () => {
-		setSizeRecorderScreenWin(285, 43);
+		setSizeRecorderScreenWin(390, 55);
 	});
 
 	ipcMain.on("rs:pause-record", () => {
-		setSizeRecorderScreenWin(253, 43);
+		setSizeRecorderScreenWin(330, 55);
 	});
 
 	// 截图
