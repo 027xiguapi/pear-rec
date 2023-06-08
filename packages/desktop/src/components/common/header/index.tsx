@@ -5,21 +5,24 @@ import {
 	CloseOutlined,
 } from "@ant-design/icons";
 import { Button } from "antd";
-import { ipcRenderer } from "electron";
-import "./index.scss";
+import { useNavigate } from "react-router-dom";
 import logo from "@/assets/imgs/logo.ico";
+import "./index.scss";
 
 const Header = () => {
+	const navigate = useNavigate();
 	async function handleHideWin() {
-		ipcRenderer.send("ma:minimize-win");
+		window.electronAPI?.sendMaMinimizeWin();
 	}
 
 	function handleCloseWin() {
-		ipcRenderer.send("ma:hide-win");
+		window.electronAPI?.sendMaHideWin();
 	}
 
 	function handleOpenSettingWin() {
-		ipcRenderer.send("se:open-win");
+		window.electronAPI
+			? window.electronAPI.sendSeOpenWin()
+			: navigate("/setting");
 	}
 
 	return (
@@ -32,19 +35,19 @@ const Header = () => {
 			<div className="right">
 				<Button
 					type="text"
-					icon={<SettingOutlined />}
+					icon={<SettingOutlined rev={undefined} />}
 					title="设置"
 					onClick={handleOpenSettingWin}
 				/>
 				<Button
 					type="text"
-					icon={<MinusOutlined />}
+					icon={<MinusOutlined rev={undefined} />}
 					title="最小化"
 					onClick={handleHideWin}
 				/>
 				<Button
 					type="text"
-					icon={<CloseOutlined />}
+					icon={<CloseOutlined rev={undefined} />}
 					title="关闭"
 					onClick={handleCloseWin}
 				/>

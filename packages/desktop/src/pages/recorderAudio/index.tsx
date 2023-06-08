@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ipcRenderer } from "electron";
 import { useStopwatch } from "react-timer-hook";
 import {
 	BsPlayFill,
@@ -38,7 +37,10 @@ const RecordAudio = () => {
 		_record.onstop(() => {
 			const blob = _record.getBlob();
 			const url = _record.getBlobUrl();
-			blob?.size && ipcRenderer.send("ra:download-record", url);
+			blob?.size &&
+				(window.electronAPI
+					? window.electronAPI.sendRaDownloadRecord(url)
+					: _record.downloadBlob(`pear-rec_${+new Date()}`));
 		});
 		setRecord(_record);
 	}

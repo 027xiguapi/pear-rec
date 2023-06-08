@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Card, Form, Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { ipcRenderer } from "electron";
+import { Card } from "antd";
 import dayjs from "dayjs";
 import logo from "@/assets/imgs/logo@2x.ico";
 
@@ -16,7 +14,7 @@ const UserSetting = () => {
 	}, []);
 
 	async function getUser() {
-		const user = await ipcRenderer.invoke("se:get-user");
+		const user = (await window.electronAPI?.invokeSeGetUser()) || {};
 		setUuid(user.uuid);
 		setCreatedTime(user.createdTime);
 	}

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Switch, Form, Input } from "antd";
-import { ipcRenderer } from "electron";
 
 const { TextArea } = Input;
 const BasicSetting = () => {
@@ -12,22 +11,22 @@ const BasicSetting = () => {
 	}, []);
 
 	async function handleSetFilePath() {
-		const filePath = await ipcRenderer.invoke("se:set-filePath");
+		const filePath = await window.electronAPI?.invokeSeSetFilePath();
 		filePath && form.setFieldValue("filePath", filePath);
 	}
 
 	async function getFilePath() {
-		const filePath = await ipcRenderer.invoke("se:get-filePath");
+		const filePath = await window.electronAPI?.invokeSeGetFilePath();
 		form.setFieldValue("filePath", filePath);
 	}
 
 	function handleSetOpenAtLogin(isOpen: boolean) {
-		ipcRenderer.send("se:set-openAtLogin", isOpen);
+		window.electronAPI?.sendSeSetOpenAtLogin(isOpen);
 	}
 
 	async function getOpenAtLogin() {
-		let options = await ipcRenderer.invoke("se:get-openAtLogin");
-		form.setFieldValue("openAtLogin", options.openAtLogin);
+		let options = await window.electronAPI?.invokeSeGetOpenAtLogin();
+		form.setFieldValue("openAtLogin", options?.openAtLogin);
 	}
 
 	return (

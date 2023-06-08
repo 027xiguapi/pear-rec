@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Plyr from "plyr";
 import "plyr/dist/plyr.css";
-import { ipcRenderer } from "electron";
 import "./index.scss";
 
 const ViewVideo = () => {
@@ -16,7 +15,7 @@ const ViewVideo = () => {
 	}, [source]);
 
 	async function setVideo() {
-		const video = await ipcRenderer.invoke("vv:set-video");
+		const video = await window.electronAPI?.invokeVvSetVideo();
 		setSource(video);
 	}
 

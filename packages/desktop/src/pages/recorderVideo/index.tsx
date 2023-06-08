@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { ipcRenderer } from "electron";
+// import { ipcRenderer } from "electron";
 import { Button } from "antd";
 import {
 	BsMic,
@@ -35,8 +35,12 @@ const RecorderVideo = () => {
 					console.log(type, message);
 				});
 				_record.onstop(() => {
+					const blob = _record.getBlob();
 					const url = _record.getBlobUrl();
-					ipcRenderer.send("rv:download-record", url);
+					blob?.size &&
+						(window.electronAPI
+							? window.electronAPI.sendRvDownloadRecord(url)
+							: _record.downloadBlob(`pear-rec_${+new Date()}`));
 				});
 			});
 		setRecord(_record);
@@ -47,7 +51,6 @@ const RecorderVideo = () => {
 		isPause ? record.resume() : record.start();
 		setIsPause(false);
 		setIsRunning(true);
-		ipcRenderer.send("rv:start-record");
 	}
 
 	function handlePauseRecord() {
@@ -55,14 +58,12 @@ const RecorderVideo = () => {
 		record.pause();
 		setIsPause(true);
 		setIsRunning(false);
-		ipcRenderer.send("rv:pause-record");
 	}
 
 	function handleStopRecord() {
 		console.log("handleStopRecord");
 		record.stop();
 		setIsRunning(false);
-		ipcRenderer.send("rv:stop-record");
 	}
 
 	function toggleMute(isMuted: boolean) {

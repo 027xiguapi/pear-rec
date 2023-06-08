@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ipcRenderer } from "electron";
+// import { ipcRenderer } from "electron";
 import { Button, Empty } from "antd";
 import Image from "@pear-rec/image";
 import {
@@ -26,7 +26,7 @@ const ViewImage = () => {
 	const [search, setSearch] = useSearchParams();
 	const [visible, setVisible] = useState(false);
 	const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
-	// const [images, setImages] = useState<any>([]);
+	// const [imgs, setImgs] = useState<any>([]);
 	const [imgSrc, setImgSrc] = useState("");
 
 	useEffect(() => {
@@ -41,18 +41,18 @@ const ViewImage = () => {
 	function handlePrinter() {}
 
 	async function handleOpenImage() {
-		const images = await ipcRenderer.invoke("vi:get-images", "选择图片");
-		// setImages(images);
+		const imgs = await window.electronAPI?.invokeViGetImgs();
+		// setImgs(imgs);
 	}
 
 	function handleToggleAlwaysOnTopWin() {
 		const _isAlwaysOnTop = !isAlwaysOnTop;
 		setIsAlwaysOnTop(_isAlwaysOnTop);
-		ipcRenderer.send("vi:set-always-on-top", _isAlwaysOnTop);
+		window.electronAPI?.invokeViSetAlwaysOnTop(_isAlwaysOnTop);
 	}
 
 	async function setHistoryImg() {
-		const img = await ipcRenderer.invoke("vi:set-img");
+		const img = window.electronAPI?.invokeViSetImg();
 		if (img) {
 			setImgSrc(img);
 			// const images = [{ src: img, key: 0 }];
@@ -61,7 +61,7 @@ const ViewImage = () => {
 	}
 
 	async function setSsImg() {
-		const imgs = await ipcRenderer.invoke("vi:set-imgs");
+		const imgs = await window.electronAPI?.invokeViGetImgs();
 		// setImages(imgs);
 	}
 

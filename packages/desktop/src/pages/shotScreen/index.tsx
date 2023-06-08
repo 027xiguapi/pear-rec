@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Screenshots, { Bounds } from "react-screenshots";
-import { ipcRenderer } from "electron";
 import "react-screenshots/lib/style.css";
 import styles from "./index.module.scss";
 
@@ -12,23 +11,23 @@ export default function ShotScreen() {
 	}, []);
 
 	async function getShotScreenImg() {
-		const img = await ipcRenderer.invoke("ss:get-shot-screen-img");
+		const img = await window.electronAPI?.invokeSsGetShotScreenImg();
 		setScreenShotImg(img);
 		return img;
 	}
 
 	const onSave = useCallback((blob: Blob, bounds: Bounds) => {
-		const downloadUrl = URL.createObjectURL(blob);
-		ipcRenderer.send("ss:download-img", downloadUrl);
+		const url = URL.createObjectURL(blob);
+		window.electronAPI?.sendSsDownloadImg(url);
 	}, []);
 
 	const onCancel = useCallback(() => {
-		ipcRenderer.send("ss:close-win");
+		window.electronAPI?.sendSsCloseWin();
 	}, []);
 
 	const onOk = useCallback((blob: Blob, bounds: Bounds) => {
-		const downloadUrl = URL.createObjectURL(blob);
-		ipcRenderer.send("ss:save-img", downloadUrl);
+		const url = URL.createObjectURL(blob);
+		window.electronAPI?.sendSsSaveImg(url);
 	}, []);
 
 	return (

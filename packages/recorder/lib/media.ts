@@ -522,7 +522,7 @@ class Media extends EventTarget {
     }
   }
 
-  downloadBlob(filename: string) {
+  downloadBlob(filename?: string) {
     const url = this.getBlobUrl() as string;
     const a = document.createElement("a");
     a.style.display = "none";

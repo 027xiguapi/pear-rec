@@ -1,21 +1,19 @@
-import React, {
-	useEffect,
-	useState,
-	useImperativeHandle,
-	forwardRef,
-} from "react";
+import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { ScissorOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import { ipcRenderer } from "electron";
+import { useNavigate } from "react-router-dom";
 
 const ShotScreenCard = forwardRef((props: any, ref: any) => {
+	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({
 		handleCutScreen,
 	}));
 	const [isCutScreen, setIsCutScreen] = useState(true);
 
 	function handleCutScreen() {
-		ipcRenderer.send("ss:open-win");
+		window.electronAPI
+			? window.electronAPI.sendSsOpenWin()
+			: navigate("/shotScreen");
 	}
 
 	return (
@@ -28,7 +26,7 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 			onClick={handleCutScreen}
 		>
 			<div className="cardContent">
-				<ScissorOutlined />
+				<ScissorOutlined rev={undefined} />
 			</div>
 		</Card>
 	);

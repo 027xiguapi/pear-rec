@@ -37,8 +37,6 @@ function createViewImageWin(isHistory?: boolean): BrowserWindow {
 		// titleBarOverlay: true,
 		webPreferences: {
 			preload,
-			nodeIntegration: true,
-			contextIsolation: false,
 		},
 	});
 

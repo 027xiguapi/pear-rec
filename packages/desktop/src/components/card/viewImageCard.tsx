@@ -1,15 +1,18 @@
 import React, { useImperativeHandle, forwardRef } from "react";
 import { PictureOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import { ipcRenderer } from "electron";
+import { useNavigate } from "react-router-dom";
 
 const ViewImageCard = forwardRef((props: any, ref: any) => {
+	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({
 		handleViewImage,
 	}));
 
 	function handleViewImage() {
-		ipcRenderer.send("vi:open-win", true);
+		window.electronAPI
+			? window.electronAPI.sendViOpenWin()
+			: navigate("/viewImage");
 	}
 
 	function handleOpenFile(e: any) {
@@ -18,11 +21,11 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 	}
 
 	async function getImg() {
-		const img = await ipcRenderer.invoke("vi:get-img");
-		if (img) {
-			ipcRenderer.send("ma:hide-win");
-			ipcRenderer.send("vi:open-win", true);
-		}
+		// const img = await ipcRenderer.invoke("vi:get-img");
+		// if (img) {
+		// 	ipcRenderer.send("ma:hide-win");
+		// 	ipcRenderer.send("vi:open-win", true);
+		// }
 	}
 
 	return (
@@ -39,7 +42,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 			onClick={handleViewImage}
 		>
 			<div className="cardContent">
-				<PictureOutlined />
+				<PictureOutlined rev={undefined} />
 			</div>
 		</Card>
 	);

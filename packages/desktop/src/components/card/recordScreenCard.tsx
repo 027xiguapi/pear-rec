@@ -1,19 +1,17 @@
-import React, {
-	useEffect,
-	useState,
-	useImperativeHandle,
-	forwardRef,
-} from "react";
+import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { CameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import { ipcRenderer } from "electron";
+import { useNavigate } from "react-router-dom";
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
+	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({}));
 	const [isRecordScreen, setIsRecordScreen] = useState(true);
 
-	function handleCutScreen() {
-		ipcRenderer.send("rs:open-win");
+	function handleRecordScreen() {
+		window.electronAPI
+			? window.electronAPI.sendRsOpenWin()
+			: navigate("/recorderScreen");
 	}
 
 	return (
@@ -23,10 +21,10 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 			bordered={false}
 			extra={<a href="#">更多</a>}
 			style={{ maxWidth: 300 }}
-			onClick={handleCutScreen}
+			onClick={handleRecordScreen}
 		>
 			<div className="cardContent">
-				<CameraOutlined />
+				<CameraOutlined rev={undefined} />
 			</div>
 		</Card>
 	);

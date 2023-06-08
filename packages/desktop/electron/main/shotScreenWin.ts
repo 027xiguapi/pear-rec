@@ -35,8 +35,6 @@ function createShotScreenWin(): BrowserWindow {
 		alwaysOnTop: false, // 窗口是否永远在别的窗口的上面
 		webPreferences: {
 			preload,
-			nodeIntegration: true,
-			contextIsolation: false,
 		},
 	});
 

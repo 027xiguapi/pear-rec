@@ -1,19 +1,17 @@
-import React, {
-	useEffect,
-	useState,
-	useImperativeHandle,
-	forwardRef,
-} from "react";
+import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import { ipcRenderer } from "electron";
+import { useNavigate } from "react-router-dom";
 
 const RecordAudioCard = forwardRef((props: any, ref: any) => {
+	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({ setIsRecordAudio }));
 	const [isRecordAudio, setIsRecordAudio] = useState(true);
 
 	function handleRecordAudio() {
-		ipcRenderer.send("ra:open-win");
+		window.electronAPI
+			? window.electronAPI.sendRaOpenWin()
+			: navigate("/recorderAudio");
 	}
 
 	return (
@@ -25,7 +23,11 @@ const RecordAudioCard = forwardRef((props: any, ref: any) => {
 			onClick={handleRecordAudio}
 		>
 			<div className="cardContent">
-				{isRecordAudio ? <AudioOutlined /> : <AudioMutedOutlined />}
+				{isRecordAudio ? (
+					<AudioOutlined rev={undefined} />
+				) : (
+					<AudioMutedOutlined rev={undefined} />
+				)}
 			</div>
 		</Card>
 	);

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Switch, Form, Input, Tabs } from "antd";
 import type { TabsProps } from "antd";
-import { ipcRenderer } from "electron";
 import UserSetting from "@/components/setting/userSetting";
 import BasicSetting from "@/components/setting/basicSetting";
 import "./index.scss";

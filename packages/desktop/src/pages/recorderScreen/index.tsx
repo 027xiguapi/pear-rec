@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ipcRenderer } from "electron";
+// import { ipcRenderer } from "electron";
 import { useStopwatch } from "react-timer-hook";
 import {
 	BsStop,
@@ -25,10 +25,6 @@ import useMediaRecorder from "@/components/useMediaRecorder";
 import "@pear-rec/timer/dist/style.css";
 import "./index.scss";
 
-async function getDesktopCapturerSource() {
-	return await ipcRenderer.invoke("rs:get-desktop-capturer-source");
-}
-
 const RecorderScreen = () => {
 	const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
 		useStopwatch({ autoStart: false });
@@ -41,8 +37,8 @@ const RecorderScreen = () => {
 	}, []);
 
 	async function doScreenRecorder() {
-		const sources = await getDesktopCapturerSource();
-		setSource(sources.filter((e: any) => e.id == "screen:0:0")[0]);
+		// const sources = await ipcRenderer.invoke("rs:get-desktop-capturer-source");
+		// setSource(sources.filter((e: any) => e.id == "screen:0:0")[0]);
 	}
 
 	const {
@@ -61,7 +57,7 @@ const RecorderScreen = () => {
 		desktop: true,
 		source: source,
 		onStop: (url, blob) => {
-			ipcRenderer.send("rs:download-record", url);
+			blob && window.electronAPI?.sendRsDownloadRecord(url);
 		},
 	});
 
@@ -70,7 +66,7 @@ const RecorderScreen = () => {
 		setIsPlay(true);
 		startRecord();
 		start();
-		ipcRenderer.send("rs:start-record");
+		window.electronAPI?.sendRsStartRecord();
 	}
 
 	function handlePauseRecord() {
@@ -78,14 +74,14 @@ const RecorderScreen = () => {
 		setIsPause(true);
 		pauseRecord();
 		pause();
-		ipcRenderer.send("rs:pause-record");
+		window.electronAPI?.sendRsPauseRecord();
 	}
 
 	function handleResumeRecord() {
 		console.log("handleResumeRecord");
 		setIsPause(false);
 		resumeRecord();
-		ipcRenderer.send("rs:start-record");
+		window.electronAPI?.sendRsStartRecord();
 	}
 
 	function handleStopRecord() {
@@ -100,15 +96,15 @@ const RecorderScreen = () => {
 	}
 
 	async function handleCloseWin() {
-		ipcRenderer.send("rs:close-win");
+		window.electronAPI?.sendRsCloseWin();
 	}
 
 	async function handleHideWin() {
-		ipcRenderer.send("rs:hide-win");
+		window.electronAPI?.sendRsHideWin();
 	}
 
 	function handleMinimizeWin() {
-		ipcRenderer.send("rs:minimize-win");
+		window.electronAPI?.sendRsMinimizeWin();
 	}
 
 	return (

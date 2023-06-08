@@ -54,18 +54,6 @@ const Home: React.FC = () => {
 						}
 					});
 
-					// setVideoinputDevices(videoinputDevices);
-					// setAudioinputDevices(audioinputDevices);
-					// setAudiooutputDevices(audiooutputDevices);
-					// console.log("videoinputDevices", videoinputDevices);
-					// console.log("audioinputDevices", audioinputDevices);
-					// console.log("audiooutputDevices", audiooutputDevices);
-					// rvcRef.current.setIsRecordVideo(
-					// 	videoinputDevices.length ? true : false,
-					// );
-					// racRef.current.setIsRecordAudio(
-					// 	audioinputDevices.length ? true : false,
-					// );
 					resolve({ flag: true, devices: devices });
 				})
 				.catch((err) => {

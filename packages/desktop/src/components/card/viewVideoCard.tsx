@@ -1,20 +1,18 @@
-import React, {
-	useEffect,
-	useState,
-	useImperativeHandle,
-	forwardRef,
-} from "react";
+import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import { ipcRenderer } from "electron";
+import { useNavigate } from "react-router-dom";
 
 const ViewVideoCard = forwardRef((props: any, ref: any) => {
+	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({
 		handleViewVideo,
 	}));
 
 	function handleViewVideo() {
-		ipcRenderer.send("vv:open-win");
+		window.electronAPI
+			? window.electronAPI.sendVvOpenWin()
+			: navigate("/viewVideo");
 	}
 
 	function handleOpenFile(e: any) {
@@ -23,11 +21,11 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	}
 
 	async function getVideo() {
-		const video = await ipcRenderer.invoke("vv:get-video");
-		if (video) {
-			ipcRenderer.send("ma:hide-win");
-			ipcRenderer.send("vv:open-win");
-		}
+		// const video = await ipcRenderer.invoke("vv:get-video");
+		// if (video) {
+		// 	ipcRenderer.send("ma:hide-win");
+		// 	ipcRenderer.send("vv:open-win");
+		// }
 	}
 
 	return (
@@ -44,7 +42,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 			onClick={handleViewVideo}
 		>
 			<div className="cardContent">
-				<PlayCircleOutlined />
+				<PlayCircleOutlined rev={undefined} />
 			</div>
 		</Card>
 	);
