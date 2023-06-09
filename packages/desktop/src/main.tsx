@@ -1,11 +1,5 @@
-import { createRoot } from "react-dom/client";
-import {} from "react-router-dom";
-import App from "@/router";
-// import "./samples/node-api";
-import "./index.scss";
-
-const container = document.getElementById("root") as HTMLElement;
-const root = createRoot(container);
-root.render(<App />);
+import "@pear-rec/web";
+import "@pear-rec/web/dist/style.css";
+import "./samples/node-api";
 
 postMessage({ payload: "removeLoading" }, "*");

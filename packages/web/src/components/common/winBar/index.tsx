@@ -50,28 +50,34 @@ const WinBar = () => {
 		<div className="winBar">
 			<Button
 				type="text"
-				icon={<PushpinOutlined />}
+				icon={<PushpinOutlined rev={undefined} />}
 				className={`toolbarIcon ${isAlwaysOnTop ? "active" : ""}`}
 				title="置顶"
 				onClick={() => handleToggleAlwaysOnTopWin()}
 			/>
 			<Button
 				type="text"
-				icon={<MinusOutlined />}
+				icon={<MinusOutlined rev={undefined} />}
 				className="toolbarIcon"
 				title="最小化"
 				onClick={() => handleMinimizeWin()}
 			/>
 			<Button
 				type="text"
-				icon={isMaximize ? <BlockOutlined /> : <BorderOutlined />}
+				icon={
+					isMaximize ? (
+						<BlockOutlined rev={undefined} />
+					) : (
+						<BorderOutlined rev={undefined} />
+					)
+				}
 				className="toolbarIcon"
 				title={isMaximize ? "向下还原" : "最大化"}
 				onClick={() => handleToggleMaximizeWin()}
 			/>
 			<Button
 				type="text"
-				icon={<CloseOutlined />}
+				icon={<CloseOutlined rev={undefined} />}
 				className="toolbarIcon"
 				title="关闭"
 				onClick={() => handleHideWin()}
