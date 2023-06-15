@@ -1,12 +1,9 @@
 .viewImage {
-	.viewImageTools {
-		z-index: 10000;
-		position: absolute;
-		left: 0;
-		top: 0;
-		.active {
-			color: #1677ff;
-		}
+	.viewImageUpload {
+		width: 98vw;
+		height: 98vh;
+		margin-top: 1vh;
+		display: inline-block;
 	}
 
 	.viewImageHeader {
@@ -26,19 +23,18 @@
 	}
 	.rc-image-preview-operations {
 		flex-direction: row;
-		background-color: #f0f0f0;
-		.rc-image-preview-operations-operation:first-child {
-			margin-left: 33px;
-		}
+		background-color: rgba(240, 240, 240, 0.7);
+		justify-content: center;
 		.rc-image-preview-operations-operation {
-			padding: 6px;
-			margin-left: 5px;
+			padding: 5px;
+			margin: 0 7px;
 			color: #000;
 		}
-		.rc-image-preview-operations-operation-region {
-			flex-grow: 1;
-			height: 33px;
-			-webkit-app-region: drag;
-		}
+	}
+}
+
+@media print {
+	.viewImageBox.rc-image-preview-operations-wrapper {
+		display: none;
 	}
 }

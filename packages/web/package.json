@@ -16,6 +16,7 @@
     "@pear-rec/timer": "workspace:^",
     "antd": "^5.4.6",
     "dayjs": "^1.11.7",
+    "file-saver": "^2.0.5",
     "plyr": "^3.7.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,6 +27,7 @@
     "react-timer-hook": "^3.0.6"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
@@ -40,7 +42,14 @@
   "main": "./dist/web.umd.js",
   "module": "./dist/web.es.js",
   "types": "./index.d.ts",
-  "keywords": [],
+  "keywords": [
+    "react",
+    "antd",
+    "plyr",
+    "react-router-dom",
+    "react-screenshots",
+    "react-timer-hook"
+  ],
   "author": "",
   "license": "MIT",
   "description": ""

@@ -1,14 +1,13 @@
 .recordAudio {
-	height: 100vh;
-	margin: auto;
-	width: 100%;
-	max-width: 350px;
-	max-height: 650px;
+	width: 350px;
+	height: 650px;
 	overflow: hidden;
 	position: relative;
 	border-radius: 8px;
-	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03),
-		0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+	// box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03),
+	// 	0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+	box-shadow: rgb(190, 200, 228) 3px 3px 6px 0px,
+		rgb(255, 255, 255) -3px -3px 6px 0px;
 	:global {
 		.timer {
 			margin: 70px auto 50px;

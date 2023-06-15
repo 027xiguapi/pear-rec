@@ -1,7 +1,7 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { ScissorOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Route } from "react-router-dom";
 
 const ShotScreenCard = forwardRef((props: any, ref: any) => {
 	const navigate = useNavigate();
@@ -13,7 +13,7 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 	function handleCutScreen() {
 		window.electronAPI
 			? window.electronAPI.sendSsOpenWin()
-			: navigate("/shotScreen");
+			: navigate("/shotScreen", { replace: false });
 	}
 
 	return (

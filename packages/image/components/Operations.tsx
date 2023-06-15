@@ -66,15 +66,15 @@ const Operations: React.FC<OperationsProps> = (props) => {
 		right,
 		flipX,
 		flipY,
+		openImg,
+		printer,
+		download,
+		reset,
+		fullScreen,
 	} = icons;
 	const toolClassName = `${prefixCls}-operations-operation`;
 	const iconClassName = `${prefixCls}-operations-icon`;
 	const tools = [
-		// {
-		//   icon: close,
-		//   onClick: onClose,
-		//   type: 'close',
-		// },
 		{
 			icon: zoomIn,
 			onClick: onZoomIn,
@@ -106,6 +106,26 @@ const Operations: React.FC<OperationsProps> = (props) => {
 			icon: flipY,
 			onClick: onFlipY,
 			type: "flipY",
+		},
+		{
+			icon: openImg,
+			type: "openImg",
+		},
+		{
+			icon: printer,
+			type: "printer",
+		},
+		{
+			icon: download,
+			type: "download",
+		},
+		{
+			icon: reset,
+			type: "reset",
+		},
+		{
+			icon: fullScreen,
+			type: "fullScreen",
 		},
 	];
 
@@ -153,7 +173,6 @@ const Operations: React.FC<OperationsProps> = (props) => {
 							: icon}
 					</li>
 				))}
-				<li className={`${prefixCls}-operations-operation-region`}></li>
 			</ul>
 		</>
 	);

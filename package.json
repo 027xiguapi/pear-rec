@@ -1,11 +1,14 @@
 {
   "name": "pear-rec",
   "version": "1.0.0",
-  "description": "",
+  "description": "pear-rec is a cross platform screenshot, screen recording, audio recording, and video recording software.",
   "scripts": {
     "watch:packages": "pnpm run -F=* watch",
     "dev:desktop": "pnpm run -C packages/desktop dev",
     "build:desktop": "pnpm run -C packages/desktop build",
+    "dev:web": "pnpm run -C packages/web dev",
+    "build:web": "pnpm run -C packages/web build",
+    "watch:web": "pnpm run -C packages/web watch",
     "dev:docs": "pnpm run -C docs dev",
     "build:docs": "pnpm run -C docs build",
     "preview:docs": "pnpm run -C docs preview",
@@ -22,7 +25,15 @@
   },
   "dependencies": {},
   "devDependencies": {},
-  "keywords": [],
+  "keywords": [
+    "electron",
+    "react",
+    "antd",
+    "plyr",
+    "react-router-dom",
+    "react-screenshots",
+    "react-timer-hook"
+  ],
   "author": "027xiguapi",
   "homepage": "https://027xiguapi.github.io/pear-rec",
   "repository": {

@@ -7,7 +7,7 @@ import RecordScreenCard from "@/components/card/recordScreenCard";
 import RecordAudioCard from "@/components/card/recordAudioCard";
 import ViewImageCard from "@/components/card/viewImageCard";
 import ViewVideoCard from "@/components/card/viewVideoCard";
-import "./index.scss";
+import styles from "./index.module.scss";
 
 const Home: React.FC = () => {
 	const cscRef = useRef(null);
@@ -63,7 +63,10 @@ const Home: React.FC = () => {
 	}
 
 	return (
-		<div className="home">
+		<div
+			className={styles.home}
+			style={{ marginTop: window.isElectron ? "0" : "30px" }}
+		>
 			<Header />
 			<div className="container">
 				<Row className="cardRow" justify="center" gutter={16}>

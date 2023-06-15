@@ -122,7 +122,7 @@
 	list-style: none;
 	position: fixed;
 	display: flex;
-	top: 0;
+	bottom: 0;
 	right: 0;
 	width: 100%;
 	align-items: center;
@@ -149,7 +149,10 @@
 	margin-left: 0;
 }
 .rc-image-preview-operations-icon {
-	font-size: 18px;
+	font-size: 30px;
+}
+.rc-image-preview-operations-icon .anticon-file-image {
+	font-size: 30px;
 }
 .rc-image-preview-switch-left {
 	position: fixed;

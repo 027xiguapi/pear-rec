@@ -89,7 +89,10 @@ const RecordAudio = () => {
 	}
 
 	return (
-		<div className={styles.recordAudio}>
+		<div
+			className={styles.recordAudio}
+			style={{ marginTop: window.isElectron ? "0" : "30px" }}
+		>
 			<div className="timer">
 				<Timer seconds={seconds} minutes={minutes} hours={hours} />
 			</div>

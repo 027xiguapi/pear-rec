@@ -5,6 +5,15 @@ import { Routes, Route, HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "@/stores";
 
+// import Home from "@/pages/home";
+// import ShotScreen from "@/pages/shotScreen";
+// import RecorderScreen from "@/pages/recorderScreen";
+// import RecordVideo from "@/pages/recorderVideo";
+// import RecordAudio from "@/pages/recorderAudio";
+// import ViewImage from "@/pages/viewImage";
+// import ViewVideo from "@/pages/viewVideo";
+// import Setting from "@/pages/setting";
+
 const Home = lazy(() => import("@/pages/home"));
 const ShotScreen = lazy(() => import("@/pages/shotScreen"));
 const RecorderScreen = lazy(() => import("@/pages/recorderScreen"));
