@@ -8,7 +8,7 @@ function createSettingWin(): BrowserWindow {
 	const { width, height } = getScreenSize();
 	settingWin = new BrowserWindow({
 		title: "pear-rec 设置",
-		icon: join(PUBLIC, "logo@2x.ico"),
+		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		width: 600, // 宽度(px)
 		height: 380, // 高度(px)

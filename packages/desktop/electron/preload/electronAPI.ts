@@ -36,15 +36,16 @@ contextBridge.exposeInMainWorld("electronAPI", {
 	sendSsSaveImg: (url: string) => ipcRenderer.send("ss:download-img", url),
 
 	//viWin
-	sendViOpenWin: () => ipcRenderer.send("vi:open-win"),
+	sendViOpenWin: (search?: any) => ipcRenderer.send("vi:open-win", search),
 	invokeViGetImgs: () => ipcRenderer.invoke("vi:get-imgs", "选择图片"),
 	invokeViSetAlwaysOnTop: (isAlwaysOnTop: boolean) =>
 		ipcRenderer.send("vi:set-always-on-top", isAlwaysOnTop),
 	invokeViSetImg: () => ipcRenderer.invoke("vi:set-img"),
 
 	//vvWin
-	sendVvOpenWin: () => ipcRenderer.send("vv:open-win"),
+	sendVvOpenWin: (search?: any) => ipcRenderer.send("vv:open-win", search),
 	invokeVvSetVideo: () => ipcRenderer.invoke("vv:set-video"),
+	invokeVvGetVideo: () => ipcRenderer.invoke("vv:get-video"),
 
 	//seWin
 	sendSeOpenWin: () => ipcRenderer.send("se:open-win"),

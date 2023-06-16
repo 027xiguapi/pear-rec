@@ -11,12 +11,11 @@ import {
 import { getHistoryImg, getFilePath } from "./store";
 
 let viewImageWin: BrowserWindow | null = null;
-let historyImgPath: string = "";
 
-function createViewImageWin(isHistory?: boolean): BrowserWindow {
+function createViewImageWin(search?: any): BrowserWindow {
 	viewImageWin = new BrowserWindow({
 		title: "pear-rec 图片预览",
-		icon: join(PUBLIC, "logo@2x.ico"),
+		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
 		width: 800, // 宽度(px), 默认值为 800
 		height: 600, // 高度(px), 默认值为 600
 		minHeight: 400,
@@ -41,13 +40,12 @@ function createViewImageWin(isHistory?: boolean): BrowserWindow {
 	});
 
 	if (url) {
-		// electron-vite-vue#298
-		viewImageWin.loadURL(url + `#/viewImage?${isHistory ? "history=1" : ""}`);
+		viewImageWin.loadURL(url + `#/viewImage?url=${search?.url || ""}`);
 		// Open devTool if the app is not packaged
 		// viewImageWin.webContents.openDevTools();
 	} else {
 		viewImageWin.loadFile(indexHtml, {
-			hash: `viewImage?${isHistory ? "history=1" : ""}`,
+			hash: `viewImage?url=${search?.url || ""}`,
 		});
 	}
 
@@ -58,9 +56,9 @@ function createViewImageWin(isHistory?: boolean): BrowserWindow {
 	return viewImageWin;
 }
 
-function openViewImageWin(isHistory?: boolean) {
+function openViewImageWin(search?: boolean) {
 	if (!viewImageWin || viewImageWin?.isDestroyed()) {
-		viewImageWin = createViewImageWin(isHistory);
+		viewImageWin = createViewImageWin(search);
 	}
 	viewImageWin.show();
 }

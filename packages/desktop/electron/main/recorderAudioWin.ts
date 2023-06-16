@@ -8,7 +8,7 @@ let recorderAudioWin: BrowserWindow | null = null;
 function createRecorderAudioWin(): BrowserWindow {
 	recorderAudioWin = new BrowserWindow({
 		title: "pear-rec 录音",
-		icon: join(PUBLIC, "logo@2x.ico"),
+		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
 		width: 350, // 宽度(px), 默认值为 800
 		height: 650, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏

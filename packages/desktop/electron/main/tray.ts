@@ -11,7 +11,7 @@ import { openViewVideoWin } from "./viewVideoWin";
 import { openSettingWin } from "./settingWin";
 
 export function initTray() {
-	let appIcon = new Tray(join(PUBLIC, "logo@2x.ico"));
+	let appIcon = new Tray(join(PUBLIC, "/imgs/logo/logo@2x.ico"));
 	const contextMenu = Menu.buildFromTemplate([
 		{
 			label: "截图",

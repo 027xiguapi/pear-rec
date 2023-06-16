@@ -23,20 +23,18 @@ import {
 	CloseOutlined,
 } from "@ant-design/icons";
 import type { UploadProps } from "antd/es/upload/interface";
-import defaultImg from "@/assets/imgs/th.webp";
+import defaultImg from "/imgs/th.webp";
 import "@pear-rec/image/dist/style.css";
 import "./index.scss";
 
 const { Dragger } = Upload;
 const ViewImage = () => {
 	const [search, setSearch] = useSearchParams();
-	const [visible, setVisible] = useState(false);
 	const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
 	const [imgSrc, setImgSrc] = useState("");
 	const [isFull, setIsFull] = useState(false);
 
 	useEffect(() => {
-		setVisible(true);
 		getImgSrc();
 	}, []);
 
@@ -95,16 +93,14 @@ const ViewImage = () => {
 	}
 
 	async function getImgSrc() {
-		const img = await window.electronAPI?.invokeViSetImg();
 		const imgUrl = search.get("url");
-		setImgSrc(img || imgUrl || defaultImg);
-		return img || imgUrl || defaultImg;
+		if (imgUrl) {
+			setImgSrc(imgUrl);
+		} else {
+			const img = await window.electronAPI?.invokeViSetImg();
+			setImgSrc(img || defaultImg);
+		}
 	}
-
-	// async function setSsImg() {
-	// 	const imgs = await window.electronAPI?.invokeViGetImgs();
-	// 	// setImages(imgs);
-	// }
 
 	return (
 		<div className="viewImage">
@@ -148,7 +144,7 @@ const ViewImage = () => {
 								<ExpandOutlined rev={undefined} onClick={handleFullScreen} />
 							),
 						},
-						visible,
+						visible: true,
 						getContainer: "#root .viewImage",
 					}}
 				/>

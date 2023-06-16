@@ -188,8 +188,8 @@ export function initIpcMain() {
 	});
 
 	// 图片展示
-	ipcMain.on("vi:open-win", (e, isHistory) => {
-		openViewImageWin(isHistory);
+	ipcMain.on("vi:open-win", (e, search) => {
+		openViewImageWin(search);
 	});
 
 	ipcMain.on("vi:close-win", () => {
@@ -227,8 +227,8 @@ export function initIpcMain() {
 	});
 
 	// 视频音频展示
-	ipcMain.on("vv:open-win", () => {
-		openViewVideoWin();
+	ipcMain.on("vv:open-win", (e, search) => {
+		openViewVideoWin(search);
 	});
 
 	ipcMain.on("vv:close-win", () => {
@@ -256,8 +256,8 @@ export function initIpcMain() {
 	});
 
 	ipcMain.handle("vv:set-video", async () => {
-		const imgs = await sendHistoryVideo();
-		return imgs;
+		const video = await sendHistoryVideo();
+		return video;
 	});
 
 	// 打开图片

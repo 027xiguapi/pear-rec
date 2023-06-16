@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import logo from "@/assets/imgs/logo.ico";
+import logo from "/imgs/logo/logo.ico";
 import "./index.scss";
 
 const Header = () => {

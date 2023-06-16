@@ -8,7 +8,7 @@ let recorderScreenWin: BrowserWindow | null = null;
 function createRecorderScreenWin(): BrowserWindow {
 	recorderScreenWin = new BrowserWindow({
 		title: "pear-rec 录屏",
-		icon: join(PUBLIC, "logo@2x.ico"),
+		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
 		width: 330, // 宽度(px), 默认值为 800
 		height: 55, // 高度(px), 默认值为 600
 		// autoHideMenuBar: true, // 自动隐藏菜单栏

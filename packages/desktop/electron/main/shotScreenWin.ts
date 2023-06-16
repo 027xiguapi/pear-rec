@@ -19,7 +19,7 @@ function createShotScreenWin(): BrowserWindow {
 	const { width, height } = getScreenSize();
 	shotScreenWin = new BrowserWindow({
 		title: "pear-rec 截屏",
-		icon: path.join(PUBLIC, "logo@2x.ico"),
+		icon: path.join(PUBLIC, "/imgs/logo/logo@2x.ico"),
 		width, // 宽度(px), 默认值为 800
 		height, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏

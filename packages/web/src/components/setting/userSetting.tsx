@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Card } from "antd";
 import dayjs from "dayjs";
-import logo from "@/assets/imgs/logo@2x.ico";
+import logo from "/imgs/logo/logo@2x.ico";
 
 const { Meta } = Card;
 

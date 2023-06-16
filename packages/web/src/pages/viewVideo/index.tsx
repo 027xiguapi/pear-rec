@@ -1,24 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Plyr from "plyr";
 import { Button, Empty } from "antd";
-import defaultVideo from "@/assets/video/chrome.webm";
+import defaultVideo from "/video/chrome.webm";
 import "plyr/dist/plyr.css";
 import "./index.scss";
 
 const ViewVideo = () => {
+	const [search, setSearch] = useSearchParams();
 	const [source, setSource] = useState("");
 	const sourceRef = useRef<HTMLSourceElement>(null);
 
 	useEffect(() => {
-		setVideo();
 		if (source) {
 			const player = new Plyr("#player");
+		} else {
+			setVideo();
 		}
 	}, [source]);
 
 	async function setVideo() {
-		const video = await window.electronAPI?.invokeVvSetVideo();
-		setSource(video || defaultVideo);
+		const videoUrl = search.get("url");
+		if (videoUrl) {
+			setSource(videoUrl);
+		} else {
+			const video = await window.electronAPI?.invokeVvSetVideo();
+			setSource(video || defaultVideo);
+		}
 	}
 
 	return (

@@ -8,7 +8,7 @@ let mainWin: BrowserWindow | null = null;
 const createMainWin = (): BrowserWindow => {
 	mainWin = new BrowserWindow({
 		title: "pear-rec",
-		icon: join(PUBLIC, "logo@2x.ico"),
+		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
 		width: 660, // 宽度(px)
 		height: 375, // 高度(px)
 		maxWidth: 660,
@@ -28,12 +28,12 @@ const createMainWin = (): BrowserWindow => {
 	}
 
 	// Test actively push message to the Electron-Renderer
-	mainWin.webContents.on("did-finish-load", () => {
-		mainWin?.webContents.send(
-			"main-process-message",
-			new Date().toLocaleString(),
-		);
-	});
+	// mainWin.webContents.on("did-finish-load", () => {
+	// 	mainWin?.webContents.send(
+	// 		"main-process-message",
+	// 		new Date().toLocaleString(),
+	// 	);
+	// });
 
 	// Make all links open with the browser, not with the application
 	mainWin.webContents.setWindowOpenHandler(({ url }) => {
@@ -42,7 +42,7 @@ const createMainWin = (): BrowserWindow => {
 	});
 
 	// Apply electron-updater
-	update(mainWin);
+	// update(mainWin);
 
 	return mainWin;
 };
