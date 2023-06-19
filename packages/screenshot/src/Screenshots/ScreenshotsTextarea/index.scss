@@ -1,0 +1,19 @@
+@import "../var.scss";
+
+.screenshots-textarea {
+	box-sizing: border-box;
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	padding: 0;
+	background-color: transparent;
+	border: 2px solid $border-color;
+	resize: none;
+	outline: none;
+	white-space: nowrap;
+	word-break: break-all;
+	overflow: hidden;
+	font-family: $font-family;
+	text-align: left;
+}

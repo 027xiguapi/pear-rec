@@ -21,7 +21,10 @@
     "watch:image": "pnpm run -C packages/image watch",
     "dev:recorder": "pnpm run -C packages/recorder dev",
     "build:recorder": "pnpm run -C packages/recorder build",
-    "watch:recorder": "pnpm run -C packages/recorder watch"
+    "watch:recorder": "pnpm run -C packages/recorder watch",
+    "dev:screenshot": "pnpm run -C packages/screenshot dev",
+    "build:screenshot": "pnpm run -C packages/screenshot build",
+    "watch:screenshot": "pnpm run -C packages/screenshot watch"
   },
   "dependencies": {},
   "devDependencies": {},

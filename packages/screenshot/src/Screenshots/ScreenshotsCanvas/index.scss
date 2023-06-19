@@ -1,0 +1,85 @@
+@import "../var.scss";
+
+.screenshots-canvas {
+	position: absolute;
+	left: 0;
+	top: 0;
+	will-change: width, height, transform;
+
+	&-body,
+	&-mask {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		overflow: hidden;
+	}
+
+	&-image {
+		display: block;
+		border: none;
+		outline: none;
+		will-change: transform;
+		image-rendering: -webkit-optimize-contrast;
+		image-rendering: crisp-edges;
+		-webkit-font-smooting: antialiased;
+	}
+
+	&-panel {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		will-change: width, height;
+	}
+
+	&-size {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: rgba(0, 0, 0, 0.8);
+		color: #fff;
+		font-size: 12px;
+		padding: 3px 4px;
+		border-radius: 2px;
+		white-space: nowrap;
+		pointer-events: none;
+	}
+
+	@each $border in $borders {
+		@each $key, $value in $border {
+			&-border-#{$key} {
+				position: absolute;
+				left: extract($value, 1);
+				top: extract($value, 2);
+				width: extract($value, 3);
+				height: extract($value, 4);
+				transform: extract($value, 5);
+				background-color: $border-color;
+				pointer-events: none;
+			}
+		}
+	}
+	@each $point in $points {
+		@each $key, $value in $point {
+			&-point-#{$key} {
+				width: 8px;
+				height: 8px;
+				position: absolute;
+				left: extract($value, 1);
+				top: extract($value, 2);
+				background-color: $point-color;
+				border-radius: 50%;
+				transform: translate(-50%, -50%);
+				cursor: extract($value, 3);
+			}
+		}
+	}
+}

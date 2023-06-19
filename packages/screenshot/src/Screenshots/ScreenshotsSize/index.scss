@@ -1,0 +1,28 @@
+@import "../var.scss";
+
+.screenshots-size {
+	height: $sizecolor-size;
+	display: flex;
+	align-items: center;
+
+	&-item {
+		width: $sizecolor-size;
+		height: $sizecolor-size;
+		position: relative;
+		margin: 0 3px;
+		cursor: pointer;
+	}
+
+	&-pointer {
+		background-color: #555;
+		border-radius: 50%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	&-active > &-pointer {
+		background-color: #39f;
+	}
+}

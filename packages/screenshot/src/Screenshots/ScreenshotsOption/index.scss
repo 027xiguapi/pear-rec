@@ -1,0 +1,50 @@
+@import "../var.scss";
+
+.screenshots-option {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-family: $font-family;
+
+	&,
+	* {
+		box-sizing: border-box;
+		user-select: none;
+	}
+
+	&-container {
+		height: $button-size + 3 * 2 + 2;
+		background-color: #fff;
+		padding: 3px;
+		border-radius: 2px;
+		border: 1px solid #ddd;
+		background-color: #fff;
+	}
+
+	&-arrow {
+		position: absolute;
+		border: 6px solid transparent;
+	}
+
+	&[data-placement="top"] {
+		transform: translate(-50%, -11px);
+	}
+
+	&[data-placement="top"] &-arrow {
+		transform: translate(-50%, -1px);
+		border-top-color: #fff;
+		top: 100%;
+		left: 50%;
+	}
+
+	&[data-placement="bottom"] {
+		transform: translate(-50%, 11px);
+	}
+
+	&[data-placement="bottom"] &-arrow {
+		transform: translate(-50%, 1px);
+		border-bottom-color: #fff;
+		bottom: 100%;
+		left: 50%;
+	}
+}

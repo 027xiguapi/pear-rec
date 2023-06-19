@@ -1,0 +1,107 @@
+$border-color: #39f;
+$point-color: $border-color;
+$font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+	Helvetica Neue, Arial, Noto Sans, sans-serif, apple color emoji,
+	segoe ui emoji, Segoe UI Symbol, noto color emoji;
+
+$borders:
+	// left,top,width,height,transform
+	(
+		"top": (
+			0,
+			0,
+			100%,
+			2px,
+			translateY(-50%),
+		),
+	),
+	(
+		"right": (
+			100%,
+			0,
+			2px,
+			100%,
+			translateX(-50%),
+		),
+	),
+	(
+		"bottom": (
+			0,
+			100%,
+			100%,
+			2px,
+			translateY(-50%),
+		),
+	),
+	(
+		"left": (
+			0,
+			0,
+			2px,
+			100%,
+			translateX(-50%),
+		),
+	);
+
+$points:
+	// left,top,cursor
+	(
+		top: (
+			50%,
+			0,
+			ns-resize,
+		),
+	),
+	(
+		top-right: (
+			100%,
+			0,
+			nesw-resize,
+		),
+	),
+	(
+		right: (
+			100%,
+			50%,
+			ew-resize,
+		),
+	),
+	(
+		right-bottom: (
+			100%,
+			100%,
+			nwse-resize,
+		),
+	),
+	(
+		bottom: (
+			50%,
+			100%,
+			ns-resize,
+		),
+	),
+	(
+		bottom-left: (
+			0,
+			100%,
+			nesw-resize,
+		),
+	),
+	(
+		left: (
+			0,
+			50%,
+			ew-resize,
+		),
+	),
+	(
+		left-top: (
+			0,
+			0,
+			nwse-resize,
+		),
+	);
+
+$button-size: 26px;
+
+$sizecolor-size: 24px;

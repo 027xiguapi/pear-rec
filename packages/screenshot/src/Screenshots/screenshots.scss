@@ -1,0 +1,12 @@
+@import "./var.scss";
+
+.screenshots {
+	position: relative;
+	transform: translateZ(0);
+	font-family: $font-family;
+	&,
+	* {
+		box-sizing: border-box;
+		user-select: none;
+	}
+}

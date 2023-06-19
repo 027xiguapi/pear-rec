@@ -1,0 +1,25 @@
+@import "../var.scss";
+
+.screenshots-operations {
+	position: absolute;
+	left: 0;
+	top: 0;
+	will-change: transform;
+
+	&-buttons {
+		display: flex;
+		align-items: center;
+		padding: 3px;
+		border-radius: 2px;
+		border: 1px solid #ddd;
+		background-color: #fff;
+		overflow: hidden;
+	}
+
+	&-divider {
+		background-color: #ddd;
+		width: 1px;
+		height: $button-size;
+		margin: 0 3px;
+	}
+}
