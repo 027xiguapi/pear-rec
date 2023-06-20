@@ -28,7 +28,19 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "main": "./lib/react-screenshots.cjs.js",
-  "module": "./lib/react-screenshots.es.js",
-  "types": "./lib/types/exports.d.ts"
+  "main": "./lib/screenshot.umd.js",
+  "module": "./lib/screenshot.es.js",
+  "types": "./lib/types/exports.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [
+    "react-screenshots",
+    "screenshot",
+    "cropper",
+    "react"
+  ],
+  "author": "027xiguapi",
+  "license": "MIT",
+  "description": "a screenshot cropper tool by react"
 }

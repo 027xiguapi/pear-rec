@@ -7,10 +7,12 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "watch": "tsc && vite build -w",
+    "build:lib": "vite build --mode lib && tsc --project tsconfig.build.json",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "rc-util": "^5.33.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -27,11 +29,14 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "main": "./dist/image.umd.js",
-  "module": "./dist/image.es.js",
-  "types": "./index.d.ts",
-  "keywords": [],
-  "author": "",
+  "main": "./lib/image.umd.js",
+  "module": "./lib/image.es.js",
+  "types": "./lib/types/index.d.ts",
+  "keywords": [
+    "rc-image",
+    "react"
+  ],
+  "author": "027xiguapi",
   "license": "MIT",
-  "description": ""
+  "description": "a image show tool by react"
 }

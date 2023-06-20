@@ -24,7 +24,7 @@ import {
 } from "@ant-design/icons";
 import type { UploadProps } from "antd/es/upload/interface";
 import defaultImg from "/imgs/th.webp";
-import "@pear-rec/image/dist/style.css";
+import "@pear-rec/image/lib/style.css";
 import "./index.scss";
 
 const { Dragger } = Upload;

@@ -8,7 +8,7 @@ export default defineConfig({
 	plugins: [react(), visualizer()],
 	build: {
 		lib: {
-			entry: resolve(__dirname, "components/index.ts"),
+			entry: resolve(__dirname, "./src/Image/index.ts"),
 			name: "image",
 			fileName: (format) => `image.${format}.js`,
 		},
@@ -23,6 +23,6 @@ export default defineConfig({
 				},
 			},
 		},
-		// outDir: "lib/dist",
+		outDir: "lib",
 	},
 });

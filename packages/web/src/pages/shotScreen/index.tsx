@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Screenshots, { Bounds } from "react-screenshots";
+import Screenshots, { Bounds } from "@pear-rec/screenshot";
 import { useNavigate } from "react-router-dom";
 import { saveAs } from "file-saver";
-import "react-screenshots/lib/style.css";
+import "@pear-rec/screenshot/lib/style.css";
 import styles from "./index.module.scss";
 import defaultImg from "/imgs/th.webp";
 
