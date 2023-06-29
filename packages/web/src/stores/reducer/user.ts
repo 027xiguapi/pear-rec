@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 	user: {
-		name: "yzs",
-		job: "全栈",
+		name: "027xiguapi",
+		job: "工程师",
 	},
 };
-export const counterSlice = createSlice({
+export const userSlice = createSlice({
 	name: "user", // 命名空间，在调用action的时候会默认的设置为action的前缀,保证唯一.不重名
 	initialState,
 	reducers: {
@@ -20,7 +20,7 @@ export const counterSlice = createSlice({
 	},
 });
 
-export const { updateUser } = counterSlice.actions;
+export const { updateUser } = userSlice.actions;
 export const selectUser = (state: any) => state.user.user;
 
-export default counterSlice.reducer;
+export default userSlice.reducer;

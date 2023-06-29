@@ -1,35 +1,152 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import Image from "./Image";
+import { useSearchParams } from "react-router-dom";
+import { Button, Upload } from "antd";
+import { saveAs } from "file-saver";
+import {
+	FileImageOutlined,
+	ZoomInOutlined,
+	ZoomOutOutlined,
+	RotateLeftOutlined,
+	RotateRightOutlined,
+	SyncOutlined,
+	DownloadOutlined,
+	PrinterOutlined,
+	LeftOutlined,
+	RightOutlined,
+	SwapOutlined,
+	ExpandOutlined,
+	CompressOutlined,
+	InboxOutlined,
+	PushpinOutlined,
+	EditOutlined,
+	CloseOutlined,
+} from "@ant-design/icons";
+import type { UploadProps } from "antd/es/upload/interface";
+import defaultImg from "/imgs/th.webp";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [search, setSearch] = useSearchParams();
+	const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
+	const [imgSrc, setImgSrc] = useState("");
+	const [isFull, setIsFull] = useState(false);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	useEffect(() => {
+		getImgSrc();
+	}, []);
+
+	const props: UploadProps = {
+		accept: "image/png,image/jpeg,.webp",
+		name: "file",
+		multiple: false,
+		showUploadList: false,
+		beforeUpload: (file) => {
+			const imgUrl = window.URL.createObjectURL(file);
+			setSearch({ url: imgUrl });
+			setImgSrc(imgUrl);
+			return false;
+		},
+	};
+
+	function handleDownload() {
+		const url = imgSrc;
+		saveAs(url, url.split(`${location.origin}/`)[1] + ".png");
+	}
+
+	function handleReset() {
+		(
+			document.querySelector(".viewImage .rc-image-preview-img") as HTMLElement
+		).style.transform = "";
+	}
+
+	function handlePrinter() {
+		window.print();
+	}
+
+	function handleFullScreen() {
+		const element = document.querySelector("#root");
+		if (element.requestFullscreen) {
+			element.requestFullscreen();
+			setIsFull(true);
+		}
+	}
+
+	function handleExitFullscreen() {
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+			setIsFull(false);
+		}
+	}
+
+	async function handleOpenImage() {
+		// const imgs = await window.electronAPI?.invokeViGetImgs();
+		// setImgs(imgs);
+	}
+
+	function handleToggleAlwaysOnTopWin() {
+		const _isAlwaysOnTop = !isAlwaysOnTop;
+		setIsAlwaysOnTop(_isAlwaysOnTop);
+		// window.electronAPI?.invokeViSetAlwaysOnTop(_isAlwaysOnTop);
+	}
+
+	async function getImgSrc() {
+		const imgUrl = search.get("url");
+		if (imgUrl) {
+			setImgSrc(imgUrl);
+		} else {
+			// const img = await window.electronAPI?.invokeViSetImg();
+			// setImgSrc(img || defaultImg);
+		}
+	}
+
+	return (
+		<>
+			<Image
+				src={defaultImg}
+				rootClassName="viewImageBox"
+				preview={{
+					icons: {
+						rotateLeft: <RotateLeftOutlined rev={undefined} />,
+						rotateRight: <RotateRightOutlined rev={undefined} />,
+						zoomIn: <ZoomInOutlined rev={undefined} />,
+						zoomOut: <ZoomOutOutlined rev={undefined} />,
+						left: <LeftOutlined rev={undefined} />,
+						right: <RightOutlined rev={undefined} />,
+						flipX: <SwapOutlined rev={undefined} />,
+						flipY: <SwapOutlined rev={undefined} rotate={90} />,
+						openImg: (
+							<Upload {...props}>
+								<Button
+									type="text"
+									icon={<FileImageOutlined rev={undefined} />}
+									className={`toolbarIcon`}
+									title="打开图片"
+								/>
+							</Upload>
+						),
+						printer: (
+							<PrinterOutlined rev={undefined} onClick={handlePrinter} />
+						),
+						download: (
+							<DownloadOutlined rev={undefined} onClick={handleDownload} />
+						),
+						reset: <SyncOutlined rev={undefined} onClick={handleReset} />,
+						fullScreen: isFull ? (
+							<CompressOutlined
+								rev={undefined}
+								onClick={handleExitFullscreen}
+							/>
+						) : (
+							<ExpandOutlined rev={undefined} onClick={handleFullScreen} />
+						),
+					},
+					visible: true,
+					getContainer: "#root .viewImage",
+				}}
+			/>
+		</>
+	);
 }
 
-export default App
+export default App;

@@ -22,6 +22,17 @@ contextBridge.exposeInMainWorld("electronAPI", {
 		ipcRenderer.send("rs:download-record", url),
 	sendRsStartRecord: () => ipcRenderer.send("rs:start-record"),
 	sendRsPauseRecord: () => ipcRenderer.send("rs:pause-record"),
+	invokeRsPauseRecord: () => ipcRenderer.invoke("rs:close-record"),
+	invokeRsGetDesktopCapturerSource: () => {
+		// const el = document.querySelector("#root .container") as HTMLElement;
+		// el.addEventListener("mouseenter", () => {
+		// 	ipcRenderer.send("set-ignore-mouse-events", true, { forward: true });
+		// });
+		// el.addEventListener("mouseleave", () => {
+		// 	ipcRenderer.send("set-ignore-mouse-events", false);
+		// });
+		return ipcRenderer.invoke("rs:get-desktop-capturer-source");
+	},
 
 	//rvWin
 	sendRvOpenWin: () => ipcRenderer.send("rv:open-win"),

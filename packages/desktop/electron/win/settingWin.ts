@@ -1,6 +1,6 @@
 import { app, BrowserWindow, shell } from "electron";
 import { join } from "node:path";
-import { getScreenSize, preload, url, indexHtml, PUBLIC } from "./utils";
+import { getScreenSize, preload, url, indexHtml, PUBLIC } from "../main/utils";
 
 let settingWin: BrowserWindow | null = null;
 

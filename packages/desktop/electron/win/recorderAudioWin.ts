@@ -1,7 +1,7 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join, dirname } from "node:path";
-import { preload, url, indexHtml, PUBLIC } from "./utils";
-import { getFilePath } from "./store";
+import { preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { getFilePath } from "../main/store";
 
 let recorderAudioWin: BrowserWindow | null = null;
 

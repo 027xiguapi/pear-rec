@@ -1,14 +1,14 @@
 import { Menu, Tray, app } from "electron";
 import { join } from "node:path";
 import { PUBLIC } from "./utils";
-import { showMainWin } from "./mainWin";
-import { openShotScreenWin } from "./shotScreenWin";
-import { openRecorderScreenWin } from "./recorderScreenWin";
-import { openRecorderAudioWin } from "./recorderAudioWin";
-import { openRecorderVideoWin } from "./recorderVideoWin";
-import { openViewImageWin } from "./viewImageWin";
-import { openViewVideoWin } from "./viewVideoWin";
-import { openSettingWin } from "./settingWin";
+import { showMainWin } from "../win/mainWin";
+import { openShotScreenWin } from "../win/shotScreenWin";
+import { openRecorderScreenWin } from "../win/recorderScreenWin";
+import { openRecorderAudioWin } from "../win/recorderAudioWin";
+import { openRecorderVideoWin } from "../win/recorderVideoWin";
+import { openViewImageWin } from "../win/viewImageWin";
+import { openViewVideoWin } from "../win/viewVideoWin";
+import { openSettingWin } from "../win/settingWin";
 
 export function initTray() {
 	let appIcon = new Tray(join(PUBLIC, "/imgs/logo/logo@2x.ico"));

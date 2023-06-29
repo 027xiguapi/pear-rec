@@ -1,19 +1,3 @@
-// import { createStore } from "redux";
-// import counterReducer from "./reducer";
-
-// const store = createStore(reducer);
-
-// export default store;
-
-// import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-// import counterReducer from '../features/counter/counterSlice';
-
-// export const store = configureStore({
-//   reducer: {
-//     counter: counterReducer,
-//   },
-// });
-
 // 引入
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import counterReducer from "./reducer/counter";

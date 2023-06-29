@@ -4,10 +4,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
+    "dev": "tsc --watch",
     "build": "tsc && vite build",
-    "watch": "tsc && vite build -w",
-    "build:lib": "vite build --mode lib && tsc --project tsconfig.build.json",
+    "build:lib": "vite build && tsc --project tsconfig.build.json",
+    "watch": "vite build && tsc --project tsconfig.build.json -w",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

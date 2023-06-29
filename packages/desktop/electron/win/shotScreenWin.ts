@@ -9,8 +9,8 @@ import {
 	nativeImage,
 } from "electron";
 import path from "node:path";
-import { getScreenSize, preload, url, indexHtml, PUBLIC } from "./utils";
-import { getFilePath, setHistoryImg } from "./store";
+import { getScreenSize, preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { getFilePath, setHistoryImg } from "../main/store";
 
 let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = "";

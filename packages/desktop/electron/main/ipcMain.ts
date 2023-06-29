@@ -7,12 +7,12 @@ import {
 	dialog,
 } from "electron";
 
-import { hideMainWin, showMainWin, minimizeMainWin } from "./mainWin";
+import { hideMainWin, showMainWin, minimizeMainWin } from "../win/mainWin";
 import {
 	closeShotScreenWin,
 	openShotScreenWin,
 	downloadURLShotScreenWin,
-} from "./shotScreenWin";
+} from "../win/shotScreenWin";
 import {
 	openRecorderScreenWin,
 	closeRecorderScreenWin,
@@ -20,7 +20,11 @@ import {
 	minimizeRecorderScreenWin,
 	downloadURLRecorderScreenWin,
 	setSizeRecorderScreenWin,
-} from "./recorderScreenWin";
+	setIgnoreMouseEventsRecorderScreenWin,
+	getBoundsRecorderScreenWin,
+	setMovableRecorderScreenWin,
+	setResizableRecorderScreenWin,
+} from "../win/recorderScreenWin";
 import {
 	closeRecorderAudioWin,
 	openRecorderAudioWin,
@@ -28,12 +32,12 @@ import {
 	minimizeRecorderAudioWin,
 	downloadURLRecorderAudioWin,
 	setSizeRecorderAudioWin,
-} from "./recorderAudioWin";
+} from "../win/recorderAudioWin";
 import {
 	closeRecorderVideoWin,
 	openRecorderVideoWin,
 	downloadURLRecorderVideoWin,
-} from "./recorderVideoWin";
+} from "../win/recorderVideoWin";
 import {
 	openViewImageWin,
 	closeViewImageWin,
@@ -44,7 +48,7 @@ import {
 	setAlwaysOnTopViewImageWin,
 	sendHistoryImg,
 	getSsImgs,
-} from "./viewImageWin";
+} from "../win/viewImageWin";
 import {
 	openViewVideoWin,
 	closeViewVideoWin,
@@ -54,8 +58,8 @@ import {
 	unmaximizeViewVideoWin,
 	setAlwaysOnTopViewVideoWin,
 	sendHistoryVideo,
-} from "./viewVideoWin";
-import { openSettingWin, closeSettingWin } from "./settingWin";
+} from "../win/viewVideoWin";
+import { openSettingWin, closeSettingWin } from "../win/settingWin";
 import { saveFile, getScreenSize } from "./utils";
 import {
 	setHistory,
@@ -137,11 +141,20 @@ export function initIpcMain() {
 	});
 
 	ipcMain.on("rs:start-record", () => {
-		setSizeRecorderScreenWin(390, 55);
+		setMovableRecorderScreenWin(false);
+		setResizableRecorderScreenWin(false);
 	});
 
-	ipcMain.on("rs:pause-record", () => {
-		setSizeRecorderScreenWin(330, 55);
+	ipcMain.on("rs:pause-record", () => {});
+
+	ipcMain.handle("rs:close-record", () => {
+		setMovableRecorderScreenWin(true);
+		setResizableRecorderScreenWin(true);
+		return getBoundsRecorderScreenWin();
+	});
+
+	ipcMain.on("set-ignore-mouse-events", (event, ignore, options) => {
+		setIgnoreMouseEventsRecorderScreenWin(event, ignore, options);
 	});
 
 	// 截图

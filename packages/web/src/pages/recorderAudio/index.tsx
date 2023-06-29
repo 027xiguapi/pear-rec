@@ -12,7 +12,7 @@ import { Button } from "antd";
 import Wavesurfer from "@/components/wavesurfer";
 import Timer from "@pear-rec/timer";
 import { audio } from "@pear-rec/recorder";
-import "@pear-rec/timer/dist/style.css";
+import "@pear-rec/timer/lib/style.css";
 import styles from "./index.module.scss";
 
 const RecordAudio = () => {

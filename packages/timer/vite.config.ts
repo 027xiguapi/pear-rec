@@ -7,7 +7,7 @@ export default defineConfig({
 	plugins: [react()],
 	build: {
 		lib: {
-			entry: resolve(__dirname, "lib/index.tsx"),
+			entry: resolve(__dirname, "./src/Timer/index.tsx"),
 			name: "timer",
 			fileName: (format) => `timer.${format}.js`,
 		},
@@ -22,5 +22,6 @@ export default defineConfig({
 				},
 			},
 		},
+		outDir: "lib",
 	},
 });

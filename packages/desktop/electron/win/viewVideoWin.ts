@@ -1,7 +1,13 @@
 import { BrowserWindow } from "electron";
 import { join } from "node:path";
-import { PUBLIC, readDirectoryVideo, preload, url, indexHtml } from "./utils";
-import { getHistoryVideo } from "./store";
+import {
+	PUBLIC,
+	readDirectoryVideo,
+	preload,
+	url,
+	indexHtml,
+} from "../main/utils";
+import { getHistoryVideo } from "../main/store";
 
 let viewVideoWin: BrowserWindow | null = null;
 
@@ -37,7 +43,7 @@ function createViewVideoWin(search?: any): BrowserWindow {
 		// electron-vite-vue#298
 		viewVideoWin.loadURL(url + `#/viewVideo?url=${search?.url || ""}`);
 		// Open devTool if the app is not packaged
-		viewVideoWin.webContents.openDevTools();
+		// viewVideoWin.webContents.openDevTools();
 	} else {
 		viewVideoWin.loadFile(indexHtml, {
 			hash: `viewVideo?url=${search?.url || ""}`,

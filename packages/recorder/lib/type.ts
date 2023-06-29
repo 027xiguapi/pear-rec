@@ -1,5 +1,5 @@
 // 录音、录像、录屏
-type MediaType = "audio" | "video" | "screen";
+type MediaType = "audio" | "video" | "screen" | "desktop";
 
 type MediaState = "inactive" | "wait" | "ready";
 

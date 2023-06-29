@@ -7,8 +7,8 @@ import {
 	preload,
 	url,
 	indexHtml,
-} from "./utils";
-import { getHistoryImg, getFilePath } from "./store";
+} from "../main/utils";
+import { getHistoryImg, getFilePath } from "../main/store";
 
 let viewImageWin: BrowserWindow | null = null;
 

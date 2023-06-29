@@ -1,5 +1,5 @@
 import { globalShortcut } from "electron";
-import { openShotScreenWin, closeShotScreenWin } from "./shotScreenWin";
+import { openShotScreenWin, closeShotScreenWin } from "../win/shotScreenWin";
 
 function registerGlobalShortcut() {
 	globalShortcut.register("Alt+q", () => {

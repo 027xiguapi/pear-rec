@@ -6,11 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:lib": "tsc && vite build && tsc --project tsconfig.build.json",
     "watch": "tsc && vite build -w",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ffmpeg/core": "^0.11.0",
+    "@ffmpeg/ffmpeg": "^0.11.6",
     "@pear-rec/image": "workspace:^",
     "@pear-rec/recorder": "workspace:^",
     "@pear-rec/screenshot": "workspace:^",
@@ -40,13 +43,14 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "main": "./dist/web.umd.js",
-  "module": "./dist/web.es.js",
-  "types": "./index.d.ts",
+  "main": "./lib/web.umd.js",
+  "module": "./lib/web.es.js",
+  "types": "./lib/types/main.d.ts",
   "keywords": [
     "react",
     "antd",
     "plyr",
+    "rc-image",
     "react-router-dom",
     "react-screenshots",
     "react-timer-hook"

@@ -1,7 +1,7 @@
 import { app, screen, BrowserWindow, shell, ipcMain } from "electron";
-import { PUBLIC, preload, url, indexHtml } from "./utils";
+import { PUBLIC, preload, url, indexHtml } from "../main/utils";
 import { join } from "node:path";
-import { update } from "./update";
+import { update } from "../main/update";
 
 let mainWin: BrowserWindow | null = null;
 

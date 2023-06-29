@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:lib": "vite build && tsc --project tsconfig.build.json",
     "watch": "tsc && vite build -w",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -26,9 +27,9 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "main": "./dist/timer.umd.js",
-  "module": "./dist/timer.es.js",
-  "types": "./index.d.ts",
+  "main": "./lib/timer.umd.js",
+  "module": "./lib/timer.es.js",
+  "types": "./lib/types/index.d.ts",
   "keywords": [],
   "author": "",
   "license": "MIT",

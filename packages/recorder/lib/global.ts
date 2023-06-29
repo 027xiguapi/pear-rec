@@ -1,4 +1,4 @@
-import { audio, video, screen } from "./main";
+import { audio, video, screen } from "./index";
 import { Env } from "./env";
 import { _enumerateDevices, getSupportedMimeTypes } from "./utils";
 import { version } from "../package.json";
