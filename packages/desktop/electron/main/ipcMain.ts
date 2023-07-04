@@ -24,7 +24,19 @@ import {
 	getBoundsRecorderScreenWin,
 	setMovableRecorderScreenWin,
 	setResizableRecorderScreenWin,
+	getCursorScreenPointRecorderScreenWin,
+	isFocusedRecorderScreenWin,
+	focusRecorderScreenWin,
 } from "../win/recorderScreenWin";
+import {
+	closeClipScreenWin,
+	openClipScreenWin,
+	hideClipScreenWin,
+	getBoundsClipScreenWin,
+	setIgnoreMouseEventsClipScreenWin,
+	setMovableClipScreenWin,
+	setResizableClipScreenWin,
+} from "../win/clipScreenWin";
 import {
 	closeRecorderAudioWin,
 	openRecorderAudioWin,
@@ -140,22 +152,60 @@ export function initIpcMain() {
 		openViewVideoWin();
 	});
 
-	ipcMain.on("rs:start-record", () => {
+	ipcMain.on("rs:start-record", (event) => {
 		setMovableRecorderScreenWin(false);
 		setResizableRecorderScreenWin(false);
+		setMovableClipScreenWin(false);
+		setResizableClipScreenWin(false);
+		setIgnoreMouseEventsClipScreenWin(event, true, { forward: true });
 	});
 
-	ipcMain.on("rs:pause-record", () => {});
-
-	ipcMain.handle("rs:close-record", () => {
+	ipcMain.on("rs:pause-record", (event) => {
 		setMovableRecorderScreenWin(true);
 		setResizableRecorderScreenWin(true);
+		setMovableClipScreenWin(true);
+		setResizableClipScreenWin(true);
+		setIgnoreMouseEventsClipScreenWin(event, false);
+	});
+
+	ipcMain.on("rs:stop-record", (event) => {
+		setMovableRecorderScreenWin(true);
+		setResizableRecorderScreenWin(true);
+		setMovableClipScreenWin(true);
+		setResizableClipScreenWin(true);
+		setIgnoreMouseEventsClipScreenWin(event, false);
+	});
+
+	ipcMain.handle("rs:close-record", () => {
+		// setMovableRecorderScreenWin(true);
+		// setResizableRecorderScreenWin(true);
 		return getBoundsRecorderScreenWin();
 	});
 
-	ipcMain.on("set-ignore-mouse-events", (event, ignore, options) => {
+	ipcMain.handle("rs:get-cursor-screen-point", () => {
+		return getCursorScreenPointRecorderScreenWin();
+	});
+
+	ipcMain.handle("rs:is-focused", () => {
+		return isFocusedRecorderScreenWin();
+	});
+
+	ipcMain.on("rs:focus", () => {
+		focusRecorderScreenWin();
+	});
+
+	// 录屏截图
+	ipcMain.on("cs:open-win", () => {
+		closeClipScreenWin();
+		hideMainWin();
+		openClipScreenWin();
+	});
+
+	ipcMain.on("cs:set-ignore-mouse-events", (event, ignore, options) => {
 		setIgnoreMouseEventsRecorderScreenWin(event, ignore, options);
 	});
+
+	ipcMain.handle("cs:get-bounds", () => getBoundsClipScreenWin());
 
 	// 截图
 	ipcMain.handle("ss:get-shot-screen-img", async () => {

@@ -10,7 +10,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 
 	function handleRecordScreen() {
 		window.electronAPI
-			? window.electronAPI.sendRsOpenWin()
+			? window.electronAPI.sendCsOpenWin()
 			: navigate("/recorderScreen");
 	}
 

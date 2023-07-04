@@ -22,17 +22,27 @@ contextBridge.exposeInMainWorld("electronAPI", {
 		ipcRenderer.send("rs:download-record", url),
 	sendRsStartRecord: () => ipcRenderer.send("rs:start-record"),
 	sendRsPauseRecord: () => ipcRenderer.send("rs:pause-record"),
+	sendRsStopRecord: () => ipcRenderer.send("rs:stop-record"),
 	invokeRsPauseRecord: () => ipcRenderer.invoke("rs:close-record"),
 	invokeRsGetDesktopCapturerSource: () => {
-		// const el = document.querySelector("#root .container") as HTMLElement;
-		// el.addEventListener("mouseenter", () => {
-		// 	ipcRenderer.send("set-ignore-mouse-events", true, { forward: true });
-		// });
-		// el.addEventListener("mouseleave", () => {
-		// 	ipcRenderer.send("set-ignore-mouse-events", false);
-		// });
 		return ipcRenderer.invoke("rs:get-desktop-capturer-source");
 	},
+	invokeRsGetCursorScreenPoint: () =>
+		ipcRenderer.invoke("rs:get-cursor-screen-point"),
+	invokeRsIsFocused: () => ipcRenderer.invoke("rs:is-focused"),
+	sendRsFocus: () => {
+		ipcRenderer.send("rs:focus");
+	},
+	sendRsSetIgnoreMouseEvents: (ignore: boolean, options: any) => {
+		ipcRenderer.send("rs:set-ignore-mouse-events", ignore, options);
+	},
+
+	//csWin
+	sendCsOpenWin: () => ipcRenderer.send("cs:open-win"),
+	sendCsSetIgnoreMouseEvents: (ignore: boolean, options: any) => {
+		ipcRenderer.send("cs:set-ignore-mouse-events", ignore, options);
+	},
+	invokeCsGetBounds: () => ipcRenderer.invoke("cs:get-bounds"),
 
 	//rvWin
 	sendRvOpenWin: () => ipcRenderer.send("rv:open-win"),

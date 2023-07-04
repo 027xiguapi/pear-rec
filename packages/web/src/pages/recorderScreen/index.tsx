@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "@/components/common/header";
 import { useStopwatch } from "react-timer-hook";
 import {
 	BsStop,
@@ -9,7 +8,7 @@ import {
 	BsPause,
 	BsArrowRepeat,
 	BsFillStopFill,
-	BsChevronLeft,
+	BsRecordCircle,
 	BsChevronRight,
 } from "react-icons/bs";
 import {
@@ -20,7 +19,7 @@ import {
 	CloseOutlined,
 	SettingOutlined,
 } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, InputNumber } from "antd";
 import { useNavigate } from "react-router-dom";
 import Timer from "@pear-rec/timer";
 import { desktop, screen } from "@pear-rec/recorder";
@@ -44,39 +43,21 @@ const RecorderScreen = () => {
 
 	async function initRecord() {
 		let mediaBlobs = [];
-		// const innerCropArea = document.querySelector("#innerCropArea");
-		// const cropTarget = await (window as any).CropTarget.fromElement(
-		// 	innerCropArea,
-		// );
-		// const stream = await navigator.mediaDevices.getDisplayMedia({
-		// 	preferCurrentTab: true,
-		// } as any);
-
-		// const constraints = window.electronAPI ? await doScreenRecorder() : {};
-		// const stream = await navigator.mediaDevices.getUserMedia(constraints);
-		// const [videoTrack] = stream.getVideoTracks();
-		// console.log(videoTrack);
-		// await (videoTrack as any).cropTo(cropTarget);
-		// const _record = new MediaRecorder(stream);
-
 		const constraints = window.electronAPI ? await doScreenRecorder() : {};
 		const _record = window.electronAPI
 			? desktop().setMediaStreamConstraints(constraints as any)
 			: screen();
 		setRecord(_record);
 		_record.create();
-		console.log(_record);
 		_record.on("error", (type: any, message: any) => {
 			console.log(type, message);
 		});
 		_record.onstop(async () => {
 			console.log("onstop", mediaBlobs);
 			const blob = _record.getBlob();
-			const blobUrl = _record.getBlobUrl();
 			if (blob?.size) {
 				const { x, y, width, height } =
-					await window.electronAPI?.invokeRsPauseRecord();
-				console.log(x, y, width, height);
+					await window.electronAPI?.invokeCsGetBounds();
 				const ffmpeg = createFFmpeg({ log: true });
 				const name = `pear-rec_${+new Date()}.mp4`;
 				await ffmpeg.load();
@@ -93,7 +74,6 @@ const RecorderScreen = () => {
 				const url = URL.createObjectURL(
 					new Blob([data.buffer], { type: "video/mp4" }),
 				);
-				console.log(url);
 				window.electronAPI
 					? window.electronAPI.sendRsDownloadRecord(url)
 					: _record.downloadBlob(`pear-rec_${+new Date()}`);
@@ -145,6 +125,8 @@ const RecorderScreen = () => {
 		setIsPlay(false);
 		record.stop();
 		reset();
+		pause();
+		window.electronAPI?.sendRsStopRecord();
 	}
 
 	function handleToggleMute() {
@@ -172,36 +154,6 @@ const RecorderScreen = () => {
 
 	return (
 		<div className={styles.recorderScreen}>
-			<div className="header">
-				<div className="left">
-					<img className="logo" src={logo} alt="logo" />
-					<span>REC</span>
-				</div>
-				<div className="drgan"></div>
-				<div className="right">
-					<Button
-						type="text"
-						icon={<SettingOutlined rev={undefined} />}
-						title="设置"
-						onClick={handleOpenSettingWin}
-					/>
-					<Button
-						type="text"
-						icon={<MinusOutlined rev={undefined} />}
-						title="最小化"
-						onClick={handleMinimizeWin}
-					/>
-					<Button
-						type="text"
-						icon={<CloseOutlined rev={undefined} />}
-						title="关闭"
-						onClick={handleCloseWin}
-					/>
-				</div>
-			</div>
-			<div className="container">
-				<div className="recorderScreen" id="innerCropArea"></div>
-			</div>
 			<div className="footer">
 				<div className="recorderTools">
 					{isRunning ? (
@@ -231,13 +183,16 @@ const RecorderScreen = () => {
 							/>
 						</>
 					) : (
-						<Button
-							type="text"
-							icon={<BsPlayFill />}
-							className="toolbarIcon playBtn"
-							title="开始"
-							onClick={handleStartRecord}
-						></Button>
+						<>
+							<span className="toolbarTitle">开始</span>
+							<Button
+								type="text"
+								icon={<BsPlayFill />}
+								className="toolbarIcon playBtn"
+								title="开始"
+								onClick={handleStartRecord}
+							></Button>
+						</>
 					)}
 				</div>
 				<Timer
@@ -245,6 +200,13 @@ const RecorderScreen = () => {
 					minutes={minutes}
 					hours={hours}
 					className="timer"
+				/>
+				<InputNumber prefix="长" min={1} />
+				<span className="sizeIcon">x</span>
+				<InputNumber prefix="宽" min={1} />
+				<div className="drgan"></div>
+				<BsRecordCircle
+					className={"recordIcon " + `${isPlay ? "blink" : ""}`}
 				/>
 			</div>
 		</div>

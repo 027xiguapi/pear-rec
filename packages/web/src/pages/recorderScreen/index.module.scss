@@ -1,73 +1,8 @@
 .recorderScreen {
 	height: calc(100vh - 2px);
-	width: 100vw;
 	overflow: hidden;
-	border: 1px solid #f0f0f0;
+	background-color: #fff;
 	:global {
-		.header {
-			height: 32px;
-			width: 100%;
-			display: flex;
-			background-color: #fff;
-			.left {
-				width: 100px;
-				height: 100%;
-				line-height: 32px;
-				text-align: left;
-				.logo {
-					width: 24px;
-					margin-left: 5px;
-					vertical-align: text-top;
-				}
-			}
-			.drgan {
-				flex: auto;
-				-webkit-app-region: drag;
-			}
-			.right {
-				width: 100px;
-			}
-			.icon-s {
-				font-size: 20px;
-				color: #ccc;
-				padding-left: 10px;
-			}
-			.left span {
-				display: inline-block;
-				height: 32px;
-				line-height: 32px;
-				font-size: 18px;
-				color: #ccc;
-				padding-left: 10px;
-			}
-			.right .icon-s {
-				font-size: 20px;
-				padding-top: 8px;
-			}
-		}
-		.container {
-			width: calc(100% - 10px);
-			height: calc(100% - 66px);
-			border-left: 5px solid #ffffff;
-			border-right: 5px solid #ffffff;
-			display: flex;
-			// .recorderLeft {
-			// 	height: 100%;
-			// 	width: 5px;
-			// 	background: #fff;
-			// }
-			.recorderScreen {
-				height: 100%;
-				background-color: rgba(0, 0, 0, 0);
-				border: 1px solid #f0f0f0;
-				flex-grow: 1;
-			}
-			// .recorderRight {
-			// 	height: 100%;
-			// 	width: 5px;
-			// 	background: #fff;
-			// }
-		}
 		.footer {
 			width: calc(100vw);
 			background: #fff;
@@ -108,14 +43,22 @@
 					color: rgba(0, 0, 0, 0.88);
 				}
 			}
-		}
-		.winBar {
-			font-size: 22px;
-			border-left: 5px solid #f0f0f0;
-			height: 35px;
-			.toolbarIcon {
-				-webkit-app-region: no-drag;
-				height: 35px;
+			.sizeIcon {
+				margin: 0 5px;
+			}
+			.drgan {
+				flex: auto;
+			}
+			.recordIcon {
+				float: left;
+				margin-left: 10px;
+			}
+			.blink {
+				color: red;
+			}
+			.toolbarTitle {
+				line-height: 32px;
+				white-space: nowrap;
 			}
 		}
 	}

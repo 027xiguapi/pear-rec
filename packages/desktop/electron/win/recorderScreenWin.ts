@@ -1,33 +1,33 @@
-import { app, BrowserWindow, dialog, shell } from "electron";
+import { app, BrowserWindow, dialog, shell, screen } from "electron";
 import { join, dirname } from "node:path";
 import { preload, url, indexHtml, PUBLIC } from "../main/utils";
 import { getFilePath, setHistoryVideo } from "../main/store";
+import { closeClipScreenWin } from "./clipScreenWin";
 
 let recorderScreenWin: BrowserWindow | null = null;
 
-function createRecorderScreenWin(): BrowserWindow {
+function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
+	let { x, y, width, height } = clipScreenWinBounds;
+	let recorderScreenWinX = x;
+	let recorderScreenWinY = y + height;
+
 	recorderScreenWin = new BrowserWindow({
 		title: "pear-rec 录屏",
 		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
-		// width: 330, // 宽度(px), 默认值为 800
-		// height: 55, // 高度(px), 默认值为 600
+		x: recorderScreenWinX,
+		y: recorderScreenWinY,
+		width: width,
+		height: 34,
 		autoHideMenuBar: true, // 自动隐藏菜单栏
-		// useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
-		// movable: false, // 是否可移动
 		frame: false, // 无边框窗口
-		// resizable: false, // 窗口大小是否可调整
-		// hasShadow: false, // 窗口是否有阴影
+		hasShadow: false, // 窗口是否有阴影
 		transparent: true, // 使窗口透明
 		fullscreenable: false, // 窗口是否可以进入全屏状态
-		// fullscreen: false, // 窗口是否全屏
-		// simpleFullscreen: false, // 在 macOS 上使用 pre-Lion 全屏
 		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
 		webPreferences: {
 			preload,
 		},
 	});
-
-	// recorderScreenWin.setIgnoreMouseEvents(true);
 
 	if (url) {
 		recorderScreenWin.loadURL(url + "#/recorderScreen");
@@ -37,7 +37,6 @@ function createRecorderScreenWin(): BrowserWindow {
 			hash: "recorderScreen",
 		});
 	}
-
 	recorderScreenWin?.webContents.session.on(
 		"will-download",
 		(event: any, item: any, webContents: any) => {
@@ -65,11 +64,12 @@ function createRecorderScreenWin(): BrowserWindow {
 function closeRecorderScreenWin() {
 	recorderScreenWin?.isDestroyed() || recorderScreenWin?.close();
 	recorderScreenWin = null;
+	closeClipScreenWin();
 }
 
-function openRecorderScreenWin() {
+function openRecorderScreenWin(ClipScreenWinBounds?: any) {
 	if (!recorderScreenWin || recorderScreenWin?.isDestroyed()) {
-		recorderScreenWin = createRecorderScreenWin();
+		recorderScreenWin = createRecorderScreenWin(ClipScreenWinBounds);
 	}
 	recorderScreenWin?.show();
 }
@@ -104,14 +104,40 @@ function setResizableRecorderScreenWin(resizable: boolean) {
 	recorderScreenWin?.setResizable(resizable);
 }
 
+function setAlwaysOnTopRecorderScreenWin(isAlwaysOnTop: boolean) {
+	recorderScreenWin?.setAlwaysOnTop(isAlwaysOnTop);
+}
+
+function isFocusedRecorderScreenWin() {
+	return recorderScreenWin?.isFocused();
+}
+
+function focusRecorderScreenWin() {
+	recorderScreenWin?.focus();
+}
+
+function getCursorScreenPointRecorderScreenWin() {
+	return screen.getCursorScreenPoint();
+}
+
+function setBoundsRecorderScreenWin(clipScreenWinBounds: any) {
+	let { x, y, width, height } = clipScreenWinBounds;
+	let recorderScreenWinX = x;
+	let recorderScreenWinY = y + height;
+	recorderScreenWin?.setBounds({
+		x: recorderScreenWinX,
+		y: recorderScreenWinY,
+		width: width,
+	});
+}
+
 function setIgnoreMouseEventsRecorderScreenWin(
 	event: any,
-	ignore: any,
+	ignore: boolean,
 	options: any,
 ) {
 	const win = BrowserWindow.fromWebContents(event.sender);
-	console.log(123, ignore);
-	recorderScreenWin?.setIgnoreMouseEvents(ignore, options);
+	win?.setIgnoreMouseEvents(ignore, options);
 }
 
 export {
@@ -126,4 +152,9 @@ export {
 	getBoundsRecorderScreenWin,
 	setMovableRecorderScreenWin,
 	setResizableRecorderScreenWin,
+	setAlwaysOnTopRecorderScreenWin,
+	getCursorScreenPointRecorderScreenWin,
+	isFocusedRecorderScreenWin,
+	focusRecorderScreenWin,
+	setBoundsRecorderScreenWin,
 };

@@ -32,7 +32,7 @@ function createShotScreenWin(): BrowserWindow {
 		fullscreenable: true, // 窗口是否可以进入全屏状态
 		fullscreen: true, // 窗口是否全屏
 		simpleFullscreen: true, // 在 macOS 上使用 pre-Lion 全屏
-		alwaysOnTop: false, // 窗口是否永远在别的窗口的上面
+		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
 		webPreferences: {
 			preload,
 		},

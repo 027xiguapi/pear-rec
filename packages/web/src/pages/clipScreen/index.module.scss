@@ -1,0 +1,7 @@
+.clipScreen {
+	border: 1px dashed #1677ff;
+	width: calc(100vw - 2px);
+	height: calc(100vh - 2px);
+	overflow: hidden;
+	-webkit-app-region: drag;
+}

@@ -22,6 +22,7 @@ const RecordAudio = lazy(() => import("@/pages/recorderAudio"));
 const ViewImage = lazy(() => import("@/pages/viewImage"));
 const ViewVideo = lazy(() => import("@/pages/viewVideo"));
 const Setting = lazy(() => import("@/pages/setting"));
+const ClipScreen = lazy(() => import("@/pages/clipScreen"));
 
 const App: FC = () => (
 	<HashRouter>
@@ -37,6 +38,7 @@ const App: FC = () => (
 					<Route path="/viewImage" element={<ViewImage />}></Route>
 					<Route path="/viewVideo" element={<ViewVideo />}></Route>
 					<Route path="/setting" element={<Setting />}></Route>
+					<Route path="/clipScreen" element={<ClipScreen />}></Route>
 				</Routes>
 			</Suspense>
 		</Provider>

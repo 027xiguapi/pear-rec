@@ -1,0 +1,101 @@
+import { app, BrowserWindow, dialog, shell, screen } from "electron";
+import { join, dirname } from "node:path";
+import { preload, url, indexHtml, PUBLIC } from "../main/utils";
+import {
+	openRecorderScreenWin,
+	setBoundsRecorderScreenWin,
+} from "./recorderScreenWin";
+
+let clipScreenWin: BrowserWindow | null = null;
+
+function createClipScreenWin(): BrowserWindow {
+	clipScreenWin = new BrowserWindow({
+		title: "pear-rec 录屏",
+		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
+		autoHideMenuBar: true, // 自动隐藏菜单栏
+		frame: false, // 无边框窗口
+		resizable: true, // 窗口大小是否可调整
+		transparent: true, // 使窗口透明
+		fullscreenable: false, // 窗口是否可以进入全屏状态
+		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+		skipTaskbar: true,
+		webPreferences: {
+			preload,
+		},
+	});
+
+	if (url) {
+		clipScreenWin.loadURL(url + "#/clipScreen");
+	} else {
+		clipScreenWin.loadFile(indexHtml, {
+			hash: "clipScreen",
+		});
+	}
+
+	clipScreenWin.on("resize", () => {
+		const clipScreenWinBounds = getBoundsClipScreenWin();
+		setBoundsRecorderScreenWin(clipScreenWinBounds);
+	});
+
+	clipScreenWin.on("move", () => {
+		const clipScreenWinBounds = getBoundsClipScreenWin();
+		setBoundsRecorderScreenWin(clipScreenWinBounds);
+	});
+
+	return clipScreenWin;
+}
+
+function closeClipScreenWin() {
+	clipScreenWin?.isDestroyed() || clipScreenWin?.close();
+	clipScreenWin = null;
+}
+
+function openClipScreenWin() {
+	if (!clipScreenWin || clipScreenWin?.isDestroyed()) {
+		clipScreenWin = createClipScreenWin();
+	}
+
+	clipScreenWin?.show();
+	const bounds = getBoundsClipScreenWin();
+	openRecorderScreenWin(bounds);
+}
+
+function getBoundsClipScreenWin() {
+	return clipScreenWin?.getBounds();
+}
+
+function hideClipScreenWin() {
+	clipScreenWin?.hide();
+}
+
+function setAlwaysOnTopClipScreenWin(isAlwaysOnTop: boolean) {
+	clipScreenWin?.setAlwaysOnTop(isAlwaysOnTop);
+}
+
+function setMovableClipScreenWin(movable: boolean) {
+	clipScreenWin?.setMovable(movable);
+}
+
+function setResizableClipScreenWin(resizable: boolean) {
+	clipScreenWin?.setResizable(resizable);
+}
+
+function setIgnoreMouseEventsClipScreenWin(
+	event: any,
+	ignore: boolean,
+	options?: any,
+) {
+	// const win = BrowserWindow.fromWebContents(event.sender);
+	clipScreenWin?.setIgnoreMouseEvents(ignore, options);
+}
+
+export {
+	closeClipScreenWin,
+	openClipScreenWin,
+	hideClipScreenWin,
+	getBoundsClipScreenWin,
+	setAlwaysOnTopClipScreenWin,
+	setIgnoreMouseEventsClipScreenWin,
+	setMovableClipScreenWin,
+	setResizableClipScreenWin,
+};
