@@ -4,4 +4,15 @@
 	height: calc(100vh - 2px);
 	overflow: hidden;
 	-webkit-app-region: drag;
+	:global {
+		.header {
+			display: flex;
+			flex-direction: row-reverse;
+			.right {
+				width: 66px;
+				background-color: rgba(204, 201, 201, 0.2);
+				-webkit-app-region: no-drag;
+			}
+		}
+	}
 }

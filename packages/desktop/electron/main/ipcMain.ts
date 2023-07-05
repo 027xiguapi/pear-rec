@@ -36,6 +36,9 @@ import {
 	setIgnoreMouseEventsClipScreenWin,
 	setMovableClipScreenWin,
 	setResizableClipScreenWin,
+	minimizeClipScreenWin,
+	setIsPlayClipScreenWin,
+	setBoundsClipScreenWin,
 } from "../win/clipScreenWin";
 import {
 	closeRecorderAudioWin,
@@ -158,6 +161,7 @@ export function initIpcMain() {
 		setMovableClipScreenWin(false);
 		setResizableClipScreenWin(false);
 		setIgnoreMouseEventsClipScreenWin(event, true, { forward: true });
+		setIsPlayClipScreenWin(true);
 	});
 
 	ipcMain.on("rs:pause-record", (event) => {
@@ -166,6 +170,7 @@ export function initIpcMain() {
 		setMovableClipScreenWin(true);
 		setResizableClipScreenWin(true);
 		setIgnoreMouseEventsClipScreenWin(event, false);
+		setIsPlayClipScreenWin(false);
 	});
 
 	ipcMain.on("rs:stop-record", (event) => {
@@ -174,6 +179,7 @@ export function initIpcMain() {
 		setMovableClipScreenWin(true);
 		setResizableClipScreenWin(true);
 		setIgnoreMouseEventsClipScreenWin(event, false);
+		setIsPlayClipScreenWin(false);
 	});
 
 	ipcMain.handle("rs:close-record", () => {
@@ -199,6 +205,24 @@ export function initIpcMain() {
 		closeClipScreenWin();
 		hideMainWin();
 		openClipScreenWin();
+	});
+
+	ipcMain.on("cs:close-win", () => {
+		closeClipScreenWin();
+		closeRecorderScreenWin();
+	});
+
+	ipcMain.on("cs:hide-win", () => {
+		hideClipScreenWin();
+		hideRecorderScreenWin();
+	});
+
+	ipcMain.on("cs:minimize-win", () => {
+		minimizeClipScreenWin();
+	});
+
+	ipcMain.on("cs:set-bounds", (event, width, height) => {
+		setBoundsClipScreenWin(width, height);
 	});
 
 	ipcMain.on("cs:set-ignore-mouse-events", (event, ignore, options) => {

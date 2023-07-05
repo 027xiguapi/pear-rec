@@ -36,14 +36,23 @@ contextBridge.exposeInMainWorld("electronAPI", {
 	sendRsSetIgnoreMouseEvents: (ignore: boolean, options: any) => {
 		ipcRenderer.send("rs:set-ignore-mouse-events", ignore, options);
 	},
+	handleRsGetSizeClipWin: (callback: any) =>
+		ipcRenderer.on("rs:get-size-clip-win", callback),
 
 	//csWin
 	sendCsOpenWin: () => ipcRenderer.send("cs:open-win"),
+	sendCsCloseWin: () => ipcRenderer.send("cs:close-win"),
+	sendCsHideWin: () => ipcRenderer.send("cs:hide-win"),
+	sendCsMinimizeWin: () => ipcRenderer.send("cs:minimize-win"),
 	sendCsSetIgnoreMouseEvents: (ignore: boolean, options: any) => {
 		ipcRenderer.send("cs:set-ignore-mouse-events", ignore, options);
 	},
 	invokeCsGetBounds: () => ipcRenderer.invoke("cs:get-bounds"),
-
+	handleCsSetIsPlay: (callback: any) =>
+		ipcRenderer.on("cs:set-isPlay", () => callback),
+	sendCsSetBounds: (width: number, height: number) => {
+		ipcRenderer.send("cs:set-bounds", width, height);
+	},
 	//rvWin
 	sendRvOpenWin: () => ipcRenderer.send("rv:open-win"),
 	sendRvDownloadRecord: (url: string) =>

@@ -2,7 +2,7 @@ import { app, BrowserWindow, dialog, shell, screen } from "electron";
 import { join, dirname } from "node:path";
 import { preload, url, indexHtml, PUBLIC } from "../main/utils";
 import { getFilePath, setHistoryVideo } from "../main/store";
-import { closeClipScreenWin } from "./clipScreenWin";
+import { closeClipScreenWin, showClipScreenWin } from "./clipScreenWin";
 
 let recorderScreenWin: BrowserWindow | null = null;
 
@@ -21,9 +21,11 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		frame: false, // 无边框窗口
 		hasShadow: false, // 窗口是否有阴影
-		transparent: true, // 使窗口透明
+		resizable: false,
+		// transparent: true, // 使窗口透明
 		fullscreenable: false, // 窗口是否可以进入全屏状态
 		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+		skipTaskbar: true,
 		webPreferences: {
 			preload,
 		},
@@ -37,6 +39,7 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 			hash: "recorderScreen",
 		});
 	}
+
 	recorderScreenWin?.webContents.session.on(
 		"will-download",
 		(event: any, item: any, webContents: any) => {
@@ -76,6 +79,10 @@ function openRecorderScreenWin(ClipScreenWinBounds?: any) {
 
 function hideRecorderScreenWin() {
 	recorderScreenWin?.hide();
+}
+
+function showRecorderScreenWin() {
+	recorderScreenWin?.show();
 }
 
 function minimizeRecorderScreenWin() {
@@ -129,6 +136,10 @@ function setBoundsRecorderScreenWin(clipScreenWinBounds: any) {
 		y: recorderScreenWinY,
 		width: width,
 	});
+	recorderScreenWin?.webContents.send(
+		"rs:get-size-clip-win",
+		clipScreenWinBounds,
+	);
 }
 
 function setIgnoreMouseEventsRecorderScreenWin(
@@ -145,6 +156,7 @@ export {
 	closeRecorderScreenWin,
 	openRecorderScreenWin,
 	hideRecorderScreenWin,
+	showRecorderScreenWin,
 	minimizeRecorderScreenWin,
 	downloadURLRecorderScreenWin,
 	setSizeRecorderScreenWin,

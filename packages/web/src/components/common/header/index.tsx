@@ -7,7 +7,7 @@ import {
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import logo from "/imgs/logo/logo.ico";
-import "./index.scss";
+import styles from "./index.module.scss";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Header = () => {
 	}
 
 	return (
-		<div className="header">
+		<div className={styles.header}>
 			<div className="left">
 				<img className="logo" src={logo} alt="logo" />
 				<span>REC</span>

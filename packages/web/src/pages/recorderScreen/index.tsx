@@ -11,14 +11,7 @@ import {
 	BsRecordCircle,
 	BsChevronRight,
 } from "react-icons/bs";
-import {
-	PushpinOutlined,
-	MinusOutlined,
-	BorderOutlined,
-	BlockOutlined,
-	CloseOutlined,
-	SettingOutlined,
-} from "@ant-design/icons";
+
 import { Button, InputNumber } from "antd";
 import { useNavigate } from "react-router-dom";
 import Timer from "@pear-rec/timer";
@@ -36,9 +29,17 @@ const RecorderScreen = () => {
 	const [isPlay, setIsPlay] = useState(false);
 	const [isPause, setIsPause] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
+	const [width, setWidth] = useState<number | null>(800);
+	const [height, setHeight] = useState<number | null>(600);
 
 	useEffect(() => {
 		initRecord();
+		window.electronAPI?.handleRsGetSizeClipWin((event, bounds) => {
+			console.log(123, bounds);
+			let { width, height } = bounds;
+			setWidth(width);
+			setHeight(height);
+		});
 	}, []);
 
 	async function initRecord() {
@@ -140,16 +141,14 @@ const RecorderScreen = () => {
 			: navigate("/setting");
 	}
 
-	async function handleCloseWin() {
-		window.electronAPI?.sendRsCloseWin();
+	function handleChangeWidth(width: number) {
+		setWidth(width);
+		window.electronAPI.sendCsSetBounds(width, height);
 	}
 
-	async function handleHideWin() {
-		window.electronAPI?.sendRsHideWin();
-	}
-
-	function handleMinimizeWin() {
-		window.electronAPI?.sendRsMinimizeWin();
+	function handleChangeHeight(height: number) {
+		setHeight(height);
+		window.electronAPI.sendCsSetBounds(width, height);
 	}
 
 	return (
@@ -201,9 +200,19 @@ const RecorderScreen = () => {
 					hours={hours}
 					className="timer"
 				/>
-				<InputNumber prefix="长" min={1} />
+				<InputNumber
+					prefix="长"
+					min={100}
+					value={width}
+					onChange={handleChangeWidth}
+				/>
 				<span className="sizeIcon">x</span>
-				<InputNumber prefix="宽" min={1} />
+				<InputNumber
+					prefix="高"
+					min={50}
+					value={height}
+					onChange={handleChangeHeight}
+				/>
 				<div className="drgan"></div>
 				<BsRecordCircle
 					className={"recordIcon " + `${isPlay ? "blink" : ""}`}

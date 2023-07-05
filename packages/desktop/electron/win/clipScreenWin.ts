@@ -4,6 +4,8 @@ import { preload, url, indexHtml, PUBLIC } from "../main/utils";
 import {
 	openRecorderScreenWin,
 	setBoundsRecorderScreenWin,
+	showRecorderScreenWin,
+	hideRecorderScreenWin,
 } from "./recorderScreenWin";
 
 let clipScreenWin: BrowserWindow | null = null;
@@ -18,7 +20,7 @@ function createClipScreenWin(): BrowserWindow {
 		transparent: true, // 使窗口透明
 		fullscreenable: false, // 窗口是否可以进入全屏状态
 		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
-		skipTaskbar: true,
+		// skipTaskbar: true,
 		webPreferences: {
 			preload,
 		},
@@ -26,6 +28,7 @@ function createClipScreenWin(): BrowserWindow {
 
 	if (url) {
 		clipScreenWin.loadURL(url + "#/clipScreen");
+		// clipScreenWin.webContents.openDevTools();
 	} else {
 		clipScreenWin.loadFile(indexHtml, {
 			hash: "clipScreen",
@@ -42,12 +45,24 @@ function createClipScreenWin(): BrowserWindow {
 		setBoundsRecorderScreenWin(clipScreenWinBounds);
 	});
 
+	clipScreenWin.on("restore", () => {
+		showRecorderScreenWin();
+	});
+
+	clipScreenWin.on("minimize", () => {
+		hideRecorderScreenWin();
+	});
+
 	return clipScreenWin;
 }
 
 function closeClipScreenWin() {
 	clipScreenWin?.isDestroyed() || clipScreenWin?.close();
 	clipScreenWin = null;
+}
+
+function showClipScreenWin() {
+	clipScreenWin?.show();
 }
 
 function openClipScreenWin() {
@@ -80,16 +95,31 @@ function setResizableClipScreenWin(resizable: boolean) {
 	clipScreenWin?.setResizable(resizable);
 }
 
+function minimizeClipScreenWin() {
+	clipScreenWin?.minimize();
+}
+
 function setIgnoreMouseEventsClipScreenWin(
 	event: any,
 	ignore: boolean,
 	options?: any,
 ) {
-	// const win = BrowserWindow.fromWebContents(event.sender);
 	clipScreenWin?.setIgnoreMouseEvents(ignore, options);
 }
 
+function setIsPlayClipScreenWin(isPlay: boolean) {
+	clipScreenWin?.webContents.send("cs:set-isPlay", isPlay);
+}
+
+function setBoundsClipScreenWin(width: number, height: number) {
+	clipScreenWin?.setBounds({
+		width: width,
+		height: height,
+	});
+}
+
 export {
+	showClipScreenWin,
 	closeClipScreenWin,
 	openClipScreenWin,
 	hideClipScreenWin,
@@ -98,4 +128,7 @@ export {
 	setIgnoreMouseEventsClipScreenWin,
 	setMovableClipScreenWin,
 	setResizableClipScreenWin,
+	setIsPlayClipScreenWin,
+	minimizeClipScreenWin,
+	setBoundsClipScreenWin,
 };
