@@ -1,11 +1,6 @@
 .home {
-	width: 660px;
-	height: 375px;
-	min-width: 660px;
 	overflow: hidden;
 	border-radius: 8px;
-	box-shadow: rgb(190, 200, 228) 3px 3px 6px 0px,
-		rgb(255, 255, 255) -3px -3px 6px 0px;
 	:global {
 		.container {
 			overflow: hidden;
@@ -22,4 +17,17 @@
 			font-size: 30px;
 		}
 	}
+}
+.web {
+	width: 660px;
+	height: 375px;
+	margin-top: 30px;
+	box-shadow: rgb(190, 200, 228) 3px 3px 6px 0px,
+		rgb(255, 255, 255) -3px -3px 6px 0px;
+}
+.electron {
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	box-shadow: unset;
 }

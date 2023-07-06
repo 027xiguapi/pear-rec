@@ -64,8 +64,9 @@ const Home: React.FC = () => {
 
 	return (
 		<div
-			className={styles.home}
-			style={{ marginTop: window.isElectron ? "0" : "30px" }}
+			className={`${styles.home} ${
+				window.isElectron ? styles.electron : styles.web
+			}`}
 		>
 			<Header />
 			<div className="container">

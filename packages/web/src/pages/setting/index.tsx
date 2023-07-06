@@ -3,7 +3,7 @@ import { Button, Switch, Form, Input, Tabs } from "antd";
 import type { TabsProps } from "antd";
 import UserSetting from "@/components/setting/userSetting";
 import BasicSetting from "@/components/setting/basicSetting";
-import "./index.scss";
+import styles from "./index.module.scss";
 
 const Setting = () => {
 	const items: TabsProps["items"] = [
@@ -21,7 +21,11 @@ const Setting = () => {
 	];
 
 	return (
-		<div className="setting">
+		<div
+			className={`${styles.setting} ${
+				window.isElectron ? styles.electron : styles.web
+			}`}
+		>
 			<Tabs tabPosition="left" items={items} />
 		</div>
 	);

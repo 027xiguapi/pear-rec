@@ -20,8 +20,6 @@ function createShotScreenWin(): BrowserWindow {
 	shotScreenWin = new BrowserWindow({
 		title: "pear-rec 截屏",
 		icon: path.join(PUBLIC, "/imgs/logo/logo@2x.ico"),
-		width, // 宽度(px), 默认值为 800
-		height, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
 		movable: false, // 是否可移动
@@ -32,7 +30,6 @@ function createShotScreenWin(): BrowserWindow {
 		fullscreenable: true, // 窗口是否可以进入全屏状态
 		fullscreen: true, // 窗口是否全屏
 		simpleFullscreen: true, // 在 macOS 上使用 pre-Lion 全屏
-		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
 		webPreferences: {
 			preload,
 		},

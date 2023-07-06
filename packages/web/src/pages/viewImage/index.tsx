@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button, Upload } from "antd";
-import { saveAs } from "file-saver";
-import Image from "@pear-rec/image";
+import Viewer from "viewerjs";
 import {
 	FileImageOutlined,
 	ZoomInOutlined,
@@ -24,19 +23,65 @@ import {
 } from "@ant-design/icons";
 import type { UploadProps } from "antd/es/upload/interface";
 import defaultImg from "/imgs/th.webp";
-import "@pear-rec/image/lib/style.css";
-import "./index.scss";
+import "viewerjs/dist/viewer.css";
+import styles from "./index.module.scss";
 
 const { Dragger } = Upload;
 const ViewImage = () => {
 	const [search, setSearch] = useSearchParams();
+	const [imgs, setImgs] = useState([]);
 	const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
-	const [imgSrc, setImgSrc] = useState("");
 	const [isFull, setIsFull] = useState(false);
 
 	useEffect(() => {
-		getImgSrc();
+		initImgs();
 	}, []);
+
+	useEffect(() => {
+		imgs.length && initViewer();
+	}, [imgs]);
+
+	function initViewer() {
+		const imgList = document.getElementById("viewImgs") as any;
+		const viewer = new Viewer(imgList, {
+			// 0: 不显示
+			// 1：显示
+			// 2：width>768px
+			// 3: width>992px
+			// 4: width>1200px
+			inline: true,
+			className: "viewImgs",
+			toolbar: {
+				alwaysOnTopWin: handleToggleAlwaysOnTopWin,
+				zoomIn: 1,
+				zoomOut: 1,
+				oneToOne: 1,
+				reset: 1,
+				prev: 1,
+				// play: {
+				// 	show: 4,
+				// 	size: "large",
+				// },
+				next: 1,
+				rotateLeft: 1,
+				rotateRight: 1,
+				flipHorizontal: 1,
+				flipVertical: 1,
+				download: () => {
+					const a = document.createElement("a");
+
+					a.href = viewer.image.src;
+					a.download = viewer.image.alt;
+					document.body.appendChild(a);
+					a.click();
+					document.body.removeChild(a);
+				},
+				print: () => {
+					window.print();
+				},
+			},
+		}) as any;
+	}
 
 	const props: UploadProps = {
 		accept: "image/png,image/jpeg,.webp",
@@ -46,25 +91,10 @@ const ViewImage = () => {
 		beforeUpload: (file) => {
 			const imgUrl = window.URL.createObjectURL(file);
 			setSearch({ url: imgUrl });
-			setImgSrc(imgUrl);
+			setImgs([imgUrl]);
 			return false;
 		},
 	};
-
-	function handleDownload() {
-		const url = imgSrc;
-		saveAs(url, url.split(`${location.origin}/`)[1] + ".png");
-	}
-
-	function handleReset() {
-		(
-			document.querySelector(".viewImage .rc-image-preview-img") as HTMLElement
-		).style.transform = "";
-	}
-
-	function handlePrinter() {
-		window.print();
-	}
 
 	function handleFullScreen() {
 		const element = document.querySelector("#root");
@@ -92,62 +122,22 @@ const ViewImage = () => {
 		window.electronAPI?.invokeViSetAlwaysOnTop(_isAlwaysOnTop);
 	}
 
-	async function getImgSrc() {
+	async function initImgs() {
 		const imgUrl = search.get("url");
 		if (imgUrl) {
-			setImgSrc(imgUrl);
+			setImgs([imgUrl]);
 		} else {
-			const img = await window.electronAPI?.invokeViSetImg();
-			setImgSrc(img || defaultImg);
+			const img = (await window.electronAPI?.invokeViSetImg()) || defaultImg;
+			setImgs([img]);
 		}
 	}
 
 	return (
-		<div className="viewImage">
-			{imgSrc ? (
-				<Image
-					src={imgSrc}
-					rootClassName="viewImageBox"
-					preview={{
-						icons: {
-							rotateLeft: <RotateLeftOutlined rev={undefined} />,
-							rotateRight: <RotateRightOutlined rev={undefined} />,
-							zoomIn: <ZoomInOutlined rev={undefined} />,
-							zoomOut: <ZoomOutOutlined rev={undefined} />,
-							left: <LeftOutlined rev={undefined} />,
-							right: <RightOutlined rev={undefined} />,
-							flipX: <SwapOutlined rev={undefined} />,
-							flipY: <SwapOutlined rev={undefined} rotate={90} />,
-							openImg: (
-								<Upload {...props}>
-									<Button
-										type="text"
-										icon={<FileImageOutlined rev={undefined} />}
-										className={`toolbarIcon`}
-										title="打开图片"
-									/>
-								</Upload>
-							),
-							printer: (
-								<PrinterOutlined rev={undefined} onClick={handlePrinter} />
-							),
-							download: (
-								<DownloadOutlined rev={undefined} onClick={handleDownload} />
-							),
-							reset: <SyncOutlined rev={undefined} onClick={handleReset} />,
-							fullScreen: isFull ? (
-								<CompressOutlined
-									rev={undefined}
-									onClick={handleExitFullscreen}
-								/>
-							) : (
-								<ExpandOutlined rev={undefined} onClick={handleFullScreen} />
-							),
-						},
-						visible: true,
-						getContainer: "#root .viewImage",
-					}}
-				/>
+		<div className={styles.viewImgs} id="viewImgs">
+			{imgs.length ? (
+				imgs.map((img, key) => {
+					return <img className="viewImg" src={img} key={key} />;
+				})
 			) : (
 				<Dragger {...props} className="viewImageUpload">
 					<p className="ant-upload-drag-icon">
