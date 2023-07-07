@@ -56,12 +56,10 @@
 	@each $border in $borders {
 		@each $key, $value in $border {
 			&-border-#{$key} {
+				@each $j, $val in $value {
+					#{$j}: $val;
+				}
 				position: absolute;
-				left: extract($value, 1);
-				top: extract($value, 2);
-				width: extract($value, 3);
-				height: extract($value, 4);
-				transform: extract($value, 5);
 				background-color: $border-color;
 				pointer-events: none;
 			}
@@ -70,15 +68,15 @@
 	@each $point in $points {
 		@each $key, $value in $point {
 			&-point-#{$key} {
+				@each $j, $val in $value {
+					#{$j}: $val;
+				}
 				width: 8px;
 				height: 8px;
 				position: absolute;
-				left: extract($value, 1);
-				top: extract($value, 2);
 				background-color: $point-color;
 				border-radius: 50%;
 				transform: translate(-50%, -50%);
-				cursor: extract($value, 3);
 			}
 		}
 	}

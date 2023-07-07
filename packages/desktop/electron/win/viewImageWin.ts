@@ -1,4 +1,10 @@
-import { BrowserWindow } from "electron";
+import {
+	BrowserWindow,
+	dialog,
+	shell,
+	DownloadItem,
+	WebContents,
+} from "electron";
 import { join, dirname } from "node:path";
 import {
 	PUBLIC,
@@ -11,6 +17,7 @@ import {
 import { getHistoryImg, getFilePath } from "../main/store";
 
 let viewImageWin: BrowserWindow | null = null;
+let savePath: string = "";
 
 function createViewImageWin(search?: any): BrowserWindow {
 	viewImageWin = new BrowserWindow({
@@ -42,7 +49,7 @@ function createViewImageWin(search?: any): BrowserWindow {
 	if (url) {
 		viewImageWin.loadURL(url + `#/viewImage?url=${search?.url || ""}`);
 		// Open devTool if the app is not packaged
-		// viewImageWin.webContents.openDevTools();
+		viewImageWin.webContents.openDevTools();
 	} else {
 		viewImageWin.loadFile(indexHtml, {
 			hash: `viewImage?url=${search?.url || ""}`,
@@ -52,6 +59,24 @@ function createViewImageWin(search?: any): BrowserWindow {
 	viewImageWin.once("ready-to-show", async () => {
 		viewImageWin?.show();
 	});
+
+	viewImageWin?.webContents.session.on(
+		"will-download",
+		(e: any, item: DownloadItem, webContents: WebContents) => {
+			const fileName = item.getFilename();
+			const filePath = getFilePath() as string;
+			const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
+			item.setSavePath(ssFilePath);
+			console.log(fileName, ssFilePath);
+			item.once("done", (event: any, state: any) => {
+				if (state === "completed") {
+					setTimeout(() => {
+						shell.showItemInFolder(ssFilePath);
+					}, 1000);
+				}
+			});
+		},
+	);
 
 	return viewImageWin;
 }
@@ -89,8 +114,14 @@ function unmaximizeViewImageWin() {
 	viewImageWin?.unmaximize();
 }
 
-function setAlwaysOnTopViewImageWin(isAlwaysOnTop: boolean) {
+function getIsAlwaysOnTopViewImageWin() {
+	return viewImageWin?.isAlwaysOnTop();
+}
+
+function setIsAlwaysOnTopViewImageWin(isAlwaysOnTop: boolean) {
 	viewImageWin?.setAlwaysOnTop(isAlwaysOnTop);
+	console.log(1231, isAlwaysOnTop);
+	return isAlwaysOnTop;
 }
 
 function getHistoryImgPath() {
@@ -116,6 +147,21 @@ async function getSsImgs() {
 	return imgs;
 }
 
+async function downloadImgViewImageWin(img: any) {
+	savePath = await showOpenDialogViewImageWin();
+	viewImageWin?.webContents.downloadURL(img.url);
+}
+
+async function showOpenDialogViewImageWin() {
+	let res = await dialog.showOpenDialog({
+		properties: ["openDirectory"],
+	});
+
+	const savePath = res.filePaths[0] || "";
+
+	return savePath;
+}
+
 export {
 	createViewImageWin,
 	openViewImageWin,
@@ -124,7 +170,9 @@ export {
 	minimizeViewImageWin,
 	maximizeViewImageWin,
 	unmaximizeViewImageWin,
-	setAlwaysOnTopViewImageWin,
+	getIsAlwaysOnTopViewImageWin,
+	setIsAlwaysOnTopViewImageWin,
 	sendHistoryImg,
 	getSsImgs,
+	downloadImgViewImageWin,
 };

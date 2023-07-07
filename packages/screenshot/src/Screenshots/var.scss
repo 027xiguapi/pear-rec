@@ -8,38 +8,38 @@ $borders:
 	// left,top,width,height,transform
 	(
 		"top": (
-			0,
-			0,
-			100%,
-			2px,
-			translateY(-50%),
+			left: 0,
+			top: 0,
+			width: 100%,
+			height: 2px,
+			transform: translateY(-50%),
 		),
 	),
 	(
 		"right": (
-			100%,
-			0,
-			2px,
-			100%,
-			translateX(-50%),
+			left: 100%,
+			top: 0,
+			width: 2px,
+			height: 100%,
+			transform: translateX(-50%),
 		),
 	),
 	(
 		"bottom": (
-			0,
-			100%,
-			100%,
-			2px,
-			translateY(-50%),
+			left: 0,
+			top: 100%,
+			width: 100%,
+			height: 2px,
+			transform: translateY(-50%),
 		),
 	),
 	(
 		"left": (
-			0,
-			0,
-			2px,
-			100%,
-			translateX(-50%),
+			left: 0,
+			top: 0,
+			width: 2px,
+			height: 100%,
+			transform: translateX(-50%),
 		),
 	);
 
@@ -47,58 +47,58 @@ $points:
 	// left,top,cursor
 	(
 		top: (
-			50%,
-			0,
-			ns-resize,
+			left: 50%,
+			top: 0,
+			cursor: ns-resize,
 		),
 	),
 	(
 		top-right: (
-			100%,
-			0,
-			nesw-resize,
+			left: 100%,
+			top: 0,
+			cursor: nesw-resize,
 		),
 	),
 	(
 		right: (
-			100%,
-			50%,
-			ew-resize,
+			left: 100%,
+			top: 50%,
+			cursor: ew-resize,
 		),
 	),
 	(
 		right-bottom: (
-			100%,
-			100%,
-			nwse-resize,
+			left: 100%,
+			top: 100%,
+			cursor: nwse-resize,
 		),
 	),
 	(
 		bottom: (
-			50%,
-			100%,
-			ns-resize,
+			left: 50%,
+			top: 100%,
+			cursor: ns-resize,
 		),
 	),
 	(
 		bottom-left: (
-			0,
-			100%,
-			nesw-resize,
+			left: 0,
+			top: 100%,
+			cursor: nesw-resize,
 		),
 	),
 	(
 		left: (
-			0,
-			50%,
-			ew-resize,
+			left: 0,
+			top: 50%,
+			cursor: ew-resize,
 		),
 	),
 	(
 		left-top: (
-			0,
-			0,
-			nwse-resize,
+			left: 0,
+			top: 0,
+			cursor: nwse-resize,
 		),
 	);
 

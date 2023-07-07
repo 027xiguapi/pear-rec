@@ -60,9 +60,11 @@ import {
 	minimizeViewImageWin,
 	maximizeViewImageWin,
 	unmaximizeViewImageWin,
-	setAlwaysOnTopViewImageWin,
+	getIsAlwaysOnTopViewImageWin,
+	setIsAlwaysOnTopViewImageWin,
 	sendHistoryImg,
 	getSsImgs,
+	downloadImgViewImageWin,
 } from "../win/viewImageWin";
 import {
 	openViewVideoWin,
@@ -299,8 +301,9 @@ export function initIpcMain() {
 		unmaximizeViewImageWin();
 	});
 
-	ipcMain.on("vi:set-always-on-top", (e, isAlwaysOnTop) => {
-		setAlwaysOnTopViewImageWin(isAlwaysOnTop);
+	ipcMain.handle("vi:set-always-on-top", () => {
+		const isAlwaysOnTop = getIsAlwaysOnTopViewImageWin();
+		return setIsAlwaysOnTopViewImageWin(!isAlwaysOnTop);
 	});
 
 	ipcMain.handle("vi:set-img", async () => {
@@ -311,6 +314,10 @@ export function initIpcMain() {
 	ipcMain.handle("vi:set-imgs", async () => {
 		const imgs = await getSsImgs();
 		return imgs;
+	});
+
+	ipcMain.on("vi:download-img", (e, img) => {
+		downloadImgViewImageWin(img);
 	});
 
 	// 视频音频展示

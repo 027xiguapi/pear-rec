@@ -30,7 +30,6 @@ const { Dragger } = Upload;
 const ViewImage = () => {
 	const [search, setSearch] = useSearchParams();
 	const [imgs, setImgs] = useState([]);
-	const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
 	const [isFull, setIsFull] = useState(false);
 
 	useEffect(() => {
@@ -68,13 +67,7 @@ const ViewImage = () => {
 				flipHorizontal: 1,
 				flipVertical: 1,
 				download: () => {
-					const a = document.createElement("a");
-
-					a.href = viewer.image.src;
-					a.download = viewer.image.alt;
-					document.body.appendChild(a);
-					a.click();
-					document.body.removeChild(a);
+					handleDownload(viewer);
 				},
 				print: () => {
 					window.print();
@@ -96,6 +89,23 @@ const ViewImage = () => {
 		},
 	};
 
+	function handleDownload(viewer) {
+		if (window.electronAPI) {
+			window.electronAPI.sendViDownloadImg({
+				url: viewer.image.src,
+				name: viewer.image.alt,
+			});
+		} else {
+			const a = document.createElement("a");
+
+			a.href = viewer.image.src;
+			a.download = viewer.image.alt;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		}
+	}
+
 	function handleFullScreen() {
 		const element = document.querySelector("#root");
 		if (element.requestFullscreen) {
@@ -116,10 +126,12 @@ const ViewImage = () => {
 		// setImgs(imgs);
 	}
 
-	function handleToggleAlwaysOnTopWin() {
-		const _isAlwaysOnTop = !isAlwaysOnTop;
-		setIsAlwaysOnTop(_isAlwaysOnTop);
-		window.electronAPI?.invokeViSetAlwaysOnTop(_isAlwaysOnTop);
+	async function handleToggleAlwaysOnTopWin() {
+		const isAlwaysOnTop = await window.electronAPI?.invokeViSetIsAlwaysOnTop();
+		const icon = document.querySelector(".viewer-always-on-top-win");
+		isAlwaysOnTop
+			? icon.classList.add("current")
+			: icon.classList.remove("current");
 	}
 
 	async function initImgs() {

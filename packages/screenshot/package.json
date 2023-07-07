@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build:lib": "vite build && tsc --project tsconfig.build.json",
-    "watch": "vite build && tsc --project tsconfig.build.json -w",
+    "watch": "tsc && vite build -w",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
