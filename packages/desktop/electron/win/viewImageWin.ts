@@ -23,24 +23,9 @@ function createViewImageWin(search?: any): BrowserWindow {
 	viewImageWin = new BrowserWindow({
 		title: "pear-rec 图片预览",
 		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
-		width: 800, // 宽度(px), 默认值为 800
-		height: 600, // 高度(px), 默认值为 600
 		minHeight: 400,
 		minWidth: 400,
 		autoHideMenuBar: true, // 自动隐藏菜单栏
-		// useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
-		// movable: true, // 是否可移动
-		// frame: true, // 有无边框窗口
-		// resizable: false, // 窗口大小是否可调整
-		// hasShadow: false, // 窗口是否有阴影
-		// transparent: true, // 使窗口透明
-		// fullscreenable: true, // 窗口是否可以进入全屏状态
-		// fullscreen: true, // 窗口是否全屏
-		// simpleFullscreen: true, // 在 macOS 上使用 pre-Lion 全屏
-		// alwaysOnTop: false, // 窗口是否永远在别的窗口的上面
-		// modal: true,
-		// titleBarStyle: "hidden",
-		// titleBarOverlay: true,
 		webPreferences: {
 			preload,
 		},
@@ -49,7 +34,7 @@ function createViewImageWin(search?: any): BrowserWindow {
 	if (url) {
 		viewImageWin.loadURL(url + `#/viewImage?url=${search?.url || ""}`);
 		// Open devTool if the app is not packaged
-		viewImageWin.webContents.openDevTools();
+		// viewImageWin.webContents.openDevTools();
 	} else {
 		viewImageWin.loadFile(indexHtml, {
 			hash: `viewImage?url=${search?.url || ""}`,
@@ -67,7 +52,6 @@ function createViewImageWin(search?: any): BrowserWindow {
 			const filePath = getFilePath() as string;
 			const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
 			item.setSavePath(ssFilePath);
-			console.log(fileName, ssFilePath);
 			item.once("done", (event: any, state: any) => {
 				if (state === "completed") {
 					setTimeout(() => {
@@ -120,7 +104,6 @@ function getIsAlwaysOnTopViewImageWin() {
 
 function setIsAlwaysOnTopViewImageWin(isAlwaysOnTop: boolean) {
 	viewImageWin?.setAlwaysOnTop(isAlwaysOnTop);
-	console.log(1231, isAlwaysOnTop);
 	return isAlwaysOnTop;
 }
 

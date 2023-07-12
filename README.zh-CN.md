@@ -69,7 +69,7 @@ pnpm run build:desktop
 - [x] 录屏
   - [x] 录制全屏
   - [] 截图
-  - [] 自定义大小
+  - [x] 自定义大小
   - [] 按键提示
   - [] 光标位置提示
   - [] 录制栏
@@ -103,16 +103,10 @@ pnpm run build:desktop
 
 Windows10 测试通过
 
-## git 规范
+## 反馈和交流
 
-type: 用于说明 commit 的类型。一般有以下几种:
+- qq 群
 
-- feat: 新增 feature
-- fix: 修复 bug
-- docs: 仅仅修改了文档，如 readme.md
-- style: 仅仅是对格式进行修改，如逗号、缩进、空格等。不改变代码逻辑。
-- refactor: 代码重构，没有新增功能或修复 bug
-- perf: 优化相关，如提升性能、用户体验等。
-- test: 测试用例，包括单元测试、集成测试。
-- chore: 改变构建流程、或者增加依赖库、工具等。
-- revert: 版本回滚
+<p align="center">
+  <img src="https://027xiguapi.github.io/pear-rec/imgs/pear-rec_qq_qrcode.png" />
+</p>

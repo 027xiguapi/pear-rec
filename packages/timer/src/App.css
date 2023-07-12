@@ -1,10 +1,16 @@
 * {
-  padding: 0;
-  margin: 0;
+	padding: 0;
+	margin: 0;
 }
 
 .separator {
-  height: 100px;
-  margin-top: 30px;
-  border: dashed 2px #404549;
+	height: 120px;
+	margin-top: 30px;
+	border: dashed 2px #404549;
+	.timer {
+		margin: 10px 0;
+	}
+}
+button {
+	margin: 10px;
 }

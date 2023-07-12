@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useStopwatch } from "react-timer-hook";
-import Timer from "./Timer/index";
-import "./App.css";
+import Timer from "@pear-rec/timer";
+import "@pear-rec/timer/lib/style.css";
 
 function App() {
 	const { seconds, minutes, hours, days, start, pause, reset } = useStopwatch({
@@ -21,9 +21,15 @@ function App() {
 					isShowTitle={isShowTitle}
 				/>
 			</div>
-			<button onClick={start}>Start</button>
-			<button onClick={pause}>Pause</button>
-			<button onClick={() => reset}>Reset</button>
+			<div className="button" onClick={start}>
+				Start
+			</div>
+			<div className="button" onClick={pause}>
+				Pause
+			</div>
+			<div className="button" onClick={() => reset}>
+				Reset
+			</div>
 		</div>
 	);
 }

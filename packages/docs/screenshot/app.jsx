@@ -1,11 +1,11 @@
 import React, { ReactElement, useCallback } from "react";
-import Screenshots from "../Screenshots";
-import { Bounds } from "../Screenshots/types";
+import Screenshots from "@pear-rec/screenshot";
+import "@pear-rec/screenshot/lib/style.css";
 import "./app.scss";
 import imageUrl from "/imgs/th.webp";
 
-export default function App(): ReactElement {
-	const onSave = useCallback((blob: Blob | null, bounds: Bounds) => {
+export default function App() {
+	const onSave = useCallback((blob, bounds) => {
 		console.log("save", blob, bounds);
 		if (blob) {
 			const url = URL.createObjectURL(blob);
@@ -16,7 +16,7 @@ export default function App(): ReactElement {
 	const onCancel = useCallback(() => {
 		console.log("cancel");
 	}, []);
-	const onOk = useCallback((blob: Blob | null, bounds: Bounds) => {
+	const onOk = useCallback((blob, bounds) => {
 		console.log("ok", blob, bounds);
 		if (blob) {
 			const url = URL.createObjectURL(blob);
