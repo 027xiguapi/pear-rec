@@ -1,6 +1,6 @@
 # pear-rec 例子
 
-![An image](./assets/imgs/logo.png)
+![An image](../assets/imgs/logo.png)
 本页展示 pear-rec 的一些功能例子
 
 ## Syntax Highlighting

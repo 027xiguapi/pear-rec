@@ -23,6 +23,7 @@
 		border: none;
 		outline: none;
 		will-change: transform;
+		max-width: unset;
 		image-rendering: -webkit-optimize-contrast;
 		image-rendering: crisp-edges;
 		-webkit-font-smooting: antialiased;

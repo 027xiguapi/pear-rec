@@ -26,10 +26,10 @@ export default defineConfig({
 				text: "文档",
 				items: [
 					{ text: "桌面软件", link: "/desktop/examples.md" },
-					{ text: "网页应用", link: "/web/examples.md" },
+					{ text: "截图插件", link: "/screenshot/examples" },
 					{ text: "录音插件", link: "/recorder/examples.md" },
 					{ text: "计时插件", link: "/timer/examples" },
-					{ text: "截图插件", link: "/screenshot/examples" },
+					{ text: "网页应用", link: "/web/examples.md" },
 					// { text: "markdown", link: "/markdown-examples.md" },
 					// { text: "Runtime API Examples", link: "/api-examples" },
 				],
@@ -41,8 +41,9 @@ export default defineConfig({
 		],
 		// 页脚
 		footer: {
-			message: "",
-			copyright: "",
+			message:
+				'<a href="https://opensource.org/license/mit/" target="_blank">Released under the MIT License.</a>',
+			copyright: "Copyright © 2023 西瓜皮",
 		},
 	},
 });

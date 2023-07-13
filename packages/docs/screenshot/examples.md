@@ -6,7 +6,7 @@ outline: deep
 
 本页是介绍`@pear-rec/screenshot` 插件的`API`例子
 
-本插件提供了计时器功能。
+本插件提供了截图插件。
 
 ## 安装
 
@@ -15,13 +15,13 @@ import "@pear-rec/screenshot";
 import "@pear-rec/screenshot/lib/style.css";
 ```
 
-## timer 计时器
+## screenshot 截图插件
 
 ### 效果展示
 
-在线示例：<a href="/pear-rec/screenshot/default.html" target="_blank"> DEMO </a>
+在线示例：<a href="/pear-rec/screenshot/demo.html" target="_blank"> DEMO </a>
 
-- https://027xiguapi.github.io/pear-rec/screenshot/default.html
+- https://027xiguapi.github.io/pear-rec/screenshot/demo.html
 
 <center>
   <img src="/imgs/screenshot.jpg"/>

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useStopwatch } from "react-timer-hook";
 import Timer from "@pear-rec/timer";
 import "@pear-rec/timer/lib/style.css";
+import * as reactTimerHook from "react-timer-hook";
+const { useStopwatch } = reactTimerHook;
 
 function App() {
 	const { seconds, minutes, hours, days, start, pause, reset } = useStopwatch({

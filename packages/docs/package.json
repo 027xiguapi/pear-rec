@@ -6,7 +6,7 @@
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview",
-    "deploy": "bash deploy.sh"
+    "deploy": "deploy.sh"
   },
   "devDependencies": {
     "@types/react": "^18.0.33",
@@ -27,6 +27,7 @@
   "dependencies": {
     "@pear-rec/screenshot": "workspace:^",
     "@pear-rec/timer": "workspace:^",
-    "@pear-rec/web": "workspace:^"
+    "@pear-rec/web": "workspace:^",
+    "react-timer-hook": "^3.0.6"
   }
 }

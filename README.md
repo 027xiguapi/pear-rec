@@ -18,3 +18,11 @@
 gitee: https://gitee.com/xiguapi027/pear-rec
 github: https://github.com/027xiguapi/pear-rec
 ```
+
+## Feedback
+
+- QQ group
+
+<p align="center">
+  <img src="https://027xiguapi.github.io/pear-rec/imgs/pear-rec_qq_qrcode.png" />
+</p>
