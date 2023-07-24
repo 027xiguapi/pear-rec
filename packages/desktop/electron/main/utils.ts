@@ -1,5 +1,5 @@
 import { app, screen, BrowserWindow, desktopCapturer, ipcMain } from "electron";
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { join, dirname } from "node:path";
 
 export const isDev = process.env.NODE_ENV === "development";

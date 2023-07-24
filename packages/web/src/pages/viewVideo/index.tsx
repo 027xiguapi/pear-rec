@@ -37,7 +37,7 @@ const ViewVideo = () => {
 				</video>
 			) : (
 				<Empty
-					image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+					image="/imgs/svg/empty.svg"
 					imageStyle={{ height: 60 }}
 					description={<span>暂无视频</span>}
 				>

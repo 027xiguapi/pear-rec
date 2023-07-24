@@ -19,7 +19,6 @@ import { desktop, screen } from "@pear-rec/recorder";
 import "@pear-rec/timer/lib/style.css";
 import styles from "./index.module.scss";
 import logo from "/imgs/logo/logo.ico";
-import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 
 const RecorderScreen = () => {
 	const navigate = useNavigate();
@@ -35,7 +34,6 @@ const RecorderScreen = () => {
 	useEffect(() => {
 		initRecord();
 		window.electronAPI?.handleRsGetSizeClipWin((event, bounds) => {
-			console.log(123, bounds);
 			let { width, height } = bounds;
 			setWidth(width);
 			setHeight(height);
@@ -57,26 +55,9 @@ const RecorderScreen = () => {
 			console.log("onstop", mediaBlobs);
 			const blob = _record.getBlob();
 			if (blob?.size) {
-				const { x, y, width, height } =
-					await window.electronAPI?.invokeCsGetBounds();
-				const ffmpeg = createFFmpeg({ log: true });
-				const name = `pear-rec_${+new Date()}.mp4`;
-				await ffmpeg.load();
-				ffmpeg.FS("writeFile", name, await fetchFile(blob));
-				await ffmpeg.run(
-					"-i",
-					name,
-					"-vf",
-					`crop=${width - 10}:${height - 32 - 34}:${x + 5}:${y + 32}`,
-					"output.mp4",
-					"-y",
-				);
-				const data = ffmpeg.FS("readFile", "output.mp4");
-				const url = URL.createObjectURL(
-					new Blob([data.buffer], { type: "video/mp4" }),
-				);
+        const bloburl = _record.getBlobUrl();
 				window.electronAPI
-					? window.electronAPI.sendRsDownloadRecord(url)
+					? window.electronAPI.sendRsDownloadRecord(bloburl)
 					: _record.downloadBlob(`pear-rec_${+new Date()}`);
 			}
 		});

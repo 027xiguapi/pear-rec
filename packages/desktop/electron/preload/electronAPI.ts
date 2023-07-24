@@ -49,7 +49,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
 	},
 	invokeCsGetBounds: () => ipcRenderer.invoke("cs:get-bounds"),
 	handleCsSetIsPlay: (callback: any) =>
-		ipcRenderer.on("cs:set-isPlay", () => callback),
+		ipcRenderer.on("cs:set-isPlay", callback),
 	sendCsSetBounds: (width: number, height: number) => {
 		ipcRenderer.send("cs:set-bounds", width, height);
 	},
@@ -86,3 +86,4 @@ contextBridge.exposeInMainWorld("electronAPI", {
 		ipcRenderer.send("se:set-openAtLogin", isOpen),
 	invokeSeGetOpenAtLogin: () => ipcRenderer.invoke("se:get-openAtLogin"),
 });
+

@@ -12,8 +12,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ffmpeg/core": "^0.11.0",
-    "@ffmpeg/ffmpeg": "^0.11.6",
     "@pear-rec/recorder": "workspace:^",
     "@pear-rec/screenshot": "workspace:^",
     "@pear-rec/timer": "workspace:^",
@@ -57,5 +55,8 @@
   ],
   "author": "",
   "license": "MIT",
+  "directories": {
+    "lib": "lib"
+  },
   "description": ""
 }

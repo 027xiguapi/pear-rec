@@ -11,6 +11,7 @@ import {
 import path from "node:path";
 import { getScreenSize, preload, url, indexHtml, PUBLIC } from "../main/utils";
 import { getFilePath, setHistoryImg } from "../main/store";
+import { openViewImageWin } from "./viewImageWin";
 
 let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = "";
@@ -60,7 +61,7 @@ function createShotScreenWin(): BrowserWindow {
 					setHistoryImg(ssFilePath);
 					setTimeout(() => {
 						closeShotScreenWin();
-						// shell.showItemInFolder(ssFilePath);
+            openViewImageWin();
 					}, 1000);
 				}
 			});

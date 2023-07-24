@@ -12,7 +12,7 @@ let clipScreenWin: BrowserWindow | null = null;
 
 function createClipScreenWin(): BrowserWindow {
 	clipScreenWin = new BrowserWindow({
-		title: "pear-rec 录屏",
+		title: "pear-rec_clipScreenWin",
 		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		frame: false, // 无边框窗口

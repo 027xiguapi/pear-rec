@@ -39,7 +39,6 @@ function createViewVideoWin(search?: any): BrowserWindow {
 	});
 
 	if (url) {
-		console.log(search?.url);
 		// electron-vite-vue#298
 		viewVideoWin.loadURL(url + `#/viewVideo?url=${search?.url || ""}`);
 		// Open devTool if the app is not packaged
