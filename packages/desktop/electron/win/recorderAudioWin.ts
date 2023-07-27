@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join, dirname } from "node:path";
-import { preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
 import { getFilePath } from "../main/store";
 
 let recorderAudioWin: BrowserWindow | null = null;
@@ -8,7 +8,7 @@ let recorderAudioWin: BrowserWindow | null = null;
 function createRecorderAudioWin(): BrowserWindow {
 	recorderAudioWin = new BrowserWindow({
 		title: "pear-rec 录音",
-		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
+		icon: ICON,
 		width: 350, // 宽度(px), 默认值为 800
 		height: 650, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
@@ -32,7 +32,7 @@ function createRecorderAudioWin(): BrowserWindow {
 		// recorderAudioWin.webContents.openDevTools();
 	} else {
 		recorderAudioWin.loadFile(indexHtml, {
-			hash: "recorderAudio",
+			hash: "/recorderAudio",
 		});
 	}
 

@@ -21,8 +21,8 @@
     "webrtc-adapter": "^8.2.2"
   },
   "devDependencies": {
-    "typescript": "^4.9.4",
-    "vite": "^4.0.4"
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9"
   },
   "directories": {
     "lib": "lib"

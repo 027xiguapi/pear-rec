@@ -1,14 +1,12 @@
 import { app, BrowserWindow, shell } from "electron";
-import { join } from "node:path";
-import { getScreenSize, preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
 
 let settingWin: BrowserWindow | null = null;
 
 function createSettingWin(): BrowserWindow {
-	const { width, height } = getScreenSize();
 	settingWin = new BrowserWindow({
 		title: "pear-rec 设置",
-		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
+		icon: ICON,
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		width: 600, // 宽度(px)
 		height: 380, // 高度(px)
@@ -18,12 +16,11 @@ function createSettingWin(): BrowserWindow {
 	});
 
 	// settingWin.webContents.openDevTools();
-
 	if (url) {
 		settingWin.loadURL(url + "#/setting");
 	} else {
 		settingWin.loadFile(indexHtml, {
-			hash: "setting",
+			hash: "/setting",
 		});
 	}
 

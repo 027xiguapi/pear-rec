@@ -79,10 +79,8 @@ import {
 import { openSettingWin, closeSettingWin } from "../win/settingWin";
 import { saveFile, getScreenSize } from "./utils";
 import {
-  setHistory,
   setHistoryImg,
   setHistoryVideo,
-  getHistory,
   getHistoryImg,
   getHistoryVideo,
   getUser,

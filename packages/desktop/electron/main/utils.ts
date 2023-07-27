@@ -5,13 +5,14 @@ import { join, dirname } from "node:path";
 export const isDev = process.env.NODE_ENV === "development";
 export const DIST_ELECTRON = join(__dirname, "../");
 export const DIST = join(DIST_ELECTRON, "../dist");
+export const DB = join(DIST_ELECTRON, "../db/database.db");
 export const PUBLIC = process.env.VITE_DEV_SERVER_URL
 	? join(DIST_ELECTRON, "../public")
 	: process.env.DIST;
 export const preload = join(__dirname, "../preload/index.js");
 export const url = process.env.VITE_DEV_SERVER_URL;
 export const indexHtml = join(DIST, "index.html");
-
+export const ICON = join(DIST, "./imgs/logo/logo@2x.ico");
 export const PEER_FILES = join(DIST_ELECTRON, `../Peer Files`);
 
 function getScreenSize() {

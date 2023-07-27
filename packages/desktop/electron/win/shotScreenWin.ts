@@ -9,7 +9,7 @@ import {
 	nativeImage,
 } from "electron";
 import path from "node:path";
-import { getScreenSize, preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
 import { getFilePath, setHistoryImg } from "../main/store";
 import { openViewImageWin } from "./viewImageWin";
 
@@ -17,10 +17,9 @@ let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = "";
 
 function createShotScreenWin(): BrowserWindow {
-	const { width, height } = getScreenSize();
 	shotScreenWin = new BrowserWindow({
 		title: "pear-rec 截屏",
-		icon: path.join(PUBLIC, "/imgs/logo/logo@2x.ico"),
+		icon: ICON,
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
 		movable: false, // 是否可移动
@@ -42,7 +41,7 @@ function createShotScreenWin(): BrowserWindow {
 		shotScreenWin.loadURL(url + "#/shotScreen");
 	} else {
 		shotScreenWin.loadFile(indexHtml, {
-			hash: "shotScreen",
+			hash: "/shotScreen",
 		});
 	}
 	shotScreenWin.maximize();

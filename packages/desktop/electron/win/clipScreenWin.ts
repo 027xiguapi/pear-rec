@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell, screen } from "electron";
 import { join, dirname } from "node:path";
-import { preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
 import {
 	openRecorderScreenWin,
 	setBoundsRecorderScreenWin,
@@ -13,7 +13,7 @@ let clipScreenWin: BrowserWindow | null = null;
 function createClipScreenWin(): BrowserWindow {
 	clipScreenWin = new BrowserWindow({
 		title: "pear-rec_clipScreenWin",
-		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
+		icon: ICON,
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		frame: false, // 无边框窗口
 		resizable: true, // 窗口大小是否可调整
@@ -31,7 +31,7 @@ function createClipScreenWin(): BrowserWindow {
 		// clipScreenWin.webContents.openDevTools();
 	} else {
 		clipScreenWin.loadFile(indexHtml, {
-			hash: "clipScreen",
+			hash: "/clipScreen",
 		});
 	}
 

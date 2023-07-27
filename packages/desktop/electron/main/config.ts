@@ -1,47 +1,34 @@
+import { join } from "node:path";
 import { app } from "electron";
 import { v4 as uuidv4 } from "uuid";
-import path from "node:path";
-import {
-	setUser,
-	getUser,
-	setUserUuid,
-	getUserUuid,
-	setUserCreatedTime,
-	getUserCreatedTime,
-	setHistory,
-	setHistoryImg,
-	setHistoryVideo,
-	getHistory,
-	getHistoryImg,
-	getHistoryVideo,
-	getFilePath,
-	setFilePath,
-} from "./store";
+import * as store from "./store";
 
 function initConfig() {
 	initUser();
-	initFilePath();
 }
 
 function initUser() {
-	const uuid = getUserUuid();
-	if (!uuid) {
+	const user = store.getUser() as any;
+	if (!user.uuid) {
 		const user = {
 			uuid: uuidv4(),
+      userName: "user",
+      filePath: getFilePath(),
 			createdTime: Number(new Date()),
 		};
-		setUser(user);
+		store.setUser(user);
 	}
 }
 
-function initFilePath() {
-	const filePath = getFilePath();
+function getFilePath() {
+	let filePath = store.getFilePath();
 	if (!filePath) {
 		const documentsPath = app.getPath("documents");
-		const uuid = getUserUuid() as string;
-		const filePath = path.join(documentsPath, `Peer Files/${uuid}`);
-		setFilePath(filePath);
+		const uuid = store.getUserUuid() as string;
+		filePath = join(documentsPath, `Peer Files/${uuid}`);
 	}
+
+  return filePath;
 }
 
 export { initConfig };

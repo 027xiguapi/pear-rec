@@ -6,7 +6,6 @@ import {
 } from "@ant-design/icons";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import logo from "/imgs/logo/logo.ico";
 import styles from "./index.module.scss";
 
 const Header = () => {
@@ -28,7 +27,7 @@ const Header = () => {
 	return (
 		<div className={styles.header}>
 			<div className="left">
-				<img className="logo" src={logo} alt="logo" />
+				<img className="logo" src="./imgs/logo/logo.ico" alt="logo" />
 				<span>REC</span>
 			</div>
 			<div className="drgan"></div>

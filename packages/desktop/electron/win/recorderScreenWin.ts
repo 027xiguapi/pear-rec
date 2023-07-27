@@ -2,11 +2,14 @@ import { app, BrowserWindow, dialog, shell, screen, Rectangle } from "electron";
 import { unlink } from "node:fs";
 import { join } from "node:path";
 import Ffmpeg from "fluent-ffmpeg";
-import { preload, url, indexHtml, PUBLIC } from "../main/utils";
+import FfmpegPath from "ffmpeg-static";
+import { preload, url, indexHtml, ICON } from "../main/utils";
 import { getFilePath, setHistoryVideo } from "../main/store";
 import { closeClipScreenWin, getBoundsClipScreenWin } from "./clipScreenWin";
 import { openViewVideoWin } from "./viewVideoWin";
 
+FfmpegPath && Ffmpeg.setFfmpegPath(url ? FfmpegPath : FfmpegPath.replace('app.asar', 'app.asar.unpacked'));
+// FfmpegPath && Ffmpeg.setFfmpegPath(FfmpegPath);
 let recorderScreenWin: BrowserWindow | null = null;
 
 function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
@@ -16,7 +19,7 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 
   recorderScreenWin = new BrowserWindow({
     title: "pear-rec 录屏",
-    icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
+    icon: ICON,
     x: recorderScreenWinX,
     y: recorderScreenWinY,
     width: width,
@@ -39,7 +42,7 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
     // recorderScreenWin.webContents.openDevTools();
   } else {
     recorderScreenWin.loadFile(indexHtml, {
-      hash: "recorderScreen",
+      hash: "/recorderScreen",
     });
   }
 
@@ -92,7 +95,7 @@ async function ffmpegRecorderScreenWin(filePath?: string, fileName?: string) {
   .on('error', err => {
     console.log('ffmpeg error: ',err.message);
   })
-  .videoFilters(`crop=${width}:${height}:${x}:${y}`)
+  .videoFilters(`crop=${width - 3}:${height - 3}:${x + 2}:${y + 2}`)
   // .format('mp4')
   .save(rsOutputPath);
 }

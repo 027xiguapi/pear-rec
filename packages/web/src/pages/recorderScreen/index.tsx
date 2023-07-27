@@ -18,7 +18,6 @@ import Timer from "@pear-rec/timer";
 import { desktop, screen } from "@pear-rec/recorder";
 import "@pear-rec/timer/lib/style.css";
 import styles from "./index.module.scss";
-import logo from "/imgs/logo/logo.ico";
 
 const RecorderScreen = () => {
 	const navigate = useNavigate();
@@ -30,6 +29,7 @@ const RecorderScreen = () => {
 	const [isMuted, setIsMuted] = useState(false);
 	const [width, setWidth] = useState<number | null>(800);
 	const [height, setHeight] = useState<number | null>(600);
+  const [isSave, setIsSave] = useState(false);
 
 	useEffect(() => {
 		initRecord();
@@ -56,6 +56,7 @@ const RecorderScreen = () => {
 			const blob = _record.getBlob();
 			if (blob?.size) {
         const bloburl = _record.getBlobUrl();
+        setIsSave(true)
 				window.electronAPI
 					? window.electronAPI.sendRsDownloadRecord(bloburl)
 					: _record.downloadBlob(`pear-rec_${+new Date()}`);
@@ -136,7 +137,9 @@ const RecorderScreen = () => {
 		<div className={styles.recorderScreen}>
 			<div className="footer">
 				<div className="recorderTools">
-					{isRunning ? (
+					{isSave ? <Button type="text" loading>
+            正在保存...
+            </Button>  : isRunning ? (
 						<>
 							<Button
 								type="text"

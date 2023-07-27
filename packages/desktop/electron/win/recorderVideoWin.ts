@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join, dirname } from "node:path";
-import { preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
 import { getFilePath, setHistoryVideo } from "../main/store";
 
 let recorderVideoWin: BrowserWindow | null = null;
@@ -8,7 +8,7 @@ let recorderVideoWin: BrowserWindow | null = null;
 function createRecorderVideoWin(): BrowserWindow {
 	recorderVideoWin = new BrowserWindow({
 		title: "pear-rec 录像",
-		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
+		icon: ICON,
 		// width: 800, // 宽度(px), 默认值为 800
 		// height: 600, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
@@ -32,7 +32,7 @@ function createRecorderVideoWin(): BrowserWindow {
 		// recorderVideoWin.webContents.openDevTools();
 	} else {
 		recorderVideoWin.loadFile(indexHtml, {
-			hash: "recorderVideo",
+			hash: "/recorderVideo",
 		});
 	}
 

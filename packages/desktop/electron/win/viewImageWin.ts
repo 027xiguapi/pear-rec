@@ -7,7 +7,7 @@ import {
 } from "electron";
 import { join, dirname } from "node:path";
 import {
-	PUBLIC,
+	ICON,
 	readDirectory,
 	readDirectoryImg,
 	preload,
@@ -22,7 +22,7 @@ let savePath: string = "";
 function createViewImageWin(search?: any): BrowserWindow {
 	viewImageWin = new BrowserWindow({
 		title: "pear-rec 图片预览",
-		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
+		icon: ICON,
 		minHeight: 400,
 		minWidth: 400,
 		autoHideMenuBar: true, // 自动隐藏菜单栏
@@ -37,7 +37,7 @@ function createViewImageWin(search?: any): BrowserWindow {
 		// viewImageWin.webContents.openDevTools();
 	} else {
 		viewImageWin.loadFile(indexHtml, {
-			hash: `viewImage?url=${search?.url || ""}`,
+			hash: `/viewImage?url=${search?.url || ""}`,
 		});
 	}
 

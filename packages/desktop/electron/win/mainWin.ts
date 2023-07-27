@@ -1,5 +1,5 @@
 import { app, screen, BrowserWindow, shell, ipcMain } from "electron";
-import { PUBLIC, preload, url, indexHtml } from "../main/utils";
+import { ICON, preload, url, indexHtml } from "../main/utils";
 import { join } from "node:path";
 import { update } from "../main/update";
 
@@ -8,14 +8,13 @@ let mainWin: BrowserWindow | null = null;
 const createMainWin = (): BrowserWindow => {
 	mainWin = new BrowserWindow({
 		title: "pear-rec",
-		icon: join(PUBLIC, "/imgs/logo/logo@2x.ico"),
+		icon: ICON,
 		width: 660, // 宽度(px)
 		height: 375, // 高度(px)
 		maxWidth: 660,
 		maxHeight: 375,
 		autoHideMenuBar: false, // 自动隐藏菜单栏
 		frame: false,
-		// show: false,
 		// show: false,
 		// alwaysOnTop: !dev, // 为了方便调试，调试模式就不居上了
 		// fullscreenable: true,
@@ -36,7 +35,7 @@ const createMainWin = (): BrowserWindow => {
 		mainWin.loadURL(url);
 		// mainWin.webContents.openDevTools();
 	} else {
-		mainWin.loadFile(indexHtml);
+		mainWin.loadFile(indexHtml, { hash: '/home' });
 	}
 
 	// Test actively push message to the Electron-Renderer
