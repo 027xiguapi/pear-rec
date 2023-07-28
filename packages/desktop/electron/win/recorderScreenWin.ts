@@ -3,13 +3,13 @@ import { unlink } from "node:fs";
 import { join } from "node:path";
 import Ffmpeg from "fluent-ffmpeg";
 import FfmpegPath from "ffmpeg-static";
+import Jimp from "jimp";
 import { preload, url, indexHtml, ICON } from "../main/utils";
 import { getFilePath, setHistoryVideo } from "../main/store";
 import { closeClipScreenWin, getBoundsClipScreenWin } from "./clipScreenWin";
 import { openViewVideoWin } from "./viewVideoWin";
 
 FfmpegPath && Ffmpeg.setFfmpegPath(url ? FfmpegPath : FfmpegPath.replace('app.asar', 'app.asar.unpacked'));
-// FfmpegPath && Ffmpeg.setFfmpegPath(FfmpegPath);
 let recorderScreenWin: BrowserWindow | null = null;
 
 function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
@@ -27,8 +27,6 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
     autoHideMenuBar: true, // 自动隐藏菜单栏
     frame: false, // 无边框窗口
     hasShadow: false, // 窗口是否有阴影
-    // resizable: false,
-    // transparent: true, // 使窗口透明
     fullscreenable: false, // 窗口是否可以进入全屏状态
     alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
     skipTaskbar: true,
@@ -71,33 +69,33 @@ async function ffmpegRecorderScreenWin(filePath?: string, fileName?: string) {
   const rsInputPath = join(`${filePath}/rs`, `${fileName}`);
   const rsOutputPath = join(`${filePath}/rs`, `${name}`);
   Ffmpeg(rsInputPath)
-  .on('progress', function (progress) {
-    console.log('Processing: ' + progress.percent + '% done');
-  })
-  .on('start', (commandLine) => {
-    console.log('ffmpeg started with command: ', commandLine);
-  })
-  .on('end', (stdout, stderr) => {
-    console.log('ffmpeg finished: ', stderr);
+    .on('progress', function (progress) {
+      console.log('Processing: ' + progress.percent + '% done');
+    })
+    .on('start', (commandLine) => {
+      console.log('ffmpeg started with command: ', commandLine);
+    })
+    .on('end', (stdout, stderr) => {
+      console.log('ffmpeg finished: ', stderr);
 
-    setHistoryVideo(rsOutputPath);
-    setTimeout(() => {
-      closeRecorderScreenWin();
-      openViewVideoWin();
-      unlink(rsInputPath, (err)=>{
-        if (err) {
-          return console.error(err);
-        }
-        console.log(`ffmpeg: ${rsInputPath} 文件删除成功！`);
-      });
-    }, 1000);
-  })
-  .on('error', err => {
-    console.log('ffmpeg error: ',err.message);
-  })
-  .videoFilters(`crop=${width - 3}:${height - 3}:${x + 2}:${y + 2}`)
-  // .format('mp4')
-  .save(rsOutputPath);
+      setHistoryVideo(rsOutputPath);
+      setTimeout(() => {
+        closeRecorderScreenWin();
+        openViewVideoWin();
+        unlink(rsInputPath, (err) => {
+          if (err) {
+            return console.error(err);
+          }
+          console.log(`ffmpeg: ${rsInputPath} 文件删除成功！`);
+        });
+      }, 500);
+    })
+    .on('error', err => {
+      console.log('ffmpeg error: ', err.message);
+    })
+    .videoFilters(`crop=${width - 3}:${height - 3}:${x + 2}:${y + 2}`)
+    // .format('mp4')
+    .save(rsOutputPath);
 }
 
 // 打开关闭录屏窗口
@@ -164,6 +162,27 @@ function getCursorScreenPointRecorderScreenWin() {
   return screen.getCursorScreenPoint();
 }
 
+function shotScreen(imgUrl: any) {
+  const { x, y, width, height } = getBoundsClipScreenWin() as Rectangle;
+  const filePath = getFilePath() as any;
+  const result = join(`${filePath}/ss`, `shotScreen_${+new Date()}.jpg`);
+  Jimp.read(imgUrl, function (err, img) {
+    if (err) {
+      console.log(`err: shotScreen ${err}`)
+    } else {
+      img
+        .crop(x + 1, y + 1, width - 2, height - 2)
+        .write(result);
+
+      setTimeout(() => {
+        closeRecorderScreenWin();
+        shell.showItemInFolder(result);
+      }, 500)
+    }
+  });
+
+}
+
 function setBoundsRecorderScreenWin(clipScreenWinBounds: any) {
   let { x, y, width, height } = clipScreenWinBounds;
   let recorderScreenWinX = x;
@@ -206,4 +225,5 @@ export {
   isFocusedRecorderScreenWin,
   focusRecorderScreenWin,
   setBoundsRecorderScreenWin,
+  shotScreen,
 };

@@ -8,7 +8,6 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
 		handleCutScreen,
 	}));
-	const [isCutScreen, setIsCutScreen] = useState(true);
 
 	function handleCutScreen() {
 		window.electronAPI
