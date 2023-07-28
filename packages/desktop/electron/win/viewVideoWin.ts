@@ -34,9 +34,6 @@ function createViewVideoWin(search?: any): BrowserWindow {
 
 	viewVideoWin.once("ready-to-show", async () => {
 		viewVideoWin?.show();
-		const filePath = getHistoryVideo();
-		let video = await readDirectoryVideo(filePath);
-		viewVideoWin?.webContents.send("vv:set-video", video);
 	});
 
 	return viewVideoWin;

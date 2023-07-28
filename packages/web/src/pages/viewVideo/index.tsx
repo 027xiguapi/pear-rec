@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Plyr from "plyr";
 import { Button, Empty } from "antd";
-import defaultVideo from "/video/chrome.webm";
 import "plyr/dist/plyr.css";
-import "./index.scss";
+import styles from "./index.module.scss";
 
+const defaultVideo = "./video/chrome.webm";
 const ViewVideo = () => {
 	const [search, setSearch] = useSearchParams();
 	const [source, setSource] = useState("");
@@ -21,23 +21,26 @@ const ViewVideo = () => {
 
 	async function setVideo() {
 		const videoUrl = search.get("url");
-		if (videoUrl) {
-			setSource(videoUrl);
-		} else {
-			const video = await window.electronAPI?.invokeVvSetVideo();
-			setSource(video || defaultVideo);
-		}
+    videoUrl && await window.electronAPI?.sendVvSetHistoryVideo(videoUrl);
+		const video = formatVideoUrl(videoUrl || (await window.electronAPI?.invokeVvGetHistoryVideo())) || defaultVideo;
+    console.log(video)
+		setSource(video);
 	}
 
+  function formatVideoUrl(videoUrl: any) {
+    videoUrl = videoUrl && videoUrl.replace(/\\/g, "/");
+    return videoUrl && `pearrec:///${videoUrl}`;
+  }
+
 	return (
-		<div className="viewVideo">
+		<div className={styles.viewVideo}>
 			{source ? (
 				<video id="player" playsInline controls>
 					<source ref={sourceRef} src={source} type="video/mp4" />
 				</video>
 			) : (
 				<Empty
-					image="/imgs/svg/empty.svg"
+					image="./imgs/svg/empty.svg"
 					imageStyle={{ height: 60 }}
 					description={<span>暂无视频</span>}
 				>

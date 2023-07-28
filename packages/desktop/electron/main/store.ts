@@ -17,7 +17,7 @@ function createTableUsers() {
   // 创建user表
   if (!tabUser) {
     const create_table_user =
-    `CREATE TABLE "user" (
+      `CREATE TABLE "user" (
       "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
       "uuid" varchar(255) NOT NULL,
       "userName" varchar(255) NOT NULL,
@@ -40,17 +40,17 @@ function setUser(user: any) {
 }
 
 function getUser() {
-  const stmt = db.prepare('SELECT * FROM user');
+  const stmt = db.prepare('SELECT * FROM user LIMIT 1');
   const user = stmt.get(); //返回第一条记录
-  console.log("user", user);
+  console.log("user", user)
   return user || {};
 }
 
 function getUserByUuid(uuid: string) {
   const stmt = db.prepare('SELECT * FROM user WHERE uuid = ?');
-  const row = stmt.get(uuid);
+  const user = stmt.get(uuid);
 
-  return row;
+  return user;
 }
 
 function getUserUuid() {
@@ -80,21 +80,23 @@ function setHistoryImg(historyImg: any) {
   stmt.run(historyImg, uuid);
 }
 
+function getHistoryImg() {
+  const user = getUser() as any;
+  return user.historyImg;
+}
+
 function setHistoryVideo(historyVideo: any) {
   const uuid = getUserUuid();
   const stmt = db.prepare('UPDATE user SET historyVideo = ? WHERE uuid = ?');
   stmt.run(historyVideo, uuid);
 }
 
-function getHistoryImg() {
-  const user = getUser() as any;
-  return user.historyImg;
-}
-
 function getHistoryVideo() {
   const user = getUser() as any;
   return user.historyVideo;
 }
+
+getHistoryImg()
 
 export {
   setUser,

@@ -17,10 +17,12 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 		showUploadList: false,
 		customRequest: () => {},
 		beforeUpload: (file) => {
-			const url = window.URL.createObjectURL(file);
-			window.electronAPI
-				? window.electronAPI.sendViOpenWin({ url })
-				: navigate(`/viewImage?url=${encodeURIComponent(url)}`);
+      if (window.electronAPI) {
+        window.electronAPI.sendViOpenWin({ url: file.path })
+      } else {
+        const url = window.URL.createObjectURL(file);
+        navigate(`/viewImage?url=${encodeURIComponent(url)}`);
+      }
 			return false;
 		},
 	};
@@ -30,19 +32,6 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 			? window.electronAPI.sendViOpenWin()
 			: navigate("/viewImage");
 		e.stopPropagation();
-	}
-
-	// function handleOpenFile(e: any) {
-	// 	e.stopPropagation();
-	// 	getImg();
-	// }
-
-	async function getImg() {
-		// const img = await ipcRenderer.invoke("vi:get-img");
-		// if (img) {
-		// 	ipcRenderer.send("ma:hide-win");
-		// 	ipcRenderer.send("vi:open-win", true);
-		// }
 	}
 
 	return (

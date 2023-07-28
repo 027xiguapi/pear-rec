@@ -6,87 +6,17 @@ import {
   desktopCapturer,
   dialog,
 } from "electron";
-
-import { hideMainWin, showMainWin, minimizeMainWin } from "../win/mainWin";
-import {
-  closeShotScreenWin,
-  openShotScreenWin,
-  downloadURLShotScreenWin,
-} from "../win/shotScreenWin";
-import {
-  openRecorderScreenWin,
-  closeRecorderScreenWin,
-  hideRecorderScreenWin,
-  minimizeRecorderScreenWin,
-  downloadURLRecorderScreenWin,
-  setSizeRecorderScreenWin,
-  setIgnoreMouseEventsRecorderScreenWin,
-  getBoundsRecorderScreenWin,
-  setMovableRecorderScreenWin,
-  setResizableRecorderScreenWin,
-  getCursorScreenPointRecorderScreenWin,
-  isFocusedRecorderScreenWin,
-  focusRecorderScreenWin,
-} from "../win/recorderScreenWin";
-import {
-  closeClipScreenWin,
-  openClipScreenWin,
-  hideClipScreenWin,
-  getBoundsClipScreenWin,
-  setIgnoreMouseEventsClipScreenWin,
-  setMovableClipScreenWin,
-  setResizableClipScreenWin,
-  minimizeClipScreenWin,
-  setIsPlayClipScreenWin,
-  setBoundsClipScreenWin,
-} from "../win/clipScreenWin";
-import {
-  closeRecorderAudioWin,
-  openRecorderAudioWin,
-  hideRecorderAudioWin,
-  minimizeRecorderAudioWin,
-  downloadURLRecorderAudioWin,
-  setSizeRecorderAudioWin,
-} from "../win/recorderAudioWin";
-import {
-  closeRecorderVideoWin,
-  openRecorderVideoWin,
-  downloadURLRecorderVideoWin,
-} from "../win/recorderVideoWin";
-import {
-  openViewImageWin,
-  closeViewImageWin,
-  hideViewImageWin,
-  minimizeViewImageWin,
-  maximizeViewImageWin,
-  unmaximizeViewImageWin,
-  getIsAlwaysOnTopViewImageWin,
-  setIsAlwaysOnTopViewImageWin,
-  sendHistoryImg,
-  getSsImgs,
-  downloadImgViewImageWin,
-} from "../win/viewImageWin";
-import {
-  openViewVideoWin,
-  closeViewVideoWin,
-  hideViewVideoWin,
-  minimizeViewVideoWin,
-  maximizeViewVideoWin,
-  unmaximizeViewVideoWin,
-  setAlwaysOnTopViewVideoWin,
-  sendHistoryVideo,
-} from "../win/viewVideoWin";
-import { openSettingWin, closeSettingWin } from "../win/settingWin";
-import { saveFile, getScreenSize } from "./utils";
-import {
-  setHistoryImg,
-  setHistoryVideo,
-  getHistoryImg,
-  getHistoryVideo,
-  getUser,
-  getFilePath,
-  setFilePath,
-} from "./store";
+import * as mainWin from "../win/mainWin";
+import * as shotScreenWin from "../win/shotScreenWin";
+import * as recorderScreenWin from "../win/recorderScreenWin";
+import * as clipScreenWin from "../win/clipScreenWin";
+import * as recorderAudioWin from "../win/recorderAudioWin";
+import * as recorderVideoWin from "../win/recorderVideoWin";
+import * as viewImageWin from "../win/viewImageWin";
+import * as viewVideoWin from "../win/viewVideoWin";
+import * as settingWin from "../win/settingWin";
+import * as utils from "./utils";
+import * as store from "./store";
 
 const selfWindws = async () =>
   await Promise.all(
@@ -112,35 +42,35 @@ const selfWindws = async () =>
 
 export function initIpcMain() {
   ipcMain.on("ma:show-win", () => {
-    showMainWin();
+    mainWin.showMainWin();
   });
 
   ipcMain.on("ma:hide-win", () => {
-    hideMainWin();
+    mainWin.hideMainWin();
   });
 
   ipcMain.on("ma:minimize-win", () => {
-    minimizeMainWin();
+    mainWin.minimizeMainWin();
   });
 
   // 录屏
   ipcMain.on("rs:open-win", () => {
-    closeRecorderScreenWin();
-    hideMainWin();
-    openRecorderScreenWin();
+    recorderScreenWin.closeRecorderScreenWin();
+    mainWin.hideMainWin();
+    recorderScreenWin.openRecorderScreenWin();
   });
 
   ipcMain.on("rs:close-win", () => {
-    closeRecorderScreenWin();
-    showMainWin();
+    recorderScreenWin.closeRecorderScreenWin();
+    mainWin.showMainWin();
   });
 
   ipcMain.on("rs:hide-win", () => {
-    hideRecorderScreenWin();
+    recorderScreenWin.hideRecorderScreenWin();
   });
 
   ipcMain.on("rs:minimize-win", () => {
-    minimizeRecorderScreenWin();
+    recorderScreenWin.minimizeRecorderScreenWin();
   });
 
   ipcMain.handle("rs:get-desktop-capturer-source", async () => {
@@ -151,88 +81,88 @@ export function initIpcMain() {
   });
 
   ipcMain.on("rs:download-record", async (e, url) => {
-    downloadURLRecorderScreenWin(url);
+    recorderScreenWin.downloadURLRecorderScreenWin(url);
   });
 
   ipcMain.on("rs:start-record", (event) => {
-    setMovableRecorderScreenWin(false);
-    setResizableRecorderScreenWin(false);
-    setMovableClipScreenWin(false);
-    setResizableClipScreenWin(false);
-    setIgnoreMouseEventsClipScreenWin(event, true, { forward: true });
-    setIsPlayClipScreenWin(true);
+    recorderScreenWin.setMovableRecorderScreenWin(false);
+    recorderScreenWin.setResizableRecorderScreenWin(false);
+    clipScreenWin.setMovableClipScreenWin(false);
+    clipScreenWin.setResizableClipScreenWin(false);
+    clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, true, { forward: true });
+    clipScreenWin.setIsPlayClipScreenWin(true);
   });
 
   ipcMain.on("rs:pause-record", (event) => {
-    setMovableRecorderScreenWin(true);
-    setResizableRecorderScreenWin(true);
-    setMovableClipScreenWin(true);
-    setResizableClipScreenWin(true);
-    setIgnoreMouseEventsClipScreenWin(event, false);
-    setIsPlayClipScreenWin(false);
+    recorderScreenWin.setMovableRecorderScreenWin(true);
+    recorderScreenWin.setResizableRecorderScreenWin(true);
+    clipScreenWin.setMovableClipScreenWin(true);
+    clipScreenWin.setResizableClipScreenWin(true);
+    clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, false);
+    clipScreenWin.setIsPlayClipScreenWin(false);
   });
 
   ipcMain.on("rs:stop-record", (event) => {
-    setMovableRecorderScreenWin(true);
-    setResizableRecorderScreenWin(true);
-    setMovableClipScreenWin(true);
-    setResizableClipScreenWin(true);
-    setIgnoreMouseEventsClipScreenWin(event, false);
-    setIsPlayClipScreenWin(false);
+    recorderScreenWin.setMovableRecorderScreenWin(true);
+    recorderScreenWin.setResizableRecorderScreenWin(true);
+    clipScreenWin.setMovableClipScreenWin(true);
+    clipScreenWin.setResizableClipScreenWin(true);
+    clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, false);
+    clipScreenWin.setIsPlayClipScreenWin(false);
   });
 
   ipcMain.handle("rs:close-record", () => {
     // setMovableRecorderScreenWin(true);
     // setResizableRecorderScreenWin(true);
-    return getBoundsRecorderScreenWin();
+    return recorderScreenWin.getBoundsRecorderScreenWin();
   });
 
   ipcMain.handle("rs:get-cursor-screen-point", () => {
-    return getCursorScreenPointRecorderScreenWin();
+    return recorderScreenWin.getCursorScreenPointRecorderScreenWin();
   });
 
   ipcMain.handle("rs:is-focused", () => {
-    return isFocusedRecorderScreenWin();
+    return recorderScreenWin.isFocusedRecorderScreenWin();
   });
 
   ipcMain.on("rs:focus", () => {
-    focusRecorderScreenWin();
+    recorderScreenWin.focusRecorderScreenWin();
   });
 
   // 录屏截图
   ipcMain.on("cs:open-win", () => {
-    closeClipScreenWin();
-    hideMainWin();
-    openClipScreenWin();
+    clipScreenWin.closeClipScreenWin();
+    mainWin.hideMainWin();
+    clipScreenWin.openClipScreenWin();
   });
 
   ipcMain.on("cs:close-win", () => {
-    closeClipScreenWin();
-    closeRecorderScreenWin();
+    clipScreenWin.closeClipScreenWin();
+    recorderScreenWin.closeRecorderScreenWin();
   });
 
   ipcMain.on("cs:hide-win", () => {
-    hideClipScreenWin();
-    hideRecorderScreenWin();
+    clipScreenWin.hideClipScreenWin();
+    recorderScreenWin.hideRecorderScreenWin();
   });
 
   ipcMain.on("cs:minimize-win", () => {
-    minimizeClipScreenWin();
+    clipScreenWin.minimizeClipScreenWin();
   });
 
   ipcMain.on("cs:set-bounds", (event, width, height) => {
-    setBoundsClipScreenWin(width, height);
+    clipScreenWin.setBoundsClipScreenWin(width, height);
   });
 
   ipcMain.on("cs:set-ignore-mouse-events", (event, ignore, options) => {
-    setIgnoreMouseEventsRecorderScreenWin(event, ignore, options);
+    recorderScreenWin.setIgnoreMouseEventsRecorderScreenWin(event, ignore, options);
   });
 
-  ipcMain.handle("cs:get-bounds", () => getBoundsClipScreenWin());
+  ipcMain.handle("cs:get-bounds", () => clipScreenWin.getBoundsClipScreenWin());
 
   // 截图
   ipcMain.handle("ss:get-shot-screen-img", async () => {
-    const { width, height } = getScreenSize();
+    const { width, height } = utils.getScreenSize();
     const sources = [
       ...(await desktopCapturer.getSources({
         types: ["screen"],
@@ -248,21 +178,21 @@ export function initIpcMain() {
   });
 
   ipcMain.on("ss:open-win", () => {
-    closeShotScreenWin();
-    hideMainWin();
-    openShotScreenWin();
+    shotScreenWin.closeShotScreenWin();
+    mainWin.hideMainWin();
+    shotScreenWin.openShotScreenWin();
   });
 
   ipcMain.on("ss:close-win", () => {
-    closeShotScreenWin();
+    shotScreenWin.closeShotScreenWin();
   });
 
   ipcMain.on("ss:save-img", async (e, downloadUrl) => {
-    downloadURLShotScreenWin(downloadUrl);
+    shotScreenWin.downloadURLShotScreenWin(downloadUrl);
   });
 
   ipcMain.on("ss:download-img", async (e, downloadUrl) => {
-    downloadURLShotScreenWin(downloadUrl, true);
+    shotScreenWin.downloadURLShotScreenWin(downloadUrl, true);
   });
 
   ipcMain.handle("ss:get-desktop-capturer-source", async () => {
@@ -274,80 +204,89 @@ export function initIpcMain() {
 
   // 图片展示
   ipcMain.on("vi:open-win", (e, search) => {
-    openViewImageWin(search);
+    viewImageWin.openViewImageWin(search);
   });
 
   ipcMain.on("vi:close-win", () => {
-    closeViewImageWin();
+    viewImageWin.closeViewImageWin();
   });
 
   ipcMain.on("vi:hide-win", () => {
-    hideViewImageWin();
+    viewImageWin.hideViewImageWin();
   });
 
   ipcMain.on("vi:minimize-win", () => {
-    minimizeViewImageWin();
+    viewImageWin.minimizeViewImageWin();
   });
 
   ipcMain.on("vi:maximize-win", () => {
-    maximizeViewImageWin();
+    viewImageWin.maximizeViewImageWin();
   });
 
   ipcMain.on("vi:unmaximize-win", () => {
-    unmaximizeViewImageWin();
+    viewImageWin.unmaximizeViewImageWin();
   });
 
   ipcMain.handle("vi:set-always-on-top", () => {
-    const isAlwaysOnTop = getIsAlwaysOnTopViewImageWin();
-    return setIsAlwaysOnTopViewImageWin(!isAlwaysOnTop);
+    const isAlwaysOnTop = viewImageWin.getIsAlwaysOnTopViewImageWin();
+    return viewImageWin.setIsAlwaysOnTopViewImageWin(!isAlwaysOnTop);
   });
 
-  ipcMain.handle("vi:set-img", async () => {
-    const imgs = await sendHistoryImg();
-    return imgs;
-  });
 
   ipcMain.handle("vi:set-imgs", async () => {
-    const imgs = await getSsImgs();
+    const imgs = await viewImageWin.getSsImgs();
     return imgs;
   });
 
   ipcMain.on("vi:download-img", (e, img) => {
-    downloadImgViewImageWin(img);
+    viewImageWin.downloadImgViewImageWin(img);
+  });
+
+  ipcMain.handle("vi:get-historyImg", async () => {
+    const img = store.getHistoryImg();
+    return img;
+  });
+
+  ipcMain.on("vi:set-historyImg", (e, img) => {
+    store.setHistoryImg(img);
   });
 
   // 视频音频展示
   ipcMain.on("vv:open-win", (e, search) => {
-    openViewVideoWin(search);
+    viewVideoWin.openViewVideoWin(search);
   });
 
   ipcMain.on("vv:close-win", () => {
-    closeViewVideoWin();
+    viewVideoWin.closeViewVideoWin();
   });
 
   ipcMain.on("vv:hide-win", () => {
-    hideViewVideoWin();
+    viewVideoWin.hideViewVideoWin();
   });
 
   ipcMain.on("vv:minimize-win", () => {
-    minimizeViewVideoWin();
+    viewVideoWin.minimizeViewVideoWin();
   });
 
   ipcMain.on("vv:maximize-win", () => {
-    maximizeViewVideoWin();
+    viewVideoWin.maximizeViewVideoWin();
   });
 
   ipcMain.on("vv:unmaximize-win", () => {
-    unmaximizeViewVideoWin();
+    viewVideoWin.unmaximizeViewVideoWin();
   });
 
   ipcMain.on("vv:set-always-on-top", (e, isAlwaysOnTop) => {
-    setAlwaysOnTopViewVideoWin(isAlwaysOnTop);
+    viewVideoWin.setAlwaysOnTopViewVideoWin(isAlwaysOnTop);
   });
 
-  ipcMain.handle("vv:set-video", async () => {
-    const video = await sendHistoryVideo();
+  ipcMain.handle("vv:get-historyVideo", async () => {
+    const video = store.getHistoryVideo();
     return video;
+  });
+
+  ipcMain.on("vv:set-historyVideo", (e, video) => {
+    store.setHistoryVideo(video);
   });
 
   // 打开图片
@@ -378,9 +317,9 @@ export function initIpcMain() {
       ],
     });
     res.filePaths.map((filePath, index) => {
-      setHistoryImg(filePath);
+      store.setHistoryImg(filePath);
     });
-    const img = getHistoryImg();
+    const img = store.getHistoryImg();
     return img;
   });
 
@@ -393,71 +332,71 @@ export function initIpcMain() {
       filters: [{ name: "视频", extensions: ["mkv", "avi", "mp4", "webm"] }],
     });
     res.filePaths.map((filePath, index) => {
-      setHistoryVideo(filePath);
+      store.setHistoryVideo(filePath);
     });
-    const video = getHistoryVideo();
+    const video = store.getHistoryVideo();
     return video;
   });
 
   // 录音
   ipcMain.on("ra:open-win", () => {
-    closeRecorderAudioWin();
-    hideMainWin();
-    openRecorderAudioWin();
+    recorderAudioWin.closeRecorderAudioWin();
+    mainWin.hideMainWin();
+    recorderAudioWin.openRecorderAudioWin();
   });
 
   ipcMain.on("ra:close-win", () => {
-    closeRecorderAudioWin();
-    showMainWin();
+    recorderAudioWin.closeRecorderAudioWin();
+    mainWin.showMainWin();
   });
 
   ipcMain.on("ra:hide-win", () => {
-    hideRecorderAudioWin();
+    recorderAudioWin.hideRecorderAudioWin();
   });
 
   ipcMain.on("ra:minimize-win", () => {
-    minimizeRecorderAudioWin();
+    recorderAudioWin.minimizeRecorderAudioWin();
   });
 
   ipcMain.on("ra:download-record", (e, downloadUrl) => {
-    downloadURLRecorderAudioWin(downloadUrl);
+    recorderAudioWin.downloadURLRecorderAudioWin(downloadUrl);
   });
 
   ipcMain.on("ra:start-record", () => {
-    setSizeRecorderAudioWin(285, 43);
+    recorderAudioWin.setSizeRecorderAudioWin(285, 43);
   });
 
   ipcMain.on("ra:pause-record", () => {
-    setSizeRecorderAudioWin(260, 43);
+    recorderAudioWin.setSizeRecorderAudioWin(260, 43);
   });
 
   ipcMain.on("ra:stop-record", () => { });
 
   // 录像
   ipcMain.on("rv:open-win", () => {
-    closeRecorderVideoWin();
-    hideMainWin();
-    openRecorderVideoWin();
+    recorderVideoWin.closeRecorderVideoWin();
+    mainWin.hideMainWin();
+    recorderVideoWin.openRecorderVideoWin();
   });
 
   ipcMain.on("rv:close-win", () => {
-    closeRecorderVideoWin();
-    showMainWin();
+    recorderVideoWin.closeRecorderVideoWin();
+    mainWin.showMainWin();
   });
 
   ipcMain.on("rv:download-record", (e, downloadUrl) => {
-    downloadURLRecorderVideoWin(downloadUrl);
+    recorderVideoWin.downloadURLRecorderVideoWin(downloadUrl);
   });
 
   // 设置
   ipcMain.on("se:open-win", () => {
-    closeSettingWin();
-    openSettingWin();
+    settingWin.closeSettingWin();
+    settingWin.openSettingWin();
   });
 
   ipcMain.on("se:close-win", () => {
-    closeSettingWin();
-    showMainWin();
+    settingWin.closeSettingWin();
+    mainWin.showMainWin();
   });
 
   ipcMain.handle("se:set-filePath", async () => {
@@ -469,17 +408,17 @@ export function initIpcMain() {
       filePath = "";
     } else {
       filePath = res.filePaths[0] || "";
-      setFilePath(filePath);
+      store.setFilePath(filePath);
     }
     return filePath;
   });
 
   ipcMain.handle("se:get-filePath", () => {
-    return getFilePath();
+    return store.getFilePath();
   });
 
   ipcMain.handle("se:get-user", () => {
-    return getUser();
+    return store.getUser();
   });
 
   ipcMain.on("se:set-openAtLogin", (e, isOpen) => {

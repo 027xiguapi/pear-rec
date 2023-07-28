@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Card } from "antd";
 import dayjs from "dayjs";
-import logo from "/imgs/logo/logo@2x.ico";
 
+const logo = "./imgs/logo/logo@2x.ico";
 const { Meta } = Card;
-
 const UserSetting = () => {
 	const [uuid, setUuid] = useState("");
 	const [createdTime, setCreatedTime] = useState("");

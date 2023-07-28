@@ -8,6 +8,7 @@ import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
 
+const logo = "./imgs/logo/logo.ico";
 const Header = () => {
 	const navigate = useNavigate();
 	async function handleHideWin() {
@@ -27,7 +28,7 @@ const Header = () => {
 	return (
 		<div className={styles.header}>
 			<div className="left">
-				<img className="logo" src="./imgs/logo/logo.ico" alt="logo" />
+				<img className="logo" src={logo} alt="logo" />
 				<span>REC</span>
 			</div>
 			<div className="drgan"></div>

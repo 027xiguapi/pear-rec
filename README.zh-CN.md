@@ -1,10 +1,10 @@
+<p align="center">
+  <img src="https://027xiguapi.github.io/pear-rec/logo@2x.ico"  height="120"  />
+</p>
+
 # pear-rec
 
 (中文 | [English](README.md))
-
-<p align="center">
-  <img src="https://027xiguapi.github.io/pear-rec/logo@2x.ico" />
-</p>
 
 ## 简介
 
@@ -39,11 +39,12 @@ git clone https://gitee.com/xiguapi027/pear-rec.git
 cd pear-rec
 # 安装依赖
 pnpm install
+# 打包依赖
+pnpm run build:packages
 # 调试
 pnpm run dev:desktop
 # 编译
 pnpm run build:desktop
-# 将在build目录产生安装包和解压的目录
 ```
 
 ## 功能

@@ -8,23 +8,23 @@ function initConfig() {
 }
 
 function initUser() {
-	const user = store.getUser() as any;
-	if (!user.uuid) {
+	let uuid = store.getUserUuid();
+	if (!uuid) {
+    uuid = uuidv4();
 		const user = {
-			uuid: uuidv4(),
+			uuid: uuid,
       userName: "user",
-      filePath: getFilePath(),
+      filePath: getFilePath(uuid),
 			createdTime: Number(new Date()),
 		};
 		store.setUser(user);
 	}
 }
 
-function getFilePath() {
+function getFilePath(uuid: string) {
 	let filePath = store.getFilePath();
 	if (!filePath) {
 		const documentsPath = app.getPath("documents");
-		const uuid = store.getUserUuid() as string;
 		filePath = join(documentsPath, `Peer Files/${uuid}`);
 	}
 

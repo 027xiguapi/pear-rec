@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { saveAs } from "file-saver";
 import "@pear-rec/screenshot/lib/style.css";
 import styles from "./index.module.scss";
-import defaultImg from "/imgs/th.webp";
 
+const defaultImg = "./imgs/th.webp";
 export default function ShotScreen() {
 	const navigate = useNavigate();
 	const [screenShotImg, setScreenShotImg] = useState("");

@@ -1,10 +1,11 @@
+<p align="center">
+  <img src="https://027xiguapi.github.io/pear-rec/logo@2x.ico"  height="120"  />
+</p>
+
 # pear-rec
 
 ([中文](README.zh-CN.md) | English)
 
-<p align="center">
-  <img src="https://027xiguapi.github.io/pear-rec/logo@2x.ico" />
-</p>
 
 ## Documentation
 
@@ -19,6 +20,24 @@ gitee: https://gitee.com/xiguapi027/pear-rec
 github: https://github.com/027xiguapi/pear-rec
 ```
 
+## Usage
+### Getting Started
+To clone and run this repository you'll need [Git](https://git-scm.com) , [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/)) and [pnpm](https://pnpm.io/) installed on your computer. From your command line:
+```shell
+# Clone this repository
+git clone https://gitee.com/xiguapi027/pear-rec.git
+# Go into the repository
+cd pear-rec
+# Install dependencies
+pnpm install
+# Build packages
+pnpm run build:packages
+# Run the app
+pnpm run dev:desktop
+# Build the app
+pnpm run build:desktop
+```
+
 ## Feedback
 
 - QQ group
@@ -26,3 +45,6 @@ github: https://github.com/027xiguapi/pear-rec
 <p align="center">
   <img src="https://027xiguapi.github.io/pear-rec/imgs/pear-rec_qq_qrcode.png" />
 </p>
+
+## License 
+[MIT](LICENSE)

@@ -17,10 +17,12 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 		showUploadList: false,
 		customRequest: () => {},
 		beforeUpload: (file) => {
-			const url = window.URL.createObjectURL(file);
-			window.electronAPI
-				? window.electronAPI.sendVvOpenWin({ url })
-				: navigate(`/viewVideo?url=${encodeURIComponent(url)}`);
+      if (window.electronAPI) {
+        window.electronAPI.sendVvOpenWin({ url: file.path })
+      } else {
+        const url = window.URL.createObjectURL(file);
+        navigate(`/viewVideo?url=${encodeURIComponent(url)}`);
+      }
 			return false;
 		},
 	};

@@ -23,8 +23,6 @@ function createViewImageWin(search?: any): BrowserWindow {
 	viewImageWin = new BrowserWindow({
 		title: "pear-rec 图片预览",
 		icon: ICON,
-		minHeight: 400,
-		minWidth: 400,
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		webPreferences: {
 			preload,

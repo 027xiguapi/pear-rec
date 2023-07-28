@@ -67,12 +67,12 @@ function readDirectory(directory: any) {
 
 function readDirectoryVideo(filePath: any) {
 	filePath = filePath.replace(/\\/g, "/");
-	return `pearrec:///${filePath}`;
+	return filePath && `pearrec:///${filePath}`;
 }
 
 function readDirectoryImg(filePath: any) {
 	filePath = filePath.replace(/\\/g, "/");
-	return `pearrec:///${filePath}`;
+	return filePath && `pearrec:///${filePath}`;
 }
 
 export {

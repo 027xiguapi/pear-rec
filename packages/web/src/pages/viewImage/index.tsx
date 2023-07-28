@@ -3,29 +3,14 @@ import { useSearchParams } from "react-router-dom";
 import { Button, Upload } from "antd";
 import Viewer from "viewerjs";
 import {
-	FileImageOutlined,
-	ZoomInOutlined,
-	ZoomOutOutlined,
-	RotateLeftOutlined,
-	RotateRightOutlined,
-	SyncOutlined,
-	DownloadOutlined,
-	PrinterOutlined,
-	LeftOutlined,
-	RightOutlined,
-	SwapOutlined,
-	ExpandOutlined,
-	CompressOutlined,
 	InboxOutlined,
-	PushpinOutlined,
-	EditOutlined,
-	CloseOutlined,
 } from "@ant-design/icons";
 import type { UploadProps } from "antd/es/upload/interface";
-import defaultImg from "/imgs/th.webp";
+
 import "viewerjs/dist/viewer.css";
 import styles from "./index.module.scss";
 
+const defaultImg = "./imgs/th.webp";
 const { Dragger } = Upload;
 const ViewImage = () => {
 	const [search, setSearch] = useSearchParams();
@@ -136,13 +121,15 @@ const ViewImage = () => {
 
 	async function initImgs() {
 		const imgUrl = search.get("url");
-		if (imgUrl) {
-			setImgs([imgUrl]);
-		} else {
-			const img = (await window.electronAPI?.invokeViSetImg()) || defaultImg;
-			setImgs([img]);
-		}
+    imgUrl && await window.electronAPI?.sendViSetHistoryImg(imgUrl);
+		const img = formatImgUrl(imgUrl || (await window.electronAPI?.invokeViGetHistoryImg())) || defaultImg;
+		setImgs([img]);
 	}
+
+  function formatImgUrl(imgUrl: any) {
+    imgUrl = imgUrl && imgUrl.replace(/\\/g, "/");
+    return imgUrl && `pearrec:///${imgUrl}`;
+  }
 
 	return (
 		<div className={styles.viewImgs} id="viewImgs">

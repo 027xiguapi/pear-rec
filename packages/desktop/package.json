@@ -20,7 +20,7 @@
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
     "e2e": "playwright test",
-    "rebuild": "./node_modules/.bin/electron-rebuild"
+    "rebuild": "rebuild.sh"
   },
   "dependencies": {
     "@pear-rec/web": "workspace:^",
