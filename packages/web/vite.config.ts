@@ -31,9 +31,9 @@ export default defineConfig({
 		outDir: "lib",
 	},
 	server: {
-		headers: {
-			"Cross-Origin-Embedder-Policy": "require-corp",
-			"Cross-Origin-Opener-Policy": "same-origin",
-		},
+		// headers: {
+		// 	"Cross-Origin-Embedder-Policy": "require-corp",
+		// 	"Cross-Origin-Opener-Policy": "same-origin",
+		// },
 	},
 });

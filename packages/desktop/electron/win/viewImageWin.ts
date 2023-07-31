@@ -8,7 +8,7 @@ import {
 import { join, dirname } from "node:path";
 import {
 	ICON,
-	readDirectory,
+	getImgsByImgUrl,
 	readDirectoryImg,
 	preload,
 	url,
@@ -29,13 +29,15 @@ function createViewImageWin(search?: any): BrowserWindow {
 		},
 	});
 
+  const imgUrl = search?.imgUrl || getHistoryImgPath() || "";
+
 	if (url) {
-		viewImageWin.loadURL(url + `#/viewImage?url=${search?.url || ""}`);
+		viewImageWin.loadURL(url + `#/viewImage?imgUrl=${imgUrl}`);
 		// Open devTool if the app is not packaged
 		// viewImageWin.webContents.openDevTools();
 	} else {
 		viewImageWin.loadFile(indexHtml, {
-			hash: `/viewImage?url=${search?.url || ""}`,
+			hash: `/viewImage?imgUrl=${imgUrl}`,
 		});
 	}
 
@@ -63,7 +65,7 @@ function createViewImageWin(search?: any): BrowserWindow {
 	return viewImageWin;
 }
 
-function openViewImageWin(search?: boolean) {
+function openViewImageWin(search?: any) {
 	if (!viewImageWin || viewImageWin?.isDestroyed()) {
 		viewImageWin = createViewImageWin(search);
 	}
@@ -122,9 +124,8 @@ function getSsImgPath() {
 	return ssFilePath;
 }
 
-async function getSsImgs() {
-	const ssFilePath = getSsImgPath();
-	let imgs = await readDirectory(ssFilePath);
+async function getImgs(imgUrl: any) {
+	let imgs = await getImgsByImgUrl(imgUrl);
 	return imgs;
 }
 
@@ -154,6 +155,6 @@ export {
 	getIsAlwaysOnTopViewImageWin,
 	setIsAlwaysOnTopViewImageWin,
 	sendHistoryImg,
-	getSsImgs,
+	getImgs,
 	downloadImgViewImageWin,
 };

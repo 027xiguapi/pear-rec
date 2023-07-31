@@ -18,10 +18,10 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 		customRequest: () => {},
 		beforeUpload: (file) => {
       if (window.electronAPI) {
-        window.electronAPI.sendViOpenWin({ url: file.path })
+        window.electronAPI.sendViOpenWin({ imgUrl: file.path })
       } else {
-        const url = window.URL.createObjectURL(file);
-        navigate(`/viewImage?url=${encodeURIComponent(url)}`);
+        const imgUrl = window.URL.createObjectURL(file);
+        navigate(`/viewImage?imgUrl=${encodeURIComponent(imgUrl)}`);
       }
 			return false;
 		},

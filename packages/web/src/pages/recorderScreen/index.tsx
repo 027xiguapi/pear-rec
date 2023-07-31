@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useStopwatch } from "react-timer-hook";
+import { CameraOutlined } from "@ant-design/icons";
 import {
 	BsStop,
 	BsMic,
@@ -12,7 +13,7 @@ import {
 	BsChevronRight,
 } from "react-icons/bs";
 
-import { Button, InputNumber } from "antd";
+import { Button, InputNumber, Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import Timer from "@pear-rec/timer";
 import { desktop, screen } from "@pear-rec/recorder";
@@ -29,7 +30,7 @@ const RecorderScreen = () => {
 	const [isMuted, setIsMuted] = useState(false);
 	const [width, setWidth] = useState<number | null>(800);
 	const [height, setHeight] = useState<number | null>(600);
-  const [isSave, setIsSave] = useState(false);
+	const [isSave, setIsSave] = useState(false);
 
 	useEffect(() => {
 		initRecord();
@@ -55,8 +56,8 @@ const RecorderScreen = () => {
 			console.log("onstop", mediaBlobs);
 			const blob = _record.getBlob();
 			if (blob?.size) {
-        const bloburl = _record.getBlobUrl();
-        setIsSave(true)
+				const bloburl = _record.getBlobUrl();
+				setIsSave(true);
 				window.electronAPI
 					? window.electronAPI.sendRsDownloadRecord(bloburl)
 					: _record.downloadBlob(`pear-rec_${+new Date()}`);
@@ -133,13 +134,23 @@ const RecorderScreen = () => {
 		window.electronAPI.sendCsSetBounds(width, height);
 	}
 
+	function handleChangeFormat(format: string) {
+		console.log(`selected ${format}`);
+	}
+
+	function handleShotScreen() {
+    window.electronAPI?.sendRsShotScreen();
+  }
+
 	return (
 		<div className={styles.recorderScreen}>
 			<div className="footer">
 				<div className="recorderTools">
-					{isSave ? <Button type="text" loading>
-            正在保存...
-            </Button>  : isRunning ? (
+					{isSave ? (
+						<Button type="text" loading>
+							正在保存...
+						</Button>
+					) : isRunning ? (
 						<>
 							<Button
 								type="text"
@@ -197,7 +208,19 @@ const RecorderScreen = () => {
 					value={height}
 					onChange={handleChangeHeight}
 				/>
+				<Select
+					disabled
+					defaultValue="mp4"
+					style={{ width: 120 }}
+					options={[{ value: "mp4", label: "mp4" }]}
+					onChange={handleChangeFormat}
+				/>
 				<div className="drgan"></div>
+				<CameraOutlined
+					rev={undefined}
+					className={"recordIcon shotScreenBtn"}
+					onClick={handleShotScreen}
+				/>
 				<BsRecordCircle
 					className={"recordIcon " + `${isPlay ? "blink" : ""}`}
 				/>
