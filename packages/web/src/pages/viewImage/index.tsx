@@ -2,9 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button, Upload } from "antd";
 import Viewer from "viewerjs";
-import {
-	InboxOutlined,
-} from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd/es/upload/interface";
 
 import "viewerjs/dist/viewer.css";
@@ -15,6 +13,7 @@ const { Dragger } = Upload;
 const ViewImage = () => {
 	const [search, setSearch] = useSearchParams();
 	const [imgs, setImgs] = useState([]);
+	const [initialViewIndex, setInitialViewIndex] = useState(0);
 	const [isFull, setIsFull] = useState(false);
 
 	useEffect(() => {
@@ -34,6 +33,7 @@ const ViewImage = () => {
 			// 3: width>992px
 			// 4: width>1200px
 			inline: true,
+			initialViewIndex: initialViewIndex,
 			className: "viewImgs",
 			toolbar: {
 				alwaysOnTopWin: handleToggleAlwaysOnTopWin,
@@ -107,7 +107,6 @@ const ViewImage = () => {
 	}
 
 	async function handleOpenImage() {
-		const imgs = await window.electronAPI?.invokeViGetImgs();
 		// setImgs(imgs);
 	}
 
@@ -120,22 +119,24 @@ const ViewImage = () => {
 	}
 
 	async function initImgs() {
-		const imgUrl = search.get("url");
-    imgUrl && await window.electronAPI?.sendViSetHistoryImg(imgUrl);
-		const img = formatImgUrl(imgUrl || (await window.electronAPI?.invokeViGetHistoryImg())) || defaultImg;
-		setImgs([img]);
-	}
+		const imgUrl = search.get("imgUrl");
+		if (imgUrl) {
+			await window.electronAPI?.sendViSetHistoryImg(imgUrl);
+			const { imgs, currentIndex } =
+				await window.electronAPI?.invokeViGetImgs(imgUrl);
 
-  function formatImgUrl(imgUrl: any) {
-    imgUrl = imgUrl && imgUrl.replace(/\\/g, "/");
-    return imgUrl && `pearrec:///${imgUrl}`;
-  }
+      setInitialViewIndex(currentIndex);
+			setImgs(imgs);
+		} else {
+			setImgs([defaultImg]);
+		}
+	}
 
 	return (
 		<div className={styles.viewImgs} id="viewImgs">
 			{imgs.length ? (
 				imgs.map((img, key) => {
-					return <img className="viewImg" src={img} key={key} />;
+					return <img className="viewImg" src={img.url} key={key} />;
 				})
 			) : (
 				<Dragger {...props} className="viewImageUpload">
@@ -144,7 +145,7 @@ const ViewImage = () => {
 					</p>
 					<p className="ant-upload-text">点击或拖着图片</p>
 					<p className="ant-upload-hint">
-						支持.jpg、.jpeg、.jfif、.pjpeg、.pjp、.png、.apng、.webp、.avif、.bmp、.gif、.webp
+						支持.jpg、.jpeg、.jfif、.pjpeg、.pjp、.png、.apng、.webp、.avif、.bmp、.gif、.webp、.ico
 					</p>
 				</Dragger>
 			)}

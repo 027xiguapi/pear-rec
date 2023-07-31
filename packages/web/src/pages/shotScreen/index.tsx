@@ -33,12 +33,12 @@ export default function ShotScreen() {
 	}, []);
 
 	const onOk = useCallback((blob: Blob, bounds: Bounds) => {
-		const url = URL.createObjectURL(blob);
+		const imgUrl = URL.createObjectURL(blob);
 		if (window.electronAPI) {
-			window.electronAPI.sendSsSaveImg(url);
+			window.electronAPI.sendSsSaveImg(imgUrl);
 		} else {
-			copyImg(url);
-			navigate(`/viewImage?url=${encodeURIComponent(url)}`);
+			copyImg(imgUrl);
+			navigate(`/viewImage?imgUrl=${encodeURIComponent(imgUrl)}`);
 		}
 	}, []);
 

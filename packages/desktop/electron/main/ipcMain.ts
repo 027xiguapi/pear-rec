@@ -248,9 +248,8 @@ export function initIpcMain() {
     return viewImageWin.setIsAlwaysOnTopViewImageWin(!isAlwaysOnTop);
   });
 
-
-  ipcMain.handle("vi:set-imgs", async () => {
-    const imgs = await viewImageWin.getSsImgs();
+  ipcMain.handle("vi:get-imgs", async (e, img) => {
+    const imgs = await viewImageWin.getImgs(img);
     return imgs;
   });
 
