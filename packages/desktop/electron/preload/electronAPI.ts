@@ -72,6 +72,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
   sendViDownloadImg: (img: any) => ipcRenderer.send("vi:download-img", img),
   sendViSetHistoryImg: (img: any) => ipcRenderer.send("vi:set-historyImg", img),
 
+  //eiWin
+  sendEiOpenWin: (search?: any) => ipcRenderer.send("ei:open-win", search),
+  sendEiSaveImg: (imgUrl: string) => ipcRenderer.send("ei:save-img", imgUrl),
+
   //vvWin
   sendVvOpenWin: (search?: any) => ipcRenderer.send("vv:open-win", search),
   invokeVvGetHistoryVideo: () => ipcRenderer.invoke("vv:get-historyVideo"),

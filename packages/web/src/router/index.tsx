@@ -14,6 +14,7 @@ import ViewImage from "@/pages/viewImage";
 import ViewVideo from "@/pages/viewVideo";
 import Setting from "@/pages/setting";
 import ClipScreen from "@/pages/clipScreen";
+import EditImage from "@/pages/editImage";
 
 // const Home = lazy(() => import("@/pages/home"));
 // const ShotScreen = lazy(() => import("@/pages/shotScreen"));
@@ -40,6 +41,7 @@ const App: FC = () => (
         <Route path="/viewVideo" element={<ViewVideo />}></Route>
         <Route path="/setting" element={<Setting />}></Route>
         <Route path="/clipScreen" element={<ClipScreen />}></Route>
+        <Route path="/editImage" element={<EditImage />}></Route>
       </Routes>
 			{/* </Suspense> */}
 		</Provider>

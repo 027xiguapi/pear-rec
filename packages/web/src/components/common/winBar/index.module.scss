@@ -1,0 +1,8 @@
+.winBar {
+	min-width: 128px;
+  :global {
+    .active {
+      color: #1677ff;
+    }
+  }
+}

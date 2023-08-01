@@ -13,6 +13,7 @@ import * as clipScreenWin from "../win/clipScreenWin";
 import * as recorderAudioWin from "../win/recorderAudioWin";
 import * as recorderVideoWin from "../win/recorderVideoWin";
 import * as viewImageWin from "../win/viewImageWin";
+import * as editImageWin from "../win/editImageWin";
 import * as viewVideoWin from "../win/viewVideoWin";
 import * as settingWin from "../win/settingWin";
 import * as utils from "./utils";
@@ -264,6 +265,15 @@ export function initIpcMain() {
 
   ipcMain.on("vi:set-historyImg", (e, img) => {
     store.setHistoryImg(img);
+  });
+
+  // 图片编辑
+  ipcMain.on("ei:open-win", (e, search) => {
+    editImageWin.openEditImageWin(search);
+  });
+
+  ipcMain.on("ei:save-img", async (e, downloadUrl) => {
+    editImageWin.downloadEditImageWin(downloadUrl);
   });
 
   // 视频音频展示
