@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Button } from "antd";
 import { ipcRenderer } from "electron";
-import "./index.scss";
+import styles from "./index.module.scss";
 
 const WinBar = () => {
 	const [isMaximize, setIsMaximize] = useState(false);
@@ -47,7 +47,7 @@ const WinBar = () => {
 	}
 
 	return (
-		<div className="winBar">
+		<div className={styles.winBar}>
 			<Button
 				type="text"
 				icon={<PushpinOutlined rev={undefined} />}

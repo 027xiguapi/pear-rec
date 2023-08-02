@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Button, Upload } from "antd";
 import Viewer from "viewerjs";
 import { InboxOutlined } from "@ant-design/icons";
@@ -11,6 +11,7 @@ import styles from "./index.module.scss";
 const defaultImg = "./imgs/th.webp";
 const { Dragger } = Upload;
 const ViewImage = () => {
+	const navigate = useNavigate();
 	const [search, setSearch] = useSearchParams();
 	const [imgs, setImgs] = useState([]);
 	const [initialViewIndex, setInitialViewIndex] = useState(0);
@@ -56,6 +57,16 @@ const ViewImage = () => {
 				},
 				print: () => {
 					window.print();
+				},
+				edit: () => {
+					const imgUrl = imgs[initialViewIndex]?.url;
+          if (window.electronAPI) {
+            window.electronAPI.sendEiOpenWin({ imgUrl })
+          } else {
+            viewer.destroy();
+            navigate(`/editImage?imgUrl=${imgUrl}`);
+          }
+
 				},
 			},
 		}) as any;
@@ -121,14 +132,18 @@ const ViewImage = () => {
 	async function initImgs() {
 		const imgUrl = search.get("imgUrl");
 		if (imgUrl) {
-			await window.electronAPI?.sendViSetHistoryImg(imgUrl);
-			const { imgs, currentIndex } =
-				await window.electronAPI?.invokeViGetImgs(imgUrl);
+			if (window.electronAPI) {
+				await window.electronAPI?.sendViSetHistoryImg(imgUrl);
+				const { imgs, currentIndex } =
+					await window.electronAPI?.invokeViGetImgs(imgUrl);
 
-      setInitialViewIndex(currentIndex);
-			setImgs(imgs);
+				setInitialViewIndex(currentIndex);
+				setImgs(imgs);
+			} else {
+				setImgs([{ url: imgUrl, index: 0 }]);
+			}
 		} else {
-			setImgs([defaultImg]);
+			setImgs([{ url: defaultImg, index: 0 }]);
 		}
 	}
 

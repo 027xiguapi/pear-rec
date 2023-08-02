@@ -17,12 +17,12 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 		showUploadList: false,
 		customRequest: () => {},
 		beforeUpload: (file) => {
-      if (window.electronAPI) {
-        window.electronAPI.sendViOpenWin({ imgUrl: file.path })
-      } else {
-        const imgUrl = window.URL.createObjectURL(file);
-        navigate(`/viewImage?imgUrl=${encodeURIComponent(imgUrl)}`);
-      }
+			if (window.electronAPI) {
+				window.electronAPI.sendViOpenWin({ imgUrl: file.path });
+			} else {
+				const imgUrl = window.URL.createObjectURL(file);
+				navigate(`/viewImage?imgUrl=${encodeURIComponent(imgUrl)}`);
+			}
 			return false;
 		},
 	};
@@ -45,7 +45,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 						打开
 					</Button>
 				}
-				style={{ maxWidth: 300, width: 210 }}
+				style={{ maxWidth: 300 }}
 			>
 				<div className="cardContent">
 					<PictureOutlined rev={undefined} />

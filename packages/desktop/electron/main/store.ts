@@ -24,6 +24,7 @@ function createTableUsers() {
       "filePath" varchar(255),
       "historyImg" varchar(255),
       "historyVideo" varchar(255),
+      "historyAudio" varchar(255),
       "createdTime" datetime,
       "createdBy" varchar(255),
       "updatedTime" datetime,
@@ -96,7 +97,16 @@ function getHistoryVideo() {
   return user.historyVideo;
 }
 
-getHistoryImg()
+function setHistoryAudio(historyAudio: any) {
+  const uuid = getUserUuid();
+  const stmt = db.prepare('UPDATE user SET historyAudio = ? WHERE uuid = ?');
+  stmt.run(historyAudio, uuid);
+}
+
+function getHistoryAudio() {
+  const user = getUser() as any;
+  return user.historyAudio;
+}
 
 export {
   setUser,
@@ -107,6 +117,8 @@ export {
   getFilePath,
   setHistoryImg,
   setHistoryVideo,
+  setHistoryAudio,
   getHistoryImg,
   getHistoryVideo,
+  getHistoryAudio,
 };
