@@ -16,6 +16,7 @@
     "@pear-rec/screenshot": "workspace:^",
     "@pear-rec/timer": "workspace:^",
     "antd": "^5.4.6",
+    "aplayer": "^1.10.1",
     "dayjs": "^1.11.7",
     "file-saver": "^2.0.5",
     "plyr": "^3.7.8",
@@ -48,8 +49,10 @@
   "keywords": [
     "react",
     "antd",
+    "aplayer",
     "plyr",
-    "rc-image",
+    "viewerjs",
+    "tui-image-editor",
     "react-router-dom",
     "react-screenshots",
     "react-timer-hook"

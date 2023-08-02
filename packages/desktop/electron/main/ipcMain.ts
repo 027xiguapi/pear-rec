@@ -15,6 +15,7 @@ import * as recorderVideoWin from "../win/recorderVideoWin";
 import * as viewImageWin from "../win/viewImageWin";
 import * as editImageWin from "../win/editImageWin";
 import * as viewVideoWin from "../win/viewVideoWin";
+import * as viewAudioWin from "../win/viewAudioWin";
 import * as settingWin from "../win/settingWin";
 import * as utils from "./utils";
 import * as store from "./store";
@@ -411,6 +412,21 @@ export function initIpcMain() {
 
   ipcMain.on("rv:download-record", (e, downloadUrl) => {
     recorderVideoWin.downloadURLRecorderVideoWin(downloadUrl);
+  });
+
+  // 音频
+  ipcMain.on("va:open-win", (e, search) => {
+    viewAudioWin.closeViewAudioWin();
+    viewAudioWin.openViewAudioWin(search);
+  });
+
+  ipcMain.handle("va:get-audios", async (e, audioUrl) => {
+    const audios = await viewAudioWin.getAudios(audioUrl);
+    return audios;
+  });
+
+  ipcMain.handle("va:set-historyAudio", async (e, audioUrl) => {
+    store.setHistoryAudio(audioUrl);
   });
 
   // 设置

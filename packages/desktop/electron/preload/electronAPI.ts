@@ -82,6 +82,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
   invokeVvGetVideo: () => ipcRenderer.invoke("vv:get-video"),
   sendVvSetHistoryVideo: (img: any) => ipcRenderer.send("vv:set-historyVideo", img),
 
+  //vaWin
+  sendVaOpenWin: (search?: any) => ipcRenderer.send("va:open-win", search),
+  invokeVaGetAudios: (audioUrl: any) => ipcRenderer.invoke("va:get-audios", audioUrl),
+  sendVaSetHistoryAudio: (audioUrl: any) => ipcRenderer.send("va:set-historyAudio", audioUrl),
   //seWin
   sendSeOpenWin: () => ipcRenderer.send("se:open-win"),
   invokeSeGetUser: () => ipcRenderer.invoke("se:get-user"),

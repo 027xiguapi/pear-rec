@@ -187,5 +187,12 @@ body {
 				display: none;
 			}
 		}
+
+    .aplayer .aplayer-list {
+      max-height: unset !important;
+      ol {
+        max-height: unset !important;
+      }
+    }
 	}
 }

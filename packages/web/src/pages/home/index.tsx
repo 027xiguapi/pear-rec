@@ -7,6 +7,7 @@ import RecordScreenCard from "@/components/card/recordScreenCard";
 import RecordAudioCard from "@/components/card/recordAudioCard";
 import ViewImageCard from "@/components/card/viewImageCard";
 import ViewVideoCard from "@/components/card/viewVideoCard";
+import ViewAudioCard from "@/components/card/viewAudioCard";
 import styles from "./index.module.scss";
 
 const Home: React.FC = () => {
@@ -90,6 +91,9 @@ const Home: React.FC = () => {
 					</Col>
 					<Col span={8}>
 						<ViewVideoCard />
+					</Col>
+          <Col span={8}>
+						<ViewAudioCard />
 					</Col>
 				</Row>
 			</div>

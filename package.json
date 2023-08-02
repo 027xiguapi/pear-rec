@@ -30,8 +30,11 @@
     "electron",
     "react",
     "antd",
+    "aplayer",
     "plyr",
+    "viewerjs",
     "react-router-dom",
+    "tui-image-editor",
     "react-screenshots",
     "react-timer-hook"
   ],

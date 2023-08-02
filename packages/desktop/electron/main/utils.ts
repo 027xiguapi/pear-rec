@@ -1,4 +1,4 @@
-import { app, screen, BrowserWindow, desktopCapturer, ipcMain } from "electron";
+import { screen } from "electron";
 import * as fs from "node:fs";
 import path from "node:path";
 
@@ -76,6 +76,32 @@ function isImageFile(filePath: string): boolean {
   return ['.jpg', '.jpeg', '.jfif', '.pjpeg', '.pjp', '.png', 'apng', '.gif', '.bmp', '.avif', '.webp', '.ico'].includes(ext);
 }
 
+
+function getAudiosByAudioUrl(audioUrl: string) {
+  const directoryPath = path.dirname(audioUrl);
+  const files = fs.readdirSync(directoryPath); // 读取目录内容
+  let audios: any[] = [];
+  let index = 0;
+  files.forEach(file => {
+    const filePath = path.join(directoryPath, file);
+    if (isAudioFile(filePath)) {
+      const fileName = path.basename(filePath);
+      if(filePath == audioUrl) {
+        audios.unshift({ url: `pearrec:///${filePath}`, name: fileName, cover: "./imgs/music.png" });
+      } else {
+        audios.push({ url: `pearrec:///${filePath}`, name: fileName, cover: "./imgs/music.png" });
+      }
+      index++;
+    }
+  });
+  return audios;
+}
+
+function isAudioFile(filePath: string): boolean {
+  const ext = path.extname(filePath).toLowerCase();
+  return ['.mp3', '.wav', '.aac', '.ogg', '.flac', '.aiff', 'aif', '.m4a', '.alac', '.ac3'].includes(ext);
+}
+
 function readDirectoryVideo(filePath: string) {
   filePath = filePath.replace(/\\/g, "/");
   return filePath && `pearrec:///${filePath}`;
@@ -93,4 +119,5 @@ export {
   getImgsByImgUrl,
   readDirectoryVideo,
   readDirectoryImg,
+  getAudiosByAudioUrl,
 };
