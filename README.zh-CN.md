@@ -41,6 +41,8 @@ cd pear-rec
 pnpm install
 # 打包依赖
 pnpm run build:packages
+# 重新打包 electron
+pnpm run rebuild:desktop
 # 调试
 pnpm run dev:desktop
 # 编译
@@ -51,8 +53,8 @@ pnpm run build:desktop
 
 已经勾选的功能是开发过程最新功能，但可能还没发布在最新版本
 
-- [x] 截屏
-  - [x] 基本实现(react-screenshots)
+- [x] 截屏(react-screenshots)
+  - [x] 基本实现
   - [x] 框选裁切
   - [x] 框选大小位置可调整
   - [x] 取色器
@@ -67,9 +69,9 @@ pnpm run build:desktop
   - [ ] 窗口和控件选择（使用 OpenCV 边缘识别）
   - [ ] 长截屏
   - [ ] 多屏幕
-- [x] 录屏
+- [x] 录屏(ffmpeg)
   - [x] 录制全屏
-  - [ ] 截图
+  - [x] 截图
   - [x] 自定义大小
   - [ ] 按键提示
   - [ ] 光标位置提示
@@ -78,19 +80,20 @@ pnpm run build:desktop
 - [x] 录音
 - [x] 录像
   - [ ] 自定义比特率
-- [x] 图片预览(rc-image)
+- [x] 图片预览(viewerjs)
   - [x] 放大
   - [x] 缩小
   - [x] 拖拽
   - [x] 翻转
   - [x] 钉上层
   - [ ] 查看
-  - [ ] 下载
-  - [ ] 打印
+  - [x] 下载
+  - [x] 打印
   - [ ] ocr
-  - [ ] 查看列表
+  - [x] 查看列表
 - [ ] 图片编辑
 - [x] 视频预览(plyr)
+- [x] 音频预览(aplayer)
 - [x] 基本设置
   - [x] 用户 uuid
   - [x] 保存地址

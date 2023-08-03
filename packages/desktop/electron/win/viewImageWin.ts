@@ -29,7 +29,7 @@ function createViewImageWin(search?: any): BrowserWindow {
 		},
 	});
 
-  const imgUrl = search?.imgUrl || getHistoryImgPath() || "";
+	const imgUrl = search?.imgUrl || getHistoryImgPath() || "";
 
 	if (url) {
 		viewImageWin.loadURL(url + `#/viewImage?imgUrl=${imgUrl}`);

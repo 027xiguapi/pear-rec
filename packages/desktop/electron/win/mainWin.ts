@@ -35,7 +35,7 @@ const createMainWin = (): BrowserWindow => {
 		mainWin.loadURL(url);
 		// mainWin.webContents.openDevTools();
 	} else {
-		mainWin.loadFile(indexHtml, { hash: '/home' });
+		mainWin.loadFile(indexHtml, { hash: "/home" });
 	}
 
 	// Test actively push message to the Electron-Renderer

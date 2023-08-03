@@ -1,23 +1,25 @@
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import Database from 'better-sqlite3';
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import Database from "better-sqlite3";
 import { DB } from "./utils";
 
 const db = new Database(DB, { verbose: console.log });
 
-init()
+init();
 
 function init() {
-  createTableUsers();
+	createTableUsers();
 }
 
-
 function createTableUsers() {
-  const tabUser = db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name='user';`).get();
-  // 创建user表
-  if (!tabUser) {
-    const create_table_user =
-      `CREATE TABLE "user" (
+	const tabUser = db
+		.prepare(
+			`SELECT name FROM sqlite_master WHERE type='table' AND name='user';`,
+		)
+		.get();
+	// 创建user表
+	if (!tabUser) {
+		const create_table_user = `CREATE TABLE "user" (
       "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
       "uuid" varchar(255) NOT NULL,
       "userName" varchar(255) NOT NULL,
@@ -29,96 +31,98 @@ function createTableUsers() {
       "createdBy" varchar(255),
       "updatedTime" datetime,
       "updatedBy" varchar(255)
-    );`
+    );`;
 
-    db.exec(create_table_user)
-  }
+		db.exec(create_table_user);
+	}
 }
 
 function setUser(user: any) {
-  const stmt = db.prepare('INSERT INTO user (uuid, userName, filePath, createdTime) VALUES (?, ?, ?, ?)');
-  stmt.run(user.uuid, user.userName, user.filePath, user.createdTime);
+	const stmt = db.prepare(
+		"INSERT INTO user (uuid, userName, filePath, createdTime) VALUES (?, ?, ?, ?)",
+	);
+	stmt.run(user.uuid, user.userName, user.filePath, user.createdTime);
 }
 
 function getUser() {
-  const stmt = db.prepare('SELECT * FROM user LIMIT 1');
-  const user = stmt.get(); //返回第一条记录
-  console.log("user", user)
-  return user || {};
+	const stmt = db.prepare("SELECT * FROM user LIMIT 1");
+	const user = stmt.get(); //返回第一条记录
+	console.log("user", user);
+	return user || {};
 }
 
 function getUserByUuid(uuid: string) {
-  const stmt = db.prepare('SELECT * FROM user WHERE uuid = ?');
-  const user = stmt.get(uuid);
+	const stmt = db.prepare("SELECT * FROM user WHERE uuid = ?");
+	const user = stmt.get(uuid);
 
-  return user;
+	return user;
 }
 
 function getUserUuid() {
-  const user = getUser() as any;
-  return user.uuid;
+	const user = getUser() as any;
+	return user.uuid;
 }
 
 function getUserCreatedTime() {
-  const user = getUser() as any;
-  return user.createdTime;
+	const user = getUser() as any;
+	return user.createdTime;
 }
 
 function setFilePath(filePath: string) {
-  const uuid = getUserUuid();
-  const stmt = db.prepare('UPDATE user SET filePath = ? WHERE uuid = ?');
-  stmt.run(filePath, uuid);
+	const uuid = getUserUuid();
+	const stmt = db.prepare("UPDATE user SET filePath = ? WHERE uuid = ?");
+	stmt.run(filePath, uuid);
 }
 
 function getFilePath() {
-  const user = getUser() as any;
-  return user.filePath;
+	const user = getUser() as any;
+	return user.filePath;
 }
 
 function setHistoryImg(historyImg: any) {
-  const uuid = getUserUuid();
-  const stmt = db.prepare('UPDATE user SET historyImg = ? WHERE uuid = ?');
-  stmt.run(historyImg, uuid);
+	const uuid = getUserUuid();
+	const stmt = db.prepare("UPDATE user SET historyImg = ? WHERE uuid = ?");
+	stmt.run(historyImg, uuid);
 }
 
 function getHistoryImg() {
-  const user = getUser() as any;
-  return user.historyImg;
+	const user = getUser() as any;
+	return user.historyImg;
 }
 
 function setHistoryVideo(historyVideo: any) {
-  const uuid = getUserUuid();
-  const stmt = db.prepare('UPDATE user SET historyVideo = ? WHERE uuid = ?');
-  stmt.run(historyVideo, uuid);
+	const uuid = getUserUuid();
+	const stmt = db.prepare("UPDATE user SET historyVideo = ? WHERE uuid = ?");
+	stmt.run(historyVideo, uuid);
 }
 
 function getHistoryVideo() {
-  const user = getUser() as any;
-  return user.historyVideo;
+	const user = getUser() as any;
+	return user.historyVideo;
 }
 
 function setHistoryAudio(historyAudio: any) {
-  const uuid = getUserUuid();
-  const stmt = db.prepare('UPDATE user SET historyAudio = ? WHERE uuid = ?');
-  stmt.run(historyAudio, uuid);
+	const uuid = getUserUuid();
+	const stmt = db.prepare("UPDATE user SET historyAudio = ? WHERE uuid = ?");
+	stmt.run(historyAudio, uuid);
 }
 
 function getHistoryAudio() {
-  const user = getUser() as any;
-  return user.historyAudio;
+	const user = getUser() as any;
+	return user.historyAudio;
 }
 
 export {
-  setUser,
-  getUser,
-  getUserUuid,
-  getUserCreatedTime,
-  setFilePath,
-  getFilePath,
-  setHistoryImg,
-  setHistoryVideo,
-  setHistoryAudio,
-  getHistoryImg,
-  getHistoryVideo,
-  getHistoryAudio,
+	setUser,
+	getUser,
+	getUserUuid,
+	getUserCreatedTime,
+	setFilePath,
+	getFilePath,
+	setHistoryImg,
+	setHistoryVideo,
+	setHistoryAudio,
+	getHistoryImg,
+	getHistoryVideo,
+	getHistoryAudio,
 };

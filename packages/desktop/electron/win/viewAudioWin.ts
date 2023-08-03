@@ -56,9 +56,4 @@ async function getAudios(audioUrl: any) {
 	return audios;
 }
 
-export {
-	createViewAudioWin,
-	openViewAudioWin,
-  closeViewAudioWin,
-	getAudios,
-};
+export { createViewAudioWin, openViewAudioWin, closeViewAudioWin, getAudios };

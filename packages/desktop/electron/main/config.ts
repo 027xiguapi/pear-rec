@@ -10,11 +10,11 @@ function initConfig() {
 function initUser() {
 	let uuid = store.getUserUuid();
 	if (!uuid) {
-    uuid = uuidv4();
+		uuid = uuidv4();
 		const user = {
 			uuid: uuid,
-      userName: "user",
-      filePath: getFilePath(uuid),
+			userName: "user",
+			filePath: getFilePath(uuid),
 			createdTime: Number(new Date()),
 		};
 		store.setUser(user);
@@ -28,7 +28,7 @@ function getFilePath(uuid: string) {
 		filePath = join(documentsPath, `Peer Files/${uuid}`);
 	}
 
-  return filePath;
+	return filePath;
 }
 
 export { initConfig };

@@ -7,6 +7,7 @@
     "build:packages": "pnpm run --filter=!@pear-rec/desktop --filter=!@pear-rec/docs build",
     "dev:desktop": "pnpm run -C packages/desktop dev",
     "build:desktop": "pnpm run -C packages/desktop build",
+    "rebuild:desktop": "pnpm run -C packages/desktop rebuild",
     "dev:web": "pnpm run -C packages/web dev",
     "build:web": "pnpm run -C packages/web build",
     "watch:web": "pnpm run -C packages/web watch",

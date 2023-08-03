@@ -173,7 +173,7 @@ body {
 						background-size: 20px;
 						background-position: 8px 14px;
 					}
-          .viewer-edit {
+					.viewer-edit {
 						background: transparent url(/imgs/svg/edit.svg) no-repeat 0px 0px;
 						background-size: 20px;
 						background-position: 8px 14px;
@@ -188,11 +188,11 @@ body {
 			}
 		}
 
-    .aplayer .aplayer-list {
-      max-height: unset !important;
-      ol {
-        max-height: unset !important;
-      }
-    }
+		.aplayer .aplayer-list {
+			max-height: unset !important;
+			ol {
+				max-height: unset !important;
+			}
+		}
 	}
 }
