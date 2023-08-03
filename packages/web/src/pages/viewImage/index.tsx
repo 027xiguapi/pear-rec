@@ -12,6 +12,7 @@ const defaultImg = "./imgs/th.webp";
 const { Dragger } = Upload;
 const ViewImage = () => {
 	const navigate = useNavigate();
+	let refViewer = useRef<any>();
 	const [search, setSearch] = useSearchParams();
 	const [imgs, setImgs] = useState([]);
 	const [initialViewIndex, setInitialViewIndex] = useState(0);
@@ -19,7 +20,13 @@ const ViewImage = () => {
 
 	useEffect(() => {
 		initImgs();
+		handleDrop();
+		return destroyViewer;
 	}, []);
+
+	function destroyViewer() {
+		refViewer.current?.destroy();
+	}
 
 	useEffect(() => {
 		imgs.length && initViewer();
@@ -60,16 +67,16 @@ const ViewImage = () => {
 				},
 				edit: () => {
 					const imgUrl = imgs[initialViewIndex]?.url;
-          if (window.electronAPI) {
-            window.electronAPI.sendEiOpenWin({ imgUrl })
-          } else {
-            viewer.destroy();
-            navigate(`/editImage?imgUrl=${imgUrl}`);
-          }
-
+					if (window.electronAPI) {
+						window.electronAPI.sendEiOpenWin({ imgUrl });
+					} else {
+						viewer.destroy();
+						navigate(`/editImage?imgUrl=${imgUrl}`);
+					}
 				},
 			},
 		}) as any;
+		refViewer.current = viewer;
 	}
 
 	const props: UploadProps = {
@@ -117,8 +124,24 @@ const ViewImage = () => {
 		}
 	}
 
-	async function handleOpenImage() {
-		// setImgs(imgs);
+	function handleDrop() {
+		document.addEventListener("drop", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			let imgs = [];
+			let index = 0;
+			for (const file of e.dataTransfer.files) {
+				imgs.push({ url: window.URL.createObjectURL(file), index });
+				index++;
+			}
+			refViewer.current?.destroy();
+			setImgs(imgs);
+		});
+		document.addEventListener("dragover", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+		});
 	}
 
 	async function handleToggleAlwaysOnTopWin() {

@@ -6,7 +6,6 @@
 
 ([中文](README.zh-CN.md) | English)
 
-
 ## Documentation
 
 > pear-rec is a cross platform screenshot, screen recording, audio recording, and video recording software.
@@ -21,8 +20,11 @@ github: https://github.com/027xiguapi/pear-rec
 ```
 
 ## Usage
+
 ### Getting Started
+
 To clone and run this repository you'll need [Git](https://git-scm.com) , [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/)) and [pnpm](https://pnpm.io/) installed on your computer. From your command line:
+
 ```shell
 # Clone this repository
 git clone https://gitee.com/xiguapi027/pear-rec.git
@@ -32,6 +34,8 @@ cd pear-rec
 pnpm install
 # Build packages
 pnpm run build:packages
+# Rebuild electron
+pnpm run rebuild:desktop
 # Run the app
 pnpm run dev:desktop
 # Build the app
@@ -46,5 +50,6 @@ pnpm run build:desktop
   <img src="https://027xiguapi.github.io/pear-rec/imgs/pear-rec_qq_qrcode.png" />
 </p>
 
-## License 
+## License
+
 [MIT](LICENSE)

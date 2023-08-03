@@ -7,36 +7,62 @@ import styles from "./index.module.scss";
 
 const defaultVideo = "./video/chrome.webm";
 const ViewVideo = () => {
+	let refPlayer = useRef<Plyr>();
 	const [search, setSearch] = useSearchParams();
 	const [source, setSource] = useState("");
-	const sourceRef = useRef<HTMLSourceElement>(null);
 
 	useEffect(() => {
 		if (source) {
 			const player = new Plyr("#player");
+			refPlayer.current = player;
 		} else {
 			setVideo();
+			handleDrop();
 		}
 	}, [source]);
 
 	async function setVideo() {
 		const videoUrl = search.get("url");
-    videoUrl && await window.electronAPI?.sendVvSetHistoryVideo(videoUrl);
-		const video = formatVideoUrl(videoUrl || (await window.electronAPI?.invokeVvGetHistoryVideo())) || defaultVideo;
-    console.log(video)
+		videoUrl && (await window.electronAPI?.sendVvSetHistoryVideo(videoUrl));
+		const video =
+			formatVideoUrl(
+				videoUrl || (await window.electronAPI?.invokeVvGetHistoryVideo()),
+			) || defaultVideo;
 		setSource(video);
 	}
 
-  function formatVideoUrl(videoUrl: any) {
-    videoUrl = videoUrl && videoUrl.replace(/\\/g, "/");
-    return videoUrl && `pearrec:///${videoUrl}`;
-  }
+	function formatVideoUrl(videoUrl: any) {
+		videoUrl = videoUrl && videoUrl.replace(/\\/g, "/");
+		return videoUrl && `pearrec:///${videoUrl}`;
+	}
+
+	function handleDrop() {
+		document.addEventListener("drop", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			const files = e.dataTransfer.files;
+			refPlayer.current.source = {
+				type: "video",
+				sources: [
+					{
+						src: window.URL.createObjectURL(files[0]),
+						type: "video/mp4",
+					},
+				],
+			};
+		});
+		document.addEventListener("dragover", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+		});
+	}
 
 	return (
 		<div className={styles.viewVideo}>
 			{source ? (
-				<video id="player" playsInline controls>
-					<source ref={sourceRef} src={source} type="video/mp4" />
+				<video id="player" playsInline controls src={source}>
+					{/* <source src={source} type="video/mp4" /> */}
 				</video>
 			) : (
 				<Empty

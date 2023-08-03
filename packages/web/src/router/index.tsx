@@ -31,20 +31,20 @@ const App: FC = () => (
 	<HashRouter>
 		<Provider store={store}>
 			{/* <Suspense fallback={<Skeleton active />}> */}
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/home" element={<Home />}></Route>
-        <Route path="/shotScreen" element={<ShotScreen />}></Route>
-        <Route path="/RecorderScreen" element={<RecorderScreen />}></Route>
-        <Route path="/recorderVideo" element={<RecordVideo />}></Route>
-        <Route path="/recorderAudio" element={<RecordAudio />}></Route>
-        <Route path="/viewImage" element={<ViewImage />}></Route>
-        <Route path="/viewVideo" element={<ViewVideo />}></Route>
-        <Route path="/setting" element={<Setting />}></Route>
-        <Route path="/clipScreen" element={<ClipScreen />}></Route>
-        <Route path="/editImage" element={<EditImage />}></Route>
-        <Route path="/viewAudio" element={<ViewAudio />}></Route>
-      </Routes>
+			<Routes>
+				<Route path="/" element={<Home />}></Route>
+				<Route path="/home" element={<Home />}></Route>
+				<Route path="/shotScreen" element={<ShotScreen />}></Route>
+				<Route path="/RecorderScreen" element={<RecorderScreen />}></Route>
+				<Route path="/recorderVideo" element={<RecordVideo />}></Route>
+				<Route path="/recorderAudio" element={<RecordAudio />}></Route>
+				<Route path="/viewImage" element={<ViewImage />}></Route>
+				<Route path="/viewVideo" element={<ViewVideo />}></Route>
+				<Route path="/setting" element={<Setting />}></Route>
+				<Route path="/clipScreen" element={<ClipScreen />}></Route>
+				<Route path="/editImage" element={<EditImage />}></Route>
+				<Route path="/viewAudio" element={<ViewAudio />}></Route>
+			</Routes>
 			{/* </Suspense> */}
 		</Provider>
 	</HashRouter>
