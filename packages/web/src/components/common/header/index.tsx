@@ -5,12 +5,10 @@ import {
 	CloseOutlined,
 } from "@ant-design/icons";
 import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
 
-const logo = "./imgs/logo/logo.ico";
+const logo = "/imgs/logo/logo.ico";
 const Header = () => {
-	const navigate = useNavigate();
 	async function handleHideWin() {
 		window.electronAPI?.sendMaMinimizeWin();
 	}
@@ -22,7 +20,7 @@ const Header = () => {
 	function handleOpenSettingWin() {
 		window.electronAPI
 			? window.electronAPI.sendSeOpenWin()
-			: navigate("/setting");
+			: (location.href = "/setting.html");
 	}
 
 	return (

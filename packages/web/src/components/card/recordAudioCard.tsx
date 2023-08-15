@@ -1,17 +1,15 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import { useNavigate } from "react-router-dom";
 
 const RecordAudioCard = forwardRef((props: any, ref: any) => {
-	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({ setIsRecordAudio }));
 	const [isRecordAudio, setIsRecordAudio] = useState(true);
 
 	function handleRecordAudio() {
 		window.electronAPI
 			? window.electronAPI.sendRaOpenWin()
-			: navigate("/recorderAudio");
+			: (location.href = "/recorderAudio.html");
 	}
 
 	return (

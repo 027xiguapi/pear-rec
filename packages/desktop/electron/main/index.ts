@@ -60,8 +60,8 @@ app.on("will-quit", () => {
 });
 
 app.on("window-all-closed", () => {
-	closeMainWin();
-	if (process.platform !== "darwin") app.quit();
+	// closeMainWin();
+	// if (process.platform !== "darwin") app.quit();
 });
 
 app.on("second-instance", () => {

@@ -2,11 +2,9 @@
   "name": "@pear-rec/web",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "build:lib": "tsc && vite build && tsc --project tsconfig.build.json",
+    "build": "tsc && vite build && tsc --project tsconfig.build.json",
     "watch": "tsc && vite build -w",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -15,7 +13,7 @@
     "@pear-rec/recorder": "workspace:^",
     "@pear-rec/screenshot": "workspace:^",
     "@pear-rec/timer": "workspace:^",
-    "antd": "^5.4.6",
+    "antd": "^5.8.3",
     "aplayer": "^1.10.1",
     "dayjs": "^1.11.7",
     "file-saver": "^2.0.5",
@@ -23,16 +21,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "^6.11.1",
     "react-timer-hook": "^3.0.6",
     "tui-image-editor": "^3.15.3",
     "viewerjs": "^1.11.3"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
-    "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "@vitejs/plugin-react-swc": "^3.0.0",
@@ -43,9 +39,13 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "main": "./lib/web.umd.js",
-  "module": "./lib/web.es.js",
-  "types": "./lib/types/main.d.ts",
+  "files": [
+    "es",
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "module": "es/index.mjs",
+  "typings": "es/index.d.ts",
   "keywords": [
     "react",
     "antd",
@@ -57,7 +57,7 @@
     "react-screenshots",
     "react-timer-hook"
   ],
-  "author": "",
+  "author": "027xiguapi",
   "license": "MIT",
   "directories": {
     "lib": "lib"

@@ -1,6 +1,6 @@
 import { Menu, Tray, app } from "electron";
 import { join } from "node:path";
-import { PUBLIC } from "./utils";
+import { ICON } from "./utils";
 import { showMainWin } from "../win/mainWin";
 import { openShotScreenWin } from "../win/shotScreenWin";
 import { openRecorderScreenWin } from "../win/recorderScreenWin";
@@ -11,7 +11,7 @@ import { openViewVideoWin } from "../win/viewVideoWin";
 import { openSettingWin } from "../win/settingWin";
 
 export function initTray() {
-	let appIcon = new Tray(join(PUBLIC, "/imgs/logo/logo@2x.ico"));
+	let appIcon = new Tray(ICON);
 	const contextMenu = Menu.buildFromTemplate([
 		{
 			label: "截图",

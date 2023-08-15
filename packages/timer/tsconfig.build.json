@@ -1,10 +1,13 @@
 {
-	"extends": "./tsconfig.json",
-	"compilerOptions": {
-		"declaration": true,
-		"emitDeclarationOnly": true,
-		"outDir": "./lib/types",
-		"noEmit": false
-	},
-	"include": ["src/Timer", "globals.d.ts"]
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./lib/types",
+    "noEmit": false
+  },
+  "include": [
+    "src/Timer",
+    "globals.d.ts"
+  ]
 }

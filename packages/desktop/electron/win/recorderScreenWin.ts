@@ -4,7 +4,7 @@ import { join } from "node:path";
 import Ffmpeg from "fluent-ffmpeg";
 import FfmpegPath from "ffmpeg-static";
 import Jimp from "jimp";
-import { preload, url, indexHtml, ICON } from "../main/utils";
+import { preload, url, DIST, ICON } from "../main/utils";
 import { getFilePath, setHistoryVideo } from "../main/store";
 import { closeClipScreenWin, getBoundsClipScreenWin } from "./clipScreenWin";
 import { openViewVideoWin } from "./viewVideoWin";
@@ -13,6 +13,7 @@ FfmpegPath &&
 	Ffmpeg.setFfmpegPath(
 		url ? FfmpegPath : FfmpegPath.replace("app.asar", "app.asar.unpacked"),
 	);
+const recorderScreenHtml = join(DIST, "./src/recorderScreen.html");
 let recorderScreenWin: BrowserWindow | null = null;
 
 function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
@@ -39,12 +40,10 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 	});
 
 	if (url) {
-		recorderScreenWin.loadURL(url + "#/recorderScreen");
+		recorderScreenWin.loadURL(url + "recorderScreen.html");
 		// recorderScreenWin.webContents.openDevTools();
 	} else {
-		recorderScreenWin.loadFile(indexHtml, {
-			hash: "/recorderScreen",
-		});
+		recorderScreenWin.loadFile(recorderScreenHtml);
 	}
 
 	recorderScreenWin?.webContents.session.on(

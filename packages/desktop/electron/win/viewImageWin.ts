@@ -12,10 +12,11 @@ import {
 	readDirectoryImg,
 	preload,
 	url,
-	indexHtml,
+	DIST,
 } from "../main/utils";
 import { getHistoryImg, getFilePath } from "../main/store";
 
+const viewImageHtml = join(DIST, "./src/viewImage.html");
 let viewImageWin: BrowserWindow | null = null;
 let savePath: string = "";
 
@@ -32,12 +33,12 @@ function createViewImageWin(search?: any): BrowserWindow {
 	const imgUrl = search?.imgUrl || getHistoryImgPath() || "";
 
 	if (url) {
-		viewImageWin.loadURL(url + `#/viewImage?imgUrl=${imgUrl}`);
+		viewImageWin.loadURL(url + `viewImage.html?imgUrl=${imgUrl}`);
 		// Open devTool if the app is not packaged
 		// viewImageWin.webContents.openDevTools();
 	} else {
-		viewImageWin.loadFile(indexHtml, {
-			hash: `/viewImage?imgUrl=${imgUrl}`,
+		viewImageWin.loadFile(viewImageHtml, {
+			hash: `?imgUrl=${imgUrl}`,
 		});
 	}
 

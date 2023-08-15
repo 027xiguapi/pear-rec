@@ -1,8 +1,9 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
 import { getFilePath } from "../main/store";
 
+const recorderAudioHtml = join(DIST, "./src/recorderAudio.html");
 let recorderAudioWin: BrowserWindow | null = null;
 
 function createRecorderAudioWin(): BrowserWindow {
@@ -28,12 +29,10 @@ function createRecorderAudioWin(): BrowserWindow {
 	});
 
 	if (url) {
-		recorderAudioWin.loadURL(url + "#/recorderAudio");
+		recorderAudioWin.loadURL(url + "recorderAudio.html");
 		// recorderAudioWin.webContents.openDevTools();
 	} else {
-		recorderAudioWin.loadFile(indexHtml, {
-			hash: "/recorderAudio",
-		});
+		recorderAudioWin.loadFile(recorderAudioHtml);
 	}
 
 	recorderAudioWin?.webContents.session.on(

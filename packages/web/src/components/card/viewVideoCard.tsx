@@ -1,11 +1,9 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button, Card, Upload } from "antd";
-import { useNavigate } from "react-router-dom";
 import type { UploadProps } from "antd/es/upload/interface";
 
 const ViewVideoCard = forwardRef((props: any, ref: any) => {
-	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({
 		handleViewVideo,
 	}));
@@ -21,7 +19,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 				window.electronAPI.sendVvOpenWin({ url: file.path });
 			} else {
 				const url = window.URL.createObjectURL(file);
-				navigate(`/viewVideo?url=${encodeURIComponent(url)}`);
+				window.open(`/viewVideo.html?videoUrl=${encodeURIComponent(url)}`);
 			}
 			return false;
 		},
@@ -30,7 +28,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	function handleViewVideo(e) {
 		window.electronAPI
 			? window.electronAPI.sendVvOpenWin()
-			: navigate("/viewVideo");
+			: (location.href = "/viewVideo.html");
 		e.stopPropagation();
 	}
 

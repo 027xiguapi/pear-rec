@@ -1,11 +1,9 @@
 import React, { useImperativeHandle, forwardRef } from "react";
 import { PictureOutlined } from "@ant-design/icons";
 import { Button, Card, Upload } from "antd";
-import { useNavigate } from "react-router-dom";
 import type { UploadProps } from "antd/es/upload/interface";
 
 const ViewImageCard = forwardRef((props: any, ref: any) => {
-	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({
 		handleViewImage,
 	}));
@@ -21,7 +19,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 				window.electronAPI.sendViOpenWin({ imgUrl: file.path });
 			} else {
 				const imgUrl = window.URL.createObjectURL(file);
-				navigate(`/viewImage?imgUrl=${encodeURIComponent(imgUrl)}`);
+				window.open(`/viewImage.html?imgUrl=${encodeURIComponent(imgUrl)}`);
 			}
 			return false;
 		},
@@ -30,7 +28,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 	function handleViewImage(e) {
 		window.electronAPI
 			? window.electronAPI.sendViOpenWin()
-			: navigate("/viewImage");
+			: (location.href = "/viewImage.html");
 		e.stopPropagation();
 	}
 

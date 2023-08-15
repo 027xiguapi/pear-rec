@@ -1,8 +1,8 @@
 import { app, screen, BrowserWindow, shell, ipcMain } from "electron";
-import { ICON, preload, url, indexHtml } from "../main/utils";
+import { ICON, preload, url, DIST } from "../main/utils";
 import { join } from "node:path";
-import { update } from "../main/update";
 
+const indexHtml = join(DIST, "./src/index.html");
 let mainWin: BrowserWindow | null = null;
 
 const createMainWin = (): BrowserWindow => {
@@ -32,10 +32,10 @@ const createMainWin = (): BrowserWindow => {
 	});
 
 	if (url) {
-		mainWin.loadURL(url);
+		mainWin.loadURL(url + `index.html`);
 		// mainWin.webContents.openDevTools();
 	} else {
-		mainWin.loadFile(indexHtml, { hash: "/home" });
+		mainWin.loadFile(indexHtml);
 	}
 
 	// Test actively push message to the Electron-Renderer
@@ -59,7 +59,9 @@ const createMainWin = (): BrowserWindow => {
 };
 
 function closeMainWin() {
-	mainWin!.close();
+	if (!mainWin?.isDestroyed()) {
+		mainWin!.close();
+	}
 	mainWin = null;
 }
 
@@ -69,6 +71,9 @@ function openMainWin() {
 }
 
 function showMainWin() {
+	if (!mainWin || mainWin?.isDestroyed()) {
+		mainWin = createMainWin();
+	}
 	mainWin!.show();
 }
 

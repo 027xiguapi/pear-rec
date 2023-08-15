@@ -2,11 +2,9 @@ import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { Button, Card, Upload } from "antd";
-import { useNavigate } from "react-router-dom";
 import type { UploadProps } from "antd/es/upload/interface";
 
 const ViewAudioCard = forwardRef((props: any, ref: any) => {
-	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({
 		handleViewAudio,
 	}));
@@ -22,7 +20,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 				window.electronAPI.sendVaOpenWin({ url: file.path });
 			} else {
 				const url = window.URL.createObjectURL(file);
-				navigate(`/viewAudio?url=${encodeURIComponent(url)}`);
+				window.open(`/viewAudio.html?audioUrl=${encodeURIComponent(url)}`);
 			}
 			return false;
 		},
@@ -31,7 +29,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 	function handleViewAudio(e) {
 		window.electronAPI
 			? window.electronAPI.sendVaOpenWin()
-			: navigate("/viewAudio");
+			: (location.href = "/viewAudio.html");
 		e.stopPropagation();
 	}
 

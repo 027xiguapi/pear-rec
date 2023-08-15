@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card } from "antd";
 import dayjs from "dayjs";
 
-const logo = "./imgs/logo/logo@2x.ico";
+const logo = "/imgs/logo/logo@2x.ico";
 const { Meta } = Card;
 const UserSetting = () => {
 	const [uuid, setUuid] = useState("");

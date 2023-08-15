@@ -1,6 +1,8 @@
 import { app, BrowserWindow, shell } from "electron";
-import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { join } from "node:path";
+import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
 
+const settingHtml = join(DIST, "./src/setting.html");
 let settingWin: BrowserWindow | null = null;
 
 function createSettingWin(): BrowserWindow {
@@ -17,11 +19,9 @@ function createSettingWin(): BrowserWindow {
 
 	// settingWin.webContents.openDevTools();
 	if (url) {
-		settingWin.loadURL(url + "#/setting");
+		settingWin.loadURL(url + "setting.html");
 	} else {
-		settingWin.loadFile(indexHtml, {
-			hash: "/setting",
-		});
+		settingWin.loadFile(settingHtml);
 	}
 
 	return settingWin;

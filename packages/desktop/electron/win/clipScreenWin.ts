@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell, screen } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
 import {
 	openRecorderScreenWin,
 	setBoundsRecorderScreenWin,
@@ -8,6 +8,7 @@ import {
 	hideRecorderScreenWin,
 } from "./recorderScreenWin";
 
+const clipScreenHtml = join(DIST, "./src/clipScreen.html");
 let clipScreenWin: BrowserWindow | null = null;
 
 function createClipScreenWin(): BrowserWindow {
@@ -27,12 +28,10 @@ function createClipScreenWin(): BrowserWindow {
 	});
 
 	if (url) {
-		clipScreenWin.loadURL(url + "#/clipScreen");
+		clipScreenWin.loadURL(url + "clipScreen.html");
 		// clipScreenWin.webContents.openDevTools();
 	} else {
-		clipScreenWin.loadFile(indexHtml, {
-			hash: "/clipScreen",
-		});
+		clipScreenWin.loadFile(clipScreenHtml);
 	}
 
 	clipScreenWin.on("resize", () => {

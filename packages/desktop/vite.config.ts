@@ -14,6 +14,9 @@ export default defineConfig(({ command }) => {
 	const isBuild = command === "build";
 	const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
 	return {
+		root: path.resolve(__dirname, "src"),
+		base: "./",
+		publicDir: path.resolve(__dirname, "public"),
 		resolve: {
 			alias: {
 				"@": path.join(__dirname, "src"),
@@ -71,21 +74,21 @@ export default defineConfig(({ command }) => {
 			// Use Node.js API in the Renderer-process
 			renderer(),
 		],
-		server: {
-			headers: {
-				"Cross-Origin-Embedder-Policy": "require-corp",
-				"Cross-Origin-Opener-Policy": "same-origin",
-			},
-		},
-		// server:
-		// 	process.env.VSCODE_DEBUG &&
-		// 	(() => {
-		// 		const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
-		// 		return {
-		// 			host: url.hostname,
-		// 			port: +url.port,
-		// 		};
-		// 	})(),
+		// server: {
+		// 	headers: {
+		// 		"Cross-Origin-Embedder-Policy": "require-corp",
+		// 		"Cross-Origin-Opener-Policy": "same-origin",
+		// 	},
+		// },
+		server:
+			process.env.VSCODE_DEBUG &&
+			(() => {
+				const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
+				return {
+					host: url.hostname,
+					port: +url.port,
+				};
+			})(),
 		clearScreen: false,
 	};
 });

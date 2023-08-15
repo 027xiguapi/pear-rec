@@ -8,11 +8,12 @@ import {
 	clipboard,
 	nativeImage,
 } from "electron";
-import path from "node:path";
-import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { join } from "node:path";
+import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
 import { getFilePath, setHistoryImg } from "../main/store";
 import { openViewImageWin } from "./viewImageWin";
 
+const shotScreenHtml = join(DIST, "./src/shotScreen.html");
 let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = "";
 
@@ -38,11 +39,9 @@ function createShotScreenWin(): BrowserWindow {
 	// shotScreenWin.webContents.openDevTools();
 
 	if (url) {
-		shotScreenWin.loadURL(url + "#/shotScreen");
+		shotScreenWin.loadURL(url + "shotScreen.html");
 	} else {
-		shotScreenWin.loadFile(indexHtml, {
-			hash: "/shotScreen",
-		});
+		shotScreenWin.loadFile(shotScreenHtml);
 	}
 	shotScreenWin.maximize();
 	shotScreenWin.setFullScreen(true);
@@ -52,7 +51,7 @@ function createShotScreenWin(): BrowserWindow {
 		(e: any, item: DownloadItem, webContents: WebContents) => {
 			const fileName = item.getFilename();
 			const filePath = getFilePath() as string;
-			const ssFilePath = path.join(savePath || `${filePath}/ss`, `${fileName}`);
+			const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
 			item.setSavePath(ssFilePath);
 			item.once("done", (event: any, state: any) => {
 				if (state === "completed") {

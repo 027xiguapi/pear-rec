@@ -1,14 +1,9 @@
 import { BrowserWindow } from "electron";
 import { join } from "node:path";
-import {
-	ICON,
-	readDirectoryVideo,
-	preload,
-	url,
-	indexHtml,
-} from "../main/utils";
+import { ICON, readDirectoryVideo, preload, url, DIST } from "../main/utils";
 import { getHistoryVideo } from "../main/store";
 
+const viewVideoHtml = join(DIST, "./src/viewVideo.html");
 let viewVideoWin: BrowserWindow | null = null;
 
 function createViewVideoWin(search?: any): BrowserWindow {
@@ -23,12 +18,12 @@ function createViewVideoWin(search?: any): BrowserWindow {
 
 	if (url) {
 		// electron-vite-vue#298
-		viewVideoWin.loadURL(url + `#/viewVideo?url=${search?.url || ""}`);
+		viewVideoWin.loadURL(url + `viewVideo.html?url=${search?.url || ""}`);
 		// Open devTool if the app is not packaged
 		// viewVideoWin.webContents.openDevTools();
 	} else {
-		viewVideoWin.loadFile(indexHtml, {
-			hash: `/viewVideo?url=${search?.url || ""}`,
+		viewVideoWin.loadFile(viewVideoHtml, {
+			hash: `?url=${search?.url || ""}`,
 		});
 	}
 

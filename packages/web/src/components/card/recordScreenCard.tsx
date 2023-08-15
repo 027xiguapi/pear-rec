@@ -1,17 +1,15 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { CameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import { useNavigate } from "react-router-dom";
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
-	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({}));
 	const [isRecordScreen, setIsRecordScreen] = useState(true);
 
 	function handleRecordScreen() {
 		window.electronAPI
 			? window.electronAPI.sendCsOpenWin()
-			: navigate("/recorderScreen");
+			: (location.href = "/recorderScreen.html");
 	}
 
 	return (

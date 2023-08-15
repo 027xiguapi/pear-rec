@@ -1,14 +1,9 @@
 import { BrowserWindow } from "electron";
 import { join } from "node:path";
-import {
-	ICON,
-	getAudiosByAudioUrl,
-	preload,
-	url,
-	indexHtml,
-} from "../main/utils";
+import { ICON, getAudiosByAudioUrl, preload, url, DIST } from "../main/utils";
 import { getHistoryAudio } from "../main/store";
 
+const viewAudioHtml = join(DIST, "./src/viewAudio.html");
 let viewAudioWin: BrowserWindow | null = null;
 
 function createViewAudioWin(search?: any): BrowserWindow {
@@ -23,12 +18,12 @@ function createViewAudioWin(search?: any): BrowserWindow {
 
 	if (url) {
 		// electron-vite-vue#298
-		viewAudioWin.loadURL(url + `#/viewAudio?url=${search?.url || ""}`);
+		viewAudioWin.loadURL(url + `viewAudio.html?url=${search?.url || ""}`);
 		// Open devTool if the app is not packaged
 		viewAudioWin.webContents.openDevTools();
 	} else {
-		viewAudioWin.loadFile(indexHtml, {
-			hash: `/viewAudio?url=${search?.url || ""}`,
+		viewAudioWin.loadFile(viewAudioHtml, {
+			hash: `?url=${search?.url || ""}`,
 		});
 	}
 
@@ -47,12 +42,15 @@ function openViewAudioWin(search?: any) {
 }
 
 function closeViewAudioWin() {
-	viewAudioWin?.close();
+	if (!viewAudioWin?.isDestroyed()) {
+		viewAudioWin?.close();
+	}
 	viewAudioWin = null;
 }
 
-async function getAudios(audioUrl: any) {
+async function getAudios(audioUrl?: any) {
 	let audios = await getAudiosByAudioUrl(audioUrl);
+	console.log(audios);
 	return audios;
 }
 

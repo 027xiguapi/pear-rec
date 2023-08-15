@@ -6,16 +6,10 @@ import {
 	WebContents,
 } from "electron";
 import { join, dirname } from "node:path";
-import {
-	ICON,
-	getImgsByImgUrl,
-	readDirectoryImg,
-	preload,
-	url,
-	indexHtml,
-} from "../main/utils";
+import { ICON, DIST, readDirectoryImg, preload, url } from "../main/utils";
 import { getHistoryImg, getFilePath } from "../main/store";
 
+const editImageHtml = join(DIST, "./src/clipScreen.html");
 let editImageWin: BrowserWindow | null = null;
 let savePath: string = "";
 
@@ -34,12 +28,12 @@ function createEditImageWin(search?: any): BrowserWindow {
 	const imgUrl = search?.imgUrl || "";
 
 	if (url) {
-		editImageWin.loadURL(url + `#/editImage?imgUrl=${imgUrl}`);
+		editImageWin.loadURL(url + `editImage.html?imgUrl=${imgUrl}`);
 		// Open devTool if the app is not packaged
 		editImageWin.webContents.openDevTools();
 	} else {
-		editImageWin.loadFile(indexHtml, {
-			hash: `/editImage?imgUrl=${imgUrl}`,
+		editImageWin.loadFile(editImageHtml, {
+			hash: `?imgUrl=${imgUrl}`,
 		});
 	}
 

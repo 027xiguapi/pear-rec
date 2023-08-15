@@ -1,17 +1,15 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { VideoCameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
-import { useNavigate } from "react-router-dom";
 
 const RecordVideoCard = forwardRef((props: any, ref: any) => {
-	const navigate = useNavigate();
 	useImperativeHandle(ref, () => ({ setIsRecordVideo }));
 	const [isRecordVideo, setIsRecordVideo] = useState(true);
 
 	function handleRecorderVideo() {
 		window.electronAPI
 			? window.electronAPI.sendRvOpenWin()
-			: navigate("/recorderVideo");
+			: (location.href = "/recorderVideo.html");
 	}
 
 	return (

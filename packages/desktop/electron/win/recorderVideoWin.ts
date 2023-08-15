@@ -1,8 +1,9 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, preload, url, indexHtml, PUBLIC } from "../main/utils";
+import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
 import { getFilePath, setHistoryVideo } from "../main/store";
 
+const recorderVideoHtml = join(DIST, "./src/recorderVideo.html");
 let recorderVideoWin: BrowserWindow | null = null;
 
 function createRecorderVideoWin(): BrowserWindow {
@@ -28,12 +29,10 @@ function createRecorderVideoWin(): BrowserWindow {
 	});
 
 	if (url) {
-		recorderVideoWin.loadURL(url + "#/recorderVideo");
+		recorderVideoWin.loadURL(url + "recorderVideo.html");
 		// recorderVideoWin.webContents.openDevTools();
 	} else {
-		recorderVideoWin.loadFile(indexHtml, {
-			hash: "/recorderVideo",
-		});
+		recorderVideoWin.loadFile(recorderVideoHtml);
 	}
 
 	recorderVideoWin?.webContents.session.on(

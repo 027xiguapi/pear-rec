@@ -1,0 +1,69 @@
+.recorderScreen {
+	height: calc(100vh - 2px);
+	overflow: hidden;
+	background-color: #fff;
+	:global {
+		.footer {
+			width: calc(100vw);
+			background: #fff;
+			height: 34px;
+			display: flex;
+			align-items: center;
+			flex-direction: row-reverse;
+			overflow: hidden;
+			.singleDigit {
+				font-size: 20px;
+				background-color: transparent;
+			}
+			.separtorContainer {
+				margin: 0 0 8px;
+				.separtor {
+					width: 4px;
+					height: 4px;
+				}
+			}
+			.recorderTools {
+				display: flex;
+				.toolbarIcon {
+					line-height: 30px;
+					font-size: 30px;
+					color: #1677ff;
+					width: 30px;
+					height: 30px;
+					margin-right: 10px;
+					padding: 0;
+				}
+				.stopBtn {
+					color: red;
+				}
+				.toggleMuteBtn {
+					font-size: 20px;
+				}
+				.muted {
+					color: rgba(0, 0, 0, 0.88);
+				}
+			}
+			.sizeIcon {
+				margin: 0 5px;
+			}
+			.drgan {
+				flex: auto;
+			}
+			.shotScreenBtn {
+				color: red;
+				cursor: pointer;
+			}
+			.recordIcon {
+				float: left;
+				margin-left: 10px;
+			}
+			.blink {
+				color: red;
+			}
+			.toolbarTitle {
+				line-height: 32px;
+				white-space: nowrap;
+			}
+		}
+	}
+}
