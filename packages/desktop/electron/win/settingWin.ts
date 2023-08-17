@@ -2,7 +2,7 @@ import { app, BrowserWindow, shell } from "electron";
 import { join } from "node:path";
 import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
 
-const settingHtml = join(DIST, "./src/setting.html");
+const settingHtml = join(DIST, "./setting.html");
 let settingWin: BrowserWindow | null = null;
 
 function createSettingWin(): BrowserWindow {

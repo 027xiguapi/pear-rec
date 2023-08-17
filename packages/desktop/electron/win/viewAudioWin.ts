@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ICON, getAudiosByAudioUrl, preload, url, DIST } from "../main/utils";
 import { getHistoryAudio } from "../main/store";
 
-const viewAudioHtml = join(DIST, "./src/viewAudio.html");
+const viewAudioHtml = join(DIST, "./viewAudio.html");
 let viewAudioWin: BrowserWindow | null = null;
 
 function createViewAudioWin(search?: any): BrowserWindow {
@@ -18,9 +18,9 @@ function createViewAudioWin(search?: any): BrowserWindow {
 
 	if (url) {
 		// electron-vite-vue#298
-		viewAudioWin.loadURL(url + `viewAudio.html?url=${search?.url || ""}`);
+		viewAudioWin.loadURL(url + `viewAudio.html?audioUrl=${search?.url || ""}`);
 		// Open devTool if the app is not packaged
-		viewAudioWin.webContents.openDevTools();
+		// viewAudioWin.webContents.openDevTools();
 	} else {
 		viewAudioWin.loadFile(viewAudioHtml, {
 			hash: `?url=${search?.url || ""}`,

@@ -2,7 +2,7 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-	appId: "com.electron.${name}",
+	appId: "com.electron.pear",
 	productName: "pear-rec",
 	asar: false,
 	directories: {

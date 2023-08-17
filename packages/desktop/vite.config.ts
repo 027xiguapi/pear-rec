@@ -22,6 +22,24 @@ export default defineConfig(({ command }) => {
 				"@": path.join(__dirname, "src"),
 			},
 		},
+		build: {
+			rollupOptions: {
+				input: {
+					index: path.resolve(__dirname, "src/index.html"),
+					shotScreen: path.resolve(__dirname, "src/shotScreen.html"),
+					recorderScreen: path.resolve(__dirname, "src/recorderScreen.html"),
+					recorderVideo: path.resolve(__dirname, "src/recorderVideo.html"),
+					recorderAudio: path.resolve(__dirname, "src/recorderAudio.html"),
+					viewImage: path.resolve(__dirname, "src/viewImage.html"),
+					viewVideo: path.resolve(__dirname, "src/viewVideo.html"),
+					setting: path.resolve(__dirname, "src/setting.html"),
+					clipScreen: path.resolve(__dirname, "src/clipScreen.html"),
+					editImage: path.resolve(__dirname, "src/editImage.html"),
+					viewAudio: path.resolve(__dirname, "src/viewAudio.html"),
+				},
+			},
+			outDir: path.resolve(__dirname, "dist"),
+		},
 		plugins: [
 			react(),
 			electron([

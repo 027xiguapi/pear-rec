@@ -27,7 +27,7 @@ To clone and run this repository you'll need [Git](https://git-scm.com) , [Node.
 
 ```shell
 # Clone this repository
-git clone https://gitee.com/xiguapi027/pear-rec.git
+git clone https://github.com/027xiguapi/pear-rec.git
 # Go into the repository
 cd pear-rec
 # Install dependencies

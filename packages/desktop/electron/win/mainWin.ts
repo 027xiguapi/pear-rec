@@ -2,7 +2,7 @@ import { app, screen, BrowserWindow, shell, ipcMain } from "electron";
 import { ICON, preload, url, DIST } from "../main/utils";
 import { join } from "node:path";
 
-const indexHtml = join(DIST, "./src/index.html");
+const indexHtml = join(DIST, "./index.html");
 let mainWin: BrowserWindow | null = null;
 
 const createMainWin = (): BrowserWindow => {

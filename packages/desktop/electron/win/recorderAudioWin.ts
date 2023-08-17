@@ -3,7 +3,7 @@ import { join, dirname } from "node:path";
 import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
 import { getFilePath } from "../main/store";
 
-const recorderAudioHtml = join(DIST, "./src/recorderAudio.html");
+const recorderAudioHtml = join(DIST, "./recorderAudio.html");
 let recorderAudioWin: BrowserWindow | null = null;
 
 function createRecorderAudioWin(): BrowserWindow {

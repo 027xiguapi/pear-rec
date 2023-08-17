@@ -13,7 +13,7 @@ FfmpegPath &&
 	Ffmpeg.setFfmpegPath(
 		url ? FfmpegPath : FfmpegPath.replace("app.asar", "app.asar.unpacked"),
 	);
-const recorderScreenHtml = join(DIST, "./src/recorderScreen.html");
+const recorderScreenHtml = join(DIST, "./recorderScreen.html");
 let recorderScreenWin: BrowserWindow | null = null;
 
 function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {

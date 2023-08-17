@@ -3,7 +3,7 @@ import { join, dirname } from "node:path";
 import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
 import { getFilePath, setHistoryVideo } from "../main/store";
 
-const recorderVideoHtml = join(DIST, "./src/recorderVideo.html");
+const recorderVideoHtml = join(DIST, "./recorderVideo.html");
 let recorderVideoWin: BrowserWindow | null = null;
 
 function createRecorderVideoWin(): BrowserWindow {

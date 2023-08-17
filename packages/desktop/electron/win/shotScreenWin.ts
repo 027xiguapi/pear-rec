@@ -13,7 +13,7 @@ import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
 import { getFilePath, setHistoryImg } from "../main/store";
 import { openViewImageWin } from "./viewImageWin";
 
-const shotScreenHtml = join(DIST, "./src/shotScreen.html");
+const shotScreenHtml = join(DIST, "./shotScreen.html");
 let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = "";
 

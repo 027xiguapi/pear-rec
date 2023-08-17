@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ICON, readDirectoryVideo, preload, url, DIST } from "../main/utils";
 import { getHistoryVideo } from "../main/store";
 
-const viewVideoHtml = join(DIST, "./src/viewVideo.html");
+const viewVideoHtml = join(DIST, "./viewVideo.html");
 let viewVideoWin: BrowserWindow | null = null;
 
 function createViewVideoWin(search?: any): BrowserWindow {
@@ -18,7 +18,7 @@ function createViewVideoWin(search?: any): BrowserWindow {
 
 	if (url) {
 		// electron-vite-vue#298
-		viewVideoWin.loadURL(url + `viewVideo.html?url=${search?.url || ""}`);
+		viewVideoWin.loadURL(url + `viewVideo.html?videoUrl=${search?.url || ""}`);
 		// Open devTool if the app is not packaged
 		// viewVideoWin.webContents.openDevTools();
 	} else {

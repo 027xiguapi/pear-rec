@@ -9,7 +9,7 @@ import { join, dirname } from "node:path";
 import { ICON, DIST, readDirectoryImg, preload, url } from "../main/utils";
 import { getHistoryImg, getFilePath } from "../main/store";
 
-const editImageHtml = join(DIST, "./src/clipScreen.html");
+const editImageHtml = join(DIST, "./clipScreen.html");
 let editImageWin: BrowserWindow | null = null;
 let savePath: string = "";
 

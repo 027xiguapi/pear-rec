@@ -16,7 +16,7 @@ import {
 } from "../main/utils";
 import { getHistoryImg, getFilePath } from "../main/store";
 
-const viewImageHtml = join(DIST, "./src/viewImage.html");
+const viewImageHtml = join(DIST, "./viewImage.html");
 let viewImageWin: BrowserWindow | null = null;
 let savePath: string = "";
 

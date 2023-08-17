@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-// import { useSearchParams } from "react-router-dom";
 import Plyr from "plyr";
 import { Button, Empty } from "antd";
 import "plyr/dist/plyr.css";
@@ -26,13 +25,16 @@ const ViewVideo = () => {
 		const videoUrl = searchParams.get("videoUrl");
 		videoUrl && (await window.electronAPI?.sendVvSetHistoryVideo(videoUrl));
 		const video =
-			videoUrl ||
-			formatVideoUrl(await window.electronAPI?.invokeVvGetHistoryVideo()) ||
-			defaultVideo;
+			formatVideoUrl(
+				videoUrl || (await window.electronAPI?.invokeVvGetHistoryVideo()),
+			) || defaultVideo;
 		setSource(video);
 	}
 
 	function formatVideoUrl(videoUrl: any) {
+		if (videoUrl?.search(/^blob:/) == 0) {
+			return videoUrl;
+		}
 		videoUrl = videoUrl && videoUrl.replace(/\\/g, "/");
 		return videoUrl && `pearrec:///${videoUrl}`;
 	}

@@ -8,7 +8,7 @@ import {
 	hideRecorderScreenWin,
 } from "./recorderScreenWin";
 
-const clipScreenHtml = join(DIST, "./src/clipScreen.html");
+const clipScreenHtml = join(DIST, "./clipScreen.html");
 let clipScreenWin: BrowserWindow | null = null;
 
 function createClipScreenWin(): BrowserWindow {
