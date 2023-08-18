@@ -8,7 +8,8 @@ import {
 	BsFillStopFill,
 } from "react-icons/bs";
 import * as recorder from "@pear-rec/recorder";
-import styles from "./App.module.scss";
+import ininitApp from "@/pages/main";
+import styles from "./index.module.scss";
 
 const RecorderVideo = () => {
 	const previewVideo = useRef<HTMLVideoElement>(null);
@@ -118,5 +119,7 @@ const RecorderVideo = () => {
 		</div>
 	);
 };
+
+ininitApp(RecorderVideo);
 
 export default RecorderVideo;

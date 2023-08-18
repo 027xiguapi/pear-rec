@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import Plyr from "plyr";
 import { Button, Empty } from "antd";
+import ininitApp from "@/pages/main";
 import "plyr/dist/plyr.css";
-import styles from "./App.module.scss";
+import styles from "./index.module.scss";
 
 const defaultVideo = "/video/chrome.webm";
 const ViewVideo = () => {
@@ -80,4 +81,5 @@ const ViewVideo = () => {
 	);
 };
 
+ininitApp(ViewVideo);
 export default ViewVideo;

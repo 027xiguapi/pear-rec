@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Screenshots, { Bounds } from "@pear-rec/screenshot";
 import { saveAs } from "file-saver";
+import ininitApp from "@/pages/main";
 import "@pear-rec/screenshot/lib/style.css";
-import styles from "./App.module.scss";
+import styles from "./index.module.scss";
 
 const defaultImg = "/imgs/th.webp";
-export default function ShotScreen() {
+function ShotScreen() {
 	const [screenShotImg, setScreenShotImg] = useState("");
 
 	useEffect(() => {
@@ -64,3 +65,7 @@ export default function ShotScreen() {
 		</div>
 	);
 }
+
+ininitApp(ShotScreen);
+
+export default ShotScreen;

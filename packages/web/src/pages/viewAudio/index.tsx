@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import APlayer from "aplayer";
+import ininitApp from "@/pages/main";
 import "aplayer/dist/APlayer.min.css";
-import styles from "./App.module.scss";
+import styles from "./index.module.scss";
 
 const defaultAudio = [
 	{
@@ -82,4 +83,5 @@ const ViewAudio = () => {
 	);
 };
 
+ininitApp(ViewAudio);
 export default ViewAudio;

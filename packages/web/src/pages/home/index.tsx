@@ -8,7 +8,8 @@ import RecordAudioCard from "@/components/card/recordAudioCard";
 import ViewImageCard from "@/components/card/viewImageCard";
 import ViewVideoCard from "@/components/card/viewVideoCard";
 import ViewAudioCard from "@/components/card/viewAudioCard";
-import styles from "./App.module.scss";
+import ininitApp from "@/pages/main";
+import styles from "./index.module.scss";
 
 const Home: React.FC = () => {
 	const cscRef = useRef(null);
@@ -100,5 +101,7 @@ const Home: React.FC = () => {
 		</div>
 	);
 };
+
+ininitApp(Home);
 
 export default Home;

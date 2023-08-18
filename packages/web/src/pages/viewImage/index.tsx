@@ -3,8 +3,9 @@ import { Button, Upload } from "antd";
 import Viewer from "viewerjs";
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd/es/upload/interface";
+import ininitApp from "@/pages/main";
 import "viewerjs/dist/viewer.css";
-import styles from "./App.module.scss";
+import styles from "./index.module.scss";
 
 const defaultImg = "./imgs/th.webp";
 const { Dragger } = Upload;
@@ -189,4 +190,5 @@ const ViewImage = () => {
 	);
 };
 
+ininitApp(ViewImage);
 export default ViewImage;

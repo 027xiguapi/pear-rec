@@ -1,8 +1,7 @@
 import { createRoot } from "react-dom/client";
-import "../index.scss";
-import App from "./App";
+import "./index.scss";
 
-export default function initApp() {
+export default function initApp(App) {
 	const userAgent = navigator.userAgent.toLowerCase();
 	if (userAgent.indexOf(" electron/") > -1) {
 		window.isElectron = true;
@@ -13,5 +12,3 @@ export default function initApp() {
 	const root = createRoot(container);
 	root.render(<App />);
 }
-
-initApp();

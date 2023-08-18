@@ -8,7 +8,8 @@ import {
 	CloseOutlined,
 	SettingOutlined,
 } from "@ant-design/icons";
-import styles from "./App.module.scss";
+import ininitApp from "@/pages/main";
+import styles from "./index.module.scss";
 
 const ClipScreen = () => {
 	const [isPlay, setIsPlay] = useState(false);
@@ -56,4 +57,5 @@ const ClipScreen = () => {
 	);
 };
 
+ininitApp(ClipScreen);
 export default ClipScreen;

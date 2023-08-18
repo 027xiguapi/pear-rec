@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import ImageEditor from "tui-image-editor";
+import ininitApp from "@/pages/main";
 import "tui-image-editor/dist/tui-image-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
-import styles from "./App.module.scss";
+import styles from "./index.module.scss";
 
 const defaultImg = "./imgs/th.webp";
 const locale_zh = {
@@ -236,4 +237,5 @@ const EditImage = () => {
 	);
 };
 
+ininitApp(EditImage);
 export default EditImage;

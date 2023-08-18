@@ -12,12 +12,12 @@ import {
 	BsRecordCircle,
 	BsChevronRight,
 } from "react-icons/bs";
-
 import { Button, InputNumber, Select } from "antd";
 import Timer from "@pear-rec/timer";
 import { desktop, screen } from "@pear-rec/recorder";
+import ininitApp from "@/pages/main";
 import "@pear-rec/timer/lib/style.css";
-import styles from "./App.module.scss";
+import styles from "./index.module.scss";
 
 const RecorderScreen = () => {
 	const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
@@ -227,4 +227,5 @@ const RecorderScreen = () => {
 	);
 };
 
+ininitApp(RecorderScreen);
 export default RecorderScreen;

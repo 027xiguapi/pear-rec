@@ -3,7 +3,8 @@ import { Button, Switch, Form, Input, Tabs } from "antd";
 import type { TabsProps } from "antd";
 import UserSetting from "@/components/setting/userSetting";
 import BasicSetting from "@/components/setting/basicSetting";
-import styles from "./App.module.scss";
+import ininitApp from "@/pages/main";
+import styles from "./index.module.scss";
 
 const Setting = () => {
 	const items: TabsProps["items"] = [
@@ -30,5 +31,7 @@ const Setting = () => {
 		</div>
 	);
 };
+
+ininitApp(Setting);
 
 export default Setting;

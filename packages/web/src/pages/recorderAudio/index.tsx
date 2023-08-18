@@ -12,8 +12,9 @@ import { Button } from "antd";
 import Wavesurfer from "@/components/wavesurfer";
 import Timer from "@pear-rec/timer";
 import { audio } from "@pear-rec/recorder";
+import ininitApp from "@/pages/main";
 import "@pear-rec/timer/lib/style.css";
-import styles from "./App.module.scss";
+import styles from "./index.module.scss";
 
 const RecordAudio = () => {
 	const wavesurferRef = useRef<any>();
@@ -156,4 +157,5 @@ const RecordAudio = () => {
 	);
 };
 
+ininitApp(RecordAudio);
 export default RecordAudio;
