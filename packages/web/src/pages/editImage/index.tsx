@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import ImageEditor from "tui-image-editor";
 import ininitApp from "@/pages/main";
@@ -161,7 +160,6 @@ const customTheme = {
 };
 
 const EditImage = () => {
-	const navigate = useNavigate();
 	const [instance, setInstance] = useState<any>("");
 
 	useEffect(() => {
@@ -212,7 +210,7 @@ const EditImage = () => {
 			window.electronAPI.sendEiSaveImg(imgUrl);
 		} else {
 			copyImg(imgUrl);
-			navigate(`/viewImage?imgUrl=${imgUrl}`);
+			window.open(`/viewImage.html?imgUrl=${imgUrl}`);
 		}
 	}
 

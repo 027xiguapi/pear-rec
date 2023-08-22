@@ -40,7 +40,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 				bordered={false}
 				extra={
 					<Button type="link" onClick={handleViewImage}>
-						打开
+						历史
 					</Button>
 				}
 				style={{ maxWidth: 300 }}

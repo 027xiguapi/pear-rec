@@ -6,10 +6,18 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({}));
 	const [isRecordScreen, setIsRecordScreen] = useState(true);
 
-	function handleRecordScreen() {
+	function handleClipScreen() {
 		window.electronAPI
 			? window.electronAPI.sendCsOpenWin()
 			: (location.href = "/recorderScreen.html");
+	}
+
+	function handleRecordScreen(e) {
+		window.electronAPI
+			? window.electronAPI.sendRsOpenWin()
+			: (location.href = "/recorderScreen.html");
+
+		e.stopPropagation();
 	}
 
 	return (
@@ -17,9 +25,13 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 			title="录屏"
 			hoverable
 			bordered={false}
-			extra={<a href="#">更多</a>}
+			extra={
+				<Button type="link" onClick={handleRecordScreen}>
+					全屏
+				</Button>
+			}
 			style={{ maxWidth: 300 }}
-			onClick={handleRecordScreen}
+			onClick={handleClipScreen}
 		>
 			<div className="cardContent">
 				<CameraOutlined rev={undefined} />

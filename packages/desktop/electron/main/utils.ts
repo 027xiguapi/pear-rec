@@ -12,8 +12,8 @@ export const PUBLIC = url
 	? path.join(DIST_ELECTRON, "../public")
 	: process.env.DIST;
 export const ICON = url
-	? path.join(PUBLIC, "./imgs/logo/logo@2x.ico")
-	: path.join(DIST, "./imgs/logo/logo@2x.ico");
+	? path.join(PUBLIC, "./imgs/logo/favicon.ico")
+	: path.join(DIST, "./imgs/logo/favicon.ico");
 export const PEER_FILES = path.join(DIST_ELECTRON, `../Peer Files`);
 
 function getScreenSize() {

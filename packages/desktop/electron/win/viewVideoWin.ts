@@ -23,7 +23,7 @@ function createViewVideoWin(search?: any): BrowserWindow {
 		// viewVideoWin.webContents.openDevTools();
 	} else {
 		viewVideoWin.loadFile(viewVideoHtml, {
-			hash: `?url=${search?.url || ""}`,
+			search: `?videoUrl=${search?.url || ""}`,
 		});
 	}
 

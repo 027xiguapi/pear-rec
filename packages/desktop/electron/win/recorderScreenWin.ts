@@ -14,30 +14,48 @@ FfmpegPath &&
 		url ? FfmpegPath : FfmpegPath.replace("app.asar", "app.asar.unpacked"),
 	);
 const recorderScreenHtml = join(DIST, "./recorderScreen.html");
+let ffmpegProcess: any | null = null;
 let recorderScreenWin: BrowserWindow | null = null;
 
 function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
-	let { x, y, width, height } = clipScreenWinBounds;
-	let recorderScreenWinX = x;
-	let recorderScreenWinY = y + height;
+	if (clipScreenWinBounds) {
+		let { x, y, width, height } = clipScreenWinBounds;
+		let recorderScreenWinX = x;
+		let recorderScreenWinY = y + height;
 
-	recorderScreenWin = new BrowserWindow({
-		title: "pear-rec 录屏",
-		icon: ICON,
-		x: recorderScreenWinX,
-		y: recorderScreenWinY,
-		width: width,
-		height: 34,
-		autoHideMenuBar: true, // 自动隐藏菜单栏
-		frame: false, // 无边框窗口
-		hasShadow: false, // 窗口是否有阴影
-		fullscreenable: false, // 窗口是否可以进入全屏状态
-		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
-		skipTaskbar: true,
-		webPreferences: {
-			preload,
-		},
-	});
+		recorderScreenWin = new BrowserWindow({
+			title: "pear-rec 录屏",
+			icon: ICON,
+			x: recorderScreenWinX,
+			y: recorderScreenWinY,
+			width: width,
+			height: 34,
+			autoHideMenuBar: true, // 自动隐藏菜单栏
+			frame: false, // 无边框窗口
+			hasShadow: false, // 窗口是否有阴影
+			fullscreenable: false, // 窗口是否可以进入全屏状态
+			alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+			skipTaskbar: true,
+			webPreferences: {
+				preload,
+			},
+		});
+	} else {
+		recorderScreenWin = new BrowserWindow({
+			title: "pear-rec 录屏",
+			icon: ICON,
+			height: 34,
+			// autoHideMenuBar: true, // 自动隐藏菜单栏
+			// frame: false, // 无边框窗口
+			hasShadow: false, // 窗口是否有阴影
+			fullscreenable: false, // 窗口是否可以进入全屏状态
+			// alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+			// skipTaskbar: true,
+			webPreferences: {
+				preload,
+			},
+		});
+	}
 
 	if (url) {
 		recorderScreenWin.loadURL(url + "recorderScreen.html");
@@ -50,13 +68,13 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 		"will-download",
 		(event: any, item: any, webContents: any) => {
 			const fileName = item.getFilename();
-			const filePath = getFilePath() as string;
+			const filePath = getFilePath();
 			const rsFilePath = join(`${filePath}/rs`, `${fileName}`);
 			item.setSavePath(rsFilePath);
 
 			item.once("done", (event: any, state: any) => {
 				if (state === "completed") {
-					ffmpegRecorderScreenWin(filePath, fileName);
+					ffmpegRecorderScreenWin(fileName);
 				}
 			});
 		},
@@ -65,12 +83,13 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 	return recorderScreenWin;
 }
 
-async function ffmpegRecorderScreenWin(filePath?: string, fileName?: string) {
+async function ffmpegRecorderScreenWin(fileName?: string) {
+	const filePath = getFilePath();
 	const { x, y, width, height } = getBoundsClipScreenWin() as Rectangle;
 	const name = `pear-rec_${+new Date()}.mp4`;
 	const rsInputPath = join(`${filePath}/rs`, `${fileName}`);
 	const rsOutputPath = join(`${filePath}/rs`, `${name}`);
-	Ffmpeg(rsInputPath)
+	ffmpegProcess = Ffmpeg(rsInputPath)
 		.on("progress", function (progress) {
 			console.log("Processing: " + progress.percent + "% done");
 		})
@@ -175,8 +194,9 @@ function shotScreen(imgUrl: any) {
 			img.crop(x + 1, y + 1, width - 2, height - 2).write(result);
 
 			setTimeout(() => {
-				closeRecorderScreenWin();
-				shell.showItemInFolder(result);
+				recorderScreenWin?.webContents.send("rs:get-shot-screen", result);
+				// closeRecorderScreenWin();
+				// shell.showItemInFolder(result);
 			}, 500);
 		}
 	});

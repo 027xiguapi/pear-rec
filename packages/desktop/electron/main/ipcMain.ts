@@ -57,6 +57,7 @@ export function initIpcMain() {
 
 	// 录屏
 	ipcMain.on("rs:open-win", () => {
+		clipScreenWin.closeClipScreenWin();
 		recorderScreenWin.closeRecorderScreenWin();
 		mainWin.hideMainWin();
 		recorderScreenWin.openRecorderScreenWin();

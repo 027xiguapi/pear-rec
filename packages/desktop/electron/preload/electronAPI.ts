@@ -37,6 +37,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
 	},
 	handleRsGetSizeClipWin: (callback: any) =>
 		ipcRenderer.on("rs:get-size-clip-win", callback),
+	handleRsGetShotScreen: (callback: any) =>
+		ipcRenderer.on("rs:get-shot-screen", callback),
 
 	//csWin
 	sendCsOpenWin: () => ipcRenderer.send("cs:open-win"),

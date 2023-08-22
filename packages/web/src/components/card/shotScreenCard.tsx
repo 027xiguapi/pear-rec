@@ -18,7 +18,6 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 			title="截屏"
 			hoverable
 			bordered={false}
-			extra={<a href="#">更多</a>}
 			style={{ maxWidth: 300 }}
 			onClick={handleCutScreen}
 		>

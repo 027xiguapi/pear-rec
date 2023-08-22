@@ -14,7 +14,7 @@
 		target: ["dmg", "zip"],
 	},
 	win: {
-		icon: "public/imgs/logo/logo.ico",
+		icon: "public/imgs/logo/logo_512.ico",
 		target: [
 			{
 				target: "nsis",

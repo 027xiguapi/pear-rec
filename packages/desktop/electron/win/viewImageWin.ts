@@ -38,7 +38,7 @@ function createViewImageWin(search?: any): BrowserWindow {
 		// viewImageWin.webContents.openDevTools();
 	} else {
 		viewImageWin.loadFile(viewImageHtml, {
-			hash: `?imgUrl=${imgUrl}`,
+			search: `?imgUrl=${imgUrl}`,
 		});
 	}
 

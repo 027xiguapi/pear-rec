@@ -41,7 +41,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 				bordered={false}
 				extra={
 					<Button type="link" onClick={handleViewAudio}>
-						打开
+						历史
 					</Button>
 				}
 				style={{ maxWidth: 300 }}

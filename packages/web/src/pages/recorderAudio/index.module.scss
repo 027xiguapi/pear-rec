@@ -3,10 +3,24 @@
 	position: relative;
 	border-radius: 8px;
 	:global {
+		.micBtn {
+			position: absolute;
+			right: 0;
+			top: 70px;
+			width: 25px;
+			line-height: 35px;
+			text-align: center;
+			border: 1px solid #eee;
+			cursor: pointer;
+			border-radius: 50% 0 0 50%;
+		}
 		.timer {
 			margin: 70px auto 50px;
 			display: flex;
 			justify-content: center;
+			.singleDigit {
+				font-size: 45px;
+			}
 		}
 		.wavesurfer {
 			position: absolute;

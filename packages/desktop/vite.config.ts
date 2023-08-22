@@ -92,12 +92,6 @@ export default defineConfig(({ command }) => {
 			// Use Node.js API in the Renderer-process
 			renderer(),
 		],
-		// server: {
-		// 	headers: {
-		// 		"Cross-Origin-Embedder-Policy": "require-corp",
-		// 		"Cross-Origin-Opener-Policy": "same-origin",
-		// 	},
-		// },
 		server:
 			process.env.VSCODE_DEBUG &&
 			(() => {

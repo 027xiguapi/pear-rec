@@ -1,8 +1,27 @@
 .recorderScreen {
-	height: calc(100vh - 2px);
+	width: 100vw;
+	height: 100vh;
 	overflow: hidden;
 	background-color: #fff;
 	:global {
+		.content {
+			width: 100%;
+			height: calc(100% - 34px);
+			overflow: hidden;
+			border-bottom: 1px solid #ccc;
+			.tip {
+				position: absolute;
+				font-size: 34px;
+				z-index: 100;
+				background: #fff;
+				top: 0;
+				bottom: 34px;
+				left: 0;
+				right: 0;
+				text-align: center;
+				line-height: 300px;
+			}
+		}
 		.footer {
 			width: calc(100vw);
 			background: #fff;
@@ -37,7 +56,7 @@
 					color: red;
 				}
 				.toggleMuteBtn {
-					font-size: 20px;
+					font-size: 18px;
 				}
 				.muted {
 					color: rgba(0, 0, 0, 0.88);
@@ -63,6 +82,12 @@
 			.toolbarTitle {
 				line-height: 32px;
 				white-space: nowrap;
+			}
+			.formatSelect {
+				margin-right: 5px;
+			}
+			.widthInput {
+				margin-right: 5px;
 			}
 		}
 	}

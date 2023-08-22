@@ -4,7 +4,7 @@ import { resolve, join } from "path";
 import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
-const buildProject = {
+const buildOptionsProject = {
 	rollupOptions: {
 		input: {
 			index: resolve(__dirname, "src/pages/index.html"),
@@ -22,6 +22,36 @@ const buildProject = {
 	},
 	outDir: resolve(__dirname, "dist"),
 };
+const buildOptionsLib: any = {
+	minify: false,
+	rollupOptions: {
+		external: ["react", "react-dom"],
+		output: [
+			{
+				format: "es",
+				entryFileNames: "[name].mjs",
+				preserveModules: true,
+				exports: "named",
+				dir: resolve(__dirname, `es`),
+				preserveModulesRoot: "src",
+			},
+			// {
+			// 	format: "cjs",
+			// 	entryFileNames: "[name].js",
+			// 	//让打包目录和我们目录对应
+			// 	preserveModules: true,
+			// 	exports: "named",
+			// 	//配置打包根目录
+			// 	dir: resolve(__dirname, `lib`),
+			// 	preserveModulesRoot: "src",
+			// },
+		],
+	},
+	lib: {
+		entry: resolve(__dirname, "src/index.ts"),
+		// formats: ["es", "cjs"],
+	},
+};
 
 export default ({ mode }) => {
 	return defineConfig({
@@ -33,39 +63,7 @@ export default ({ mode }) => {
 				"@": join(__dirname, "src"),
 			},
 		},
-		plugins: [react(), visualizer()],
-		build:
-			mode == "lib"
-				? {
-						minify: false,
-						rollupOptions: {
-							external: ["react", "react-dom"],
-							output: [
-								{
-									format: "es",
-									entryFileNames: "[name].mjs",
-									preserveModules: true,
-									exports: "named",
-									dir: resolve(__dirname, `es`),
-									preserveModulesRoot: "src",
-								},
-								// {
-								// 	format: "cjs",
-								// 	entryFileNames: "[name].js",
-								// 	//让打包目录和我们目录对应
-								// 	preserveModules: true,
-								// 	exports: "named",
-								// 	//配置打包根目录
-								// 	dir: resolve(__dirname, `lib`),
-								// 	preserveModulesRoot: "src",
-								// },
-							],
-						},
-						lib: {
-							entry: resolve(__dirname, "src/index.ts"),
-							// formats: ["es", "cjs"],
-						},
-				  }
-				: buildProject,
+		plugins: [react(), visualizer() as any],
+		build: mode == "lib" ? buildOptionsLib : buildOptionsProject,
 	});
 };

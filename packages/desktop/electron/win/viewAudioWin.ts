@@ -23,7 +23,7 @@ function createViewAudioWin(search?: any): BrowserWindow {
 		// viewAudioWin.webContents.openDevTools();
 	} else {
 		viewAudioWin.loadFile(viewAudioHtml, {
-			hash: `?url=${search?.url || ""}`,
+			search: `?audioUrl=${search?.url || ""}`,
 		});
 	}
 
@@ -50,7 +50,6 @@ function closeViewAudioWin() {
 
 async function getAudios(audioUrl?: any) {
 	let audios = await getAudiosByAudioUrl(audioUrl);
-	console.log(audios);
 	return audios;
 }
 

@@ -9,9 +9,9 @@ export default defineConfig({
 	title: "pear-rec",
 	base: "/pear-rec",
 	description: "一个跨平台的截图、录屏、录音、录像软件",
-	head: [["link", { rel: "icon", href: "./logo@2x.ico" }]],
+	head: [["link", { rel: "icon", href: "./favicon.ico" }]],
 	themeConfig: {
-		logo: "/logo@2x.ico",
+		logo: "/favicon.ico",
 		siteTitle: "『 pear-rec 』",
 		outlineTitle: "🔴🟠🟡🟢🔵🟣🟤⚫⚪",
 		outline: [2, 6],

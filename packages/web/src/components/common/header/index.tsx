@@ -7,7 +7,7 @@ import {
 import { Button } from "antd";
 import styles from "./index.module.scss";
 
-const logo = "./imgs/logo/logo.ico";
+const logo = "./imgs/logo/logo_512.png";
 const Header = () => {
 	async function handleHideWin() {
 		window.electronAPI?.sendMaMinimizeWin();
@@ -20,7 +20,7 @@ const Header = () => {
 	function handleOpenSettingWin() {
 		window.electronAPI
 			? window.electronAPI.sendSeOpenWin()
-			: (location.href = "/setting.html");
+			: window.open("/setting.html");
 	}
 
 	return (

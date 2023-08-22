@@ -3,90 +3,132 @@ import { useStopwatch } from "react-timer-hook";
 import {
 	BsPlayFill,
 	BsPauseFill,
-	BsFillStopFill,
 	BsTrash,
 	BsRecordFill,
 	BsCheckLg,
+	BsMicMute,
+	BsMic,
 } from "react-icons/bs";
 import { Button } from "antd";
 import Wavesurfer from "@/components/wavesurfer";
 import Timer from "@pear-rec/timer";
-import { audio } from "@pear-rec/recorder";
 import ininitApp from "@/pages/main";
 import "@pear-rec/timer/lib/style.css";
 import styles from "./index.module.scss";
 
 const RecordAudio = () => {
 	const wavesurferRef = useRef<any>();
-	const [record, setRecord] = useState<any>();
-	const [isPause, setIsPause] = useState(false);
-	const [isPlay, setIsPlay] = useState(false);
-	const { seconds, minutes, hours, isRunning, start, pause, reset } =
-		useStopwatch({ autoStart: false });
+	const mediaStream = useRef<MediaStream>();
+	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
+	const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
+	const audioTrack = useRef<any>(); // 音频轨道对象
+	const [isPause, setIsPause] = useState(false); // 标记是否暂停
+	const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
+	const [isMute, setIsMute] = useState(false); // 标记是否静音
+	const isSave = useRef<boolean>(false);
+	const timer = useStopwatch({ autoStart: false });
 
-	useEffect(() => {
-		initRecord();
-	}, []);
-
-	function initRecord() {
-		const _record = audio();
-		_record.create();
-
-		_record.on("error", (type: any, message: any) => {
-			console.log(type, message);
-		});
-		_record.onstop(() => {
-			const blob = _record.getBlob();
-			const url = _record.getBlobUrl();
-			blob?.size &&
-				(window.electronAPI
-					? window.electronAPI.sendRaDownloadRecord(url)
-					: _record.downloadBlob(`pear-rec_${+new Date()}`));
-		});
-		setRecord(_record);
+	function startRecording() {
+		navigator.mediaDevices
+			.getUserMedia({ audio: true })
+			.then((stream) => {
+				mediaStream.current = stream;
+				audioTrack.current = stream.getAudioTracks()[0];
+				audioTrack.current.enabled = true; // 开启音频轨道
+				mediaRecorder.current = new MediaRecorder(stream);
+				mediaRecorder.current.addEventListener("dataavailable", (e) => {
+					if (e.data.size > 0) {
+						recordedChunks.current.push(e.data);
+					}
+				});
+				mediaRecorder.current.addEventListener("stop", () => {
+					isSave.current && exportRecording();
+				});
+				mediaRecorder.current.start();
+				setIsRecording(true);
+				wavesurferRef.current.play();
+				timer.start();
+				console.log("开始录音...");
+			})
+			.catch((error) => {
+				console.error("无法获取麦克风权限：", error);
+			});
 	}
 
-	function handleStartRecord() {
-		console.log("handleStartRecord");
-		start();
-		record.start();
-		setIsPause(false);
-		setIsPlay(true);
-		wavesurferRef.current.play();
+	// 静音录制
+	function muteRecording() {
+		if (audioTrack.current) {
+			audioTrack.current.enabled = false; // 关闭音频轨道
+			setIsMute(true);
+			console.log("录音已静音");
+		}
 	}
 
-	function handlePauseRecord() {
-		console.log("handlePauseRecord");
-		pause();
-		setIsPause(true);
-		record.pause();
-		wavesurferRef.current.pause();
+	// 取消静音
+	function unmuteRecording() {
+		if (audioTrack.current) {
+			audioTrack.current.enabled = true; // 开启音频轨道
+			setIsMute(false);
+			console.log("取消静音");
+		}
 	}
 
-	function handleResumeRecord() {
-		console.log("handleResumeRecord");
-		record.resume();
-		setIsPause(false);
-		setIsPlay(true);
-		wavesurferRef.current.play();
+	// 暂停录制
+	function pauseRecording() {
+		if (!isPause && mediaRecorder.current.state === "recording") {
+			mediaRecorder.current.pause();
+			setIsPause(true);
+			wavesurferRef.current.pause();
+			timer.pause();
+			console.log("录音已暂停");
+		}
 	}
 
-	function handleStopRecord() {
-		console.log("handleStopRecord");
-		record.stop();
-		reset(undefined, false);
-		setIsPause(false);
-		setIsPlay(false);
-		wavesurferRef.current.stop();
+	// 恢复录制
+	function resumeRecording() {
+		if (isPause && mediaRecorder.current.state === "paused") {
+			mediaRecorder.current.resume();
+			setIsPause(false);
+			wavesurferRef.current.play();
+			timer.start();
+			console.log("恢复录音...");
+		}
 	}
 
-	function handleResetRecord() {
-		console.log("handleResetRecord");
-		record.reset();
-		reset(undefined, false);
-		setIsPause(false);
-		setIsPlay(false);
-		wavesurferRef.current.reset();
+	// 停止录制，并将录制的音频数据导出为 Blob 对象
+	function stopRecording() {
+		if (isRecording) {
+			mediaRecorder.current.stop();
+			mediaStream.current?.getTracks().forEach((track) => track.stop());
+			setIsRecording(false);
+			timer.reset(null, false);
+			wavesurferRef.current.reset();
+			recordedChunks.current = [];
+			console.log("录音完成！");
+		}
+	}
+	// 导出录制的音频文件
+	function saveRecording() {
+		stopRecording();
+		isSave.current = true;
+	}
+
+	// 导出录制的音频文件
+	function exportRecording() {
+		if (recordedChunks.current.length > 0) {
+			const blob = new Blob(recordedChunks.current, { type: "audio/webm" });
+			const url = URL.createObjectURL(blob);
+			if (window.electronAPI) {
+				window.electronAPI.sendRaDownloadRecord(url);
+			} else {
+				const link = document.createElement("a");
+				link.href = url;
+				link.download = `pear-rec_${+new Date()}.webm`;
+				link.click();
+				recordedChunks.current = [];
+				isSave.current = false;
+			}
+		}
 	}
 
 	return (
@@ -95,8 +137,19 @@ const RecordAudio = () => {
 				window.isElectron ? styles.electron : styles.web
 			}`}
 		>
+			<span className="micBtn">
+				{!isMute ? (
+					<BsMicMute title="静音" onClick={muteRecording} />
+				) : (
+					<BsMic title="打开声音" onClick={unmuteRecording} />
+				)}
+			</span>
 			<div className="timer">
-				<Timer seconds={seconds} minutes={minutes} hours={hours} />
+				<Timer
+					seconds={timer.seconds}
+					minutes={timer.minutes}
+					hours={timer.hours}
+				/>
 			</div>
 			<Wavesurfer ref={wavesurferRef} />
 			<div className="recorderTools">
@@ -105,10 +158,10 @@ const RecordAudio = () => {
 					icon={<BsTrash />}
 					className="toolbarIcon resetBtn"
 					title="删除"
-					disabled={!isPlay}
-					onClick={handleResetRecord}
+					disabled={!isRecording}
+					onClick={stopRecording}
 				/>
-				{isPlay ? (
+				{isRecording ? (
 					<Button
 						danger
 						type="primary"
@@ -116,8 +169,8 @@ const RecordAudio = () => {
 						icon={<BsCheckLg />}
 						className="toolbarIcon stopBtn"
 						title="保存"
-						disabled={!isPlay}
-						onClick={handleStopRecord}
+						disabled={!isRecording}
+						onClick={saveRecording}
 					/>
 				) : (
 					<Button
@@ -127,7 +180,7 @@ const RecordAudio = () => {
 						icon={<BsRecordFill />}
 						className="toolbarIcon playBtn"
 						title="开始"
-						onClick={handleStartRecord}
+						onClick={startRecording}
 					/>
 				)}
 
@@ -138,8 +191,8 @@ const RecordAudio = () => {
 						icon={<BsPlayFill />}
 						className="toolbarIcon resumeBtn"
 						title="继续"
-						disabled={!isPlay}
-						onClick={handleResumeRecord}
+						disabled={!isRecording}
+						onClick={resumeRecording}
 					/>
 				) : (
 					<Button
@@ -148,8 +201,8 @@ const RecordAudio = () => {
 						icon={<BsPauseFill />}
 						className="toolbarIcon pauseBtn"
 						title="暂停"
-						disabled={!isPlay}
-						onClick={handlePauseRecord}
+						disabled={!isRecording}
+						onClick={pauseRecording}
 					/>
 				)}
 			</div>

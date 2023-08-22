@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import Screenshots, { Bounds } from "@pear-rec/screenshot";
 import { saveAs } from "file-saver";
 import ininitApp from "@/pages/main";
@@ -7,6 +7,8 @@ import styles from "./index.module.scss";
 
 const defaultImg = "/imgs/th.webp";
 function ShotScreen() {
+	const videoRef = useRef<any>();
+	const canvasRef = useRef<any>();
 	const [screenShotImg, setScreenShotImg] = useState("");
 
 	useEffect(() => {
@@ -14,8 +16,36 @@ function ShotScreen() {
 	}, []);
 
 	async function getShotScreenImg() {
-		const img = await window.electronAPI?.invokeSsGetShotScreenImg();
-		setScreenShotImg(img || defaultImg);
+		if (window.electronAPI) {
+			const img = await window.electronAPI?.invokeSsGetShotScreenImg();
+			setScreenShotImg(img || defaultImg);
+		} else {
+			navigator.mediaDevices
+				.getDisplayMedia({ video: true })
+				.then((stream) => {
+					const canvas = document.createElement("canvas");
+					canvas.width = window.innerWidth;
+					canvas.height = window.innerHeight;
+
+					const videoElement = document.createElement("video");
+					videoElement.srcObject = stream;
+					videoElement.play();
+
+					videoElement.addEventListener("loadedmetadata", () => {
+						const context = canvas.getContext("2d");
+						context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+						// 导出绘制内容为图像
+						setScreenShotImg(canvas.toDataURL("image/png"));
+
+						// 停止屏幕捕获
+						stream.getTracks().forEach((track) => track.stop());
+					});
+				})
+				.catch((error) => {
+					console.error("Error accessing screen:", error);
+				});
+		}
 	}
 
 	const onSave = useCallback((blob: Blob, bounds: Bounds) => {
@@ -26,9 +56,9 @@ function ShotScreen() {
 	}, []);
 
 	const onCancel = useCallback(() => {
-		window.electronAPI
-			? window.electronAPI.sendSsCloseWin()
-			: (location.href = `/index.html`);
+		// window.electronAPI
+		// 	? window.electronAPI.sendSsCloseWin()
+		// 	: (location.href = `/index.html`);
 	}, []);
 
 	const onOk = useCallback((blob: Blob, bounds: Bounds) => {

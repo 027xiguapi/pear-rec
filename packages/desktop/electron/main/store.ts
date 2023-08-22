@@ -74,7 +74,7 @@ function setFilePath(filePath: string) {
 	stmt.run(filePath, uuid);
 }
 
-function getFilePath() {
+function getFilePath(): string {
 	const user = getUser() as any;
 	return user.filePath;
 }
