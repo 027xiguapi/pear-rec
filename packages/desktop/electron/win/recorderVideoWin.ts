@@ -5,6 +5,7 @@ import { getFilePath, setHistoryVideo } from "../main/store";
 
 const recorderVideoHtml = join(DIST, "./recorderVideo.html");
 let recorderVideoWin: BrowserWindow | null = null;
+let downloadSet: Set<string> = new Set();
 
 function createRecorderVideoWin(): BrowserWindow {
 	recorderVideoWin = new BrowserWindow({
@@ -38,25 +39,28 @@ function createRecorderVideoWin(): BrowserWindow {
 	recorderVideoWin?.webContents.session.on(
 		"will-download",
 		(event: any, item: any, webContents: any) => {
-			const fileName = item.getFilename();
-			const filePath = getFilePath() as string;
-			const rvFilePath = join(`${filePath}/rv`, `${fileName}`);
-			item.setSavePath(rvFilePath);
+			const url = item.getURL();
+			if (downloadSet.has(url)) {
+				const fileName = item.getFilename();
+				const filePath = getFilePath() as string;
+				const rvFilePath = join(`${filePath}/rv`, `${fileName}`);
+				item.setSavePath(rvFilePath);
 
-			item.once("done", (event: any, state: any) => {
-				if (state === "completed") {
-					setHistoryVideo(rvFilePath);
-					setTimeout(() => {
-						closeRecorderVideoWin();
-						// shell.showItemInFolder(filePath);
-					}, 1000);
-				} else {
-					dialog.showErrorBox(
-						"下载失败",
-						`文件 ${item.getFilename()} 因为某些原因被中断下载`,
-					);
-				}
-			});
+				item.once("done", (event: any, state: any) => {
+					if (state === "completed") {
+						setHistoryVideo(rvFilePath);
+						setTimeout(() => {
+							closeRecorderVideoWin();
+							// shell.showItemInFolder(filePath);
+						}, 1000);
+					} else {
+						dialog.showErrorBox(
+							"下载失败",
+							`文件 ${item.getFilename()} 因为某些原因被中断下载`,
+						);
+					}
+				});
+			}
 		},
 	);
 
@@ -78,6 +82,7 @@ function openRecorderVideoWin() {
 
 function downloadURLRecorderVideoWin(downloadUrl: string) {
 	recorderVideoWin?.webContents.downloadURL(downloadUrl);
+	downloadSet.add(downloadUrl);
 }
 
 export {

@@ -16,6 +16,7 @@ FfmpegPath &&
 const recorderScreenHtml = join(DIST, "./recorderScreen.html");
 let ffmpegProcess: any | null = null;
 let recorderScreenWin: BrowserWindow | null = null;
+let downloadSet: Set<string> = new Set();
 
 function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 	if (clipScreenWinBounds) {
@@ -67,16 +68,19 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 	recorderScreenWin?.webContents.session.on(
 		"will-download",
 		(event: any, item: any, webContents: any) => {
-			const fileName = item.getFilename();
-			const filePath = getFilePath();
-			const rsFilePath = join(`${filePath}/rs`, `${fileName}`);
-			item.setSavePath(rsFilePath);
+			const url = item.getURL();
+			if (downloadSet.has(url)) {
+				const fileName = item.getFilename();
+				const filePath = getFilePath();
+				const rsFilePath = join(`${filePath}/rs`, `${fileName}`);
+				item.setSavePath(rsFilePath);
 
-			item.once("done", (event: any, state: any) => {
-				if (state === "completed") {
-					ffmpegRecorderScreenWin(fileName);
-				}
-			});
+				item.once("done", (event: any, state: any) => {
+					if (state === "completed") {
+						ffmpegRecorderScreenWin(fileName);
+					}
+				});
+			}
 		},
 	);
 
@@ -147,6 +151,7 @@ function minimizeRecorderScreenWin() {
 
 function downloadURLRecorderScreenWin(url: string) {
 	recorderScreenWin?.webContents.downloadURL(url);
+	downloadSet.add(url);
 }
 
 function setSizeRecorderScreenWin(width: number, height: number) {

@@ -5,6 +5,7 @@ import { getFilePath } from "../main/store";
 
 const recorderAudioHtml = join(DIST, "./recorderAudio.html");
 let recorderAudioWin: BrowserWindow | null = null;
+let downloadSet: Set<string> = new Set();
 
 function createRecorderAudioWin(): BrowserWindow {
 	recorderAudioWin = new BrowserWindow({
@@ -38,19 +39,22 @@ function createRecorderAudioWin(): BrowserWindow {
 	recorderAudioWin?.webContents.session.on(
 		"will-download",
 		(event: any, item: any, webContents: any) => {
-			const fileName = item.getFilename();
-			const filePath = getFilePath() as string;
-			const rsFilePath = join(`${filePath}/ra`, `${fileName}`);
-			item.setSavePath(rsFilePath);
+			const url = item.getURL();
+			if (downloadSet.has(url)) {
+				const fileName = item.getFilename();
+				const filePath = getFilePath() as string;
+				const rsFilePath = join(`${filePath}/ra`, `${fileName}`);
+				item.setSavePath(rsFilePath);
 
-			item.once("done", (event: any, state: any) => {
-				if (state === "completed") {
-					setTimeout(() => {
-						closeRecorderAudioWin();
-						shell.showItemInFolder(rsFilePath);
-					}, 1000);
-				}
-			});
+				item.once("done", (event: any, state: any) => {
+					if (state === "completed") {
+						setTimeout(() => {
+							closeRecorderAudioWin();
+							shell.showItemInFolder(rsFilePath);
+						}, 1000);
+					}
+				});
+			}
 		},
 	);
 
@@ -80,6 +84,7 @@ function minimizeRecorderAudioWin() {
 
 function downloadURLRecorderAudioWin(downloadUrl: string) {
 	recorderAudioWin?.webContents.downloadURL(downloadUrl);
+	downloadSet.add(downloadUrl);
 }
 
 function setSizeRecorderAudioWin(width: number, height: number) {

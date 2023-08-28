@@ -12,6 +12,7 @@ import { getHistoryImg, getFilePath } from "../main/store";
 const editImageHtml = join(DIST, "./clipScreen.html");
 let editImageWin: BrowserWindow | null = null;
 let savePath: string = "";
+let downloadSet: Set<string> = new Set();
 
 function createEditImageWin(search?: any): BrowserWindow {
 	editImageWin = new BrowserWindow({
@@ -44,17 +45,20 @@ function createEditImageWin(search?: any): BrowserWindow {
 	editImageWin?.webContents.session.on(
 		"will-download",
 		(e: any, item: DownloadItem, webContents: WebContents) => {
-			const fileName = item.getFilename();
-			const filePath = getFilePath() as string;
-			const imgPath = join(savePath || `${filePath}/ei`, `${fileName}`);
-			item.setSavePath(imgPath);
-			item.once("done", (event: any, state: any) => {
-				if (state === "completed") {
-					setTimeout(() => {
-						shell.showItemInFolder(imgPath);
-					}, 1000 * 0.5);
-				}
-			});
+			const url = item.getURL();
+			if (downloadSet.has(url)) {
+				const fileName = item.getFilename();
+				const filePath = getFilePath() as string;
+				const imgPath = join(savePath || `${filePath}/ei`, `${fileName}`);
+				item.setSavePath(imgPath);
+				item.once("done", (event: any, state: any) => {
+					if (state === "completed") {
+						setTimeout(() => {
+							shell.showItemInFolder(imgPath);
+						}, 1000 * 0.5);
+					}
+				});
+			}
 		},
 	);
 
@@ -75,6 +79,7 @@ async function downloadEditImageWin(
 	savePath = "";
 	savePath = await showOpenDialogEditImageWin();
 	editImageWin?.webContents.downloadURL(downloadUrl);
+	downloadSet.add(downloadUrl);
 }
 
 async function showOpenDialogEditImageWin() {

@@ -16,6 +16,7 @@ import { openViewImageWin } from "./viewImageWin";
 const shotScreenHtml = join(DIST, "./shotScreen.html");
 let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = "";
+let downloadSet: Set<string> = new Set();
 
 function createShotScreenWin(): BrowserWindow {
 	shotScreenWin = new BrowserWindow({
@@ -49,20 +50,23 @@ function createShotScreenWin(): BrowserWindow {
 	shotScreenWin?.webContents.session.on(
 		"will-download",
 		(e: any, item: DownloadItem, webContents: WebContents) => {
-			const fileName = item.getFilename();
-			const filePath = getFilePath() as string;
-			const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
-			item.setSavePath(ssFilePath);
-			item.once("done", (event: any, state: any) => {
-				if (state === "completed") {
-					copyImg(ssFilePath);
-					setHistoryImg(ssFilePath);
-					setTimeout(() => {
-						closeShotScreenWin();
-						openViewImageWin({ imgUrl: ssFilePath });
-					}, 1000 * 0.5);
-				}
-			});
+			const url = item.getURL();
+			if (downloadSet.has(url)) {
+				const fileName = item.getFilename();
+				const filePath = getFilePath() as string;
+				const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
+				item.setSavePath(ssFilePath);
+				item.once("done", (event: any, state: any) => {
+					if (state === "completed") {
+						copyImg(ssFilePath);
+						setHistoryImg(ssFilePath);
+						setTimeout(() => {
+							closeShotScreenWin();
+							openViewImageWin({ imgUrl: ssFilePath });
+						}, 1000 * 0.5);
+					}
+				});
+			}
 		},
 	);
 
@@ -108,6 +112,7 @@ async function downloadURLShotScreenWin(
 ) {
 	savePath = "";
 	isShowDialog && (savePath = await showOpenDialogShotScreenWin());
+	downloadSet.add(downloadUrl);
 	shotScreenWin?.webContents.downloadURL(downloadUrl);
 }
 

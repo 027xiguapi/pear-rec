@@ -19,6 +19,7 @@ import { getHistoryImg, getFilePath } from "../main/store";
 const viewImageHtml = join(DIST, "./viewImage.html");
 let viewImageWin: BrowserWindow | null = null;
 let savePath: string = "";
+let downloadSet: Set<string> = new Set();
 
 function createViewImageWin(search?: any): BrowserWindow {
 	viewImageWin = new BrowserWindow({
@@ -49,17 +50,21 @@ function createViewImageWin(search?: any): BrowserWindow {
 	viewImageWin?.webContents.session.on(
 		"will-download",
 		(e: any, item: DownloadItem, webContents: WebContents) => {
-			const fileName = item.getFilename();
-			const filePath = getFilePath() as string;
-			const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
-			item.setSavePath(ssFilePath);
-			item.once("done", (event: any, state: any) => {
-				if (state === "completed") {
-					setTimeout(() => {
-						shell.showItemInFolder(ssFilePath);
-					}, 1000);
-				}
-			});
+			const url = item.getURL();
+			if (downloadSet.has(url)) {
+				const fileName = item.getFilename();
+				const filePath = getFilePath() as string;
+				const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
+				item.setSavePath(ssFilePath);
+				item.once("done", (event: any, state: any) => {
+					if (state === "completed") {
+						setTimeout(() => {
+							console.log(ssFilePath);
+							shell.showItemInFolder(ssFilePath);
+						}, 1000);
+					}
+				});
+			}
 		},
 	);
 
@@ -132,6 +137,7 @@ async function getImgs(imgUrl: any) {
 
 async function downloadImgViewImageWin(img: any) {
 	savePath = await showOpenDialogViewImageWin();
+	downloadSet.add(img.url);
 	viewImageWin?.webContents.downloadURL(img.url);
 }
 
@@ -141,7 +147,6 @@ async function showOpenDialogViewImageWin() {
 	});
 
 	const savePath = res.filePaths[0] || "";
-
 	return savePath;
 }
 
