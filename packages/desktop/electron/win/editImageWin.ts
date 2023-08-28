@@ -6,7 +6,7 @@ import {
 	WebContents,
 } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, DIST, readDirectoryImg, preload, url } from "../main/utils";
+import { ICON, DIST, preload, url } from "../main/contract";
 import { getHistoryImg, getFilePath } from "../main/store";
 
 const editImageHtml = join(DIST, "./clipScreen.html");

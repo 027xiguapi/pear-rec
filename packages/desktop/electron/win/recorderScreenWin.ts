@@ -4,7 +4,7 @@ import { join } from "node:path";
 import Ffmpeg from "fluent-ffmpeg";
 import FfmpegPath from "ffmpeg-static";
 import Jimp from "jimp";
-import { preload, url, DIST, ICON } from "../main/utils";
+import { preload, url, DIST, ICON } from "../main/contract";
 import { getFilePath, setHistoryVideo } from "../main/store";
 import { closeClipScreenWin, getBoundsClipScreenWin } from "./clipScreenWin";
 import { openViewVideoWin } from "./viewVideoWin";

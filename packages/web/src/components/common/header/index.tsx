@@ -7,7 +7,7 @@ import {
 import { Button } from "antd";
 import styles from "./index.module.scss";
 
-const logo = "./imgs/logo/logo_512.png";
+const logo = "./imgs/icons/png/512x512.png";
 const Header = () => {
 	async function handleHideWin() {
 		window.electronAPI?.sendMaMinimizeWin();

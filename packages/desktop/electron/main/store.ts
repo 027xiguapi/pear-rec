@@ -1,13 +1,18 @@
+import fs from "node:fs";
 import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
 import Database from "better-sqlite3";
-import { DB } from "./utils";
+import { DB } from "./contract";
 
-const db = new Database(DB, { verbose: console.log });
-
+let db: any = null;
 init();
 
 function init() {
+	const fileDir = dirname(DB);
+	if (!fs.existsSync(fileDir)) {
+		fs.mkdirSync(fileDir, { recursive: true });
+	}
+
+	db = new Database(DB, { verbose: console.log });
 	createTableUsers();
 }
 

@@ -6,14 +6,8 @@ import {
 	WebContents,
 } from "electron";
 import { join, dirname } from "node:path";
-import {
-	ICON,
-	getImgsByImgUrl,
-	readDirectoryImg,
-	preload,
-	url,
-	DIST,
-} from "../main/utils";
+import { ICON, preload, url, DIST } from "../main/contract";
+import { getImgsByImgUrl, readDirectoryImg } from "../main/utils";
 import { getHistoryImg, getFilePath } from "../main/store";
 
 const viewImageHtml = join(DIST, "./viewImage.html");

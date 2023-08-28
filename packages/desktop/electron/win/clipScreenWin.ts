@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell, screen } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
+import { ICON, preload, url, DIST, PUBLIC } from "../main/contract";
 import {
 	openRecorderScreenWin,
 	setBoundsRecorderScreenWin,

@@ -8,13 +8,13 @@
 	directories: {
 		output: "release/${version}",
 	},
-	files: ["dist-electron", "dist", "db"],
+	files: ["dist-electron", "dist"],
 	mac: {
 		artifactName: "pear-rec.${ext}",
 		target: ["dmg", "zip"],
 	},
 	win: {
-		icon: "public/imgs/logo/logo_512.ico",
+		icon: "public/imgs/icons/win/icon.ico",
 		target: [
 			{
 				target: "nsis",
@@ -22,7 +22,6 @@
 			},
 		],
 		artifactName: "pear-rec.${ext}",
-		requestedExecutionLevel: "highestAvailable",
 	},
 	nsis: {
 		oneClick: false,

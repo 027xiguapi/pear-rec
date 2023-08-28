@@ -1,6 +1,7 @@
 import { BrowserWindow } from "electron";
 import { join } from "node:path";
-import { ICON, getAudiosByAudioUrl, preload, url, DIST } from "../main/utils";
+import { ICON, preload, url, DIST } from "../main/contract";
+import { getAudiosByAudioUrl } from "../main/utils";
 import { getHistoryAudio } from "../main/store";
 
 const viewAudioHtml = join(DIST, "./viewAudio.html");

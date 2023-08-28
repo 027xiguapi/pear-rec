@@ -1,9 +1,9 @@
-import { Menu, Tray, app } from "electron";
+import { Menu, Tray, app, shell } from "electron";
 import { join } from "node:path";
-import { ICON } from "./utils";
+import { ICON } from "./contract";
 import { showMainWin } from "../win/mainWin";
 import { openShotScreenWin } from "../win/shotScreenWin";
-import { openRecorderScreenWin } from "../win/recorderScreenWin";
+import { openClipScreenWin } from "../win/clipScreenWin";
 import { openRecorderAudioWin } from "../win/recorderAudioWin";
 import { openRecorderVideoWin } from "../win/recorderVideoWin";
 import { openViewImageWin } from "../win/viewImageWin";
@@ -22,7 +22,7 @@ export function initTray() {
 		{
 			label: "录屏",
 			click: () => {
-				openRecorderScreenWin();
+				openClipScreenWin();
 			},
 		},
 		{
@@ -81,7 +81,7 @@ export function initTray() {
 		{
 			label: "教程帮助",
 			click: () => {
-				// create_main_window("help.html");
+				shell.openExternal("https://027xiguapi.github.io/pear-rec/");
 			},
 		},
 		{

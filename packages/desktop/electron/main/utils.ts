@@ -1,20 +1,7 @@
 import { screen } from "electron";
 import * as fs from "node:fs";
 import path from "node:path";
-
-export const url = process.env.VITE_DEV_SERVER_URL;
-export const isDev = process.env.NODE_ENV === "development";
-export const DIST_ELECTRON = path.join(__dirname, "../");
-export const DIST = path.join(DIST_ELECTRON, "../dist");
-export const DB = path.join(DIST_ELECTRON, "../db/database.db");
-export const preload = path.join(__dirname, "../preload/index.js");
-export const PUBLIC = url
-	? path.join(DIST_ELECTRON, "../public")
-	: process.env.DIST;
-export const ICON = url
-	? path.join(PUBLIC, "./imgs/logo/favicon.ico")
-	: path.join(DIST, "./imgs/logo/favicon.ico");
-export const PEER_FILES = path.join(DIST_ELECTRON, `../Peer Files`);
+import { PEER_FILES } from "./contract";
 
 function getScreenSize() {
 	const { size, scaleFactor } = screen.getPrimaryDisplay();

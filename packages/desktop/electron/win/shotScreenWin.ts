@@ -9,7 +9,7 @@ import {
 	nativeImage,
 } from "electron";
 import { join } from "node:path";
-import { ICON, preload, url, DIST, PUBLIC } from "../main/utils";
+import { ICON, preload, url, DIST, PUBLIC } from "../main/contract";
 import { getFilePath, setHistoryImg } from "../main/store";
 import { openViewImageWin } from "./viewImageWin";
 
