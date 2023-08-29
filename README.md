@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://027xiguapi.github.io/pear-rec/logo_512.png"  height="120"  />
+  <img src="https://027xiguapi.github.io/pear-rec/logo.png"  height="120"  />
 </p>
 
 # pear-rec

@@ -48,6 +48,12 @@
   <img src="../assets/imgs/vv.jpg" title="查看视频"/>
 </center>
 
+## 查看音频
+
+<center>
+  <img src="../assets/imgs/va.jpg" title="查看音频" />
+</center>
+
 ## 设置
 
 <center>

@@ -2,7 +2,7 @@ import React, { ReactElement, useCallback } from "react";
 import Screenshots from "@pear-rec/screenshot";
 import "@pear-rec/screenshot/lib/style.css";
 import "./app.scss";
-import imageUrl from "./imgs/th.webp";
+import imageUrl from "/imgs/th.webp";
 
 export default function App() {
 	const onSave = useCallback((blob, bounds) => {
