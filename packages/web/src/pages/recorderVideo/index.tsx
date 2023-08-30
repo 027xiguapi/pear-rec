@@ -112,7 +112,7 @@ const RecorderVideo = () => {
 	// 导出录制的音频文件
 	function exportRecording() {
 		if (recordedChunks.current.length > 0) {
-			const blob = new Blob(recordedChunks.current, { type: "audio/webm" });
+			const blob = new Blob(recordedChunks.current, { type: "video/webm" });
 			const url = URL.createObjectURL(blob);
 			if (window.electronAPI) {
 				window.electronAPI.sendRaDownloadRecord(url);

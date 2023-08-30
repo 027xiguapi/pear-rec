@@ -56,11 +56,11 @@ export function initIpcMain() {
 	});
 
 	// 录屏
-	ipcMain.on("rs:open-win", () => {
+	ipcMain.on("rs:open-win", (e, search) => {
 		clipScreenWin.closeClipScreenWin();
 		recorderScreenWin.closeRecorderScreenWin();
 		mainWin.hideMainWin();
-		recorderScreenWin.openRecorderScreenWin();
+		recorderScreenWin.openRecorderScreenWin(search);
 	});
 
 	ipcMain.on("rs:close-win", () => {
@@ -117,8 +117,6 @@ export function initIpcMain() {
 	});
 
 	ipcMain.handle("rs:close-record", () => {
-		// setMovableRecorderScreenWin(true);
-		// setResizableRecorderScreenWin(true);
 		return recorderScreenWin.getBoundsRecorderScreenWin();
 	});
 

@@ -70,8 +70,7 @@ function openClipScreenWin() {
 	}
 
 	clipScreenWin?.show();
-	const bounds = getBoundsClipScreenWin();
-	openRecorderScreenWin(bounds);
+	openRecorderScreenWin();
 }
 
 function getBoundsClipScreenWin() {

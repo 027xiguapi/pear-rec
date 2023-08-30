@@ -9,6 +9,7 @@ import {
 	BsFillStopFill,
 	BsRecordCircle,
 } from "react-icons/bs";
+import { SettingOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, InputNumber, Select } from "antd";
 import Timer from "@pear-rec/timer";
 import ininitApp from "@/pages/main";
@@ -27,16 +28,23 @@ const RecorderScreen = () => {
 	const [isSave, setIsSave] = useState(false); // 标记是否正在保存
 	const [width, setWidth] = useState<number | null>(800);
 	const [height, setHeight] = useState<number | null>(600);
+	const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 	const timer = useStopwatch({ autoStart: false });
 
 	useEffect(() => {
-		window.electronAPI?.handleRsGetShotScreen((event) => {
-			// setIsPlay(true);
-		});
+		const paramsString = location.search;
+		const searchParams = new URLSearchParams(paramsString);
+		const isFullScreen = searchParams.get("isFullScreen") == "true";
+
+		setIsFullScreen(isFullScreen);
 		window.electronAPI?.handleRsGetSizeClipWin((event, bounds) => {
 			let { width, height } = bounds;
 			setWidth(width);
 			setHeight(height);
+		});
+
+		window.electronAPI?.handleRsGetEndRecord(() => {
+			setIsSave(false);
 		});
 	}, []);
 
@@ -137,7 +145,9 @@ const RecorderScreen = () => {
 	// 导出录制的音频文件
 	function exportRecording() {
 		if (recordedChunks.current.length > 0) {
-			const blob = new Blob(recordedChunks.current, { type: "audio/webm" });
+			const blob = new Blob(recordedChunks.current, {
+				type: "video/webm",
+			});
 			const url = URL.createObjectURL(blob);
 			if (window.electronAPI) {
 				window.electronAPI.sendRsDownloadRecord(url);
@@ -236,9 +246,13 @@ const RecorderScreen = () => {
 		isPause ? resumeRecording() : pauseRecording();
 	}
 
+	function handleCloseWin() {
+		window.electronAPI?.sendRsCloseWin();
+	}
+
 	return (
 		<div className={styles.recorderScreen}>
-			{window.isElectron ? (
+			{window.isElectron || isFullScreen ? (
 				<></>
 			) : (
 				<div className="content">
@@ -299,7 +313,7 @@ const RecorderScreen = () => {
 					hours={timer.hours}
 					className="timer"
 				/>
-				{window.isElectron ? (
+				{window.isElectron && !isFullScreen ? (
 					<>
 						<InputNumber
 							className="widthInput"
@@ -328,12 +342,31 @@ const RecorderScreen = () => {
 				) : (
 					<></>
 				)}
-				<div className="drgan"></div>
-				<CameraOutlined
-					rev={undefined}
-					className={"recordIcon shotScreenBtn"}
+				{isFullScreen ? (
+					<Button
+						type="text"
+						icon={<CloseOutlined />}
+						className="toolbarIcon closeBtn"
+						title="关闭"
+						onClick={handleCloseWin}
+					></Button>
+				) : (
+					<div className="drgan"></div>
+				)}
+				<Button
+					type="text"
+					icon={<SettingOutlined />}
+					className="toolbarIcon settingBtn"
+					title="设置"
+					onClick={handleOpenSettingWin}
+				></Button>
+				<Button
+					type="text"
+					icon={<CameraOutlined />}
+					className="toolbarIcon shotScreenBtn"
+					title="截图"
 					onClick={handleShotScreen}
-				/>
+				></Button>
 				<BsRecordCircle
 					className={
 						"recordIcon " + `${isRecording && !isPause ? "blink" : ""}`

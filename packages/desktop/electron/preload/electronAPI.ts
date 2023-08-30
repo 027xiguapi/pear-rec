@@ -14,7 +14,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
 		ipcRenderer.send("ra:download-record", url),
 
 	//rsWin
-	sendRsOpenWin: () => ipcRenderer.send("rs:open-win"),
+	sendRsOpenWin: (search?: any) => ipcRenderer.send("rs:open-win", search),
 	sendRsCloseWin: () => ipcRenderer.send("rs:close-win"),
 	sendRsHideWin: () => ipcRenderer.send("rs:hide-win"),
 	sendRsMinimizeWin: () => ipcRenderer.send("rs:minimize-win"),
@@ -39,6 +39,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
 		ipcRenderer.on("rs:get-size-clip-win", callback),
 	handleRsGetShotScreen: (callback: any) =>
 		ipcRenderer.on("rs:get-shot-screen", callback),
+	handleRsGetEndRecord: (callback: any) =>
+		ipcRenderer.on("rs:get-end-record", callback),
 
 	//csWin
 	sendCsOpenWin: () => ipcRenderer.send("cs:open-win"),

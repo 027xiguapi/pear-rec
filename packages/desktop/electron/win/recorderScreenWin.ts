@@ -17,10 +17,12 @@ const recorderScreenHtml = join(DIST, "./recorderScreen.html");
 let ffmpegProcess: any | null = null;
 let recorderScreenWin: BrowserWindow | null = null;
 let downloadSet: Set<string> = new Set();
+let isFullScreen: boolean = false;
 
-function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
-	if (clipScreenWinBounds) {
-		let { x, y, width, height } = clipScreenWinBounds;
+function createRecorderScreenWin(search?: any): BrowserWindow {
+	isFullScreen = search?.isFullScreen || false;
+	if (!isFullScreen) {
+		const { x, y, width, height } = getBoundsClipScreenWin() as Rectangle;
 		let recorderScreenWinX = x;
 		let recorderScreenWinY = y + height;
 
@@ -45,24 +47,30 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 		recorderScreenWin = new BrowserWindow({
 			title: "pear-rec 录屏",
 			icon: ICON,
-			height: 34,
-			// autoHideMenuBar: true, // 自动隐藏菜单栏
-			// frame: false, // 无边框窗口
+			height: 40,
+			width: 365,
+			autoHideMenuBar: true, // 自动隐藏菜单栏
+			frame: false, // 无边框窗口
 			hasShadow: false, // 窗口是否有阴影
 			fullscreenable: false, // 窗口是否可以进入全屏状态
-			// alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
-			// skipTaskbar: true,
+			alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+			skipTaskbar: true,
 			webPreferences: {
 				preload,
 			},
 		});
-	}
 
+		recorderScreenWin?.setResizable(false);
+	}
 	if (url) {
-		recorderScreenWin.loadURL(url + "recorderScreen.html");
+		recorderScreenWin.loadURL(
+			url + `recorderScreen.html?isFullScreen=${isFullScreen}`,
+		);
 		// recorderScreenWin.webContents.openDevTools();
 	} else {
-		recorderScreenWin.loadFile(recorderScreenHtml);
+		recorderScreenWin.loadFile(recorderScreenHtml, {
+			search: `?isFullScreen=${isFullScreen}`,
+		});
 	}
 
 	recorderScreenWin?.webContents.session.on(
@@ -77,7 +85,10 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 
 				item.once("done", (event: any, state: any) => {
 					if (state === "completed") {
-						ffmpegRecorderScreenWin(fileName);
+						recorderScreenWin?.webContents.send("rs:get-end-record");
+						isFullScreen
+							? recorderScreen(rsFilePath)
+							: ffmpegRecorderScreenWin(fileName);
 					}
 				});
 			}
@@ -85,6 +96,12 @@ function createRecorderScreenWin(clipScreenWinBounds?: any): BrowserWindow {
 	);
 
 	return recorderScreenWin;
+}
+
+async function recorderScreen(rsFilePath: string) {
+	// closeRecorderScreenWin();
+	setHistoryVideo(rsFilePath);
+	shell.showItemInFolder(rsFilePath);
 }
 
 async function ffmpegRecorderScreenWin(fileName?: string) {
@@ -130,9 +147,9 @@ function closeRecorderScreenWin() {
 	closeClipScreenWin();
 }
 
-function openRecorderScreenWin(ClipScreenWinBounds?: any) {
+function openRecorderScreenWin(search?: any) {
 	if (!recorderScreenWin || recorderScreenWin?.isDestroyed()) {
-		recorderScreenWin = createRecorderScreenWin(ClipScreenWinBounds);
+		recorderScreenWin = createRecorderScreenWin(search);
 	}
 	recorderScreenWin?.show();
 }
@@ -165,11 +182,11 @@ function getBoundsRecorderScreenWin() {
 }
 
 function setMovableRecorderScreenWin(movable: boolean) {
-	recorderScreenWin?.setMovable(movable);
+	isFullScreen || recorderScreenWin?.setMovable(movable);
 }
 
 function setResizableRecorderScreenWin(resizable: boolean) {
-	recorderScreenWin?.setResizable(resizable);
+	isFullScreen || recorderScreenWin?.setResizable(resizable);
 }
 
 function setAlwaysOnTopRecorderScreenWin(isAlwaysOnTop: boolean) {

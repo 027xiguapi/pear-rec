@@ -91,7 +91,7 @@ pnpm run build:desktop
   - [x] 打印
   - [ ] ocr
   - [x] 查看列表
-- [ ] 图片编辑
+- [x] 图片编辑
 - [x] 视频预览(plyr)
 - [x] 音频预览(aplayer)
 - [x] 基本设置

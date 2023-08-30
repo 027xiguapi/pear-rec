@@ -6,7 +6,7 @@
 	:global {
 		.content {
 			width: 100%;
-			height: calc(100% - 34px);
+			height: calc(100% - 40px);
 			overflow: hidden;
 			border-bottom: 1px solid #ccc;
 			.tip {
@@ -15,7 +15,7 @@
 				z-index: 100;
 				background: #fff;
 				top: 0;
-				bottom: 34px;
+				bottom: 40px;
 				left: 0;
 				right: 0;
 				text-align: center;
@@ -25,11 +25,12 @@
 		.footer {
 			width: calc(100vw);
 			background: #fff;
-			height: 34px;
+			height: 40px;
 			display: flex;
 			align-items: center;
 			flex-direction: row-reverse;
 			overflow: hidden;
+			-webkit-app-region: drag;
 			.singleDigit {
 				font-size: 20px;
 				background-color: transparent;
@@ -43,17 +44,16 @@
 			}
 			.recorderTools {
 				display: flex;
-				.toolbarIcon {
-					line-height: 30px;
-					font-size: 30px;
+				.playBtn {
 					color: #1677ff;
-					width: 30px;
-					height: 30px;
-					margin-right: 10px;
-					padding: 0;
+					font-size: 30px;
 				}
 				.stopBtn {
 					color: red;
+					font-size: 30px;
+				}
+				.pauseBtn {
+					font-size: 30px;
 				}
 				.toggleMuteBtn {
 					font-size: 18px;
@@ -67,6 +67,15 @@
 			}
 			.drgan {
 				flex: auto;
+				height: 34px;
+			}
+			.toolbarIcon {
+				line-height: 30px;
+				width: 30px;
+				height: 30px;
+				margin-right: 10px;
+				padding: 0;
+				-webkit-app-region: no-drag;
 			}
 			.shotScreenBtn {
 				color: red;
@@ -74,7 +83,8 @@
 			}
 			.recordIcon {
 				float: left;
-				margin-left: 10px;
+				margin: 0 10px 0 10px;
+				-webkit-app-region: no-drag;
 			}
 			.blink {
 				color: red;
