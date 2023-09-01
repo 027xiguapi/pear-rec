@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "antd";
 import ImageEditor from "tui-image-editor";
 import ininitApp from "@/pages/main";
@@ -160,6 +161,7 @@ const customTheme = {
 };
 
 const EditImage = () => {
+	const { t } = useTranslation();
 	const [instance, setInstance] = useState<any>("");
 
 	useEffect(() => {
@@ -229,7 +231,7 @@ const EditImage = () => {
 		<div className={styles.container}>
 			<div id="tui-image-editor"></div>
 			<Button className="save" type="primary" onClick={save}>
-				保存
+				{t("editImage.save")}
 			</Button>
 		</div>
 	);

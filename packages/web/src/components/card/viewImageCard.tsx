@@ -1,4 +1,5 @@
 import React, { useImperativeHandle, forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 import { PictureOutlined } from "@ant-design/icons";
 import { Button, Card, Upload } from "antd";
 import type { UploadProps } from "antd/es/upload/interface";
@@ -7,6 +8,8 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
 		handleViewImage,
 	}));
+
+	const { t } = useTranslation();
 
 	const uploadProps: UploadProps = {
 		accept: "image/png,image/jpeg,.webp",
@@ -35,12 +38,12 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 	return (
 		<Upload {...uploadProps}>
 			<Card
-				title="查看图片"
+				title={t("home.viewImage")}
 				hoverable
 				bordered={false}
 				extra={
 					<Button type="link" onClick={handleViewImage}>
-						历史
+						{t("home.history")}
 					</Button>
 				}
 				style={{ maxWidth: 300 }}

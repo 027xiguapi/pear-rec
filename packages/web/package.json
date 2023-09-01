@@ -8,7 +8,8 @@
     "build:project": "rimraf dist && tsc && vite build",
     "watch": "tsc && vite build --mode lib -w",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "deploy.sh"
   },
   "dependencies": {
     "@pear-rec/recorder": "workspace:^",
@@ -18,9 +19,11 @@
     "aplayer": "^1.10.1",
     "dayjs": "^1.11.7",
     "file-saver": "^2.0.5",
+    "i18next": "^23.4.6",
     "plyr": "^3.7.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^13.2.1",
     "react-icons": "^4.8.0",
     "react-timer-hook": "^3.0.6",
     "tui-image-editor": "^3.15.3",

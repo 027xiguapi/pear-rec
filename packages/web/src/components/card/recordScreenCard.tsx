@@ -1,9 +1,13 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 import { CameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({}));
+
+	const { t } = useTranslation();
+
 	const [isRecordScreen, setIsRecordScreen] = useState(true);
 
 	function handleClipScreen() {
@@ -22,12 +26,12 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 
 	return (
 		<Card
-			title="录屏"
+			title={t("home.screenRecording")}
 			hoverable
 			bordered={false}
 			extra={
 				<Button type="link" onClick={handleRecordScreen}>
-					全屏
+					{t("home.fullScreen")}
 				</Button>
 			}
 			style={{ maxWidth: 300 }}

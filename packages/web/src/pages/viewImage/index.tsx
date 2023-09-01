@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, Upload } from "antd";
 import Viewer from "viewerjs";
 import { InboxOutlined } from "@ant-design/icons";
@@ -10,6 +11,7 @@ import styles from "./index.module.scss";
 const defaultImg = "./imgs/th.webp";
 const { Dragger } = Upload;
 const ViewImage = () => {
+	const { t } = useTranslation();
 	let refViewer = useRef<any>();
 	const [imgs, setImgs] = useState([]);
 	const [initialViewIndex, setInitialViewIndex] = useState(0);
@@ -180,10 +182,8 @@ const ViewImage = () => {
 					<p className="ant-upload-drag-icon">
 						<InboxOutlined rev={undefined} />
 					</p>
-					<p className="ant-upload-text">点击或拖着图片</p>
-					<p className="ant-upload-hint">
-						支持.jpg、.jpeg、.jfif、.pjpeg、.pjp、.png、.apng、.webp、.avif、.bmp、.gif、.webp、.ico
-					</p>
+					<p className="ant-upload-text">{t("viewImage.uploadText")}</p>
+					<p className="ant-upload-hint">{t("viewImage.uploadHint")}</p>
 				</Dragger>
 			)}
 		</div>

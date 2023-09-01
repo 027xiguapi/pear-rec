@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "setting": "设置",
+    "minimize": "最小化",
+    "maximize": "最大化",
+    "close": "关闭"
+  },
+  "home": {
+    "audioRecording": "录音",
+    "screenRecording": "录屏",
+    "videoRecording": "录像",
+    "screenshot": "截屏",
+    "fullScreen": "全屏",
+    "viewImage": "查看图片",
+    "playAudio": "查看音频",
+    "watchVideo": "查看视频",
+    "history": "历史"
+  },
+  "editImage": {
+    "save": "保存"
+  },
+  "recorderAudio": {
+    "mute": "静音",
+    "unmute": "打开声音",
+    "delete": "删除",
+    "save": "保存",
+    "play": "开始",
+    "resume": "继续",
+    "pause": "暂停"
+  },
+  "recorderScreen": {
+    "tip": "点击下面开始按钮开始录制",
+    "saving": "正在保存",
+    "mute": "静音",
+    "unmute": "打开声音",
+    "resume": "继续",
+    "pause": "暂停",
+    "save": "保存",
+    "play": "开始",
+    "width": "长",
+    "height": "高",
+    "shotScreen": "截图"
+  },
+  "recorderVideo": {
+    "tip": "点击下面开始按钮开始录制",
+    "saving": "正在保存",
+    "mute": "静音",
+    "unmute": "打开声音",
+    "resume": "继续",
+    "pause": "暂停",
+    "save": "保存",
+    "play": "开始",
+    "shotScreen": "截图"
+  },
+  "viewImage": {
+    "uploadText": "点击或拖着图片",
+    "uploadHint": "支持.jpg、.jpeg、.jfif、.pjpeg、.pjp、.png、.apng、.webp、.avif、.bmp、.gif、.webp、.ico"
+  },
+  "viewVideo": {
+    "emptyDescription": "暂无视频",
+    "emptyBtn": "打开视频"
+  },
+  "setting": {
+    "userSetting": "账户设置",
+    "basicSetting": "通用设置",
+    "language": "语言",
+    "filePath": "保存地址",
+    "openAtLogin": "开机自启动",
+    "open": "开启",
+    "close": "关闭",
+    "download": "浏览器下载"
+  }
+}

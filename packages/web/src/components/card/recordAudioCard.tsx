@@ -1,9 +1,13 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 
 const RecordAudioCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({ setIsRecordAudio }));
+
+	const { t } = useTranslation();
+
 	const [isRecordAudio, setIsRecordAudio] = useState(true);
 
 	function handleRecordAudio() {
@@ -14,7 +18,7 @@ const RecordAudioCard = forwardRef((props: any, ref: any) => {
 
 	return (
 		<Card
-			title="录音"
+			title={t("home.audioRecording")}
 			hoverable
 			bordered={false}
 			style={{ maxWidth: 300 }}

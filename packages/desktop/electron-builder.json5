@@ -4,7 +4,6 @@
 {
 	appId: "com.electron.pear",
 	productName: "pear-rec",
-	asar: false,
 	directories: {
 		output: "release/${version}",
 	},

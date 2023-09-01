@@ -1,14 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Switch, Form, Input } from "antd";
+import { useTranslation } from "react-i18next";
+import { Switch, Form, Input, Select } from "antd";
 
 const { TextArea } = Input;
 const BasicSetting = () => {
+	const { t, i18n } = useTranslation();
 	const [form] = Form.useForm();
 
 	useEffect(() => {
+		init();
+	}, []);
+
+	function init() {
 		getFilePath();
 		getOpenAtLogin();
-	}, []);
+		getLanguage();
+	}
 
 	async function handleSetFilePath() {
 		const filePath = await window.electronAPI?.invokeSeSetFilePath();
@@ -16,8 +23,15 @@ const BasicSetting = () => {
 	}
 
 	async function getFilePath() {
-		const filePath = await window.electronAPI?.invokeSeGetFilePath();
+		const filePath = window.electronAPI
+			? await window.electronAPI?.invokeSeGetFilePath()
+			: t("setting.download");
 		form.setFieldValue("filePath", filePath);
+	}
+
+	function getLanguage() {
+		const lng = localStorage.getItem("pear-rec_i18n");
+		form.setFieldValue("language", lng);
 	}
 
 	function handleSetOpenAtLogin(isOpen: boolean) {
@@ -29,6 +43,11 @@ const BasicSetting = () => {
 		form.setFieldValue("openAtLogin", options?.openAtLogin);
 	}
 
+	function handleChangeLanguage(lng: string) {
+		localStorage.setItem("pear-rec_i18n", lng);
+		i18n.changeLanguage(lng);
+	}
+
 	return (
 		<div className="basicForm">
 			<Form
@@ -37,7 +56,17 @@ const BasicSetting = () => {
 					layout: "horizontal",
 				}}
 			>
-				<Form.Item label="保存地址" name="filePath">
+				<Form.Item label={t("setting.language")} name="language">
+					<Select
+						style={{ width: 120 }}
+						onChange={handleChangeLanguage}
+						options={[
+							{ value: "zh", label: "中文" },
+							{ value: "en", label: "EN" },
+						]}
+					/>
+				</Form.Item>
+				<Form.Item label={t("setting.filePath")} name="filePath">
 					<TextArea
 						className="filePathInput"
 						readOnly
@@ -46,13 +75,13 @@ const BasicSetting = () => {
 					/>
 				</Form.Item>
 				<Form.Item
-					label="开机自启动"
+					label={t("setting.openAtLogin")}
 					name="openAtLogin"
 					valuePropName="checked"
 				>
 					<Switch
-						checkedChildren="开启"
-						unCheckedChildren="关闭"
+						checkedChildren={t("setting.open")}
+						unCheckedChildren={t("setting.close")}
 						onChange={handleSetOpenAtLogin}
 					/>
 				</Form.Item>

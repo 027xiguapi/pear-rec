@@ -1,4 +1,5 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 import { ScissorOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 
@@ -6,6 +7,8 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
 		handleCutScreen,
 	}));
+
+	const { t } = useTranslation();
 
 	function handleCutScreen() {
 		window.electronAPI
@@ -15,7 +18,7 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 
 	return (
 		<Card
-			title="截屏"
+			title={t("home.screenshot")}
 			hoverable
 			bordered={false}
 			style={{ maxWidth: 300 }}

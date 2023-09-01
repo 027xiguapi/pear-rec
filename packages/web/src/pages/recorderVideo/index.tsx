@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useStopwatch } from "react-timer-hook";
+import { useTranslation } from "react-i18next";
 import { Button } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
 import {
@@ -16,6 +17,7 @@ import "@pear-rec/timer/lib/style.css";
 import styles from "./index.module.scss";
 
 const RecorderVideo = () => {
+	const { t } = useTranslation();
 	const previewVideo = useRef<HTMLVideoElement>();
 	const mediaStream = useRef<MediaStream>();
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
@@ -157,7 +159,7 @@ const RecorderVideo = () => {
 				<div className="recorderTools">
 					{!isSave ? (
 						<Button type="text" loading>
-							正在保存...
+							{t("recorderVideo.saving")}...
 						</Button>
 					) : isRecording ? (
 						<>
@@ -165,7 +167,7 @@ const RecorderVideo = () => {
 								type="text"
 								icon={<BsPause />}
 								className="toolbarIcon pauseBtn"
-								title="暂停"
+								title={t("recorderVideo.pause")}
 								onClick={pauseRecording}
 							/>
 							<Button
@@ -173,24 +175,26 @@ const RecorderVideo = () => {
 								type="text"
 								onClick={handleToggleMute}
 								icon={isMute ? <BsMicMute /> : <BsMic />}
-								title={isMute ? "打开声音" : "禁音"}
+								title={
+									isMute ? t("recorderVideo.unmute") : t("recorderVideo.mute")
+								}
 							/>
 							<Button
 								type="text"
 								icon={<BsFillStopFill />}
 								className="toolbarIcon stopBtn"
-								title="保存"
+								title={t("recorderVideo.save")}
 								onClick={saveRecording}
 							/>
 						</>
 					) : (
 						<>
-							<span className="toolbarTitle">开始</span>
+							<span className="toolbarTitle">{t("recorderVideo.play")}</span>
 							<Button
 								type="text"
 								icon={<BsPlayFill />}
 								className="toolbarIcon playBtn"
-								title="开始"
+								title={t("recorderVideo.play")}
 								onClick={startRecording}
 							></Button>
 						</>

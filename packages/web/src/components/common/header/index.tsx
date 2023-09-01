@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
 	MinusOutlined,
 	SettingOutlined,
@@ -9,6 +10,7 @@ import styles from "./index.module.scss";
 
 const logo = "./imgs/icons/png/512x512.png";
 const Header = () => {
+	const { t } = useTranslation();
 	async function handleHideWin() {
 		window.electronAPI?.sendMaMinimizeWin();
 	}
@@ -34,19 +36,19 @@ const Header = () => {
 				<Button
 					type="text"
 					icon={<SettingOutlined rev={undefined} />}
-					title="设置"
+					title={t("nav.setting")}
 					onClick={handleOpenSettingWin}
 				/>
 				<Button
 					type="text"
 					icon={<MinusOutlined rev={undefined} />}
-					title="最小化"
+					title={t("nav.minimize")}
 					onClick={handleHideWin}
 				/>
 				<Button
 					type="text"
 					icon={<CloseOutlined rev={undefined} />}
-					title="关闭"
+					title={t("nav.close")}
 					onClick={handleCloseWin}
 				/>
 			</div>

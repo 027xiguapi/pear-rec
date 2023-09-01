@@ -1,4 +1,5 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button, Card, Upload } from "antd";
 import type { UploadProps } from "antd/es/upload/interface";
@@ -7,6 +8,8 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
 		handleViewVideo,
 	}));
+
+	const { t } = useTranslation();
 
 	const uploadProps: UploadProps = {
 		accept: "video/*",
@@ -35,12 +38,12 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	return (
 		<Upload {...uploadProps}>
 			<Card
-				title="查看视频"
+				title={t("home.watchVideo")}
 				hoverable
 				bordered={false}
 				extra={
 					<Button type="link" onClick={handleViewVideo}>
-						历史
+						{t("home.history")}
 					</Button>
 				}
 				style={{ maxWidth: 300 }}

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Plyr from "plyr";
 import { Button, Empty } from "antd";
 import ininitApp from "@/pages/main";
@@ -7,6 +8,7 @@ import styles from "./index.module.scss";
 
 const defaultVideo = "/video/chrome.webm";
 const ViewVideo = () => {
+	const { t } = useTranslation();
 	let refPlayer = useRef<Plyr>();
 	const [source, setSource] = useState("");
 
@@ -72,9 +74,9 @@ const ViewVideo = () => {
 				<Empty
 					image="./imgs/svg/empty.svg"
 					imageStyle={{ height: 60 }}
-					description={<span>暂无视频</span>}
+					description={<span>t("viewVideo.emptyDescription")</span>}
 				>
-					<Button type="primary">打开视频</Button>
+					<Button type="primary">{t("viewVideo.emptyBtn")}</Button>
 				</Empty>
 			)}
 		</div>

@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "setting": "setting",
+    "minimize": "minimize",
+    "maximize": "maximize",
+    "close": "close"
+  },
+  "home": {
+    "audioRecording": "audio recording",
+    "screenRecording": "screen recording",
+    "videoRecording": "video recording",
+    "screenshot": "screenshot",
+    "fullScreen": "full",
+    "viewImage": "view image",
+    "playAudio": "play audio",
+    "watchVideo": "watch video",
+    "history": "history"
+  },
+  "editImage": {
+    "save": "save"
+  },
+  "recorderAudio": {
+    "mute": "mute",
+    "unmute": "unmute",
+    "delete": "delete",
+    "save": "save",
+    "play": "play",
+    "resume": "resume",
+    "pause": "pause"
+  },
+  "recorderScreen": {
+    "tip": "click the start button below to start recording",
+    "saving": "saving",
+    "mute": "mute",
+    "unmute": "unmute",
+    "resume": "resume",
+    "pause": "pause",
+    "save": "save",
+    "play": "play",
+    "width": "width",
+    "height": "height",
+    "shotScreen": "shotScreen"
+  },
+  "recorderVideo": {
+    "tip": "click the start button below to start recording",
+    "saving": "saving",
+    "mute": "mute",
+    "unmute": "unmute",
+    "resume": "resume",
+    "pause": "pause",
+    "save": "save",
+    "play": "play",
+    "shotScreen": "shotScreen"
+  },
+  "viewImage": {
+    "uploadText": "click or drag the image",
+    "uploadHint": "allow .jpg、.jpeg、.jfif、.pjpeg、.pjp、.png、.apng、.webp、.avif、.bmp、.gif、.webp、.ico"
+  },
+  "viewVideo": {
+    "emptyDescription": "暂无视频",
+    "emptyBtn": "open video"
+  },
+  "setting": {
+    "userSetting": "userSetting",
+    "basicSetting": "basicSetting",
+    "language": "language",
+    "filePath": "filePath",
+    "openAtLogin": "openAtLogin",
+    "open": "open",
+    "close": "close",
+    "download": "download"
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, InputNumber } from "antd";
 import {
 	PushpinOutlined,
@@ -12,6 +13,7 @@ import ininitApp from "@/pages/main";
 import styles from "./index.module.scss";
 
 const ClipScreen = () => {
+	const { t } = useTranslation();
 	const [isPlay, setIsPlay] = useState(false);
 	useEffect(() => {
 		window.electronAPI?.handleCsSetIsPlay((event, isPlay) => {
@@ -41,13 +43,13 @@ const ClipScreen = () => {
 						<Button
 							type="text"
 							icon={<MinusOutlined rev={undefined} />}
-							title="最小化"
+							title={t("nav.minimize")}
 							onClick={handleMinimizeWin}
 						/>
 						<Button
 							type="text"
 							icon={<CloseOutlined rev={undefined} />}
-							title="关闭"
+							title={t("nav.close")}
 							onClick={handleCloseWin}
 						/>
 					</div>

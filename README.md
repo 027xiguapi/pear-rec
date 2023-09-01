@@ -42,6 +42,13 @@ pnpm run dev:desktop
 pnpm run build:desktop
 ```
 
+## 国际化
+
+- [x] 中文
+- [x] 英语
+
+## 测试
+
 ## Feedback
 
 - QQ group

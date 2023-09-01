@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useStopwatch } from "react-timer-hook";
+import { useTranslation } from "react-i18next";
 import { CameraOutlined } from "@ant-design/icons";
 import {
 	BsMic,
@@ -17,6 +18,7 @@ import "@pear-rec/timer/lib/style.css";
 import styles from "./index.module.scss";
 
 const RecorderScreen = () => {
+	const { t } = useTranslation();
 	const videoRef = useRef<HTMLVideoElement>();
 	const mediaStream = useRef<MediaStream>();
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
@@ -259,7 +261,7 @@ const RecorderScreen = () => {
 					{isRecording ? (
 						<></>
 					) : (
-						<div className="tip"> 点击下面开始按钮开始录制 </div>
+						<div className="tip">{t("recorderScreen.tip")}</div>
 					)}
 					<video ref={videoRef} playsInline autoPlay />
 				</div>
@@ -268,7 +270,7 @@ const RecorderScreen = () => {
 				<div className="recorderTools">
 					{isSave ? (
 						<Button type="text" loading>
-							正在保存...
+							{t("recorderScreen.saving")}...
 						</Button>
 					) : isRecording ? (
 						<>
@@ -276,7 +278,11 @@ const RecorderScreen = () => {
 								type="text"
 								icon={isPause ? <BsPlayFill /> : <BsPause />}
 								className="toolbarIcon pauseBtn"
-								title={isPause ? "继续" : "暂停"}
+								title={
+									isPause
+										? t("recorderScreen.resume")
+										: t("recorderScreen.pause")
+								}
 								onClick={handleTogglePause}
 							/>
 							<Button
@@ -284,24 +290,26 @@ const RecorderScreen = () => {
 								type="text"
 								onClick={handleToggleMute}
 								icon={isMute ? <BsMicMute /> : <BsMic />}
-								title={isMute ? "打开声音" : "禁音"}
+								title={
+									isMute ? t("recorderScreen.unmute") : t("recorderScreen.mute")
+								}
 							/>
 							<Button
 								type="text"
 								icon={<BsFillStopFill />}
 								className="toolbarIcon stopBtn"
-								title="停止"
+								title={t("recorderScreen.save")}
 								onClick={saveRecording}
 							/>
 						</>
 					) : (
 						<>
-							<span className="toolbarTitle">开始</span>
+							<span className="toolbarTitle">{t("recorderScreen.play")}</span>
 							<Button
 								type="text"
 								icon={<BsPlayFill />}
 								className="toolbarIcon playBtn"
-								title="开始"
+								title={t("recorderScreen.play")}
 								onClick={handleStartRecording}
 							></Button>
 						</>
@@ -317,7 +325,7 @@ const RecorderScreen = () => {
 					<>
 						<InputNumber
 							className="widthInput"
-							prefix="长"
+							prefix={t("recorderScreen.width")}
 							min={100}
 							value={width}
 							onChange={handleChangeWidth}
@@ -325,7 +333,7 @@ const RecorderScreen = () => {
 						<span className="sizeIcon">x</span>
 						<InputNumber
 							className="heightInput"
-							prefix="高"
+							prefix={t("recorderScreen.height")}
 							min={50}
 							value={height}
 							onChange={handleChangeHeight}
@@ -347,7 +355,7 @@ const RecorderScreen = () => {
 						type="text"
 						icon={<CloseOutlined />}
 						className="toolbarIcon closeBtn"
-						title="关闭"
+						title={t("nav.close")}
 						onClick={handleCloseWin}
 					></Button>
 				) : (
@@ -357,14 +365,14 @@ const RecorderScreen = () => {
 					type="text"
 					icon={<SettingOutlined />}
 					className="toolbarIcon settingBtn"
-					title="设置"
+					title={t("nav.setting")}
 					onClick={handleOpenSettingWin}
 				></Button>
 				<Button
 					type="text"
 					icon={<CameraOutlined />}
 					className="toolbarIcon shotScreenBtn"
-					title="截图"
+					title={t("recorderScreen.shotScreen")}
 					onClick={handleShotScreen}
 				></Button>
 				<BsRecordCircle

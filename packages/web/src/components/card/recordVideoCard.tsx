@@ -1,9 +1,13 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 import { VideoCameraOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 
 const RecordVideoCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({ setIsRecordVideo }));
+
+	const { t } = useTranslation();
+
 	const [isRecordVideo, setIsRecordVideo] = useState(true);
 
 	function handleRecorderVideo() {
@@ -14,7 +18,7 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
 
 	return (
 		<Card
-			title="录像"
+			title={t("home.videoRecording")}
 			hoverable
 			bordered={false}
 			style={{ maxWidth: 300 }}

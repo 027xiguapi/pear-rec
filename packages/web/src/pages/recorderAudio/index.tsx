@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useStopwatch } from "react-timer-hook";
 import {
 	BsPlayFill,
@@ -17,6 +18,7 @@ import "@pear-rec/timer/lib/style.css";
 import styles from "./index.module.scss";
 
 const RecordAudio = () => {
+	const { t } = useTranslation();
 	const wavesurferRef = useRef<any>();
 	const mediaStream = useRef<MediaStream>();
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
@@ -139,9 +141,9 @@ const RecordAudio = () => {
 		>
 			<span className="micBtn">
 				{!isMute ? (
-					<BsMicMute title="静音" onClick={muteRecording} />
+					<BsMicMute title={t("recorderAudio.mute")} onClick={muteRecording} />
 				) : (
-					<BsMic title="打开声音" onClick={unmuteRecording} />
+					<BsMic title={t("recorderAudio.unmute")} onClick={unmuteRecording} />
 				)}
 			</span>
 			<div className="timer">
@@ -157,7 +159,7 @@ const RecordAudio = () => {
 					shape="circle"
 					icon={<BsTrash />}
 					className="toolbarIcon resetBtn"
-					title="删除"
+					title={t("recorderAudio.delete")}
 					disabled={!isRecording}
 					onClick={stopRecording}
 				/>
@@ -168,7 +170,7 @@ const RecordAudio = () => {
 						shape="circle"
 						icon={<BsCheckLg />}
 						className="toolbarIcon stopBtn"
-						title="保存"
+						title={t("recorderAudio.save")}
 						disabled={!isRecording}
 						onClick={saveRecording}
 					/>
@@ -179,7 +181,7 @@ const RecordAudio = () => {
 						shape="circle"
 						icon={<BsRecordFill />}
 						className="toolbarIcon playBtn"
-						title="开始"
+						title={t("recorderAudio.play")}
 						onClick={startRecording}
 					/>
 				)}
@@ -190,7 +192,7 @@ const RecordAudio = () => {
 						shape="circle"
 						icon={<BsPlayFill />}
 						className="toolbarIcon resumeBtn"
-						title="继续"
+						title={t("recorderAudio.resume")}
 						disabled={!isRecording}
 						onClick={resumeRecording}
 					/>
@@ -200,7 +202,7 @@ const RecordAudio = () => {
 						shape="circle"
 						icon={<BsPauseFill />}
 						className="toolbarIcon pauseBtn"
-						title="暂停"
+						title={t("recorderAudio.pause")}
 						disabled={!isRecording}
 						onClick={pauseRecording}
 					/>

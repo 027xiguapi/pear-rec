@@ -1,5 +1,5 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
-import { PlayCircleOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { Button, Card, Upload } from "antd";
 import type { UploadProps } from "antd/es/upload/interface";
@@ -8,6 +8,8 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
 		handleViewAudio,
 	}));
+
+	const { t } = useTranslation();
 
 	const uploadProps: UploadProps = {
 		accept: "audio/*",
@@ -36,12 +38,12 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 	return (
 		<Upload {...uploadProps}>
 			<Card
-				title="查看音频"
+				title={t("home.playAudio")}
 				hoverable
 				bordered={false}
 				extra={
 					<Button type="link" onClick={handleViewAudio}>
-						历史
+						{t("home.history")}
 					</Button>
 				}
 				style={{ maxWidth: 300 }}
