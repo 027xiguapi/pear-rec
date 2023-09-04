@@ -24,10 +24,17 @@
     "watch:recorder": "pnpm run -C packages/recorder watch",
     "dev:screenshot": "pnpm run -C packages/screenshot dev",
     "build:screenshot": "pnpm run -C packages/screenshot build",
-    "watch:screenshot": "pnpm run -C packages/screenshot watch"
+    "watch:screenshot": "pnpm run -C packages/screenshot watch",
+    "changeset": "changeset",
+    "vp": "changeset version",
+    "commit": "cz"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.2",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0"
+  },
   "keywords": [
     "electron",
     "react",
