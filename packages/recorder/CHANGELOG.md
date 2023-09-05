@@ -1,4 +1,4 @@
-# pear-rec
+# @pear-rec/recorder
 
 ## 1.0.0 (2023-09-05)
 

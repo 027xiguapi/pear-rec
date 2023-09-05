@@ -42,12 +42,22 @@ pnpm run dev:desktop
 pnpm run build:desktop
 ```
 
-## 国际化
+## Internationalization(I18n)
 
-- [x] 中文
-- [x] 英语
+- [x] Chinese
+- [x] English
 
-## 测试
+## Test
+
+| OS   | Windows | Linux | Macos |
+| ---- | ------- | ----- | ----- |
+| Test | 🟢      | ◯     | ◯     |
+
+## Download
+
+| OS   | Windows                                                                                                   | Linux | Macos |
+| ---- | --------------------------------------------------------------------------------------------------------- | ----- | ----- |
+| link | [Download](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯     | ◯     |
 
 ## Feedback
 
