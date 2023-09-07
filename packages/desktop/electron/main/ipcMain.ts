@@ -65,7 +65,6 @@ export function initIpcMain() {
 
 	ipcMain.on("rs:close-win", () => {
 		recorderScreenWin.closeRecorderScreenWin();
-		mainWin.showMainWin();
 	});
 
 	ipcMain.on("rs:hide-win", () => {
@@ -169,8 +168,8 @@ export function initIpcMain() {
 		clipScreenWin.minimizeClipScreenWin();
 	});
 
-	ipcMain.on("cs:set-bounds", (event, width, height) => {
-		clipScreenWin.setBoundsClipScreenWin(width, height);
+	ipcMain.on("cs:set-bounds", (event, bounds) => {
+		clipScreenWin.setBoundsClipScreenWin(bounds);
 	});
 
 	ipcMain.on("cs:set-ignore-mouse-events", (event, ignore, options) => {

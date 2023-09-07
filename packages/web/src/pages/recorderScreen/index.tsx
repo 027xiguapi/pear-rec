@@ -31,6 +31,7 @@ const RecorderScreen = () => {
 	const [width, setWidth] = useState<number | null>(800);
 	const [height, setHeight] = useState<number | null>(600);
 	const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
+	const [isHide, setIsHide] = useState<boolean>(false);
 	const timer = useStopwatch({ autoStart: false });
 
 	useEffect(() => {
@@ -215,12 +216,12 @@ const RecorderScreen = () => {
 
 	function handleChangeWidth(width: number) {
 		setWidth(width);
-		window.electronAPI.sendCsSetBounds(width, height);
+		width && window.electronAPI.sendCsSetBounds({ width, height });
 	}
 
 	function handleChangeHeight(height: number) {
 		setHeight(height);
-		window.electronAPI.sendCsSetBounds(width, height);
+		height && window.electronAPI.sendCsSetBounds({ width, height });
 	}
 
 	function handleChangeFormat(format: string) {
@@ -266,121 +267,129 @@ const RecorderScreen = () => {
 					<video ref={videoRef} playsInline autoPlay />
 				</div>
 			)}
-			<div className="footer">
-				<div className="recorderTools">
-					{isSave ? (
-						<Button type="text" loading>
-							{t("recorderScreen.saving")}...
-						</Button>
-					) : isRecording ? (
+			{isHide ? (
+				<div className="footer"></div>
+			) : (
+				<div className="footer">
+					<div className="recorderTools">
+						{isSave ? (
+							<Button type="text" loading>
+								{t("recorderScreen.saving")}...
+							</Button>
+						) : isRecording ? (
+							<>
+								<Button
+									type="text"
+									icon={isPause ? <BsPlayFill /> : <BsPause />}
+									className="toolbarIcon pauseBtn"
+									title={
+										isPause
+											? t("recorderScreen.resume")
+											: t("recorderScreen.pause")
+									}
+									onClick={handleTogglePause}
+								/>
+								<Button
+									className={`toolbarIcon toggleMuteBtn ${
+										isMute ? "" : "muted"
+									}`}
+									type="text"
+									onClick={handleToggleMute}
+									icon={isMute ? <BsMicMute /> : <BsMic />}
+									title={
+										isMute
+											? t("recorderScreen.unmute")
+											: t("recorderScreen.mute")
+									}
+								/>
+								<Button
+									type="text"
+									icon={<BsFillStopFill />}
+									className="toolbarIcon stopBtn"
+									title={t("recorderScreen.save")}
+									onClick={saveRecording}
+								/>
+							</>
+						) : (
+							<>
+								<span className="toolbarTitle">{t("recorderScreen.play")}</span>
+								<Button
+									type="text"
+									icon={<BsPlayFill />}
+									className="toolbarIcon playBtn"
+									title={t("recorderScreen.play")}
+									onClick={handleStartRecording}
+								></Button>
+							</>
+						)}
+					</div>
+					<Timer
+						seconds={timer.seconds}
+						minutes={timer.minutes}
+						hours={timer.hours}
+						className="timer"
+					/>
+					{window.isElectron && !isFullScreen ? (
 						<>
-							<Button
-								type="text"
-								icon={isPause ? <BsPlayFill /> : <BsPause />}
-								className="toolbarIcon pauseBtn"
-								title={
-									isPause
-										? t("recorderScreen.resume")
-										: t("recorderScreen.pause")
-								}
-								onClick={handleTogglePause}
+							<InputNumber
+								className="widthInput"
+								prefix={t("recorderScreen.width")}
+								min={100}
+								value={width}
+								onChange={handleChangeWidth}
 							/>
-							<Button
-								className={`toolbarIcon toggleMuteBtn ${isMute ? "" : "muted"}`}
-								type="text"
-								onClick={handleToggleMute}
-								icon={isMute ? <BsMicMute /> : <BsMic />}
-								title={
-									isMute ? t("recorderScreen.unmute") : t("recorderScreen.mute")
-								}
+							<span className="sizeIcon">x</span>
+							<InputNumber
+								className="heightInput"
+								prefix={t("recorderScreen.height")}
+								min={50}
+								value={height}
+								onChange={handleChangeHeight}
 							/>
-							<Button
-								type="text"
-								icon={<BsFillStopFill />}
-								className="toolbarIcon stopBtn"
-								title={t("recorderScreen.save")}
-								onClick={saveRecording}
+							<Select
+								disabled
+								defaultValue="mp4"
+								className="formatSelect"
+								style={{ width: 120 }}
+								options={[{ value: "mp4", label: "mp4" }]}
+								onChange={handleChangeFormat}
 							/>
 						</>
 					) : (
-						<>
-							<span className="toolbarTitle">{t("recorderScreen.play")}</span>
-							<Button
-								type="text"
-								icon={<BsPlayFill />}
-								className="toolbarIcon playBtn"
-								title={t("recorderScreen.play")}
-								onClick={handleStartRecording}
-							></Button>
-						</>
+						<></>
 					)}
-				</div>
-				<Timer
-					seconds={timer.seconds}
-					minutes={timer.minutes}
-					hours={timer.hours}
-					className="timer"
-				/>
-				{window.isElectron && !isFullScreen ? (
-					<>
-						<InputNumber
-							className="widthInput"
-							prefix={t("recorderScreen.width")}
-							min={100}
-							value={width}
-							onChange={handleChangeWidth}
-						/>
-						<span className="sizeIcon">x</span>
-						<InputNumber
-							className="heightInput"
-							prefix={t("recorderScreen.height")}
-							min={50}
-							value={height}
-							onChange={handleChangeHeight}
-						/>
-						<Select
-							disabled
-							defaultValue="mp4"
-							className="formatSelect"
-							style={{ width: 120 }}
-							options={[{ value: "mp4", label: "mp4" }]}
-							onChange={handleChangeFormat}
-						/>
-					</>
-				) : (
-					<></>
-				)}
-				{isFullScreen ? (
+					{isFullScreen ? (
+						<Button
+							type="text"
+							icon={<CloseOutlined />}
+							className="toolbarIcon closeBtn"
+							title={t("nav.close")}
+							onClick={handleCloseWin}
+						></Button>
+					) : (
+						<div className="drgan"></div>
+					)}
 					<Button
 						type="text"
-						icon={<CloseOutlined />}
-						className="toolbarIcon closeBtn"
-						title={t("nav.close")}
-						onClick={handleCloseWin}
+						icon={<SettingOutlined />}
+						className="toolbarIcon settingBtn"
+						title={t("nav.setting")}
+						onClick={handleOpenSettingWin}
 					></Button>
-				) : (
-					<div className="drgan"></div>
-				)}
-				<Button
-					type="text"
-					icon={<SettingOutlined />}
-					className="toolbarIcon settingBtn"
-					title={t("nav.setting")}
-					onClick={handleOpenSettingWin}
-				></Button>
-				<Button
-					type="text"
-					icon={<CameraOutlined />}
-					className="toolbarIcon shotScreenBtn"
-					title={t("recorderScreen.shotScreen")}
-					onClick={handleShotScreen}
-				></Button>
-				<BsRecordCircle
-					className={
-						"recordIcon " + `${isRecording && !isPause ? "blink" : ""}`
-					}
-				/>
-			</div>
+					<Button
+						type="text"
+						icon={<CameraOutlined />}
+						className="toolbarIcon shotScreenBtn"
+						title={t("recorderScreen.shotScreen")}
+						onClick={handleShotScreen}
+					></Button>
+					<BsRecordCircle
+						className={
+							"recordIcon " + `${isRecording && !isPause ? "blink" : ""}`
+						}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };

@@ -109,11 +109,8 @@ function setIsPlayClipScreenWin(isPlay: boolean) {
 	clipScreenWin?.webContents.send("cs:set-isPlay", isPlay);
 }
 
-function setBoundsClipScreenWin(width: number, height: number) {
-	clipScreenWin?.setBounds({
-		width: width,
-		height: height,
-	});
+function setBoundsClipScreenWin(bounds: any) {
+	clipScreenWin?.setBounds({ ...bounds });
 }
 
 export {
