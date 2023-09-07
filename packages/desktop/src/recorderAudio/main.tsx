@@ -1,4 +1,4 @@
-import "@pear-rec/web/es/pages/recorderAudio/index";
-import "@pear-rec/web/es/style.css";
+import "@pear-rec/web/src/pages/recorderAudio";
+import "@pear-rec/web/src/pages/recorderAudio/index.module.scss";
 
 postMessage({ payload: "removeLoading" }, "*");

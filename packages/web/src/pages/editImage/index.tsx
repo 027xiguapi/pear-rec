@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "antd";
 import ImageEditor from "tui-image-editor";
-import ininitApp from "@/pages/main";
+import ininitApp from "../../pages/main";
 import "tui-image-editor/dist/tui-image-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import styles from "./index.module.scss";

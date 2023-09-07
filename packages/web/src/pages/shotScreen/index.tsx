@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import Screenshots, { Bounds } from "@pear-rec/screenshot";
 import { saveAs } from "file-saver";
-import ininitApp from "@/pages/main";
-import "@pear-rec/screenshot/lib/style.css";
+import ininitApp from "../../pages/main";
+import "@pear-rec/screenshot/src/Screenshots/screenshots.scss";
 import styles from "./index.module.scss";
 
 const defaultImg = "/imgs/th.webp";

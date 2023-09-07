@@ -1,4 +1,4 @@
-import "@pear-rec/web/es/pages/setting/index";
-import "@pear-rec/web/es/style.css";
+import "@pear-rec/web/src/pages/setting/index";
+import "@pear-rec/web/src/pages/setting/index.module.scss";
 
 postMessage({ payload: "removeLoading" }, "*");

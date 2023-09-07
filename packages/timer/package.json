@@ -26,9 +26,7 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "main": "./lib/timer.umd.js",
-  "module": "./lib/timer.es.js",
-  "types": "./lib/types/index.d.ts",
+  "main": "src/Timer/index.tsx",
   "keywords": [],
   "author": "",
   "license": "MIT",

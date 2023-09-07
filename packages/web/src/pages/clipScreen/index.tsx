@@ -9,7 +9,7 @@ import {
 	CloseOutlined,
 	SettingOutlined,
 } from "@ant-design/icons";
-import ininitApp from "@/pages/main";
+import ininitApp from "../../pages/main";
 import styles from "./index.module.scss";
 
 const ClipScreen = () => {

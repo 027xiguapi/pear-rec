@@ -1,4 +1,4 @@
-import "@pear-rec/web/es/pages/viewVideo/index";
-import "@pear-rec/web/es/style.css";
+import "@pear-rec/web/src/pages/viewVideo/index";
+import "@pear-rec/web/src/pages/viewVideo/index.module.scss";
 
 postMessage({ payload: "removeLoading" }, "*");

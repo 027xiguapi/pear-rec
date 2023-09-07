@@ -7,9 +7,7 @@
     "dist",
     "index.d.ts"
   ],
-  "main": "./dist/recorder.umd.js",
-  "module": "./dist/recorder.es.js",
-  "types": "./index.d.ts",
+  "main": "lib/index.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

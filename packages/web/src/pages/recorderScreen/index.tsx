@@ -13,8 +13,8 @@ import {
 import { SettingOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, InputNumber, Select } from "antd";
 import Timer from "@pear-rec/timer";
-import ininitApp from "@/pages/main";
-import "@pear-rec/timer/lib/style.css";
+import ininitApp from "../../pages/main";
+import "@pear-rec/timer/src/Timer/index.module.scss";
 import styles from "./index.module.scss";
 
 const RecorderScreen = () => {

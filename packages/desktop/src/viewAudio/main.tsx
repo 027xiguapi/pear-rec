@@ -1,4 +1,4 @@
-import "@pear-rec/web/es/pages/viewAudio/index";
-import "@pear-rec/web/es/style.css";
+import "@pear-rec/web/src/pages/viewAudio/index";
+import "@pear-rec/web/src/pages/viewAudio/index.module.scss";
 
 postMessage({ payload: "removeLoading" }, "*");

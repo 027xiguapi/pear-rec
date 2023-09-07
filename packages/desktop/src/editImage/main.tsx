@@ -1,4 +1,4 @@
-import "@pear-rec/web/es/pages/editImage/index";
-import "@pear-rec/web/es/style.css";
+import "@pear-rec/web/src/pages/editImage/index";
+import "@pear-rec/web/src/pages/editImage/index.module.scss";
 
 postMessage({ payload: "removeLoading" }, "*");
