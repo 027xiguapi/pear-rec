@@ -6,7 +6,11 @@ import FfmpegPath from "ffmpeg-static";
 import Jimp from "jimp";
 import { preload, url, DIST, ICON } from "../main/contract";
 import { getFilePath, setHistoryVideo } from "../main/store";
-import { closeClipScreenWin, getBoundsClipScreenWin } from "./clipScreenWin";
+import {
+	closeClipScreenWin,
+	getBoundsClipScreenWin,
+	setBoundsClipScreenWin,
+} from "./clipScreenWin";
 import { openViewVideoWin } from "./viewVideoWin";
 
 FfmpegPath &&
@@ -49,6 +53,8 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
 			icon: ICON,
 			height: 40,
 			width: 365,
+			center: true,
+			transparent: true, // 使窗口透明
 			autoHideMenuBar: true, // 自动隐藏菜单栏
 			frame: false, // 无边框窗口
 			hasShadow: false, // 窗口是否有阴影
@@ -59,9 +65,9 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
 				preload,
 			},
 		});
-
-		recorderScreenWin?.setResizable(false);
+		recorderScreenWin?.setBounds({ y: 0 });
 	}
+	recorderScreenWin?.setResizable(false);
 	if (url) {
 		recorderScreenWin.loadURL(
 			url + `recorderScreen.html?isFullScreen=${isFullScreen}`,
@@ -94,6 +100,18 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
 			}
 		},
 	);
+
+	recorderScreenWin.on("move", () => {
+		const recorderScreenWinBounds = getBoundsRecorderScreenWin() as Rectangle;
+		const clipScreenWinBounds = getBoundsClipScreenWin() as Rectangle;
+		isFullScreen ||
+			setBoundsClipScreenWin({
+				x: recorderScreenWinBounds.x,
+				y: recorderScreenWinBounds.y - clipScreenWinBounds.height,
+				width: clipScreenWinBounds.width,
+				height: clipScreenWinBounds.height,
+			});
+	});
 
 	return recorderScreenWin;
 }

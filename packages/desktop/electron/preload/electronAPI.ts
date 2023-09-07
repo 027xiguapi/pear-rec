@@ -53,8 +53,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
 	invokeCsGetBounds: () => ipcRenderer.invoke("cs:get-bounds"),
 	handleCsSetIsPlay: (callback: any) =>
 		ipcRenderer.on("cs:set-isPlay", callback),
-	sendCsSetBounds: (width: number, height: number) => {
-		ipcRenderer.send("cs:set-bounds", width, height);
+	sendCsSetBounds: (bounds: any) => {
+		ipcRenderer.send("cs:set-bounds", bounds);
 	},
 	//rvWin
 	sendRvOpenWin: () => ipcRenderer.send("rv:open-win"),
