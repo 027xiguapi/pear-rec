@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Plyr from "plyr";
 import { Button, Empty } from "antd";
-import ininitApp from "@/pages/main";
+import ininitApp from "../../pages/main";
 import "plyr/dist/plyr.css";
 import styles from "./index.module.scss";
 

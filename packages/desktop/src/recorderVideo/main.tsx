@@ -1,4 +1,4 @@
-import "@pear-rec/web/es/pages/recorderVideo/index";
-import "@pear-rec/web/es/style.css";
+import "@pear-rec/web/src/pages/recorderVideo/index";
+import "@pear-rec/web/src/pages/recorderVideo/index.module.scss";
 
 postMessage({ payload: "removeLoading" }, "*");

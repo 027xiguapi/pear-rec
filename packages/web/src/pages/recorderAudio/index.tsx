@@ -11,10 +11,10 @@ import {
 	BsMic,
 } from "react-icons/bs";
 import { Button } from "antd";
-import Wavesurfer from "@/components/wavesurfer";
+import Wavesurfer from "../../components/wavesurfer";
 import Timer from "@pear-rec/timer";
-import ininitApp from "@/pages/main";
-import "@pear-rec/timer/lib/style.css";
+import ininitApp from "../../pages/main";
+import "@pear-rec/timer/src/Timer/index.module.scss";
 import styles from "./index.module.scss";
 
 const RecordAudio = () => {

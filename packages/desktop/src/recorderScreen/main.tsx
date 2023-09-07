@@ -1,4 +1,4 @@
-import "@pear-rec/web/es/pages/recorderScreen/index";
-import "@pear-rec/web/es/style.css";
+import "@pear-rec/web/src/pages/recorderScreen/index";
+import "@pear-rec/web/src/pages/recorderScreen/index.module.scss";
 
 postMessage({ payload: "removeLoading" }, "*");

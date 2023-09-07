@@ -12,8 +12,8 @@ import {
 	BsFillStopFill,
 } from "react-icons/bs";
 import Timer from "@pear-rec/timer";
-import ininitApp from "@/pages/main";
-import "@pear-rec/timer/lib/style.css";
+import ininitApp from "../../pages/main";
+import "@pear-rec/timer/src/Timer/index.module.scss";
 import styles from "./index.module.scss";
 
 const RecorderVideo = () => {

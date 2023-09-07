@@ -4,7 +4,7 @@ import { Button, Upload } from "antd";
 import Viewer from "viewerjs";
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd/es/upload/interface";
-import ininitApp from "@/pages/main";
+import ininitApp from "../../pages/main";
 import "viewerjs/dist/viewer.css";
 import styles from "./index.module.scss";
 

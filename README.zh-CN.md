@@ -39,8 +39,6 @@ git clone https://gitee.com/xiguapi027/pear-rec.git
 cd pear-rec
 # 安装依赖
 pnpm install
-# 打包依赖
-pnpm run build:packages
 # 重新打包 electron
 pnpm run rebuild:desktop
 # 调试

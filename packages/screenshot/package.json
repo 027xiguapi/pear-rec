@@ -27,9 +27,7 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "main": "./lib/screenshot.umd.js",
-  "module": "./lib/screenshot.es.js",
-  "types": "./lib/types/exports.d.ts",
+  "main": "src/Screenshots/exports.ts",
   "directories": {
     "lib": "lib"
   },

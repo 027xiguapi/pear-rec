@@ -1,4 +1,4 @@
-import "@pear-rec/web/es/pages/clipScreen/index";
-import "@pear-rec/web/es/style.css";
+import "@pear-rec/web/src/pages/clipScreen";
+import "@pear-rec/web/src/pages/clipScreen/index.module.scss";
 
 postMessage({ payload: "removeLoading" }, "*");

@@ -12,7 +12,7 @@ outline: deep
 
 ```js
 import "@pear-rec/timer";
-import "@pear-rec/timer/lib/style.css";
+import "@pear-rec/timer/src/Timer/index.module.scss";
 ```
 
 ## timer 计时器
@@ -62,7 +62,7 @@ div:deep(.button) {
 import { useState } from "react";
 import { useStopwatch } from "react-timer-hook";
 import Timer from "@pear-rec/timer";
-import "@pear-rec/timer/lib/style.css";
+import "@pear-rec/timer/src/Timer/index.module.scss";
 
 function App() {
 	const { seconds, minutes, hours, days, start, pause, reset } = useStopwatch({

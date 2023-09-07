@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Col, Row } from "antd";
-import Header from "@/components/common/header";
-import CutScreenCard from "@/components/card/shotScreenCard";
-import RecordVideoCard from "@/components/card/recordVideoCard";
-import RecordScreenCard from "@/components/card/recordScreenCard";
-import RecordAudioCard from "@/components/card/recordAudioCard";
-import ViewImageCard from "@/components/card/viewImageCard";
-import ViewVideoCard from "@/components/card/viewVideoCard";
-import ViewAudioCard from "@/components/card/viewAudioCard";
-import ininitApp from "@/pages/main";
+import Header from "../../components/common/header";
+import CutScreenCard from "../../components/card/shotScreenCard";
+import RecordVideoCard from "../../components/card/recordVideoCard";
+import RecordScreenCard from "../../components/card/recordScreenCard";
+import RecordAudioCard from "../../components/card/recordAudioCard";
+import ViewImageCard from "../../components/card/viewImageCard";
+import ViewVideoCard from "../../components/card/viewVideoCard";
+import ViewAudioCard from "../../components/card/viewAudioCard";
+import ininitApp from "../../pages/main";
 import styles from "./index.module.scss";
 
 const Home: React.FC = () => {

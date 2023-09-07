@@ -32,8 +32,6 @@ git clone https://github.com/027xiguapi/pear-rec.git
 cd pear-rec
 # Install dependencies
 pnpm install
-# Build packages
-pnpm run build:packages
 # Rebuild electron
 pnpm run rebuild:desktop
 # Run the app

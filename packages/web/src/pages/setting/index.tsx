@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Switch, Form, Input, Tabs } from "antd";
 import type { TabsProps } from "antd";
-import UserSetting from "@/components/setting/userSetting";
-import BasicSetting from "@/components/setting/basicSetting";
-import ininitApp from "@/pages/main";
+import UserSetting from "../../components/setting/userSetting";
+import BasicSetting from "../../components/setting/basicSetting";
+import ininitApp from "../../pages/main";
 import styles from "./index.module.scss";
 
 const Setting = () => {
