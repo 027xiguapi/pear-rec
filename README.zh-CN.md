@@ -8,7 +8,9 @@
 
 ## 简介
 
-> pear-rec 是一个跨平台的截图、录屏、录音、录像软件。
+> pear-rec(梨子 rec) 是一个跨平台的截图、录屏、录音、录像软件。
+>
+> pear-rec(pear rec) 是基于 react + electron + vite + ffmpeg + viewerjs + plyr + aplayer + react-screenshots 的一个项目。
 >
 > 更多功能和 api 可以查看[官网](https://027xiguapi.github.io/pear-rec)
 
@@ -59,9 +61,11 @@ pnpm run build:desktop
   - [x] 放大镜
   - [x] 画笔（自由画笔）
   - [x] 几何形状（边框填充支持调节）
-  - [ ] 高级画板设置（使用 Fabric.js 的 api）
-  - [ ] 图像滤镜（支持局部马赛克模糊和色彩调节）
-  - [ ] 自定义框选松开后的操作
+  - [x] 高级画板设置
+  - [x] 图像滤镜（支持局部马赛克模糊和色彩调节）
+  - [x] 自定义框选松开后的操作
+  - [x] 以图搜图
+  - [x] 扫描二维码
   - [ ] 快速截取全屏到剪贴板或自定义的目录
   - [ ] 截屏历史记录
   - [ ] 窗口和控件选择（使用 OpenCV 边缘识别）

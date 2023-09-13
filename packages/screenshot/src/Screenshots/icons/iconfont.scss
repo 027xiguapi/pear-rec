@@ -56,3 +56,23 @@
 .icon-rectangle:before {
 	content: "\e00b";
 }
+
+.icon-scan:before {
+	content: "";
+	background: transparent url(/imgs/svg/scan.svg) no-repeat 0px 0px;
+	background-size: 22px;
+	background-position: center;
+	width: 35px;
+	height: 35px;
+	display: inline-block;
+}
+
+.icon-search:before {
+	content: "";
+	background: transparent url(/imgs/svg/search.svg) no-repeat 0px 0px;
+	background-size: 22px;
+	background-position: center;
+	width: 35px;
+	height: 35px;
+	display: inline-block;
+}

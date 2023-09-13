@@ -5,6 +5,7 @@ import {
 	ipcMain,
 	desktopCapturer,
 	dialog,
+	shell,
 } from "electron";
 import * as mainWin from "../win/mainWin";
 import * as shotScreenWin from "../win/shotScreenWin";
@@ -215,6 +216,10 @@ export function initIpcMain() {
 
 	ipcMain.on("ss:download-img", async (e, downloadUrl) => {
 		shotScreenWin.downloadURLShotScreenWin(downloadUrl, true);
+	});
+
+	ipcMain.on("ss:open-external", async (e, tabUrl) => {
+		shell.openExternal(tabUrl);
 	});
 
 	ipcMain.handle("ss:get-desktop-capturer-source", async () => {

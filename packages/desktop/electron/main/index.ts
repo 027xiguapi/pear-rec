@@ -5,6 +5,7 @@ import { createMainWin, closeMainWin, focusMainWin } from "../win/mainWin";
 import { initIpcMain } from "./ipcMain";
 import { initTray } from "./tray";
 import { initConfig } from "./config";
+import { initApp } from "../app/index";
 import { registerFileProtocol } from "./protocol";
 import {
 	registerGlobalShortcut,
@@ -79,3 +80,4 @@ app.on("activate", () => {
 
 initIpcMain();
 initConfig();
+initApp();
