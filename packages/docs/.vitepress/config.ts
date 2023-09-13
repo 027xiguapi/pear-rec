@@ -42,7 +42,7 @@ export default defineConfig({
 		// 页脚
 		footer: {
 			message:
-				'<a href="https://opensource.org/license/mit/" target="_blank">Released under the MIT License.</a>',
+				'<a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">pear-rec is available under the Apache License V2.</a>',
 			copyright: "Copyright © 2023 西瓜皮",
 		},
 	},

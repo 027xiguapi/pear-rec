@@ -28,7 +28,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 		},
 	};
 
-	function handleViewImage(e) {
+	function handleViewImage(e: any) {
 		window.electronAPI
 			? window.electronAPI.sendViOpenWin()
 			: (location.href = "/viewImage.html");

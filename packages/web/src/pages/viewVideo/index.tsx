@@ -47,8 +47,8 @@ const ViewVideo = () => {
 			e.preventDefault();
 			e.stopPropagation();
 
-			const files = e.dataTransfer.files;
-			refPlayer.current.source = {
+			const files = e.dataTransfer!.files;
+			refPlayer.current!.source = {
 				type: "video",
 				sources: [
 					{

@@ -28,7 +28,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 		},
 	};
 
-	function handleViewAudio(e) {
+	function handleViewAudio(e: any) {
 		window.electronAPI
 			? window.electronAPI.sendVaOpenWin()
 			: (location.href = "/viewAudio.html");
@@ -49,7 +49,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 				style={{ maxWidth: 300 }}
 			>
 				<div className="cardContent">
-					<BsMusicNoteBeamed rev={undefined} />
+					<BsMusicNoteBeamed />
 				</div>
 			</Card>
 		</Upload>

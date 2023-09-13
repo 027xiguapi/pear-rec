@@ -28,7 +28,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 		},
 	};
 
-	function handleViewVideo(e) {
+	function handleViewVideo(e: any) {
 		window.electronAPI
 			? window.electronAPI.sendVvOpenWin()
 			: (location.href = "/viewVideo.html");

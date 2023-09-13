@@ -62,7 +62,7 @@
     "react-timer-hook"
   ],
   "author": "027xiguapi",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "directories": {
     "lib": "lib"
   },

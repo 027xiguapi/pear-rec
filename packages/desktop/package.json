@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "private": true,
+  "license": "Apache-2.0",
   "debug": {
     "env": {
       "VITE_DEV_SERVER_URL": "http://127.0.0.1:7777/"
@@ -16,7 +17,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && electron-builder",
+    "build": "rimraf dist && rimraf dist-electron && tsc --project tsconfig.build.json && vite build && electron-builder",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
     "e2e": "playwright test",
@@ -40,10 +41,10 @@
     "@types/better-sqlite3": "^7.6.4",
     "@types/cors": "^2.8.14",
     "@types/express": "^4.17.17",
-    "@types/uuid": "^9.0.1",
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/uuid": "^9.0.1",
     "@vitejs/plugin-react": "^3.1.0",
     "electron": "^23.2.0",
     "electron-builder": "^23.6.0",
@@ -53,6 +54,7 @@
     "prettier": "^2.8.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rimraf": "^5.0.1",
     "sass": "^1.60.0",
     "typescript": "^5.0.2",
     "vite": "^4.3.9",

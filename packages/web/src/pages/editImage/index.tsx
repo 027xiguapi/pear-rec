@@ -216,7 +216,7 @@ const EditImage = () => {
 		}
 	}
 
-	async function copyImg(url) {
+	async function copyImg(url: string) {
 		const data = await fetch(url);
 		const blob = await data.blob();
 
