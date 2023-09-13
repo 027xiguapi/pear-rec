@@ -16,7 +16,7 @@ const ClipScreen = () => {
 	const { t } = useTranslation();
 	const [isPlay, setIsPlay] = useState(false);
 	useEffect(() => {
-		window.electronAPI?.handleCsSetIsPlay((event, isPlay) => {
+		window.electronAPI?.handleCsSetIsPlay((e: any, isPlay: boolean) => {
 			setIsPlay(isPlay);
 		});
 	}, []);

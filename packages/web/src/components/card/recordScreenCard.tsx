@@ -16,7 +16,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 			: (location.href = "/recorderScreen.html");
 	}
 
-	function handleRecordScreen(e) {
+	function handleRecordScreen(e: any) {
 		window.electronAPI
 			? window.electronAPI.sendRsOpenWin({ isFullScreen: true })
 			: (location.href = "/recorderScreen.html");

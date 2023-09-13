@@ -1,5 +1,5 @@
 import React, { ReactElement, useCallback } from "react";
-import { BrowserMultiFormatReader, BarcodeFormat } from "@zxing/browser";
+import QrScanner from "qr-scanner";
 import useStore from "../../hooks/useStore";
 import useCall from "../../hooks/useCall";
 import useCanvasContextRef from "../../hooks/useCanvasContextRef";
@@ -9,7 +9,6 @@ import ScreenshotsButton from "../../ScreenshotsButton";
 import composeImage from "../../composeImage";
 
 export default function Ok(): ReactElement {
-	const codeReader = new BrowserMultiFormatReader();
 	const { image, width, height, history, bounds, lang } = useStore();
 	const canvasContextRef = useCanvasContextRef();
 	const [, historyDispatcher] = useHistory();
@@ -29,9 +28,8 @@ export default function Ok(): ReactElement {
 				history,
 				bounds,
 			}).then(async (blob) => {
-				const img = URL.createObjectURL(blob);
 				try {
-					const result = await codeReader.decodeFromImageUrl(img);
+					const result = await QrScanner.scanImage(blob);
 					if (result) {
 						call("onScan", result);
 					}

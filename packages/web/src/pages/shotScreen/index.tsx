@@ -71,12 +71,12 @@ function ShotScreen() {
 	}, []);
 
 	const onScan = useCallback((result) => {
-		if (isURL(result.text)) {
+		if (isURL(result)) {
 			window.electronAPI
-				? window.electronAPI.sendSsOpenExternal(result.text)
-				: window.open(result.text);
+				? window.electronAPI.sendSsOpenExternal(result)
+				: window.open(result);
 		} else {
-			setScanCode(result.text);
+			setScanCode(result);
 			setIsModalOpen(true);
 		}
 	}, []);
