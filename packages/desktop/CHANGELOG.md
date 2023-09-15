@@ -1,5 +1,16 @@
 # @pear-rec/desktop
 
+## 1.1.0 (2023-09-15)
+
+### Minor Changes
+
+- v1.1.0
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @pear-rec/web@1.1.0
+
 ## 1.0.0 (2023-09-05)
 
 ### Patch Changes

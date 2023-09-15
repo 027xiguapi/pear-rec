@@ -23,7 +23,6 @@
     "vitepress"
   ],
   "author": "027xiguapi",
-  "license": "MIT",
   "description": "pear-rec docs",
   "dependencies": {
     "@pear-rec/screenshot": "workspace:^",

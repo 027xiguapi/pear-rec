@@ -1,5 +1,11 @@
 # @pear-rec/recorder
 
+## 1.1.0
+
+### Minor Changes
+
+- v1.1.0
+
 ## 1.0.0 (2023-09-05)
 
 ### Patch Changes
