@@ -2,7 +2,7 @@ import { BrowserWindow } from "electron";
 import { join } from "node:path";
 import { ICON, preload, url, DIST } from "../main/contract";
 import { readDirectoryVideo } from "../main/utils";
-import { getHistoryVideo } from "../main/store";
+import { getHistoryVideo } from "../main/api";
 
 const viewVideoHtml = join(DIST, "./viewVideo.html");
 let viewVideoWin: BrowserWindow | null = null;

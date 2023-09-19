@@ -5,7 +5,7 @@ import Ffmpeg from "fluent-ffmpeg";
 import FfmpegPath from "ffmpeg-static";
 import Jimp from "jimp";
 import { preload, url, DIST, ICON } from "../main/contract";
-import { getFilePath, setHistoryVideo } from "../main/store";
+import { getFilePath, setHistoryVideo } from "../main/api";
 import {
 	closeClipScreenWin,
 	getBoundsClipScreenWin,

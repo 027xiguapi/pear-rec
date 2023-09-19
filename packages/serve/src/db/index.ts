@@ -1,12 +1,14 @@
 import fs from "node:fs";
 import { join, dirname } from "node:path";
-import Database from "better-sqlite3";
-import { DB } from "./contract";
+import { homedir } from "node:os";
+// import Database from "better-sqlite3";
+const Database = require("better-sqlite3");
 
+const documentsPath = join(homedir(), "Documents");
+const DB = join(documentsPath, "./Peer Files/db/user.db");
 let db: any = null;
-init();
 
-function init() {
+function initDb() {
 	const fileDir = dirname(DB);
 	if (!fs.existsSync(fileDir)) {
 		fs.mkdirSync(fileDir, { recursive: true });
@@ -52,7 +54,6 @@ function setUser(user: any) {
 function getUser() {
 	const stmt = db.prepare("SELECT * FROM user LIMIT 1");
 	const user = stmt.get(); //返回第一条记录
-	console.log("user", user);
 	return user || {};
 }
 
@@ -118,6 +119,7 @@ function getHistoryAudio() {
 }
 
 export {
+	initDb,
 	setUser,
 	getUser,
 	getUserUuid,

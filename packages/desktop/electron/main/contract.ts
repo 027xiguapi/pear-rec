@@ -18,6 +18,3 @@ export const PEER_FILES = path.join(DIST_ELECTRON, `../Peer Files`);
 
 const documentsPath = app.getPath("documents");
 export const filePath = path.join(documentsPath, `Peer Files`);
-export const DB = path.join(filePath, "./db/user.db");
-
-// export const DB = path.join(DIST_ELECTRON, "../db/database.db");

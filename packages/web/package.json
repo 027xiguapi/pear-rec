@@ -4,7 +4,7 @@
   "version": "1.1.0",
   "scripts": {
     "dev": "vite",
-    "build": "rimraf es && tsc && vite build --mode lib && tsc --project tsconfig.build.json",
+    "build": "rimraf es && vite build --mode lib && tsc --project tsconfig.build.json",
     "build:project": "rimraf dist && tsc && vite build",
     "watch": "tsc && vite build --mode lib -w",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

@@ -1,13 +1,9 @@
 import { join } from "node:path";
-import { app } from "electron";
+import { homedir } from "node:os";
 import { v4 as uuidv4 } from "uuid";
-import * as store from "./store";
+import * as store from "./index";
 
-function initConfig() {
-	initUser();
-}
-
-function initUser() {
+export function initUser() {
 	let uuid = store.getUserUuid();
 	if (!uuid) {
 		uuid = uuidv4();
@@ -24,11 +20,8 @@ function initUser() {
 function getFilePath(uuid: string) {
 	let filePath = store.getFilePath();
 	if (!filePath) {
-		const documentsPath = app.getPath("documents");
+		const documentsPath = join(homedir(), "Documents");
 		filePath = join(documentsPath, `Peer Files/${uuid}`);
 	}
-
 	return filePath;
 }
-
-export { initConfig };

@@ -1,0 +1,35 @@
+{
+  "name": "@pear-rec/serve",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "build": "tsc && vite build && tsc --project tsconfig.build.json",
+    "start": "NODE_ENV=production ts-node src/index.ts",
+    "copy-static": "ts-node copyStatic.ts",
+    "ts-build": "tsc --project tsconfig.build.json",
+    "rebuild": "sh rebuild.sh"
+  },
+  "author": "027xiguapi",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "better-sqlite3": "^8.6.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
+    "https-proxy-agent": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.5",
+    "@types/cors": "^2.8.14",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.6.0",
+    "electron-rebuild": "^3.2.9",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  }
+}

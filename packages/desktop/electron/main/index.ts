@@ -2,16 +2,15 @@ import { app, BrowserWindow, shell, ipcMain } from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
 import { createMainWin, closeMainWin, focusMainWin } from "../win/mainWin";
-import { initIpcMain } from "./ipcMain";
 import { initTray } from "./tray";
-import { initConfig } from "./config";
-import { initApp } from "../app/index";
+import "./ipcMain";
 import { registerFileProtocol } from "./protocol";
 import {
 	registerGlobalShortcut,
 	unregisterGlobalShortcut,
 	unregisterAllGlobalShortcut,
 } from "./globalShortcut";
+import "@pear-rec/serve/src/index";
 
 // The built directory structure
 //
@@ -77,7 +76,3 @@ app.on("activate", () => {
 		createWindow();
 	}
 });
-
-initIpcMain();
-initConfig();
-initApp();
