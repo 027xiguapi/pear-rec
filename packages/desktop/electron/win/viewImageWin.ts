@@ -8,7 +8,7 @@ import {
 import { join, dirname } from "node:path";
 import { ICON, preload, url, DIST } from "../main/contract";
 import { getImgsByImgUrl, readDirectoryImg } from "../main/utils";
-import { getHistoryImg, getFilePath } from "../main/store";
+import { getHistoryImg, getFilePath } from "../main/api";
 
 const viewImageHtml = join(DIST, "./viewImage.html");
 let viewImageWin: BrowserWindow | null = null;
@@ -25,7 +25,7 @@ function createViewImageWin(search?: any): BrowserWindow {
 		},
 	});
 
-	const imgUrl = search?.imgUrl || getHistoryImgPath() || "";
+	const imgUrl = search?.imgUrl || "";
 
 	if (url) {
 		viewImageWin.loadURL(url + `viewImage.html?imgUrl=${imgUrl}`);
@@ -43,11 +43,11 @@ function createViewImageWin(search?: any): BrowserWindow {
 
 	viewImageWin?.webContents.session.on(
 		"will-download",
-		(e: any, item: DownloadItem, webContents: WebContents) => {
+		async (e: any, item: DownloadItem, webContents: WebContents) => {
 			const url = item.getURL();
 			if (downloadSet.has(url)) {
 				const fileName = item.getFilename();
-				const filePath = getFilePath() as string;
+				const filePath = (await getFilePath()) as string;
 				const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
 				item.setSavePath(ssFilePath);
 				item.once("done", (event: any, state: any) => {
@@ -107,19 +107,19 @@ function setIsAlwaysOnTopViewImageWin(isAlwaysOnTop: boolean) {
 	return isAlwaysOnTop;
 }
 
-function getHistoryImgPath() {
-	const historyImgPath = (getHistoryImg() as string) || "";
+async function getHistoryImgPath() {
+	const historyImgPath = ((await getHistoryImg()) as string) || "";
 	return historyImgPath;
 }
 
 async function sendHistoryImg() {
-	const filePath = getHistoryImgPath();
+	const filePath = await getHistoryImgPath();
 	let img = await readDirectoryImg(filePath);
 	return img;
 }
 
-function getSsImgPath() {
-	const filePath = getFilePath() as string;
+async function getSsImgPath() {
+	const filePath = (await getFilePath()) as string;
 	const ssFilePath = `${filePath}/ss`;
 	return ssFilePath;
 }

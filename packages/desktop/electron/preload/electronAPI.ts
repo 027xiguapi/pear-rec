@@ -72,22 +72,25 @@ contextBridge.exposeInMainWorld("electronAPI", {
 		ipcRenderer.send("ss:open-external", tabUrl),
 
 	//viWin
-	sendViOpenWin: (search?: any) => ipcRenderer.send("vi:open-win", search),
+	sendViOpenWin: (search?: string) => ipcRenderer.send("vi:open-win", search),
 	invokeViSetIsAlwaysOnTop: () => ipcRenderer.invoke("vi:set-always-on-top"),
 	invokeViGetHistoryImg: () => ipcRenderer.invoke("vi:get-historyImg"),
-	invokeViGetImgs: (imgUrl: any) => ipcRenderer.invoke("vi:get-imgs", imgUrl),
-	sendViDownloadImg: (img: any) => ipcRenderer.send("vi:download-img", img),
-	sendViSetHistoryImg: (img: any) => ipcRenderer.send("vi:set-historyImg", img),
+	invokeViGetImgs: (imgUrl: string) =>
+		ipcRenderer.invoke("vi:get-imgs", imgUrl),
+	sendViDownloadImg: (img: string) => ipcRenderer.send("vi:download-img", img),
+	sendViSetHistoryImg: (img: string) => {
+		ipcRenderer.send("vi:set-historyImg", img);
+	},
 
 	//eiWin
-	sendEiOpenWin: (search?: any) => ipcRenderer.send("ei:open-win", search),
+	sendEiOpenWin: (search?: string) => ipcRenderer.send("ei:open-win", search),
 	sendEiSaveImg: (imgUrl: string) => ipcRenderer.send("ei:save-img", imgUrl),
 
 	//vvWin
-	sendVvOpenWin: (search?: any) => ipcRenderer.send("vv:open-win", search),
+	sendVvOpenWin: (search?: string) => ipcRenderer.send("vv:open-win", search),
 	invokeVvGetHistoryVideo: () => ipcRenderer.invoke("vv:get-historyVideo"),
 	invokeVvGetVideo: () => ipcRenderer.invoke("vv:get-video"),
-	sendVvSetHistoryVideo: (img: any) =>
+	sendVvSetHistoryVideo: (img: string) =>
 		ipcRenderer.send("vv:set-historyVideo", img),
 
 	//vaWin

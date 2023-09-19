@@ -19,7 +19,7 @@ import * as viewVideoWin from "../win/viewVideoWin";
 import * as viewAudioWin from "../win/viewAudioWin";
 import * as settingWin from "../win/settingWin";
 import * as utils from "./utils";
-import * as store from "./store";
+import * as store from "./api";
 
 const selfWindws = async () =>
 	await Promise.all(
@@ -43,7 +43,7 @@ const selfWindws = async () =>
 			}),
 	);
 
-export function initIpcMain() {
+function initIpcMain() {
 	ipcMain.on("ma:show-win", () => {
 		mainWin.showMainWin();
 	});
@@ -269,7 +269,7 @@ export function initIpcMain() {
 	});
 
 	ipcMain.handle("vi:get-historyImg", async () => {
-		const img = store.getHistoryImg();
+		const img = await store.getHistoryImg();
 		return img;
 	});
 
@@ -316,7 +316,7 @@ export function initIpcMain() {
 	});
 
 	ipcMain.handle("vv:get-historyVideo", async () => {
-		const video = store.getHistoryVideo();
+		const video = await store.getHistoryVideo();
 		return video;
 	});
 
@@ -354,7 +354,7 @@ export function initIpcMain() {
 		res.filePaths.map((filePath, index) => {
 			store.setHistoryImg(filePath);
 		});
-		const img = store.getHistoryImg();
+		const img = await store.getHistoryImg();
 		return img;
 	});
 
@@ -369,7 +369,7 @@ export function initIpcMain() {
 		res.filePaths.map((filePath, index) => {
 			store.setHistoryVideo(filePath);
 		});
-		const video = store.getHistoryVideo();
+		const video = await store.getHistoryVideo();
 		return video;
 	});
 
@@ -463,12 +463,12 @@ export function initIpcMain() {
 		return filePath;
 	});
 
-	ipcMain.handle("se:get-filePath", () => {
-		return store.getFilePath();
+	ipcMain.handle("se:get-filePath", async () => {
+		return await store.getFilePath();
 	});
 
-	ipcMain.handle("se:get-user", () => {
-		return store.getUser();
+	ipcMain.handle("se:get-user", async () => {
+		return await store.getUser();
 	});
 
 	ipcMain.on("se:set-openAtLogin", (e, isOpen) => {
@@ -479,3 +479,5 @@ export function initIpcMain() {
 		return app.getLoginItemSettings();
 	});
 }
+
+initIpcMain();

@@ -1,7 +1,7 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join, dirname } from "node:path";
 import { ICON, preload, url, DIST, PUBLIC } from "../main/contract";
-import { getFilePath } from "../main/store";
+import { getFilePath } from "../main/api";
 
 const recorderAudioHtml = join(DIST, "./recorderAudio.html");
 let recorderAudioWin: BrowserWindow | null = null;

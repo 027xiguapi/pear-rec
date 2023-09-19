@@ -2,7 +2,7 @@ import { BrowserWindow } from "electron";
 import { join } from "node:path";
 import { ICON, preload, url, DIST } from "../main/contract";
 import { getAudiosByAudioUrl } from "../main/utils";
-import { getHistoryAudio } from "../main/store";
+import { getHistoryAudio } from "../main/api";
 
 const viewAudioHtml = join(DIST, "./viewAudio.html");
 let viewAudioWin: BrowserWindow | null = null;

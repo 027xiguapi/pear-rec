@@ -10,7 +10,7 @@ import {
 } from "electron";
 import { join } from "node:path";
 import { ICON, preload, url, DIST, PUBLIC } from "../main/contract";
-import { getFilePath, setHistoryImg } from "../main/store";
+import { getFilePath, setHistoryImg } from "../main/api";
 import { openViewImageWin } from "./viewImageWin";
 
 const shotScreenHtml = join(DIST, "./shotScreen.html");

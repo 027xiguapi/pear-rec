@@ -1,17 +1,8 @@
-import express, { Application, Request, Response } from "express";
-import cors from "cors";
+import { Application, Request, Response } from "express";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { createProxyMiddleware, fixRequestBody } from "http-proxy-middleware";
 
-export function initApp() {
-	const app: Application = express();
-
-	app.use(cors());
-
-	app.get("/", (req: Request, res: Response) => {
-		res.send("Hello World!");
-	});
-
+export function initGoogleProxy(app: Application) {
 	app.use(
 		"/apiGoogle",
 		createProxyMiddleware({
@@ -26,8 +17,4 @@ export function initApp() {
 			},
 		}),
 	);
-
-	app.listen(7896, () => {
-		console.log("Express app listening on port 7896!");
-	});
 }

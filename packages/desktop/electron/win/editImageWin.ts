@@ -7,7 +7,7 @@ import {
 } from "electron";
 import { join, dirname } from "node:path";
 import { ICON, DIST, preload, url } from "../main/contract";
-import { getHistoryImg, getFilePath } from "../main/store";
+import { getHistoryImg, getFilePath } from "../main/api";
 
 const editImageHtml = join(DIST, "./clipScreen.html");
 let editImageWin: BrowserWindow | null = null;
