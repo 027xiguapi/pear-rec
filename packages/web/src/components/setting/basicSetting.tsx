@@ -1,15 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Switch, Form, Input, Select } from "antd";
+import { useUserApi } from "../../api/user";
 
 const { TextArea } = Input;
-const BasicSetting = () => {
+const BasicSetting = (props) => {
+	const userApi = useUserApi();
 	const { t, i18n } = useTranslation();
 	const [form] = Form.useForm();
+	const { user } = props;
 
 	useEffect(() => {
 		init();
-	}, []);
+	}, [user]);
 
 	function init() {
 		getFilePath();
@@ -23,29 +26,28 @@ const BasicSetting = () => {
 	}
 
 	async function getFilePath() {
-		const filePath = window.electronAPI
-			? await window.electronAPI?.invokeSeGetFilePath()
-			: t("setting.download");
+		const filePath = user.filePath || t("setting.download");
 		form.setFieldValue("filePath", filePath);
 	}
 
 	function getLanguage() {
-		const lng = localStorage.getItem("pear-rec_i18n");
+		const lng = user.language || localStorage.getItem("pear-rec_i18n");
 		form.setFieldValue("language", lng);
 	}
 
 	function handleSetOpenAtLogin(isOpen: boolean) {
-		window.electronAPI?.sendSeSetOpenAtLogin(isOpen);
+		userApi.editUser(user.id, { ...user, openAtLogin: isOpen });
 	}
 
 	async function getOpenAtLogin() {
-		let options = await window.electronAPI?.invokeSeGetOpenAtLogin();
-		form.setFieldValue("openAtLogin", options?.openAtLogin);
+		const openAtLogin = user.openAtLogin || false;
+		form.setFieldValue("openAtLogin", openAtLogin);
 	}
 
 	function handleChangeLanguage(lng: string) {
 		localStorage.setItem("pear-rec_i18n", lng);
 		i18n.changeLanguage(lng);
+		userApi.editUser(user.id, { ...user, language: lng });
 	}
 
 	return (

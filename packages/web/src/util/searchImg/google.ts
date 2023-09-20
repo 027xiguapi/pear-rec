@@ -1,9 +1,11 @@
+const baseURL = import.meta.env.VITE_API_URL;
+
 export async function searchGoogleLens(imageBlob: Blob) {
 	const data = new FormData();
 	data.append("encoded_image", imageBlob, "pear-rec.png");
 
 	const rsp = await fetch(
-		`http://localhost:7896/apiGoogle/upload?ep=ccm&s=&st=${Date.now()}`,
+		`${baseURL}/apiGoogle/upload?ep=ccm&s=&st=${Date.now()}`,
 		{
 			referrer: "",
 			mode: "cors",

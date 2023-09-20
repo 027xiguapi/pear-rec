@@ -1,62 +1,73 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, message, Space } from "antd";
 import Screenshots, { Bounds } from "@pear-rec/screenshot";
 import { saveAs } from "file-saver";
 import ininitApp from "../../pages/main";
+import { useUserApi } from "../../api/user";
 import { searchImg } from "../../util/searchImg";
 import { isURL } from "../../util/validate";
+import { useApi } from "../../api";
 import "@pear-rec/screenshot/src/Screenshots/screenshots.scss";
 import styles from "./index.module.scss";
+import { init } from "i18next";
 
 const defaultImg = "/imgs/th.webp";
 function ShotScreen() {
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const api = useApi();
+	const userApi = useUserApi();
+	const userRef = useRef({} as any);
+	const inputRef = useRef(null);
 	const [screenShotImg, setScreenShotImg] = useState("");
-	const [scanCode, setScanCode] = useState("");
 
 	useEffect(() => {
-		getShotScreenImg();
+		init();
 	}, []);
 
-	const handleOk = () => {
-		setIsModalOpen(false);
-	};
+	async function getCurrentUser() {
+		try {
+			const res = (await userApi.getCurrentUser()) as any;
+			if (res.code == 0) {
+				userRef.current = res.data;
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
-	const handleCancel = () => {
-		setIsModalOpen(false);
-	};
-
-	async function getShotScreenImg() {
+	async function init() {
+		getCurrentUser();
 		if (window.electronAPI) {
 			const img = await window.electronAPI?.invokeSsGetShotScreenImg();
 			setScreenShotImg(img || defaultImg);
-		} else {
-			navigator.mediaDevices
-				.getDisplayMedia({ video: true })
-				.then((stream) => {
-					const canvas = document.createElement("canvas");
-					canvas.width = window.innerWidth;
-					canvas.height = window.innerHeight;
-
-					const videoElement = document.createElement("video");
-					videoElement.srcObject = stream;
-					videoElement.play();
-
-					videoElement.addEventListener("loadedmetadata", () => {
-						const context = canvas.getContext("2d");
-						context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-						// 导出绘制内容为图像
-						setScreenShotImg(canvas.toDataURL("image/png"));
-
-						// 停止屏幕捕获
-						stream.getTracks().forEach((track) => track.stop());
-					});
-				})
-				.catch((error) => {
-					console.error("Error accessing screen:", error);
-				});
 		}
+	}
+
+	async function getShotScreenImg() {
+		navigator.mediaDevices
+			.getDisplayMedia({ video: true })
+			.then((stream) => {
+				const canvas = document.createElement("canvas");
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+
+				const videoElement = document.createElement("video");
+				videoElement.srcObject = stream;
+				videoElement.play();
+
+				videoElement.addEventListener("loadedmetadata", () => {
+					const context = canvas.getContext("2d");
+					context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+					// 导出绘制内容为图像
+					setScreenShotImg(canvas.toDataURL("image/png"));
+
+					// 停止屏幕捕获
+					stream.getTracks().forEach((track) => track.stop());
+				});
+			})
+			.catch((error) => {
+				console.error("Error accessing screen:", error);
+			});
 	}
 
 	const onSave = useCallback((blob: Blob, bounds: Bounds) => {
@@ -78,29 +89,57 @@ function ShotScreen() {
 				? window.electronAPI.sendSsOpenExternal(result)
 				: window.open(result);
 		} else {
-			setScanCode(result);
-			setIsModalOpen(true);
+			Modal.confirm({
+				title: "扫码结果",
+				content: "提示",
+				onOk() {
+					console.log("OK");
+				},
+				onCancel() {
+					console.log("Cancel");
+				},
+			});
 		}
 	}, []);
 
 	const onSearch = useCallback(async (blob) => {
+		const tabUrl = await searchImg(blob, userRef.current.isProxy);
 		if (window.electronAPI) {
-			// const tabUrl = await searchGoogleLens(blob);
-			const tabUrl = await searchImg(blob);
 			window.electronAPI.sendSsOpenExternal(tabUrl);
 			window.electronAPI.sendSsCloseWin();
+		} else {
+			window.open(tabUrl);
 		}
 	}, []);
 
 	const onOk = useCallback((blob: Blob, bounds: Bounds) => {
-		const imgUrl = URL.createObjectURL(blob);
-		if (window.electronAPI) {
-			window.electronAPI.sendSsSaveImg(imgUrl);
-		} else {
-			copyImg(imgUrl);
-			window.open(`/viewImage.html?imgUrl=${encodeURIComponent(imgUrl)}`);
-		}
+		saveFile(blob);
 	}, []);
+
+	async function saveFile(blob) {
+		try {
+			const formData = new FormData();
+			formData.append("type", "ss");
+			formData.append("userUuid", userRef.current.uuid);
+			formData.append("file", blob);
+			const res = (await api.saveFile(formData)) as any;
+			if (res.code == 0) {
+				Modal.confirm({
+					title: "图片已保存，是否查看？",
+					content: res.data.filePath,
+					onOk() {
+						window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
+						console.log("OK");
+					},
+					onCancel() {
+						console.log("Cancel");
+					},
+				});
+			}
+		} catch (err) {
+			message.error("保存失败");
+		}
+	}
 
 	async function copyImg(url) {
 		const data = await fetch(url);
@@ -113,32 +152,54 @@ function ShotScreen() {
 		]);
 	}
 
+	function handleImgUpload(event) {
+		const selectedFile = event.target.files[0];
+		const reader = new FileReader();
+
+		reader.onload = () => {
+			setScreenShotImg(reader.result as string);
+		};
+
+		if (selectedFile) {
+			reader.readAsDataURL(selectedFile);
+		}
+	}
+
+	function getImgUpload() {
+		inputRef.current.click();
+	}
+
 	return (
 		<div className={styles.shotScreen}>
-			<Screenshots
-				url={screenShotImg}
-				width={window.innerWidth}
-				height={window.innerHeight}
-				onSave={onSave}
-				onCancel={onCancel}
-				onOk={onOk}
-				onSearch={onSearch}
-				onScan={onScan}
-			/>
-			<Modal
-				title="扫码结果"
-				open={isModalOpen}
-				onOk={handleOk}
-				onCancel={handleCancel}
-				okText="确认"
-				cancelText="取消"
-			>
-				<p>{scanCode}</p>
-			</Modal>
+			{screenShotImg ? (
+				<Screenshots
+					url={screenShotImg}
+					width={window.innerWidth}
+					height={window.innerHeight}
+					onSave={onSave}
+					onCancel={onCancel}
+					onOk={onOk}
+					onSearch={onSearch}
+					onScan={onScan}
+				/>
+			) : (
+				<Space wrap className="btns">
+					<Button type="primary" onClick={getImgUpload}>
+						图片
+					</Button>
+					<input
+						type="file"
+						className="inputRef"
+						ref={inputRef}
+						onChange={handleImgUpload}
+					/>
+					<Button type="primary" onClick={getShotScreenImg}>
+						屏幕
+					</Button>
+				</Space>
+			)}
 		</div>
 	);
 }
 
 ininitApp(ShotScreen);
-
-export default ShotScreen;

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es6", // or a more recent ecmascript version
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "outDir": "dist"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

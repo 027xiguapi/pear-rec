@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import APlayer from "aplayer";
 import ininitApp from "../../pages/main";
+import { useApi } from "../../api";
 import "aplayer/dist/APlayer.min.css";
 import styles from "./index.module.scss";
 
@@ -21,6 +22,7 @@ const defaultAudio = [
 ];
 
 const ViewAudio = () => {
+  const api = useApi()
 	let refPlayer = useRef<any>();
 	const [audio, setAudio] = useState<any>([]);
 
@@ -45,10 +47,14 @@ const ViewAudio = () => {
 		const audioUrl = searchParams.get("audioUrl");
 		let audio = [];
 		if (audioUrl) {
-			await window.electronAPI?.sendVaSetHistoryAudio(audioUrl);
+			// await window.electronAPI?.sendVaSetHistoryAudio(audioUrl);
 			audio = [{ url: audioUrl, cover: "./imgs/music.png" }];
-			window.electronAPI &&
-				(audio = await window.electronAPI?.invokeVaGetAudios(audioUrl));
+			// window.electronAPI &&
+			// 	(audio = await window.electronAPI?.invokeVaGetAudios(audioUrl));
+      const res = await api.getAudios(audioUrl) as any;
+      if( res.code == 0 ) {
+        audio = res.data
+      }
 		}
 		audio.length || (audio = defaultAudio);
 		setAudio(audio);

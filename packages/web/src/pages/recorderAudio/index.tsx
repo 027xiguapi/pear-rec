@@ -10,15 +10,20 @@ import {
 	BsMicMute,
 	BsMic,
 } from "react-icons/bs";
-import { Button } from "antd";
+import { Button, Modal, message } from "antd";
 import Wavesurfer from "../../components/wavesurfer";
 import Timer from "@pear-rec/timer";
 import ininitApp from "../../pages/main";
+import { useApi } from "../../api";
+import { useUserApi } from "../../api/user";
 import "@pear-rec/timer/src/Timer/index.module.scss";
 import styles from "./index.module.scss";
 
 const RecordAudio = () => {
 	const { t } = useTranslation();
+	const api = useApi();
+	const userApi = useUserApi();
+	const userRef = useRef({} as any);
 	const wavesurferRef = useRef<any>();
 	const mediaStream = useRef<MediaStream>();
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
@@ -29,6 +34,21 @@ const RecordAudio = () => {
 	const [isMute, setIsMute] = useState(false); // 标记是否静音
 	const isSave = useRef<boolean>(false);
 	const timer = useStopwatch({ autoStart: false });
+
+	useEffect(() => {
+		userRef.current.id || getCurrentUser();
+	}, []);
+
+	async function getCurrentUser() {
+		try {
+			const res = (await userApi.getCurrentUser()) as any;
+			if (res.code == 0) {
+				userRef.current = res.data;
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	function startRecording() {
 		navigator.mediaDevices
@@ -119,17 +139,32 @@ const RecordAudio = () => {
 	function exportRecording() {
 		if (recordedChunks.current.length > 0) {
 			const blob = new Blob(recordedChunks.current, { type: "audio/webm" });
-			const url = URL.createObjectURL(blob);
-			if (window.electronAPI) {
-				window.electronAPI.sendRaDownloadRecord(url);
-			} else {
-				const link = document.createElement("a");
-				link.href = url;
-				link.download = `pear-rec_${+new Date()}.webm`;
-				link.click();
-				recordedChunks.current = [];
-				isSave.current = false;
+			saveFile(blob);
+		}
+	}
+
+	async function saveFile(blob) {
+		try {
+			const formData = new FormData();
+			formData.append("type", "ra");
+			formData.append("userUuid", userRef.current.uuid);
+			formData.append("file", blob);
+			const res = (await api.saveFile(formData)) as any;
+			if (res.code == 0) {
+				Modal.confirm({
+					title: "录音已保存，是否查看？",
+					content: "提示",
+					onOk() {
+						window.open(`/viewAudio.html?audioUrl=${res.data}`);
+						console.log("OK");
+					},
+					onCancel() {
+						console.log("Cancel");
+					},
+				});
 			}
+		} catch (err) {
+			message.error("保存失败");
 		}
 	}
 

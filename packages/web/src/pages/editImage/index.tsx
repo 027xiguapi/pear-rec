@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "antd";
+import { Button, message, Modal } from "antd";
 import ImageEditor from "tui-image-editor";
 import ininitApp from "../../pages/main";
+import { useApi } from "../../api";
+import { useUserApi } from "../../api/user";
 import "tui-image-editor/dist/tui-image-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import styles from "./index.module.scss";
@@ -162,19 +164,37 @@ const customTheme = {
 
 const EditImage = () => {
 	const { t } = useTranslation();
+	const api = useApi();
+	const userApi = useUserApi();
+	const userRef = useRef({} as any);
 	const [instance, setInstance] = useState<any>("");
 
 	useEffect(() => {
 		init();
+		userRef.current.id || getCurrentUser();
 	}, []);
 
+	async function getCurrentUser() {
+		try {
+			const res = (await userApi.getCurrentUser()) as any;
+			if (res.code == 0) {
+				userRef.current = res.data;
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	function init() {
+		const paramsString = location.search;
+		const searchParams = new URLSearchParams(paramsString);
+		const imgUrl = searchParams.get("imgUrl");
 		const instance = new ImageEditor(
 			document.querySelector("#tui-image-editor"),
 			{
 				includeUI: {
 					loadImage: {
-						path: defaultImg,
+						path: imgUrl || defaultImg,
 						name: "image",
 					},
 					initMenu: "draw", // 默认打开的菜单项
@@ -199,7 +219,7 @@ const EditImage = () => {
 		setInstance(instance);
 	}
 
-	function save() {
+	async function save() {
 		const base64String = instance.toDataURL(); // base64 文件
 		const data = window.atob(base64String.split(",")[1]);
 		const ia = new Uint8Array(data.length);
@@ -207,12 +227,31 @@ const EditImage = () => {
 			ia[i] = data.charCodeAt(i);
 		}
 		const blob = new Blob([ia], { type: "image/png" }); // blob 文件
-		const imgUrl = URL.createObjectURL(blob);
-		if (window.electronAPI) {
-			window.electronAPI.sendEiSaveImg(imgUrl);
-		} else {
-			copyImg(imgUrl);
-			window.open(`/viewImage.html?imgUrl=${imgUrl}`);
+		await saveFile(blob);
+	}
+
+	async function saveFile(blob) {
+		try {
+			const formData = new FormData();
+			formData.append("type", "ei");
+			formData.append("userUuid", userRef.current.uuid);
+			formData.append("file", blob);
+			const res = (await api.saveFile(formData)) as any;
+			if (res.code == 0) {
+				Modal.confirm({
+					title: "图片已保存，是否查看？",
+					content: "提示",
+					onOk() {
+						window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
+						console.log("OK");
+					},
+					onCancel() {
+						console.log("Cancel");
+					},
+				});
+			}
+		} catch (err) {
+			message.error("保存失败");
 		}
 	}
 

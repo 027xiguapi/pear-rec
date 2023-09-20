@@ -43,6 +43,10 @@ cd pear-rec
 pnpm install
 # 重新打包 electron
 pnpm run rebuild:desktop
+# 调试页面
+pnpm run dev:web
+# 调试服务
+pnpm run dev:server
 # 调试
 pnpm run dev:desktop
 # 编译
