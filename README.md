@@ -36,8 +36,10 @@ cd pear-rec
 pnpm install
 # Rebuild electron
 pnpm run rebuild:desktop
-# Run the app
-pnpm run dev:desktop
+# Run the web
+pnpm run dev:web
+# Run the server
+pnpm run dev:server
 # Build the app
 pnpm run build:desktop
 ```

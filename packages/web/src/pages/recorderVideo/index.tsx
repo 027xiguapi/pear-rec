@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useStopwatch } from "react-timer-hook";
 import { useTranslation } from "react-i18next";
-import { Button } from "antd";
+import { Button, Modal, message } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
 import {
 	BsRecordCircle,
@@ -13,11 +13,16 @@ import {
 } from "react-icons/bs";
 import Timer from "@pear-rec/timer";
 import ininitApp from "../../pages/main";
+import { useApi } from "../../api";
+import { useUserApi } from "../../api/user";
 import "@pear-rec/timer/src/Timer/index.module.scss";
 import styles from "./index.module.scss";
 
 const RecorderVideo = () => {
 	const { t } = useTranslation();
+	const api = useApi();
+	const userApi = useUserApi();
+	const userRef = useRef({} as any);
 	const previewVideo = useRef<HTMLVideoElement>();
 	const mediaStream = useRef<MediaStream>();
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
@@ -28,6 +33,21 @@ const RecorderVideo = () => {
 	const [isMute, setIsMute] = useState(false); // 标记是否静音
 	const isSave = useRef<boolean>(false);
 	const timer = useStopwatch({ autoStart: false });
+
+	useEffect(() => {
+		userRef.current.id || getCurrentUser();
+	}, []);
+
+	async function getCurrentUser() {
+		try {
+			const res = (await userApi.getCurrentUser()) as any;
+			if (res.code == 0) {
+				userRef.current = res.data;
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	function startRecording() {
 		navigator.mediaDevices
@@ -115,17 +135,42 @@ const RecorderVideo = () => {
 	function exportRecording() {
 		if (recordedChunks.current.length > 0) {
 			const blob = new Blob(recordedChunks.current, { type: "video/webm" });
-			const url = URL.createObjectURL(blob);
-			if (window.electronAPI) {
-				window.electronAPI.sendRaDownloadRecord(url);
-			} else {
-				const link = document.createElement("a");
-				link.href = url;
-				link.download = `pear-rec_${+new Date()}.webm`;
-				link.click();
-				recordedChunks.current = [];
-				isSave.current = false;
+			saveFile(blob);
+			// if (window.electronAPI) {
+			// 	window.electronAPI.sendRaDownloadRecord(url);
+			// } else {
+			// 	const link = document.createElement("a");
+			// 	link.href = url;
+			// 	link.download = `pear-rec_${+new Date()}.webm`;
+			// 	link.click();
+			// 	recordedChunks.current = [];
+			// 	isSave.current = false;
+			// }
+		}
+	}
+
+	async function saveFile(blob) {
+		try {
+			const formData = new FormData();
+			formData.append("type", "rv");
+			formData.append("userUuid", userRef.current.uuid);
+			formData.append("file", blob);
+			const res = (await api.saveFile(formData)) as any;
+			if (res.code == 0) {
+				Modal.confirm({
+					title: "录像已保存，是否查看？",
+					content: "提示",
+					onOk() {
+						window.open(`/viewVideo.html?videoUrl=${res.data}`);
+						console.log("OK");
+					},
+					onCancel() {
+						console.log("Cancel");
+					},
+				});
 			}
+		} catch (err) {
+			message.error("保存失败");
 		}
 	}
 

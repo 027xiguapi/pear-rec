@@ -11,14 +11,19 @@ import {
 	BsRecordCircle,
 } from "react-icons/bs";
 import { SettingOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, InputNumber, Select } from "antd";
+import { Button, InputNumber, Select, Modal, message } from "antd";
 import Timer from "@pear-rec/timer";
 import ininitApp from "../../pages/main";
+import { useApi } from "../../api";
+import { useUserApi } from "../../api/user";
 import "@pear-rec/timer/src/Timer/index.module.scss";
 import styles from "./index.module.scss";
 
 const RecorderScreen = () => {
 	const { t } = useTranslation();
+	const api = useApi();
+	const userApi = useUserApi();
+	const userRef = useRef({} as any);
 	const videoRef = useRef<HTMLVideoElement>();
 	const mediaStream = useRef<MediaStream>();
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
@@ -151,17 +156,34 @@ const RecorderScreen = () => {
 			const blob = new Blob(recordedChunks.current, {
 				type: "video/webm",
 			});
-			const url = URL.createObjectURL(blob);
-			if (window.electronAPI) {
-				window.electronAPI.sendRsDownloadRecord(url);
-			} else {
-				const link = document.createElement("a");
-				link.href = url;
-				link.download = `pear-rec_${+new Date()}.webm`;
-				link.click();
-				recordedChunks.current = [];
-				setIsSave(false);
+			saveFile(blob);
+		}
+	}
+
+	async function saveFile(blob) {
+		try {
+			recordedChunks.current = [];
+			setIsSave(false);
+			const formData = new FormData();
+			formData.append("type", "rs");
+			formData.append("userUuid", userRef.current.uuid);
+			formData.append("file", blob);
+			const res = (await api.saveFile(formData)) as any;
+			if (res.code == 0) {
+				Modal.confirm({
+					title: "录屏已保存，是否查看？",
+					content: "提示",
+					onOk() {
+						window.open(`/viewVideo.html?videoUrl=${res.data}`);
+						console.log("OK");
+					},
+					onCancel() {
+						console.log("Cancel");
+					},
+				});
 			}
+		} catch (err) {
+			message.error("保存失败");
 		}
 	}
 

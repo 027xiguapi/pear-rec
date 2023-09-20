@@ -4,18 +4,18 @@ import dayjs from "dayjs";
 
 const logo = "/imgs/icons/png/512x512.png";
 const { Meta } = Card;
-const UserSetting = () => {
+const UserSetting = (props) => {
+	const { user } = props;
 	const [uuid, setUuid] = useState("");
 	const [createdTime, setCreatedTime] = useState("");
 
 	useEffect(() => {
 		getUser();
-	}, []);
+	}, [user]);
 
 	async function getUser() {
-		const user = (await window.electronAPI?.invokeSeGetUser()) || {};
 		setUuid(user.uuid);
-		setCreatedTime(user.createdTime);
+		setCreatedTime(user.createdAt);
 	}
 
 	function formatTime(time: any) {

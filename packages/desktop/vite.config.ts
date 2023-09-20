@@ -1,6 +1,6 @@
 import { rmSync } from "node:fs";
 import path from "node:path";
-import { defineConfig } from "vite";
+import { defineConfig, externalizeDepsPlugin } from "electron-vite";
 import react from "@vitejs/plugin-react";
 import electron from "vite-plugin-electron";
 import renderer from "vite-plugin-electron-renderer";
@@ -39,6 +39,16 @@ export default defineConfig(({ command }) => {
 				},
 			},
 			outDir: path.resolve(__dirname, "dist"),
+			output: {
+				manualChunks(id) {
+					if (id.includes("sqlite3")) {
+						return "sqlite3";
+					}
+				},
+			},
+		},
+		preload: {
+			plugins: [externalizeDepsPlugin()],
 		},
 		plugins: [
 			react(),
@@ -91,6 +101,7 @@ export default defineConfig(({ command }) => {
 			]),
 			// Use Node.js API in the Renderer-process
 			renderer(),
+			externalizeDepsPlugin({ exclude: ["sqlite3"] }),
 		],
 		server:
 			process.env.VSCODE_DEBUG &&

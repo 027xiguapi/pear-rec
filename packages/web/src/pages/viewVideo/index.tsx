@@ -3,11 +3,13 @@ import { useTranslation } from "react-i18next";
 import Plyr from "plyr";
 import { Button, Empty } from "antd";
 import ininitApp from "../../pages/main";
+import { useApi } from "../../api";
 import "plyr/dist/plyr.css";
 import styles from "./index.module.scss";
 
 const defaultVideo = "/video/chrome.webm";
 const ViewVideo = () => {
+  const api = useApi()
 	const { t } = useTranslation();
 	let refPlayer = useRef<Plyr>();
 	const [source, setSource] = useState("");
@@ -26,12 +28,19 @@ const ViewVideo = () => {
 		const paramsString = location.search;
 		const searchParams = new URLSearchParams(paramsString);
 		const videoUrl = searchParams.get("videoUrl");
-		videoUrl && (await window.electronAPI?.sendVvSetHistoryVideo(videoUrl));
-		const video =
-			formatVideoUrl(
-				videoUrl || (await window.electronAPI?.invokeVvGetHistoryVideo()),
-			) || defaultVideo;
-		setSource(video);
+    const res = await api.getVideos(videoUrl) as any;
+      if( res.code == 0 ) {
+        setSource(res.data);
+      } else {
+        setSource(defaultVideo);
+      }
+
+		// videoUrl && (await window.electronAPI?.sendVvSetHistoryVideo(videoUrl));
+		// const video =
+		// 	formatVideoUrl(
+		// 		videoUrl || (await window.electronAPI?.invokeVvGetHistoryVideo()),
+		// 	) || defaultVideo;
+		// setSource(video);
 	}
 
 	function formatVideoUrl(videoUrl: any) {

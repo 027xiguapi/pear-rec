@@ -10,14 +10,14 @@ function checkInternetConnection() {
 	});
 }
 
-export function searchImg(blob) {
-	checkInternetConnection()
-		.then(async () => {
-			console.log("可以访问 Google");
-			return await searchGoogleLens(blob);
-		})
-		.catch(async () => {
-			console.log("无法访问 Google");
-			return await searchBaidu(blob);
-		});
+export async function searchImg(blob, isProxy) {
+	if (isProxy) {
+		console.log("可以访问 Google");
+		const rsp = await searchGoogleLens(blob);
+		return rsp;
+	} else {
+		console.log("无法访问 Google");
+		const rsp = await searchBaidu(blob);
+		return rsp;
+	}
 }

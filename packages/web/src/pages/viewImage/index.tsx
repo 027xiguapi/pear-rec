@@ -5,6 +5,8 @@ import Viewer from "viewerjs";
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd/es/upload/interface";
 import ininitApp from "../../pages/main";
+import { useApi } from "../../api";
+import { useUserApi } from "../../api/user";
 import "viewerjs/dist/viewer.css";
 import styles from "./index.module.scss";
 
@@ -12,16 +14,34 @@ const defaultImg = "./imgs/th.webp";
 const { Dragger } = Upload;
 const ViewImage = () => {
 	const { t } = useTranslation();
+	const api = useApi();
+	const userApi = useUserApi();
 	let refViewer = useRef<any>();
+	const [user, setUser] = useState<any>({});
 	const [imgs, setImgs] = useState([]);
 	const [initialViewIndex, setInitialViewIndex] = useState(0);
 	const [isFull, setIsFull] = useState(false);
 
 	useEffect(() => {
-		initImgs();
+		getCurrentUser();
 		handleDrop();
 		return destroyViewer;
 	}, []);
+
+	useEffect(() => {
+		user.id && initImgs();
+	}, [user]);
+
+	async function getCurrentUser() {
+		try {
+			const res = (await userApi.getCurrentUser()) as any;
+			if (res.code == 0) {
+				setUser(res.data);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	function destroyViewer() {
 		refViewer.current?.destroy();
@@ -58,9 +78,9 @@ const ViewImage = () => {
 				rotateRight: 1,
 				flipHorizontal: 1,
 				flipVertical: 1,
-				download: () => {
-					handleDownload(viewer);
-				},
+				// download: () => {
+				// 	handleDownload(viewer);
+				// },
 				print: () => {
 					window.print();
 				},
@@ -70,7 +90,7 @@ const ViewImage = () => {
 						window.electronAPI.sendEiOpenWin({ imgUrl });
 					} else {
 						viewer.destroy();
-						window.open(`/viewImage.html?imgUrl=${imgUrl}`);
+						window.open(`/editImage.html?imgUrl=${imgUrl}`);
 					}
 				},
 			},
@@ -154,15 +174,13 @@ const ViewImage = () => {
 	async function initImgs() {
 		const paramsString = location.search;
 		const searchParams = new URLSearchParams(paramsString);
-		const imgUrl = searchParams.get("imgUrl");
+		const imgUrl = searchParams.get("imgUrl") || user.historyImg;
 		if (imgUrl) {
-			if (window.electronAPI) {
-				await window.electronAPI?.sendViSetHistoryImg(imgUrl);
-				const { imgs, currentIndex } =
-					await window.electronAPI?.invokeViGetImgs(imgUrl);
-
-				setInitialViewIndex(currentIndex);
-				setImgs(imgs);
+			userApi.editUser(user.id, { ...user, historyImg: imgUrl });
+			const res = (await api.getImgs(imgUrl)) as any;
+			if (res.code == 0) {
+				setImgs(res.data.imgs);
+				setInitialViewIndex(res.data.currentIndex);
 			} else {
 				setImgs([{ url: imgUrl, index: 0 }]);
 			}

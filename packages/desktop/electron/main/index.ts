@@ -10,7 +10,7 @@ import {
 	unregisterGlobalShortcut,
 	unregisterAllGlobalShortcut,
 } from "./globalShortcut";
-import "@pear-rec/serve/src/index";
+import "@pear-rec/serve";
 
 // The built directory structure
 //

@@ -1,10 +1,12 @@
+const baseURL = import.meta.env.VITE_API_URL;
+
 export async function searchBaidu(imageBlob: Blob) {
 	const data = new FormData();
 	data.append("image", imageBlob, "pear-rec.png");
 	data.append("tn", "pc");
 	data.append("from", "pc");
 	data.append("image_source", "PC_UPLOAD_SEARCH_FILE");
-	const rsp = await fetch(`http://localhost:7896/apiBaidu/upload`, {
+	const rsp = await fetch(`${baseURL}/apiBaidu/upload`, {
 		referrer: "",
 		mode: "cors",
 		method: "POST",
