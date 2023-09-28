@@ -1,5 +1,5 @@
 import { app, BrowserWindow, dialog, shell, screen, Rectangle } from "electron";
-import { unlink } from "node:fs";
+import fs from "node:fs";
 import { join } from "node:path";
 import Ffmpeg from "fluent-ffmpeg";
 import FfmpegPath from "ffmpeg-static";
@@ -142,7 +142,7 @@ async function ffmpegRecorderScreenWin(fileName?: string) {
 			setTimeout(() => {
 				closeRecorderScreenWin();
 				openViewVideoWin();
-				unlink(rsInputPath, (err) => {
+				fs.unlink(rsInputPath, (err) => {
 					if (err) {
 						return console.error(err);
 					}

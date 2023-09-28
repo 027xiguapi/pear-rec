@@ -67,13 +67,13 @@ function setAlwaysOnTopViewVideoWin(isAlwaysOnTop: boolean) {
 	viewVideoWin?.setAlwaysOnTop(isAlwaysOnTop);
 }
 
-function getHistoryVideoPath() {
-	const historyVideoPath = (getHistoryVideo() as string) || "";
+async function getHistoryVideoPath() {
+	const historyVideoPath = ((await getHistoryVideo()) as string) || "";
 	return historyVideoPath;
 }
 
 async function sendHistoryVideo() {
-	const filePath = getHistoryVideoPath();
+	const filePath = await getHistoryVideoPath();
 	let video = await readDirectoryVideo(filePath);
 	return video;
 }

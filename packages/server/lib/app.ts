@@ -15,7 +15,6 @@ export const app: Application = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(userRouterFactory(userRepository, historyRepository));
 app.use(historyRouterFactory(userRepository, historyRepository));
 

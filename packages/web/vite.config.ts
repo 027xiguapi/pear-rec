@@ -63,7 +63,11 @@ export default ({ mode }) => {
 				"@": join(__dirname, "src"),
 			},
 		},
+		server: {
+			open: true,
+		},
 		plugins: [react(), visualizer() as any],
-		build: mode == "lib" ? buildOptionsLib : buildOptionsProject,
+		// build: mode == "lib" ? buildOptionsLib : buildOptionsProject,
+		build: buildOptionsProject,
 	});
 };
