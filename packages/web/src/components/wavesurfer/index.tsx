@@ -71,15 +71,15 @@ const Wavesurfer = forwardRef((props: any, ref: any) => {
 		setTimer(timer);
 	}
 	function pause() {
-		timer && clearInterval(timer);
+		timer && clearInterval(timer as any);
 	}
 	function stop() {
-		timer && clearInterval(timer);
+		timer && clearInterval(timer as any);
 		setTimer(null);
 		initFrame();
 	}
 	function reset() {
-		timer && clearInterval(timer);
+		timer && clearInterval(timer as any);
 		setTimer(null);
 		initFrame();
 	}

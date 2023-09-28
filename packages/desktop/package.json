@@ -23,7 +23,7 @@
     "electron:generate-icons": "electron-icon-builder --input=./public/imgs/logo/logo.png --output=./public/imgs"
   },
   "dependencies": {
-    "@pear-rec/serve": "workspace:^",
+    "@pear-rec/server": "workspace:^",
     "@pear-rec/web": "workspace:^",
     "electron-updater": "^5.3.0",
     "ffmpeg-static": "^5.1.0",

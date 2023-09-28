@@ -38,9 +38,9 @@ pnpm install
 pnpm run rebuild:desktop
 # Run the web
 pnpm run dev:web
-# Run the server
-pnpm run dev:server
-# Build the app
+# Build the web
+pnpm run build:web
+# Build the desktop
 pnpm run build:desktop
 ```
 

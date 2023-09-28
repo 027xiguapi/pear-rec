@@ -2,17 +2,17 @@
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
-  :global {
-    .btns {
-      position: absolute;
-      left: 50%;
-      transform: translateX("-50%");
-      margin-top: 50px;
-      cursor: pointer;
-      z-index: 100;
-      .inputRef {
-        display: none;
-      }
-    }
-  }
+	:global {
+		.btns {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			margin-top: 50px;
+			cursor: pointer;
+			z-index: 100;
+			.inputRef {
+				display: none;
+			}
+		}
+	}
 }

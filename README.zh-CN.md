@@ -45,6 +45,10 @@ pnpm install
 pnpm run rebuild:desktop
 # 调试页面
 pnpm run dev:web
+# 编译页面
+pnpm run build:web
+# 查看页面
+pnpm run preview:web
 # 调试服务
 pnpm run dev:server
 # 调试

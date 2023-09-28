@@ -203,3 +203,5 @@ function ShotScreen() {
 }
 
 ininitApp(ShotScreen);
+
+export default ShotScreen;

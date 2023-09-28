@@ -1,12 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es6", // or a more recent ecmascript version
+    "target": "es5", // or a more recent ecmascript version
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "moduleResolution": "Node",
-    "outDir": "dist"
+    "outDir": "dist",
+    "importHelpers": true
   },
+  "include": [
+    "lib/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
