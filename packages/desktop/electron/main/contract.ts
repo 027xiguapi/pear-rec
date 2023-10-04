@@ -1,7 +1,7 @@
 import { app } from "electron";
 import path from "node:path";
 
-export const url = process.env.VITE_DEV_SERVER_URL;
+export const url = import.meta.env.VITE_WEB_URL+ "/";
 export const isDev = process.env.NODE_ENV === "development";
 export const preload = path.join(__dirname, "../preload/index.js");
 

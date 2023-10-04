@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "pear-rec is a cross platform screenshot, screen recording, audio recording, and video recording software.",
   "scripts": {
-    "dev:desktop": "concurrently --names \"SERVER,DESKTOP\" -c \"red,auto\" \"pnpm run dev:server\" \"pnpm run -C packages/desktop dev\"",
+    "dev:desktop": "concurrently --names \"WEB,SERVER,DESKTOP\" -c \"red,blue,auto\" \"pnpm run -C packages/web dev\" \"pnpm run dev:server\" \"pnpm run -C packages/desktop dev\"",
     "build:desktop": "pnpm run -C packages/desktop build",
     "rebuild:desktop": "pnpm run -C packages/desktop rebuild",
     "dev:web": "concurrently --names \"SERVER,WEB\" -c \"red,auto\" \"pnpm run dev:server\" \"pnpm run -C packages/web dev\"",
