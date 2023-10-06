@@ -23,7 +23,6 @@ const RecorderScreen = () => {
 	const { t } = useTranslation();
 	const api = useApi();
 	const userApi = useUserApi();
-	const userRef = useRef({} as any);
 	const videoRef = useRef<HTMLVideoElement>();
 	const mediaStream = useRef<MediaStream>();
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
@@ -38,6 +37,7 @@ const RecorderScreen = () => {
 	const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 	const [isHide, setIsHide] = useState<boolean>(false);
 	const timer = useStopwatch({ autoStart: false });
+  const [user, setUser] = useState({} as any);
 
 	useEffect(() => {
 		const paramsString = location.search;
@@ -54,7 +54,19 @@ const RecorderScreen = () => {
 		window.electronAPI?.handleRsGetEndRecord(() => {
 			setIsSave(false);
 		});
+		getCurrentUser();
 	}, []);
+
+  async function getCurrentUser() {
+		try {
+			const res = (await userApi.getCurrentUser()) as any;
+			if (res.code == 0) {
+				setUser(res.data);
+			}
+		} catch (err) {
+      location.href = "/";
+		}
+	}
 
 	function handleStartRecording() {
 		if (window.electronAPI) {
@@ -166,15 +178,15 @@ const RecorderScreen = () => {
 			setIsSave(false);
 			const formData = new FormData();
 			formData.append("type", "rs");
-			formData.append("userUuid", userRef.current.uuid);
+			formData.append("userUuid", user.uuid);
 			formData.append("file", blob);
 			const res = (await api.saveFile(formData)) as any;
 			if (res.code == 0) {
 				Modal.confirm({
 					title: "录屏已保存，是否查看？",
-					content: "提示",
+					content: `${res.data.filePath}`,
 					onOk() {
-						window.open(`/viewVideo.html?videoUrl=${res.data}`);
+						window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
 						console.log("OK");
 					},
 					onCancel() {

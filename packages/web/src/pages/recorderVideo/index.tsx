@@ -159,9 +159,9 @@ const RecorderVideo = () => {
 			if (res.code == 0) {
 				Modal.confirm({
 					title: "录像已保存，是否查看？",
-					content: "提示",
+					content: `${res.data.filePath}`,
 					onOk() {
-						window.open(`/viewVideo.html?videoUrl=${res.data}`);
+						window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
 						console.log("OK");
 					},
 					onCancel() {

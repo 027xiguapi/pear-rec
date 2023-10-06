@@ -30,7 +30,7 @@ const ViewVideo = () => {
 		const videoUrl = searchParams.get("videoUrl");
     const res = await api.getVideos(videoUrl) as any;
       if( res.code == 0 ) {
-        setSource(res.data);
+        setSource(res.data[0].url);
       } else {
         setSource(defaultVideo);
       }

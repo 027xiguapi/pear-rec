@@ -27,9 +27,9 @@ export const userRouterFactory = (
 		.get("/getCurrentUser", (req, res, next) =>
 			userRepository
 				.findOne({ where: { userType: "1" } })
-				.then((users) =>
-					users
-						? res.json({ code: 0, data: users })
+				.then((user) =>
+					user
+						? res.json({ code: 0, data: user })
 						: next({ statusCode: 404 }),
 				)
 				.catch(next),

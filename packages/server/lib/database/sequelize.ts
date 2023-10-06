@@ -6,7 +6,7 @@ import { User } from "../users/User";
 import { History } from "../historys/History";
 
 const documentsPath = join(homedir(), "Documents");
-const DBPath = join(documentsPath, "./Peer Files/db/pear-rec.db");
+const DBPath = join(documentsPath, "./Pear Files/db/pear-rec.db");
 const fileDir = dirname(DBPath);
 if (!fs.existsSync(fileDir)) {
 	fs.mkdirSync(fileDir, { recursive: true });

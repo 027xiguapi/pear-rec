@@ -240,7 +240,7 @@ const EditImage = () => {
 			if (res.code == 0) {
 				Modal.confirm({
 					title: "图片已保存，是否查看？",
-					content: "提示",
+					content: `${res.data.filePath}`,
 					onOk() {
 						window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
 						console.log("OK");

@@ -153,9 +153,9 @@ const RecordAudio = () => {
 			if (res.code == 0) {
 				Modal.confirm({
 					title: "录音已保存，是否查看？",
-					content: "提示",
+					content: `${res.data.filePath}`,
 					onOk() {
-						window.open(`/viewAudio.html?audioUrl=${res.data}`);
+						window.open(`/viewAudio.html?audioUrl=${res.data.filePath}`);
 						console.log("OK");
 					},
 					onCancel() {

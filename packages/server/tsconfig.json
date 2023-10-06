@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5", // or a more recent ecmascript version
+    "target": "es6",
+    // "target": "es5",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,

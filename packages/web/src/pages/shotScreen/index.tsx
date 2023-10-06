@@ -90,8 +90,8 @@ function ShotScreen() {
 				: window.open(result);
 		} else {
 			Modal.confirm({
-				title: "扫码结果",
-				content: "提示",
+				title: "提示",
+				content: "扫码结果",
 				onOk() {
 					console.log("OK");
 				},

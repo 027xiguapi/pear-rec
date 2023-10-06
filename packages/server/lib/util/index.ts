@@ -48,7 +48,9 @@ function isImgFile(filePath: string): boolean {
 export function getAudiosByAudioUrl(audioUrl: string, isElectron: boolean) {
 	const directoryPath = dirname(audioUrl);
 	const files = fs.readdirSync(directoryPath); // 读取目录内容
-	const protocol = isElectron ? "pearrec:///" : "/getFile?url=";
+	const protocol = isElectron
+			? "pearrec:///"
+			: "http://localhost:5000/getFile?url=";
 	let audios: any[] = [];
 	let index = 0;
 	files.forEach((file) => {
@@ -93,29 +95,32 @@ function isAudioFile(filePath: string): boolean {
 export function getVideosByVideoUrl(videoUrl: string, isElectron: boolean) {
 	const directoryPath = dirname(videoUrl);
 	const files = fs.readdirSync(directoryPath); // 读取目录内容
-	const protocol = isElectron ? "pearrec:///" : "/getFile?url=";
+	const protocol = isElectron
+			? "pearrec:///"
+			: "http://localhost:5000/getFile?url=";
 	let videos: any[] = [];
-	let index = 0;
-	files.forEach((file) => {
-		const filePath = join(directoryPath, file);
-		if (isVideoFile(filePath)) {
-			const fileName = basename(filePath);
-			if (filePath == videoUrl) {
-				videos.unshift({
-					url: `${filePath}`,
-					name: fileName,
-					cover: "./imgs/music.png",
-				});
-			} else {
-				videos.push({
-					url: `${filePath}`,
-					name: fileName,
-					cover: "./imgs/music.png",
-				});
-			}
-			index++;
-		}
-	});
+  let index = 0;
+  videos.push({ url: `${protocol}${videoUrl}`, index });
+	// files.forEach((file) => {
+	// 	const filePath = join(directoryPath, file);
+	// 	if (isVideoFile(filePath)) {
+	// 		const fileName = basename(filePath);
+	// 		if (filePath == videoUrl) {
+	// 			videos.unshift({
+	// 				url: `${filePath}`,
+	// 				name: fileName,
+	// 				cover: "./imgs/music.png",
+	// 			});
+	// 		} else {
+	// 			videos.push({
+	// 				url: `${filePath}`,
+	// 				name: fileName,
+	// 				cover: "./imgs/music.png",
+	// 			});
+	// 		}
+	// 		index++;
+	// 	}
+	// });
 	return videos;
 }
 

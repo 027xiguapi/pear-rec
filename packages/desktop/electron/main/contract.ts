@@ -14,7 +14,7 @@ export const PUBLIC = isDev
 export const ICON = isDev
 	? path.join(PUBLIC, "./imgs/logo/favicon.ico")
 	: path.join(DIST, "./imgs/logo/favicon.ico");
-export const PEER_FILES = path.join(DIST_ELECTRON, `../Peer Files`);
+export const PEAR_FILES = path.join(DIST_ELECTRON, `../Pear Files`);
 
 const documentsPath = app.getPath("documents");
-export const filePath = path.join(documentsPath, `Peer Files`);
+export const filePath = path.join(documentsPath, `Pear Files`);

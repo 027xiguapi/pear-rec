@@ -11,16 +11,22 @@ const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		const { type, userUuid } = req.body;
 		const documentsPath = join(homedir(), "Documents");
-		const filePath = join(documentsPath, `./Peer Files/${userUuid}/${type}`);
+		const filePath = join(documentsPath, `./Pear Files/${userUuid}/${type}`);
 		if (!existsSync(filePath)) {
 			mkdirSync(filePath, { recursive: true });
 		}
 		cb(null, filePath);
 	},
 	filename: function (req, file, cb) {
+    const fileTypeMap = {
+      "ss": "png",
+      "rs": "webm",
+      "ei": "png"
+    };
 		const type = req.body.type;
+    const fileType = fileTypeMap[type] || "webm";
 		const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-		cb(null, type + "-" + uniqueSuffix + ".png");
+		cb(null, `${type}-${uniqueSuffix}.${fileType}`);
 	},
 });
 const upload = multer({ storage: storage });
