@@ -44,7 +44,6 @@
     "electron-builder": "^23.6.0",
     "electron-icon-builder": "^2.0.1",
     "electron-rebuild": "^3.2.9",
-    "electron-vite": "^1.0.28",
     "eslint": "^8.40.0",
     "pg-hstore": "^2.3.4",
     "prettier": "^2.8.8",

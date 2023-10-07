@@ -8,8 +8,8 @@
     "build": "rollup -c",
     "preview": "node dist/index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "027xiguapi",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.4",
     "@rollup/plugin-json": "^6.0.0",
