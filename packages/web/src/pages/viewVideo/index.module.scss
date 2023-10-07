@@ -4,5 +4,47 @@
 			width: 100vw;
 			height: 100vh;
 		}
+		.inputRef {
+			display: none;
+		}
+		.sidebar {
+			height: 100vh;
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 0;
+			padding-left: 2px;
+			z-index: 1000;
+			.anticon {
+				position: absolute;
+				top: 40%;
+				left: -14px;
+				padding: 8px 0;
+				background: #ccc;
+				color: #fff;
+				border-radius: 3px 0 0 3px;
+				z-index: 1000;
+			}
+		}
+		.sidebar:hover {
+			cursor: pointer;
+			border-right: 1px solid #409eff;
+		}
+		.videoList {
+			position: fixed;
+			.videoName:hover {
+				background-color: #ccc;
+				cursor: pointer;
+			}
+			.videoName {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				padding: 5px 3px;
+			}
+			.current {
+				background-color: #eee;
+			}
+		}
 	}
 }

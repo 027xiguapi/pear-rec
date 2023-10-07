@@ -176,13 +176,17 @@ const ViewImage = () => {
 		const searchParams = new URLSearchParams(paramsString);
 		const imgUrl = searchParams.get("imgUrl") || user.historyImg;
 		if (imgUrl) {
-			userApi.editUser(user.id, { ...user, historyImg: imgUrl });
-			const res = (await api.getImgs(imgUrl)) as any;
-			if (res.code == 0) {
-				setImgs(res.data.imgs);
-				setInitialViewIndex(res.data.currentIndex);
-			} else {
+			if (imgUrl.substring(0, 4) == "blob") {
 				setImgs([{ url: imgUrl, index: 0 }]);
+			} else {
+				userApi.editUser(user.id, { ...user, historyImg: imgUrl });
+				const res = (await api.getImgs(imgUrl)) as any;
+				if (res.code == 0) {
+					setImgs(res.data.imgs);
+					setInitialViewIndex(res.data.currentIndex);
+				} else {
+					setImgs([{ url: imgUrl, index: 0 }]);
+				}
 			}
 		} else {
 			setImgs([{ url: defaultImg, index: 0 }]);

@@ -1,7 +1,6 @@
 import { rmSync } from "node:fs";
 import path from "node:path";
-import { defineConfig, externalizeDepsPlugin } from "electron-vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 import electron from "vite-plugin-electron";
 import renderer from "vite-plugin-electron-renderer";
 import pkg from "./package.json";
@@ -9,49 +8,13 @@ import pkg from "./package.json";
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
 	rmSync("dist-electron", { recursive: true, force: true });
+	rmSync("dist", { recursive: true, force: true });
 
 	const isServe = command === "serve";
 	const isBuild = command === "build";
 	const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
 	return {
-		root: path.resolve(__dirname, "src"),
-		base: "./",
-		publicDir: path.resolve(__dirname, "public"),
-		resolve: {
-			alias: {
-				"@": path.join(__dirname, "src"),
-			},
-		},
-		build: {
-			rollupOptions: {
-				input: {
-					index: path.resolve(__dirname, "src/index.html"),
-					shotScreen: path.resolve(__dirname, "src/shotScreen.html"),
-					recorderScreen: path.resolve(__dirname, "src/recorderScreen.html"),
-					recorderVideo: path.resolve(__dirname, "src/recorderVideo.html"),
-					recorderAudio: path.resolve(__dirname, "src/recorderAudio.html"),
-					viewImage: path.resolve(__dirname, "src/viewImage.html"),
-					viewVideo: path.resolve(__dirname, "src/viewVideo.html"),
-					setting: path.resolve(__dirname, "src/setting.html"),
-					clipScreen: path.resolve(__dirname, "src/clipScreen.html"),
-					editImage: path.resolve(__dirname, "src/editImage.html"),
-					viewAudio: path.resolve(__dirname, "src/viewAudio.html"),
-				},
-			},
-			outDir: path.resolve(__dirname, "dist"),
-			output: {
-				manualChunks(id) {
-					if (id.includes("sqlite3")) {
-						return "sqlite3";
-					}
-				},
-			},
-		},
-		preload: {
-			plugins: [externalizeDepsPlugin()],
-		},
 		plugins: [
-			react(),
 			electron([
 				{
 					// Main-Process entry file of the Electron App.
@@ -101,7 +64,6 @@ export default defineConfig(({ command }) => {
 			]),
 			// Use Node.js API in the Renderer-process
 			renderer(),
-			externalizeDepsPlugin({ exclude: ["sqlite3"] }),
 		],
 		server:
 			process.env.VSCODE_DEBUG &&

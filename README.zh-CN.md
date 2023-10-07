@@ -133,3 +133,7 @@ pnpm run build:desktop
 <p align="center">
   <img src="https://027xiguapi.github.io/pear-rec/imgs/pear-rec_qq_qrcode.png" />
 </p>
+
+## 开源协议
+
+[pear-rec(梨子 rec) 可在 Apache License V2 下使用。](LICENSE)

@@ -71,4 +71,4 @@ pnpm run build:desktop
 
 ## License
 
-[MIT](LICENSE)
+[pear-rec is available under the Apache License V2.](LICENSE)
