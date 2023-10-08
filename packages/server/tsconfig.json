@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    // "target": "es5",
+    "target": "ESNext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "moduleResolution": "Node",
     "outDir": "dist",
-    "importHelpers": true
+    "importHelpers": true,
+    "useDefineForClassFields": false,
   },
   "include": [
-    "lib/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules"

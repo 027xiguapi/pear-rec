@@ -78,37 +78,35 @@ function ShotScreen() {
 	}, []);
 
 	const onCancel = useCallback(() => {
-		// window.electronAPI
-		// 	? window.electronAPI.sendSsCloseWin()
-		// 	: (location.href = `/index.html`);
+		window.electronAPI
+			? window.electronAPI.sendSsCloseWin()
+			: (location.href = `/index.html`);
 	}, []);
 
 	const onScan = useCallback((result) => {
-		if (isURL(result)) {
-			window.electronAPI
-				? window.electronAPI.sendSsOpenExternal(result)
-				: window.open(result);
-		} else {
-			Modal.confirm({
-				title: "提示",
-				content: "扫码结果",
-				onOk() {
-					console.log("OK");
-				},
-				onCancel() {
-					console.log("Cancel");
-				},
-			});
-		}
+		Modal.confirm({
+			title: "扫码结果",
+			content: result,
+			onOk() {
+				if (isURL(result)) {
+					window.electronAPI
+						? window.electronAPI.sendSsOpenExternal(result)
+						: window.open(result);
+				}
+			},
+			onCancel() {
+				console.log("Cancel");
+			},
+		});
 	}, []);
 
 	const onSearch = useCallback(async (blob) => {
 		const tabUrl = await searchImg(blob, userRef.current.isProxy);
 		if (window.electronAPI) {
-			window.electronAPI.sendSsOpenExternal(tabUrl);
+			tabUrl && window.electronAPI.sendSsOpenExternal(tabUrl);
 			window.electronAPI.sendSsCloseWin();
 		} else {
-			window.open(tabUrl);
+			tabUrl && window.open(tabUrl);
 		}
 	}, []);
 
@@ -154,15 +152,7 @@ function ShotScreen() {
 
 	function handleImgUpload(event) {
 		const selectedFile = event.target.files[0];
-		const reader = new FileReader();
-
-		reader.onload = () => {
-			setScreenShotImg(reader.result as string);
-		};
-
-		if (selectedFile) {
-			reader.readAsDataURL(selectedFile);
-		}
+		setScreenShotImg(window.URL.createObjectURL(selectedFile));
 	}
 
 	function getImgUpload() {
