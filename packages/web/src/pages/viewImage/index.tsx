@@ -1,9 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Upload } from "antd";
+import { Modal, Upload } from "antd";
 import Viewer from "viewerjs";
+import QrScanner from "qr-scanner";
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd/es/upload/interface";
+import { isURL } from "../../util/validate";
+import { urlToBlob } from "../../util/file";
+import { searchImg } from "../../util/searchImg";
 import ininitApp from "../../pages/main";
 import { useApi } from "../../api";
 import { useUserApi } from "../../api/user";
@@ -16,7 +20,8 @@ const ViewImage = () => {
 	const { t } = useTranslation();
 	const api = useApi();
 	const userApi = useUserApi();
-	let refViewer = useRef<any>();
+	let viewerRef = useRef<any>();
+	const inputRef = useRef(null);
 	const [user, setUser] = useState<any>({});
 	const [imgs, setImgs] = useState([]);
 	const [initialViewIndex, setInitialViewIndex] = useState(0);
@@ -32,6 +37,10 @@ const ViewImage = () => {
 		user.id && initImgs();
 	}, [user]);
 
+	useEffect(() => {
+		imgs.length && initViewer();
+	}, [imgs]);
+
 	async function getCurrentUser() {
 		try {
 			const res = (await userApi.getCurrentUser()) as any;
@@ -44,12 +53,8 @@ const ViewImage = () => {
 	}
 
 	function destroyViewer() {
-		refViewer.current?.destroy();
+		viewerRef.current?.destroy();
 	}
-
-	useEffect(() => {
-		imgs.length && initViewer();
-	}, [imgs]);
 
 	function initViewer() {
 		const imgList = document.getElementById("viewImgs") as any;
@@ -64,15 +69,47 @@ const ViewImage = () => {
 			className: "viewImgs",
 			toolbar: {
 				alwaysOnTopWin: handleToggleAlwaysOnTopWin,
+				file: () => {
+					inputRef.current.click();
+				},
+				scan: async () => {
+					try {
+						const imgUrl = imgs[initialViewIndex]?.url;
+						const result = await QrScanner.scanImage(imgUrl);
+						Modal.confirm({
+							title: "扫码结果",
+							content: result,
+							onOk() {
+								if (isURL(result)) {
+									window.electronAPI
+										? window.electronAPI.sendSsOpenExternal(result)
+										: window.open(result);
+								}
+							},
+							onCancel() {
+								console.log("Cancel");
+							},
+						});
+					} catch (error) {
+						console.error("scan Error:", error);
+					}
+				},
+				search: async () => {
+					const imgUrl = imgs[initialViewIndex]?.url;
+					const blob = await urlToBlob(imgUrl);
+					const tabUrl = await searchImg(blob, user.isProxy);
+					if (window.electronAPI) {
+						tabUrl && window.electronAPI.sendSsOpenExternal(tabUrl);
+						window.electronAPI.sendSsCloseWin();
+					} else {
+						tabUrl && window.open(tabUrl);
+					}
+				},
 				zoomIn: 1,
 				zoomOut: 1,
 				oneToOne: 1,
 				reset: 1,
 				prev: 1,
-				// play: {
-				// 	show: 4,
-				// 	size: "large",
-				// },
 				next: 1,
 				rotateLeft: 1,
 				rotateRight: 1,
@@ -95,7 +132,7 @@ const ViewImage = () => {
 				},
 			},
 		}) as any;
-		refViewer.current = viewer;
+		viewerRef.current = viewer;
 	}
 
 	const props: UploadProps = {
@@ -154,7 +191,7 @@ const ViewImage = () => {
 				imgs.push({ url: window.URL.createObjectURL(file), index });
 				index++;
 			}
-			refViewer.current?.destroy();
+			viewerRef.current?.destroy();
 			setImgs(imgs);
 		});
 		document.addEventListener("dragover", (e) => {
@@ -193,6 +230,14 @@ const ViewImage = () => {
 		}
 	}
 
+	function handleImgUpload(event) {
+		const selectedFile = event.target.files[0];
+		const url = window.URL.createObjectURL(selectedFile);
+		viewerRef.current?.destroy();
+		setImgs([...imgs, { url: url, index: imgs.length }]);
+		setInitialViewIndex(imgs.length);
+	}
+
 	return (
 		<div className={styles.viewImgs} id="viewImgs">
 			{imgs.length ? (
@@ -208,6 +253,13 @@ const ViewImage = () => {
 					<p className="ant-upload-hint">{t("viewImage.uploadHint")}</p>
 				</Dragger>
 			)}
+			<input
+				accept="image/png,image/jpeg,.webp"
+				type="file"
+				className="inputRef"
+				ref={inputRef}
+				onChange={handleImgUpload}
+			/>
 		</div>
 	);
 };

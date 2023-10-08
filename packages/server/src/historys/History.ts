@@ -26,5 +26,5 @@ export class History extends Model {
 	@UpdatedAt updatedAt: Date;
 	@Column updatedBy!: string;
 	@ForeignKey(() => User) @Column userId!: number;
-	@BelongsTo(() => User) user: User;
+	@BelongsTo(() => User) user: Awaited<User>;
 }

@@ -6,7 +6,7 @@ export async function searchBaidu(imageBlob: Blob) {
 	data.append("tn", "pc");
 	data.append("from", "pc");
 	data.append("image_source", "PC_UPLOAD_SEARCH_FILE");
-	const rsp = await fetch(`${baseURL}/apiBaidu/upload`, {
+	const rsp = await fetch(`${baseURL}apiBaidu/upload`, {
 		referrer: "",
 		mode: "cors",
 		method: "POST",
