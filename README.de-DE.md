@@ -25,12 +25,13 @@ github: https://github.com/027xiguapi/pear-rec
 
 ### Erste Schritte
 
-Bevor Sie dieses Repository klonen und ausführen, müssen Sie [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/download/) (mit [npm](https://www.npmjs.com/)) und [pnpm](https://pnpm.io/) auf Ihrem Computer installiert haben. Von Ihrer Kommandozeile aus:
+Bevor Sie dieses Repository klonen und ausführen, müssen Sie [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/download/) (mit [npm](https://www.npmjs.com/)) und [pnpm](https://pnpm.io/) auf Ihrem Computer installiert haben. 
+Kommandozeilenaufrufe:
 
 ```shell
-# Klone des Repository
+# Repository klonen
 git clone https://github.com/027xiguapi/pear-rec.git
-# Wechsel in das Repository
+# In das Repository wechseln
 cd pear-rec
 # Abhängigkeiten installieren
 pnpm install
