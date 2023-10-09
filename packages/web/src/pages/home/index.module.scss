@@ -1,23 +1,27 @@
 .home {
 	overflow: hidden;
 	border-radius: 8px;
-
 	:global {
 		.container {
 			overflow: hidden;
 			padding: 10px;
 			height: 330px;
-
 			.cardRow {
 				margin-bottom: 10px;
 				text-align: center;
 			}
 		}
-
 		.cardContent {
 			text-align: center;
 			color: #1677ff;
 			font-size: 30px;
+			.cardTitle {
+				font-size: 16px;
+				font-weight: 600;
+				color: #000;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 		}
 	}
 }

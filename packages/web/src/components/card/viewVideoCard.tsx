@@ -38,18 +38,19 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	return (
 		<Upload {...uploadProps}>
 			<Card
-				title={t("home.watchVideo")}
+				// title={t("home.watchVideo")}
 				hoverable
 				bordered={false}
-				extra={
-					<Button type="link" onClick={handleViewVideo}>
-						{t("home.history")}
-					</Button>
-				}
-				style={{ maxWidth: 300 }}
+				// extra={
+				// 	<Button type="link" onClick={handleViewVideo}>
+				// 		{t("home.history")}
+				// 	</Button>
+				// }
+				style={{ maxWidth: 300, height: 145 }}
 			>
 				<div className="cardContent">
 					<PlayCircleOutlined rev={undefined} />
+					<div className="cardTitle">{t("home.watchVideo")}</div>
 				</div>
 			</Card>
 		</Upload>

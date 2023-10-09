@@ -2,6 +2,7 @@ import { app } from "electron";
 import path from "node:path";
 
 export const url = import.meta.env.VITE_WEB_URL;
+export const VITE_API_URL = import.meta.env.VITE_API_URL;
 export const isDev = process.env.NODE_ENV === "development";
 export const preload = path.join(__dirname, "../preload/index.js");
 
@@ -18,3 +19,4 @@ export const PEAR_FILES = path.join(DIST_ELECTRON, `../Pear Files`);
 
 const documentsPath = app.getPath("documents");
 export const filePath = path.join(documentsPath, `Pear Files`);
+export const configFile = path.join(documentsPath, `Pear Files/config.json`);

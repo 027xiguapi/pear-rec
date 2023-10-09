@@ -20,6 +20,7 @@ import * as viewAudioWin from "../win/viewAudioWin";
 import * as settingWin from "../win/settingWin";
 import * as utils from "./utils";
 import * as store from "./api";
+import { editUser } from "./store";
 
 const selfWindws = async () =>
 	await Promise.all(
@@ -473,6 +474,13 @@ function initIpcMain() {
 
 	ipcMain.on("se:set-openAtLogin", (e, isOpen) => {
 		app.setLoginItemSettings({ openAtLogin: isOpen });
+	});
+
+	ipcMain.on("se:set-language", (e, lng) => {
+		editUser("language", lng, () => {
+			app.relaunch();
+			app.exit(0);
+		});
 	});
 
 	ipcMain.handle("se:get-openAtLogin", () => {

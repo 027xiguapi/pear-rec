@@ -4,15 +4,15 @@
 
 # pear-rec
 
-([中文](README.zh-CN.md) | [English](README.md) | [Deutsch](README.de-DE.md))
+([中文](README.zh-CN.md) | [English](README.md) | [German](README.de-DE.md))
 
-## Documentation
+## Dokumentation
 
-> pear-rec(pear rec) is a cross platform screenshot, screen recording, audio recording, and video recording software.
+> pear-rec (pear rec) ist eine plattformübergreifende Software für Bildschirmfotos, Bildschirmaufnahmen, Audio- und Videoaufnahmen.
 >
-> pear-rec(pear rec) is a project based on react + electron + vite + ffmpeg + viewerjs + plyr + aplayer + react-screenshots.
+> pear-rec(pear rec) ist ein Projekt basierend auf react + electron + vite + ffmpeg + viewerjs + plyr + aplayer + react-screenshots.
 >
-> More functions and APIs can be found on [the official website](https://027xiguapi.github.io/pear-rec).
+> Weitere Funktionen und APIs finden Sie auf der offiziellen [Website](https://027xiguapi.github.io/pear-rec).
 
 ## Installation
 
@@ -21,34 +21,35 @@ gitee: https://gitee.com/xiguapi027/pear-rec
 github: https://github.com/027xiguapi/pear-rec
 ```
 
-## Usage
+## Verwendung
 
-### Getting Started
+### Erste Schritte
 
-To clone and run this repository you'll need [Git](https://git-scm.com) , [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/)) and [pnpm](https://pnpm.io/) installed on your computer. From your command line:
+Bevor Sie dieses Repository klonen und ausführen, müssen Sie [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/download/) (mit [npm](https://www.npmjs.com/)) und [pnpm](https://pnpm.io/) auf Ihrem Computer installiert haben. 
+Kommandozeilenaufrufe:
 
 ```shell
-# Clone this repository
+# Repository klonen
 git clone https://github.com/027xiguapi/pear-rec.git
-# Go into the repository
+# In das Repository wechseln
 cd pear-rec
-# Install dependencies
+# Abhängigkeiten installieren
 pnpm install
-# Rebuild electron
+# Electron neu bauen
 pnpm run rebuild:desktop
-# Run the web
+# Web Version ausführen
 pnpm run dev:web
-# Build the web
+# Web Version bauen
 pnpm run build:web
-# Build the desktop
+# Desktop Version bauen
 pnpm run build:desktop
 ```
 
 ## Internationalization(I18n)
 
-- [x] Chinese
-- [x] English
-- [x] German
+- [x] Chinesisch
+- [x] Englisch
+- [x] Deutsch
 
 ## Test
 
@@ -70,6 +71,6 @@ pnpm run build:desktop
   <img src="https://027xiguapi.github.io/pear-rec/imgs/pear-rec_qq_qrcode.png" />
 </p>
 
-## License
+## Lizenz
 
-[pear-rec is available under the Apache License V2.](LICENSE)
+[pear-rec wird unter der Apache License V2 bereitgestellt.](LICENSE)

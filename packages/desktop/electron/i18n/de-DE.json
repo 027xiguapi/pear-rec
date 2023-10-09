@@ -1,0 +1,87 @@
+{
+  "tray": {
+    "screenshot": "Bildschirmfoto",
+    "audioRecording": "Audioaufnahme",
+    "screenRecording": "Bildschirmaufnahme",
+    "videoRecording": "Videoaufnahme",
+    "viewImage": "Bild anzeigen",
+    "playAudio": "Audio abspielen",
+    "watchVideo": "Video abspielen",
+    "home": "Startseite",
+    "setting": "Einstellung",
+    "help": "Hilfe",
+    "relaunch": "Neustart",
+    "quit": "Beenden"
+  },
+  "nav": {
+    "setting": "Einstellung",
+    "minimize": "minimieren",
+    "maximize": "maximieren",
+    "close": "schließen"
+  },
+  "home": {
+    "audioRecording": "Audioaufnahme",
+    "screenRecording": "Bildschirmaufnahme",
+    "videoRecording": "Videoaufnahme",
+    "screenshot": "Bildschirmfoto",
+    "fullScreen": "Vollbild",
+    "viewImage": "Bild anzeigen",
+    "playAudio": "Audio abspielen",
+    "watchVideo": "Video abspielen",
+    "history": "Verlauf"
+  },
+  "editImage": {
+    "save": "speichern"
+  },
+  "recorderAudio": {
+    "mute": "stummschalten",
+    "unmute": "stummschalten aus",
+    "delete": "löschen",
+    "save": "speichern",
+    "play": "abspielen",
+    "resume": "fortsetzen",
+    "pause": "pausieren"
+  },
+  "recorderScreen": {
+    "tip": "Zum Starten der Aufnahme auf 'Start' klicken",
+    "saving": "speichern",
+    "mute": "stummschalten",
+    "unmute": "stummschalten aus",
+    "resume": "fortsetzen",
+    "pause": "pausieren",
+    "save": "speichern",
+    "play": "abspielen",
+    "width": "Breite",
+    "height": "Höhe",
+    "shotScreen": "shotScreen"
+  },
+  "recorderVideo": {
+    "tip": "Zum Starten der Aufnahme auf 'Start' klicken",
+    "saving": "speichern",
+    "mute": "stummschalten",
+    "unmute": "stummschalten aus",
+    "resume": "fortsetzen",
+    "pause": "pausieren",
+    "save": "speichern",
+    "play": "abspielen",
+    "shotScreen": "shotScreen"
+  },
+  "viewImage": {
+    "uploadText": "Bild auswählen oder reinziehen",
+    "uploadHint": "Formate: .jpg, .jpeg, .jfif, .pjpeg, .pjp, .png, .apng, .webp, .avif, .bmp, .gif, .webp, .ico"
+  },
+  "viewVideo": {
+    "emptyDescription": "Kein Video",
+    "emptyBtn": "Video öffnen"
+  },
+  "setting": {
+    "userSetting": "Nutzereinstellungen",
+    "basicSetting": "Basiseinstellungen",
+    "language": "Sprache",
+    "filePath": "Dateipfad",
+    "openAtLogin": "Bei Anmeldung öffnen",
+    "open": "öffnen",
+    "close": "schließen",
+    "download": "Download"
+  }
+}

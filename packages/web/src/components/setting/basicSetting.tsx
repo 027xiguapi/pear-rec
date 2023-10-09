@@ -48,6 +48,7 @@ const BasicSetting = (props) => {
 		localStorage.setItem("pear-rec_i18n", lng);
 		i18n.changeLanguage(lng);
 		userApi.editUser(user.id, { ...user, language: lng });
+		window.electronAPI?.sendSeSetLanguage(lng);
 	}
 
 	return (
@@ -65,6 +66,7 @@ const BasicSetting = (props) => {
 						options={[
 							{ value: "zh", label: "中文" },
 							{ value: "en", label: "EN" },
+							{ value: "de", label: "Deutsch" },
 						]}
 					/>
 				</Form.Item>

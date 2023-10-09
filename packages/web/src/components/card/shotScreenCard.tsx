@@ -18,14 +18,15 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 
 	return (
 		<Card
-			title={t("home.screenshot")}
+			// title={t("home.screenshot")}
 			hoverable
 			bordered={false}
-			style={{ maxWidth: 300 }}
+			style={{ maxWidth: 300, height: 145 }}
 			onClick={handleCutScreen}
 		>
 			<div className="cardContent">
 				<ScissorOutlined rev={undefined} />
+				<div className="cardTitle">{t("home.screenshot")}</div>
 			</div>
 		</Card>
 	);

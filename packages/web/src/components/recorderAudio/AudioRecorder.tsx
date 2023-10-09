@@ -27,7 +27,7 @@ const AudioRecorder = (props) => {
 			const audio = {
 				url: recordedUrl,
 				type: blob.type.split(";")[0].split("/")[1] || "webm",
-				createTime: dayjs().format(),
+				createdAt: dayjs().format(),
 				duration,
 			};
 			props.onSetAudios((prevState) => [audio, ...prevState]);

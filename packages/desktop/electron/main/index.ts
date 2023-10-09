@@ -7,10 +7,12 @@ import "./ipcMain";
 import { registerFileProtocol } from "./protocol";
 import {
 	registerGlobalShortcut,
-	unregisterGlobalShortcut,
 	unregisterAllGlobalShortcut,
 } from "./globalShortcut";
+import { initConfig } from "./store";
 import "@pear-rec/server";
+
+const config = initConfig();
 
 // The built directory structure
 //
@@ -51,7 +53,7 @@ async function createWindow() {
 app.whenReady().then(() => {
 	registerFileProtocol();
 	createWindow();
-	initTray();
+	initTray(config.user.language);
 	registerGlobalShortcut();
 });
 

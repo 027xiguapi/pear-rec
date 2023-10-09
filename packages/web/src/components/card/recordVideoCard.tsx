@@ -18,14 +18,15 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
 
 	return (
 		<Card
-			title={t("home.videoRecording")}
+			// title={t("home.videoRecording")}
 			hoverable
 			bordered={false}
-			style={{ maxWidth: 300 }}
+			style={{ maxWidth: 300, height: 145 }}
 			onClick={handleRecorderVideo}
 		>
 			<div className="cardContent">
 				<VideoCameraOutlined rev={undefined} />
+				<div className="cardTitle">{t("home.videoRecording")}</div>
 			</div>
 		</Card>
 	);
