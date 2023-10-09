@@ -29,7 +29,7 @@
     "pause": "pausieren"
   },
   "recorderScreen": {
-    "tip": "Zum Starten der Aufnahme auf "Start" klicken",
+    "tip": "Zum Starten der Aufnahme auf 'Start' klicken",
     "saving": "speichern",
     "mute": "stummschalten",
     "unmute": "stummschalten aus",
@@ -42,7 +42,7 @@
     "shotScreen": "shotScreen"
   },
   "recorderVideo": {
-    "tip": "Zum Starten der Aufnahme auf "Start" klicken",
+    "tip": "Zum Starten der Aufnahme auf 'Start' klicken",
     "saving": "speichern",
     "mute": "stummschalten",
     "unmute": "stummschalten aus",
