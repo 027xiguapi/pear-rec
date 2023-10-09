@@ -2,10 +2,14 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import zhCN from "./locales/zh-CN.json";
 import enUS from "./locales/en-US.json";
+import enUS from "./locales/de-DE.json";
 
 export function initI18n() {
 	i18n.use(initReactI18next).init({
 		resources: {
+      de: {
+				translation: deDE,
+			},
 			en: {
 				translation: enUS,
 			},
