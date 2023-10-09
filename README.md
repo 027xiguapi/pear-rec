@@ -4,7 +4,7 @@
 
 # pear-rec
 
-([中文](README.zh-CN.md) | English)
+([中文](README.zh-CN.md) | [English](README.md) | [Deutsch](README.de-DE.md))
 
 ## Documentation
 
@@ -48,6 +48,7 @@ pnpm run build:desktop
 
 - [x] Chinese
 - [x] English
+- [x] German
 
 ## Test
 
