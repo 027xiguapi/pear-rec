@@ -38,18 +38,19 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 	return (
 		<Upload {...uploadProps}>
 			<Card
-				title={t("home.playAudio")}
+				// title={t("home.playAudio")}
 				hoverable
 				bordered={false}
-				extra={
-					<Button type="link" onClick={handleViewAudio}>
-						{t("home.history")}
-					</Button>
-				}
-				style={{ maxWidth: 300 }}
+				// extra={
+				// 	<Button type="link" onClick={handleViewAudio}>
+				// 		{t("home.history")}
+				// 	</Button>
+				// }
+				style={{ maxWidth: 300, height: 145 }}
 			>
 				<div className="cardContent">
 					<BsMusicNoteBeamed />
+					<div className="cardTitle">{t("home.playAudio")}</div>
 				</div>
 			</Card>
 		</Upload>

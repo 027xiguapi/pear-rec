@@ -26,19 +26,20 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 
 	return (
 		<Card
-			title={t("home.screenRecording")}
+			// title={t("home.screenRecording")}
 			hoverable
 			bordered={false}
-			extra={
-				<Button type="link" onClick={handleRecordScreen}>
-					{t("home.fullScreen")}
-				</Button>
-			}
-			style={{ maxWidth: 300 }}
+			// extra={
+			// 	<Button type="link" onClick={handleRecordScreen}>
+			// 		{t("home.fullScreen")}
+			// 	</Button>
+			// }
+			style={{ maxWidth: 300, height: 145 }}
 			onClick={handleClipScreen}
 		>
 			<div className="cardContent">
 				<CameraOutlined rev={undefined} />
+				<div className="cardTitle">{t("home.screenRecording")}</div>
 			</div>
 		</Card>
 	);

@@ -18,10 +18,10 @@ const RecordAudioCard = forwardRef((props: any, ref: any) => {
 
 	return (
 		<Card
-			title={t("home.audioRecording")}
+			// title={t("home.audioRecording")}
 			hoverable
 			bordered={false}
-			style={{ maxWidth: 300 }}
+			style={{ maxWidth: 300, height: 145 }}
 			onClick={handleRecordAudio}
 		>
 			<div className="cardContent">
@@ -30,6 +30,7 @@ const RecordAudioCard = forwardRef((props: any, ref: any) => {
 				) : (
 					<AudioMutedOutlined rev={undefined} />
 				)}
+				<div className="cardTitle">{t("home.audioRecording")}</div>
 			</div>
 		</Card>
 	);

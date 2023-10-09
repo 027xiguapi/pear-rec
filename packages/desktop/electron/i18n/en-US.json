@@ -1,4 +1,18 @@
 {
+  "tray": {
+    "screenshot": "screenshot",
+    "audioRecording": "sound recording",
+    "screenRecording": "screen recording",
+    "videoRecording": "video recording",
+    "viewImage": "view image",
+    "playAudio": "play audio",
+    "watchVideo": "watch video",
+    "home": "home",
+    "setting": "setting",
+    "help": "help",
+    "relaunch": "restart",
+    "quit": "quit"
+  },
   "nav": {
     "setting": "setting",
     "minimize": "minimize",

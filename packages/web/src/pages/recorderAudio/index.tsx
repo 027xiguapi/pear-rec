@@ -24,7 +24,7 @@ const RecordAudio = () => {
 				{audios.map((audio, index) => (
 					<Card
 						title={`记录_${audios.length - index}(创建时间:${
-							audio.createTime
+							audio.createdAt
 						}, 时长:${parseInt(String(audio.duration / 1000))}秒)`}
 						key={index}
 					>

@@ -1,5 +1,4 @@
 import { Menu, Tray, app, shell } from "electron";
-import { join } from "node:path";
 import { ICON } from "./contract";
 import { showMainWin } from "../win/mainWin";
 import { openShotScreenWin } from "../win/shotScreenWin";
@@ -8,31 +7,42 @@ import { openRecorderAudioWin } from "../win/recorderAudioWin";
 import { openRecorderVideoWin } from "../win/recorderVideoWin";
 import { openViewImageWin } from "../win/viewImageWin";
 import { openViewVideoWin } from "../win/viewVideoWin";
+import { openViewAudioWin } from "../win/viewAudioWin";
 import { openSettingWin } from "../win/settingWin";
+import * as zhCN from "../i18n/zh-CN.json";
+import * as enUS from "../i18n/en-US.json";
+import * as deDE from "../i18n/de-DE.json";
 
-export function initTray() {
+const lngMap = {
+	zh: zhCN,
+	en: enUS,
+	de: deDE,
+} as any;
+
+export function initTray(lng: string) {
 	let appIcon = new Tray(ICON);
+	const t = lngMap[lng].tray;
 	const contextMenu = Menu.buildFromTemplate([
 		{
-			label: "截图",
+			label: t.screenshot,
 			click: () => {
 				openShotScreenWin();
 			},
 		},
 		{
-			label: "录屏",
+			label: t.screenRecording,
 			click: () => {
 				openClipScreenWin();
 			},
 		},
 		{
-			label: "录音",
+			label: t.audioRecording,
 			click: () => {
 				openRecorderAudioWin();
 			},
 		},
 		{
-			label: "录像",
+			label: t.videoRecording,
 			click: () => {
 				openRecorderVideoWin();
 			},
@@ -41,15 +51,21 @@ export function initTray() {
 			type: "separator",
 		},
 		{
-			label: "查看图片",
+			label: t.viewImage,
 			click: () => {
 				openViewImageWin();
 			},
 		},
 		{
-			label: "查看视频",
+			label: t.watchVideo,
 			click: () => {
 				openViewVideoWin();
+			},
+		},
+		{
+			label: t.playAudio,
+			click: () => {
+				openViewAudioWin();
 			},
 		},
 		// {
@@ -67,19 +83,19 @@ export function initTray() {
 			type: "separator",
 		},
 		{
-			label: "主页面",
+			label: t.home,
 			click: () => {
 				showMainWin();
 			},
 		},
 		{
-			label: "设置",
+			label: t.setting,
 			click: () => {
 				openSettingWin();
 			},
 		},
 		{
-			label: "教程帮助",
+			label: t.help,
 			click: () => {
 				shell.openExternal("https://027xiguapi.github.io/pear-rec/");
 			},
@@ -88,14 +104,14 @@ export function initTray() {
 			type: "separator",
 		},
 		{
-			label: "重启",
+			label: t.relaunch,
 			click: () => {
 				app.relaunch();
 				app.exit(0);
 			},
 		},
 		{
-			label: "退出",
+			label: t.quit,
 			click: () => {
 				app.quit();
 			},

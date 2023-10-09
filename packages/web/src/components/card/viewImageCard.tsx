@@ -38,18 +38,19 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 	return (
 		<Upload {...uploadProps}>
 			<Card
-				title={t("home.viewImage")}
+				// title={t("home.viewImage")}
 				hoverable
 				bordered={false}
-				extra={
-					<Button type="link" onClick={handleViewImage}>
-						{t("home.history")}
-					</Button>
-				}
-				style={{ maxWidth: 300 }}
+				// extra={
+				// 	<Button type="link" onClick={handleViewImage}>
+				// 		{t("home.history")}
+				// 	</Button>
+				// }
+				style={{ maxWidth: 300, height: 145 }}
 			>
 				<div className="cardContent">
 					<PictureOutlined rev={undefined} />
+					<div className="cardTitle">{t("home.viewImage")}</div>
 				</div>
 			</Card>
 		</Upload>

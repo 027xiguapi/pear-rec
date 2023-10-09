@@ -1,4 +1,4 @@
-import { loading } from "./loading";
+// import { loading } from "./loading";
 import "./electronAPI";
 
-loading();
+// loading();
