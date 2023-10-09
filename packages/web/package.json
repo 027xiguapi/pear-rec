@@ -22,13 +22,15 @@
     "i18next": "^23.4.6",
     "js-cookie": "^3.0.5",
     "plyr": "^3.7.8",
+    "qr-scanner": "^1.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^13.2.1",
     "react-icons": "^4.8.0",
     "react-timer-hook": "^3.0.6",
     "tui-image-editor": "^3.15.3",
-    "viewerjs": "^1.11.3"
+    "viewerjs": "^1.11.3",
+    "wavesurfer.js": "^7.3.4"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",

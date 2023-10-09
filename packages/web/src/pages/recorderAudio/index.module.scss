@@ -3,60 +3,20 @@
 	position: relative;
 	border-radius: 8px;
 	:global {
-		.micBtn {
-			position: absolute;
-			right: 0;
-			top: 70px;
-			width: 25px;
-			line-height: 35px;
-			text-align: center;
-			border: 1px solid #eee;
-			cursor: pointer;
-			border-radius: 50% 0 0 50%;
+		#mic {
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			margin-top: 1rem;
 		}
-		.timer {
-			margin: 70px auto 50px;
-			display: flex;
-			justify-content: center;
-			.singleDigit {
-				font-size: 45px;
-			}
-		}
-		.wavesurfer {
-			position: absolute;
-			width: calc(100% - 20px);
-			height: 60px;
-			padding: 10px;
-			#canvas {
-				width: 100%;
-				height: 60px;
-			}
-		}
-		.recorderTools {
-			display: flex;
-			justify-content: center;
-			position: absolute;
-			bottom: 50px;
-			width: 100%;
-			.toolbarIcon {
-				width: 40px;
-				height: 40px;
-				font-size: 26px;
-				line-height: 35px;
-				margin: 0 20px;
-			}
-			.stopBtn {
-				font-size: 20px;
-			}
+		#recordings {
+			margin: 1rem 0;
 		}
 	}
 }
 .web {
-	width: 350px;
-	height: 650px;
-	margin-top: 30px;
-	box-shadow: rgb(190, 200, 228) 3px 3px 6px 0px,
-		rgb(255, 255, 255) -3px -3px 6px 0px;
+	width: calc(100% - 30px);
+	margin: 15px auto;
+	max-width: 1000px;
 }
 .electron {
 	width: 100vw;
