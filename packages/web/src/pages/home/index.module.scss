@@ -13,8 +13,20 @@
 		}
 		.cardContent {
 			text-align: center;
-			color: #1677ff;
 			font-size: 30px;
+			color: #1677ff;
+			cursor: pointer;
+			.cardIcon {
+				font-size: 30px;
+				color: #1677ff;
+			}
+			.cardToggle {
+				font-size: 16px;
+				color: #000;
+			}
+			.cardToggle:hover {
+				color: #1677ff;
+			}
 			.cardTitle {
 				font-size: 16px;
 				font-weight: 600;
@@ -28,7 +40,7 @@
 
 .web {
 	width: 660px;
-	height: 375px;
+	height: 340px;
 	margin-top: 30px;
 	box-shadow: rgb(190, 200, 228) 3px 3px 6px 0px,
 		rgb(255, 255, 255) -3px -3px 6px 0px;

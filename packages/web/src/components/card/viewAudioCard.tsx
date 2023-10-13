@@ -1,7 +1,8 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { useTranslation } from "react-i18next";
 import { BsMusicNoteBeamed } from "react-icons/bs";
-import { Button, Card, Upload } from "antd";
+import { DownOutlined } from "@ant-design/icons";
+import { Space, Card, Upload } from "antd";
 import type { UploadProps } from "antd/es/upload/interface";
 
 const ViewAudioCard = forwardRef((props: any, ref: any) => {
@@ -10,6 +11,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 	}));
 
 	const { t } = useTranslation();
+	const [isHistory, setIsHistory] = useState(false);
 
 	const uploadProps: UploadProps = {
 		accept: "audio/*",
@@ -35,25 +37,32 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 		e.stopPropagation();
 	}
 
+	function handleToggle() {
+		setIsHistory(!isHistory);
+	}
+
 	return (
-		<Upload {...uploadProps}>
-			<Card
-				// title={t("home.playAudio")}
-				hoverable
-				bordered={false}
-				// extra={
-				// 	<Button type="link" onClick={handleViewAudio}>
-				// 		{t("home.history")}
-				// 	</Button>
-				// }
-				style={{ maxWidth: 300, height: 145 }}
-			>
-				<div className="cardContent">
-					<BsMusicNoteBeamed />
-					<div className="cardTitle">{t("home.playAudio")}</div>
+		<Card
+			hoverable
+			bordered={false}
+			style={{ maxWidth: 300, minWidth: 200, height: 130 }}
+		>
+			<div className="cardContent">
+				<Space>
+					{isHistory ? (
+						<BsMusicNoteBeamed className="cardIcon" onClick={handleViewAudio} />
+					) : (
+						<Upload {...uploadProps}>
+							<BsMusicNoteBeamed className="cardIcon" />
+						</Upload>
+					)}
+					<DownOutlined className="cardToggle" onClick={handleToggle} />
+				</Space>
+				<div className="cardTitle">
+					{isHistory ? t("home.history") : t("home.playAudio")}
 				</div>
-			</Card>
-		</Upload>
+			</div>
+		</Card>
 	);
 });
 
