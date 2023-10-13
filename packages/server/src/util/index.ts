@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import { join, dirname, extname, basename } from "node:path";
 
-function getProtocol(isElectron: boolean) {
+function getProtocol(isElectron: boolean, type: string) {
 	const port = process.env.PORT || 5000;
 	const protocol = isElectron
 		? "pearrec:///"
-		: `http://localhost:${port}/getFile?url=`;
+		: `http://localhost:${port}/${type}?url=`;
 
 	return protocol;
 }
@@ -23,7 +23,10 @@ export function getImgsByImgUrl(imgUrl: string, isElectron: boolean) {
 
 			if (isImgFile(filePath)) {
 				filePath == imgUrl && (currentIndex = index);
-				imgs.push({ url: `${getProtocol(isElectron)}${filePath}`, index });
+				imgs.push({
+					url: `${getProtocol(isElectron, "getFile")}${filePath}`,
+					index,
+				});
 				index++;
 			}
 		});
@@ -62,13 +65,13 @@ export function getAudiosByAudioUrl(audioUrl: string, isElectron: boolean) {
 			const fileName = basename(filePath);
 			if (filePath == audioUrl) {
 				audios.unshift({
-					url: `${getProtocol(isElectron)}${filePath}`,
+					url: `${getProtocol(isElectron, "getFile")}${filePath}`,
 					name: fileName,
 					cover: "./imgs/music.png",
 				});
 			} else {
 				audios.push({
-					url: `${getProtocol(isElectron)}${filePath}`,
+					url: `${getProtocol(isElectron, "getFile")}${filePath}`,
 					name: fileName,
 					cover: "./imgs/music.png",
 				});
@@ -107,7 +110,7 @@ export function getVideosByVideoUrl(videoUrl: string, isElectron: boolean) {
 			const fileName = basename(filePath);
 			filePath == videoUrl && (currentIndex = index);
 			videos.push({
-				url: `${getProtocol(isElectron)}${filePath}`,
+				url: `${getProtocol(isElectron, "video")}${filePath}`,
 				index,
 				name: fileName,
 			});

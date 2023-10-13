@@ -1,7 +1,7 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { useTranslation } from "react-i18next";
-import { PlayCircleOutlined } from "@ant-design/icons";
-import { Button, Card, Upload } from "antd";
+import { PlayCircleOutlined, DownOutlined } from "@ant-design/icons";
+import { Space, Card, Upload } from "antd";
 import type { UploadProps } from "antd/es/upload/interface";
 
 const ViewVideoCard = forwardRef((props: any, ref: any) => {
@@ -10,6 +10,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	}));
 
 	const { t } = useTranslation();
+	const [isHistory, setIsHistory] = useState(false);
 
 	const uploadProps: UploadProps = {
 		accept: "video/*",
@@ -35,22 +36,33 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 		e.stopPropagation();
 	}
 
+	function handleToggle() {
+		setIsHistory(!isHistory);
+	}
 	return (
 		<Upload {...uploadProps}>
 			<Card
-				// title={t("home.watchVideo")}
 				hoverable
 				bordered={false}
-				// extra={
-				// 	<Button type="link" onClick={handleViewVideo}>
-				// 		{t("home.history")}
-				// 	</Button>
-				// }
-				style={{ maxWidth: 300, height: 145 }}
+				style={{ maxWidth: 300, minWidth: 200, height: 130 }}
 			>
 				<div className="cardContent">
-					<PlayCircleOutlined rev={undefined} />
-					<div className="cardTitle">{t("home.watchVideo")}</div>
+					<Space>
+						{isHistory ? (
+							<PlayCircleOutlined
+								className="cardIcon"
+								onClick={handleViewVideo}
+							/>
+						) : (
+							<Upload {...uploadProps}>
+								<PlayCircleOutlined className="cardIcon" />
+							</Upload>
+						)}
+						<DownOutlined className="cardToggle" onClick={handleToggle} />
+					</Space>
+					<div className="cardTitle">
+						{isHistory ? t("home.history") : t("home.viewImage")}
+					</div>
 				</div>
 			</Card>
 		</Upload>

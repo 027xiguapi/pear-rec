@@ -62,7 +62,6 @@ pnpm run build:desktop
 已经勾选的功能是开发过程最新功能，但可能还没发布在最新版本
 
 - [x] 截屏(react-screenshots)
-  - [x] 基本实现
   - [x] 框选裁切
   - [x] 框选大小位置可调整
   - [x] 取色器
@@ -83,11 +82,16 @@ pnpm run build:desktop
   - [x] 录制全屏
   - [x] 截图
   - [x] 自定义大小
+  - [x] 静音
   - [ ] 按键提示
   - [ ] 光标位置提示
   - [ ] 录制栏
   - [ ] 流写入
-- [x] 录音
+- [x] 录音(WebRTC)
+  - [x] 录音设置
+  - [x] 查看录音
+  - [x] 下载录音
+  - [ ] 编辑录音
 - [x] 录像
   - [ ] 自定义比特率
 - [x] 图片预览(viewerjs)
@@ -96,18 +100,21 @@ pnpm run build:desktop
   - [x] 拖拽
   - [x] 翻转
   - [x] 钉上层
-  - [ ] 查看
+  - [x] 查看
   - [x] 下载
   - [x] 打印
   - [ ] ocr
   - [x] 查看列表
-- [x] 图片编辑
+  - [x] 以图搜图
+  - [x] 扫描二维码
+- [x] 图片编辑(tui-image-editor)
 - [x] 视频预览(plyr)
 - [x] 音频预览(aplayer)
 - [x] 基本设置
   - [x] 用户 uuid
   - [x] 保存地址
   - [x] 开机自启动
+  - [x] 国际化(中、英、德)
 
 ## 国际化(I18n)
 
@@ -128,6 +135,8 @@ pnpm run build:desktop
 | 链接 | [下载](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯     | ◯     |
 
 ## 反馈和交流
+
+我们推荐使用 [issue](https://github.com/027xiguapi/pear-rec/issues) 列表进行最直接有效的反馈，也可以下面的方式
 
 - qq 群
 

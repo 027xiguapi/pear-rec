@@ -44,6 +44,65 @@ pnpm run build:web
 pnpm run build:desktop
 ```
 
+## Functions
+
+Features that have been ticked are the latest in the development process but may not have been released in the latest version
+
+- [x] Screenshot(react-screenshots)
+  - [x] Frame crop
+  - [x] Resizable frame position
+  - [x] Colour picker
+  - [x] Magnifying glass
+  - [x] Brush (freehand brush)
+  - [x] Geometric shapes (border fill support adjustment)
+  - [x] Advanced palette settings
+  - [x] Image filters (local mosaic blur and colour adjustment supported)
+  - [x] Customize what happens when the frame is released
+  - [x] Map search by map
+  - [x] QR code recognition
+  - [ ] Quick full screen capture to clipboard or custom directory
+  - [ ] Screenshot history
+  - [ ] Window and control selection (using OpenCV edge recognition)
+  - [ ] Long screen capture
+  - [ ] Multi-screen
+- [x] Record screen(ffmpeg)
+  - [x] Recording full screen
+  - [x] Screenshot
+  - [x] Customize size
+  - [x] Mute
+  - [ ] Key prompt
+  - [ ] Cursor Location Tips
+  - [ ] Recorder bar
+  - [ ] Stream Write
+- [x] Record audio(WebRTC)
+  - [x] Setting
+  - [x] Watch audio
+  - [x] Download audio
+  - [ ] Edit audio
+- [x] Record video(WebRTC)
+  - [ ] Custom bit rate
+- [x] Picture Preview(viewerjs)
+  - [x] Zoom in
+  - [x] Zoom out
+  - [x] Drag
+  - [x] Flip
+  - [x] Pin
+  - [x] Watch local image
+  - [x] Download
+  - [x] Print
+  - [ ] ocr
+  - [x] Watch list
+  - [x] Map search by map
+  - [x] QR code recognition
+- [x] edit image(tui-image-editor)
+- [x] Video Preview(plyr)
+- [x] Audio Previews(aplayer)
+- [x] setting
+  - [x] user uuid
+  - [x] Save address
+  - [x] Self-starting
+  - [x] internationalization(zh,en,de )
+
 ## Internationalization(I18n)
 
 - [x] Chinese
@@ -63,6 +122,8 @@ pnpm run build:desktop
 | link | [Download](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯     | ◯     |
 
 ## Feedback
+
+We recommend that [issue](https://github.com/027xiguapi/pear-rec/issues) be used for problem feedback, or others:
 
 - QQ group
 

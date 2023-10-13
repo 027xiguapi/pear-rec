@@ -1,7 +1,7 @@
-import React, { useImperativeHandle, forwardRef } from "react";
+import React, { useImperativeHandle, forwardRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PictureOutlined } from "@ant-design/icons";
-import { Button, Card, Upload } from "antd";
+import { PictureOutlined, DownOutlined } from "@ant-design/icons";
+import { Space, Card, Upload } from "antd";
 import type { UploadProps } from "antd/es/upload/interface";
 
 const ViewImageCard = forwardRef((props: any, ref: any) => {
@@ -10,6 +10,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 	}));
 
 	const { t } = useTranslation();
+	const [isHistory, setIsHistory] = useState(false);
 
 	const uploadProps: UploadProps = {
 		accept: "image/png,image/jpeg,.webp",
@@ -35,25 +36,32 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 		e.stopPropagation();
 	}
 
+	function handleToggle() {
+		setIsHistory(!isHistory);
+	}
+
 	return (
-		<Upload {...uploadProps}>
-			<Card
-				// title={t("home.viewImage")}
-				hoverable
-				bordered={false}
-				// extra={
-				// 	<Button type="link" onClick={handleViewImage}>
-				// 		{t("home.history")}
-				// 	</Button>
-				// }
-				style={{ maxWidth: 300, height: 145 }}
-			>
-				<div className="cardContent">
-					<PictureOutlined rev={undefined} />
-					<div className="cardTitle">{t("home.viewImage")}</div>
+		<Card
+			hoverable
+			bordered={false}
+			style={{ maxWidth: 300, minWidth: 200, height: 130 }}
+		>
+			<div className="cardContent">
+				<Space>
+					{isHistory ? (
+						<PictureOutlined className="cardIcon" onClick={handleViewImage} />
+					) : (
+						<Upload {...uploadProps}>
+							<PictureOutlined className="cardIcon" />
+						</Upload>
+					)}
+					<DownOutlined className="cardToggle" onClick={handleToggle} />
+				</Space>
+				<div className="cardTitle">
+					{isHistory ? t("home.history") : t("home.viewImage")}
 				</div>
-			</Card>
-		</Upload>
+			</div>
+		</Card>
 	);
 });
 

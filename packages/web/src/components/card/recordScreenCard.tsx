@@ -1,14 +1,12 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 import { useTranslation } from "react-i18next";
-import { CameraOutlined } from "@ant-design/icons";
-import { Button, Card } from "antd";
+import { CameraOutlined, DownOutlined } from "@ant-design/icons";
+import { Card, Space } from "antd";
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({}));
-
 	const { t } = useTranslation();
-
-	const [isRecordScreen, setIsRecordScreen] = useState(true);
+	const [isFull, setIsFull] = useState(false);
 
 	function handleClipScreen() {
 		window.electronAPI
@@ -16,30 +14,35 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 			: (location.href = "/recorderScreen.html");
 	}
 
-	function handleRecordScreen(e: any) {
+	function handleRecordScreen() {
 		window.electronAPI
 			? window.electronAPI.sendRsOpenWin({ isFullScreen: true })
 			: (location.href = "/recorderScreen.html");
+	}
 
+	function handleToggle(e: any) {
+		setIsFull(!isFull);
 		e.stopPropagation();
+	}
+
+	function handleRecord() {
+		isFull ? handleRecordScreen() : handleClipScreen();
 	}
 
 	return (
 		<Card
-			// title={t("home.screenRecording")}
 			hoverable
 			bordered={false}
-			// extra={
-			// 	<Button type="link" onClick={handleRecordScreen}>
-			// 		{t("home.fullScreen")}
-			// 	</Button>
-			// }
-			style={{ maxWidth: 300, height: 145 }}
-			onClick={handleClipScreen}
+			style={{ maxWidth: 300, minWidth: 140, height: 130 }}
 		>
-			<div className="cardContent">
-				<CameraOutlined rev={undefined} />
-				<div className="cardTitle">{t("home.screenRecording")}</div>
+			<div className="cardContent" onClick={handleRecord}>
+				<Space>
+					<CameraOutlined className="cardIcon" />
+					<DownOutlined className="cardToggle" onClick={handleToggle} />
+				</Space>
+				<div className="cardTitle">
+					{isFull ? t("home.fullScreen") : t("home.screenRecording")}
+				</div>
 			</div>
 		</Card>
 	);
