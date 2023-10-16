@@ -29,11 +29,15 @@ const ViewVideo = () => {
 		} else {
 			handleDrop();
 			getCurrentUser();
+			initVideo();
 		}
 	}, [source]);
 
 	useEffect(() => {
-		user.id && initVideo();
+		const paramsString = location.search;
+		const searchParams = new URLSearchParams(paramsString);
+		const videoUrl = searchParams.get("videoUrl");
+		user.id && userApi.editUser(user.id, { ...user, historyVideo: videoUrl });
 	}, [user]);
 
 	async function getCurrentUser() {
@@ -55,7 +59,6 @@ const ViewVideo = () => {
 			if (videoUrl.substring(0, 4) == "blob") {
 				setSource(videoUrl);
 			} else {
-				userApi.editUser(user.id, { ...user, historyVideo: videoUrl });
 				const res = (await api.getVideos(videoUrl)) as any;
 				if (res.code == 0) {
 					setVideos(res.data.videos);

@@ -22,7 +22,6 @@
 			}
 			.cardToggle {
 				font-size: 16px;
-				color: #000;
 			}
 			.cardToggle:hover {
 				color: #1677ff;
@@ -34,6 +33,12 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 			}
+		}
+		.fileRef {
+			display: none;
+		}
+		.directoryRef {
+			display: none;
 		}
 	}
 }

@@ -14,6 +14,10 @@
 >
 > 更多功能和 api 可以查看[官网](https://027xiguapi.github.io/pear-rec)
 
+## 例子
+
+[网页](https://pear-rec-xiguapi.vercel.app/)
+
 ## 下载地址
 
 ```

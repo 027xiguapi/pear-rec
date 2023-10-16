@@ -1,7 +1,8 @@
-import React, { useImperativeHandle, forwardRef, useState } from "react";
+import React, { useImperativeHandle, forwardRef, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { PictureOutlined, DownOutlined } from "@ant-design/icons";
-import { Space, Card, Upload } from "antd";
+import type { MenuProps } from "antd";
+import { Space, Card, Dropdown } from "antd";
 import type { UploadProps } from "antd/es/upload/interface";
 
 const ViewImageCard = forwardRef((props: any, ref: any) => {
@@ -10,24 +11,8 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 	}));
 
 	const { t } = useTranslation();
-	const [isHistory, setIsHistory] = useState(false);
-
-	const uploadProps: UploadProps = {
-		accept: "image/png,image/jpeg,.webp",
-		name: "file",
-		multiple: false,
-		showUploadList: false,
-		customRequest: () => {},
-		beforeUpload: (file) => {
-			if (window.electronAPI) {
-				window.electronAPI.sendViOpenWin({ imgUrl: file.path });
-			} else {
-				const imgUrl = window.URL.createObjectURL(file);
-				window.open(`/viewImage.html?imgUrl=${encodeURIComponent(imgUrl)}`);
-			}
-			return false;
-		},
-	};
+	const fileRef = useRef(null);
+	const directoryRef = useRef(null);
 
 	function handleViewImage(e: any) {
 		window.electronAPI
@@ -36,8 +21,41 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 		e.stopPropagation();
 	}
 
-	function handleToggle() {
-		setIsHistory(!isHistory);
+	const onClick: MenuProps["onClick"] = ({ key }) => {
+		if (key == "file") {
+			fileRef.current.click();
+		} else {
+			directoryRef.current.click();
+		}
+	};
+
+	const items: MenuProps["items"] = [
+		{
+			label: "打开图片",
+			key: "file",
+		},
+		{
+			label: "打开文件夹",
+			key: "directory",
+			disabled: !window.electronAPI,
+		},
+	];
+
+	function handleUploadFile(event) {
+		const file = event.target.files[0];
+		if (window.electronAPI) {
+			window.electronAPI.sendViOpenWin({ imgUrl: file.path });
+		} else {
+			const imgUrl = window.URL.createObjectURL(file);
+			window.open(`/viewImage.html?imgUrl=${encodeURIComponent(imgUrl)}`);
+		}
+	}
+
+	function handleUploadDirectory(event) {
+		const file = event.target.files[0];
+		if (window.electronAPI) {
+			window.electronAPI.sendViOpenWin({ imgUrl: file.path });
+		}
 	}
 
 	return (
@@ -47,20 +65,29 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 			style={{ maxWidth: 300, minWidth: 200, height: 130 }}
 		>
 			<div className="cardContent">
-				<Space>
-					{isHistory ? (
+				<Dropdown menu={{ items, onClick }}>
+					<Space>
 						<PictureOutlined className="cardIcon" onClick={handleViewImage} />
-					) : (
-						<Upload {...uploadProps}>
-							<PictureOutlined className="cardIcon" />
-						</Upload>
-					)}
-					<DownOutlined className="cardToggle" onClick={handleToggle} />
-				</Space>
-				<div className="cardTitle">
-					{isHistory ? t("home.history") : t("home.viewImage")}
-				</div>
+						<DownOutlined className="cardToggle" />
+					</Space>
+				</Dropdown>
+				<div className="cardTitle">{t("home.viewImage")}</div>
 			</div>
+			<input
+				type="file"
+				ref={fileRef}
+				accept="image/png,image/jpeg,.webp"
+				className="fileRef"
+				onChange={handleUploadFile}
+			/>
+			<input
+				type="file"
+				ref={directoryRef}
+				directory="directory"
+				webkitdirectory="webkitdirectory"
+				className="directoryRef"
+				onChange={handleUploadDirectory}
+			/>
 		</Card>
 	);
 });

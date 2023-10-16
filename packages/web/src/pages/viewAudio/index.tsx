@@ -22,7 +22,7 @@ const defaultAudio = [
 ];
 
 const ViewAudio = () => {
-  const api = useApi()
+	const api = useApi();
 	let refPlayer = useRef<any>();
 	const [audio, setAudio] = useState<any>([]);
 
@@ -47,14 +47,15 @@ const ViewAudio = () => {
 		const audioUrl = searchParams.get("audioUrl");
 		let audio = [];
 		if (audioUrl) {
-			// await window.electronAPI?.sendVaSetHistoryAudio(audioUrl);
 			audio = [{ url: audioUrl, cover: "./imgs/music.png" }];
-			// window.electronAPI &&
-			// 	(audio = await window.electronAPI?.invokeVaGetAudios(audioUrl));
-      const res = await api.getAudios(audioUrl) as any;
-      if( res.code == 0 ) {
-        audio = res.data
-      }
+			try {
+				const res = (await api.getAudios(audioUrl)) as any;
+				if (res.code == 0) {
+					audio = res.data;
+				}
+			} catch (err) {
+				console.log(err);
+			}
 		}
 		audio.length || (audio = defaultAudio);
 		setAudio(audio);

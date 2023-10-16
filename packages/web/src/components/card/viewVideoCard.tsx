@@ -1,8 +1,8 @@
-import React, { useState, useImperativeHandle, forwardRef } from "react";
+import React, { useImperativeHandle, forwardRef, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { PlayCircleOutlined, DownOutlined } from "@ant-design/icons";
-import { Space, Card, Upload } from "antd";
-import type { UploadProps } from "antd/es/upload/interface";
+import { Space, Card, Dropdown } from "antd";
+import type { MenuProps } from "antd";
 
 const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
@@ -10,24 +10,8 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	}));
 
 	const { t } = useTranslation();
-	const [isHistory, setIsHistory] = useState(false);
-
-	const uploadProps: UploadProps = {
-		accept: "video/*",
-		name: "file",
-		multiple: false,
-		showUploadList: false,
-		customRequest: () => {},
-		beforeUpload: (file) => {
-			if (window.electronAPI) {
-				window.electronAPI.sendVvOpenWin({ url: file.path });
-			} else {
-				const url = window.URL.createObjectURL(file);
-				window.open(`/viewVideo.html?videoUrl=${encodeURIComponent(url)}`);
-			}
-			return false;
-		},
-	};
+	const fileRef = useRef(null);
+	const directoryRef = useRef(null);
 
 	function handleViewVideo(e: any) {
 		window.electronAPI
@@ -36,36 +20,78 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 		e.stopPropagation();
 	}
 
-	function handleToggle() {
-		setIsHistory(!isHistory);
+	const onClick: MenuProps["onClick"] = ({ key }) => {
+		if (key == "file") {
+			fileRef.current.click();
+		} else {
+			directoryRef.current.click();
+		}
+	};
+
+	const items: MenuProps["items"] = [
+		{
+			label: "打开视频",
+			key: "file",
+		},
+		{
+			label: "打开文件夹",
+			key: "directory",
+			disabled: !window.electronAPI,
+		},
+	];
+
+	function handleUploadFile(event) {
+		const file = event.target.files[0];
+		if (window.electronAPI) {
+			window.electronAPI.sendVvOpenWin({ url: file.path });
+		} else {
+			const url = window.URL.createObjectURL(file);
+			window.open(`/viewVideo.html?videoUrl=${encodeURIComponent(url)}`);
+		}
 	}
+
+	function handleUploadDirectory(event) {
+		console.log(event);
+		const file = event.target.files[0];
+		if (window.electronAPI) {
+			window.electronAPI.sendVvOpenWin({ imgUrl: file.path });
+		}
+	}
+
 	return (
-		<Upload {...uploadProps}>
-			<Card
-				hoverable
-				bordered={false}
-				style={{ maxWidth: 300, minWidth: 200, height: 130 }}
-			>
-				<div className="cardContent">
+		<Card
+			hoverable
+			bordered={false}
+			style={{ maxWidth: 300, minWidth: 200, height: 130 }}
+		>
+			<div className="cardContent">
+				<Dropdown menu={{ items, onClick }}>
 					<Space>
-						{isHistory ? (
-							<PlayCircleOutlined
-								className="cardIcon"
-								onClick={handleViewVideo}
-							/>
-						) : (
-							<Upload {...uploadProps}>
-								<PlayCircleOutlined className="cardIcon" />
-							</Upload>
-						)}
-						<DownOutlined className="cardToggle" onClick={handleToggle} />
+						<PlayCircleOutlined
+							className="cardIcon"
+							onClick={handleViewVideo}
+						/>
+						<DownOutlined className="cardToggle" />
 					</Space>
-					<div className="cardTitle">
-						{isHistory ? t("home.history") : t("home.viewImage")}
-					</div>
-				</div>
-			</Card>
-		</Upload>
+				</Dropdown>
+				<div className="cardTitle">{t("home.viewImage")}</div>
+			</div>
+			<input
+				type="file"
+				ref={fileRef}
+				accept="video/*"
+				className="fileRef"
+				onChange={handleUploadFile}
+			/>
+			<input
+				type="file"
+				ref={directoryRef}
+				directory="directory"
+				webkitdirectory="webkitdirectory"
+				className="directoryRef"
+				onChange={handleUploadDirectory}
+			/>
+		</Card>
 	);
 });
 
