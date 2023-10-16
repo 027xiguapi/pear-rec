@@ -14,6 +14,10 @@
 >
 > More functions and APIs can be found on [the official website](https://027xiguapi.github.io/pear-rec).
 
+## Example
+
+[web pages](https://pear-rec-xiguapi.vercel.app/)
+
 ## Installation
 
 ```

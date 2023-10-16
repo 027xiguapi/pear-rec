@@ -1,12 +1,12 @@
-import React, { useState, useImperativeHandle, forwardRef } from "react";
+import React, { useImperativeHandle, forwardRef } from "react";
 import { useTranslation } from "react-i18next";
 import { CameraOutlined, DownOutlined } from "@ant-design/icons";
-import { Card, Space } from "antd";
+import { Card, Space, Dropdown } from "antd";
+import type { MenuProps } from "antd";
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({}));
 	const { t } = useTranslation();
-	const [isFull, setIsFull] = useState(false);
 
 	function handleClipScreen() {
 		window.electronAPI
@@ -20,14 +20,24 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 			: (location.href = "/recorderScreen.html");
 	}
 
-	function handleToggle(e: any) {
-		setIsFull(!isFull);
-		e.stopPropagation();
-	}
+	const onClick: MenuProps["onClick"] = ({ key }) => {
+		if (key == "full") {
+			handleRecordScreen();
+		} else {
+			handleClipScreen();
+		}
+	};
 
-	function handleRecord() {
-		isFull ? handleRecordScreen() : handleClipScreen();
-	}
+	const items: MenuProps["items"] = [
+		{
+			label: "全屏录制",
+			key: "full",
+		},
+		{
+			label: "局部录制",
+			key: "clip",
+		},
+	];
 
 	return (
 		<Card
@@ -35,14 +45,14 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 			bordered={false}
 			style={{ maxWidth: 300, minWidth: 140, height: 130 }}
 		>
-			<div className="cardContent" onClick={handleRecord}>
-				<Space>
-					<CameraOutlined className="cardIcon" />
-					<DownOutlined className="cardToggle" onClick={handleToggle} />
-				</Space>
-				<div className="cardTitle">
-					{isFull ? t("home.fullScreen") : t("home.screenRecording")}
-				</div>
+			<div className="cardContent">
+				<Dropdown menu={{ items, onClick }}>
+					<Space>
+						<CameraOutlined className="cardIcon" onClick={handleClipScreen} />
+						<DownOutlined className="cardToggle" />
+					</Space>
+				</Dropdown>
+				<div className="cardTitle">{t("home.screenRecording")}</div>
 			</div>
 		</Card>
 	);

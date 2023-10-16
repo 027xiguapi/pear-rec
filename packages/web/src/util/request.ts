@@ -52,13 +52,15 @@ service.interceptors.response.use(
 	(error) => {
 		// 对响应错误做点什么
 		if (error.message.indexOf("timeout") != -1) {
-			message.error("网络超时");
+			// message.error("网络超时");
 		} else if (error.message == "Network Error") {
-			message.error("网络连接错误");
+			// message.error("网络连接错误");
 		} else {
 			if (error.response.data) {
 				// message.error(error.response.statusText);
-			} else message.error("接口路径找不到");
+			} else {
+				// message.error("接口路径找不到");
+			}
 		}
 		return Promise.reject(error);
 	},

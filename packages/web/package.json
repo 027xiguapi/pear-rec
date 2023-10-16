@@ -7,7 +7,7 @@
     "build": "rimraf dist && tsc && vite build",
     "watch": "tsc && vite build --mode lib -w",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
+    "preview": "rimraf dist && tsc && vite build && vite preview",
     "deploy": "deploy.sh"
   },
   "dependencies": {

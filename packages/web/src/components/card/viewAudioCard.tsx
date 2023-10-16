@@ -1,9 +1,9 @@
-import React, { useState, useImperativeHandle, forwardRef } from "react";
+import React, { useImperativeHandle, forwardRef, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { BsMusicNoteBeamed } from "react-icons/bs";
+import type { MenuProps } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import { Space, Card, Upload } from "antd";
-import type { UploadProps } from "antd/es/upload/interface";
+import { Space, Card, Dropdown } from "antd";
 
 const ViewAudioCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
@@ -11,24 +11,8 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 	}));
 
 	const { t } = useTranslation();
-	const [isHistory, setIsHistory] = useState(false);
-
-	const uploadProps: UploadProps = {
-		accept: "audio/*",
-		name: "file",
-		multiple: false,
-		showUploadList: false,
-		customRequest: () => {},
-		beforeUpload: (file) => {
-			if (window.electronAPI) {
-				window.electronAPI.sendVaOpenWin({ url: file.path });
-			} else {
-				const url = window.URL.createObjectURL(file);
-				window.open(`/viewAudio.html?audioUrl=${encodeURIComponent(url)}`);
-			}
-			return false;
-		},
-	};
+	const fileRef = useRef(null);
+	const directoryRef = useRef(null);
 
 	function handleViewAudio(e: any) {
 		window.electronAPI
@@ -37,8 +21,42 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 		e.stopPropagation();
 	}
 
-	function handleToggle() {
-		setIsHistory(!isHistory);
+	const onClick: MenuProps["onClick"] = ({ key }) => {
+		if (key == "file") {
+			fileRef.current.click();
+		} else {
+			directoryRef.current.click();
+		}
+	};
+
+	const items: MenuProps["items"] = [
+		{
+			label: "打开音频",
+			key: "file",
+		},
+		{
+			label: "打开文件夹",
+			key: "directory",
+			disabled: !window.electronAPI,
+		},
+	];
+
+	function handleUploadFile(event) {
+		const file = event.target.files[0];
+		if (window.electronAPI) {
+			window.electronAPI.sendVaOpenWin({ url: file.path });
+		} else {
+			const url = window.URL.createObjectURL(file);
+			window.open(`/viewAudio.html?audioUrl=${encodeURIComponent(url)}`);
+		}
+	}
+
+	function handleUploadDirectory(event) {
+		console.log(event);
+		const file = event.target.files[0];
+		if (window.electronAPI) {
+			window.electronAPI.sendVaOpenWin({ imgUrl: file.path });
+		}
 	}
 
 	return (
@@ -48,20 +66,29 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 			style={{ maxWidth: 300, minWidth: 200, height: 130 }}
 		>
 			<div className="cardContent">
-				<Space>
-					{isHistory ? (
+				<Dropdown menu={{ items, onClick }}>
+					<Space>
 						<BsMusicNoteBeamed className="cardIcon" onClick={handleViewAudio} />
-					) : (
-						<Upload {...uploadProps}>
-							<BsMusicNoteBeamed className="cardIcon" />
-						</Upload>
-					)}
-					<DownOutlined className="cardToggle" onClick={handleToggle} />
-				</Space>
-				<div className="cardTitle">
-					{isHistory ? t("home.history") : t("home.playAudio")}
-				</div>
+						<DownOutlined className="cardToggle" />
+					</Space>
+				</Dropdown>
+				<div className="cardTitle">{t("home.playAudio")}</div>
 			</div>
+			<input
+				type="file"
+				ref={fileRef}
+				accept="audio/*"
+				className="fileRef"
+				onChange={handleUploadFile}
+			/>
+			<input
+				type="file"
+				ref={directoryRef}
+				directory="directory"
+				webkitdirectory="webkitdirectory"
+				className="directoryRef"
+				onChange={handleUploadDirectory}
+			/>
 		</Card>
 	);
 });

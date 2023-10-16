@@ -30,11 +30,20 @@ const ViewImage = () => {
 	useEffect(() => {
 		getCurrentUser();
 		handleDrop();
+		initImgs();
 		return destroyViewer;
 	}, []);
 
 	useEffect(() => {
-		user.id && initImgs();
+		const paramsString = location.search;
+		const searchParams = new URLSearchParams(paramsString);
+		const imgUrl = searchParams.get("imgUrl");
+		user.id &&
+			imgUrl &&
+			userApi.editUser(user.id, {
+				...user,
+				historyImg: imgUrl,
+			});
 	}, [user]);
 
 	useEffect(() => {
@@ -216,7 +225,6 @@ const ViewImage = () => {
 			if (imgUrl.substring(0, 4) == "blob") {
 				setImgs([{ url: imgUrl, index: 0 }]);
 			} else {
-				userApi.editUser(user.id, { ...user, historyImg: imgUrl });
 				const res = (await api.getImgs(imgUrl)) as any;
 				if (res.code == 0) {
 					setImgs(res.data.imgs);
