@@ -74,7 +74,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 						<DownOutlined className="cardToggle" />
 					</Space>
 				</Dropdown>
-				<div className="cardTitle">{t("home.viewImage")}</div>
+				<div className="cardTitle">{t("home.watchVideo")}</div>
 			</div>
 			<input
 				type="file"

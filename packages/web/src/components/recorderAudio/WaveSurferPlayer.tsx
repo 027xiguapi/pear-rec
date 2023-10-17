@@ -140,7 +140,6 @@ const WaveSurferPlayer = (props) => {
 				Auto center
 			</label>
 			<div ref={containerRef} style={{ minHeight: "120px" }} />
-
 			<Divider />
 			<Space wrap>
 				<Button type="primary" onClick={onPlayClick}>
