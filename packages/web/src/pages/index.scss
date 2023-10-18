@@ -91,6 +91,16 @@ table {
 	border-spacing: 0;
 }
 
+.hide {
+	display: none;
+}
+.hidden {
+	display: none;
+}
+.show {
+	display: block;
+}
+
 @keyframes blink {
 	0% {
 		opacity: 1;

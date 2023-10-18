@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Radio, Card, Divider, Switch, Space } from "antd";
+import { Radio, Card, Divider, Switch, Space, Button } from "antd";
+import UploadAudio from "../upload/UploadAudio";
 import WaveSurfer from "wavesurfer.js";
 import RecordPlugin from "./plugins/recordPlugin";
 import dayjs from "dayjs";
@@ -24,10 +25,13 @@ const AudioRecorder = (props) => {
 		record.on("record-end", async (blob) => {
 			const recordedUrl = URL.createObjectURL(blob);
 			const duration = await record.getDuration(blob);
+			const type = blob.type.split(";")[0].split("/")[1] || "webm";
+			const createdAt = dayjs().format();
 			const audio = {
 				url: recordedUrl,
-				type: blob.type.split(";")[0].split("/")[1] || "webm",
-				createdAt: dayjs().format(),
+				name: `${createdAt}.${type}`,
+				type: type,
+				createdAt: createdAt,
 				duration,
 			};
 			props.onSetAudios((prevState) => [audio, ...prevState]);
@@ -72,6 +76,24 @@ const AudioRecorder = (props) => {
 		checked ? openRecord() : destroyRecord();
 	}
 
+	async function handleUploadAudios(files) {
+		for (let i = 0; i < files.length; i++) {
+			let file = files[i];
+			const duration = await record.getDuration(file);
+			const url = window.URL.createObjectURL(file);
+			const createdAt = dayjs(file.lastModifiedDate).format();
+			const type = file.type;
+			const audio = {
+				url: url,
+				name: file.name,
+				type: type,
+				createdAt: createdAt,
+				duration: duration,
+			};
+			props.onSetAudios((prevState) => [audio, ...prevState]);
+		}
+	}
+
 	return (
 		<Card title="设置">
 			<Space>
@@ -81,6 +103,7 @@ const AudioRecorder = (props) => {
 					unCheckedChildren="关闭"
 					onChange={changeMic}
 				/>
+				<UploadAudio handleUploadAudios={handleUploadAudios} />
 			</Space>
 			<Divider />
 			<Space>

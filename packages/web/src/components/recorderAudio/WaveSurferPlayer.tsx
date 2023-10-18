@@ -32,6 +32,10 @@ const WaveSurferPlayer = (props) => {
 	const containerRef = useRef();
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentTime, setCurrentTime] = useState(0);
+	const [zoom, setZoom] = useState(100);
+	const [scrollbar, setScrollbar] = useState(true);
+	const [fillParent, setFillParent] = useState(true);
+	const [autoCenter, setAutoCenter] = useState(true);
 	const wavesurfer = useWavesurfer(containerRef, props);
 
 	const onPlayClick = useCallback(() => {
@@ -52,6 +56,7 @@ const WaveSurferPlayer = (props) => {
 		(e) => {
 			const minPxPerSec = e.target.valueAsNumber;
 			wavesurfer.zoom(minPxPerSec);
+			setZoom(minPxPerSec);
 		},
 		[wavesurfer],
 	);
@@ -61,6 +66,7 @@ const WaveSurferPlayer = (props) => {
 			wavesurfer.setOptions({
 				scrollbar: e.target.checked,
 			});
+			setScrollbar(e.target.checked);
 		},
 		[wavesurfer],
 	);
@@ -70,6 +76,7 @@ const WaveSurferPlayer = (props) => {
 			wavesurfer.setOptions({
 				fillParent: e.target.checked,
 			});
+			setFillParent(e.target.checked);
 		},
 		[wavesurfer],
 	);
@@ -79,6 +86,7 @@ const WaveSurferPlayer = (props) => {
 			wavesurfer.setOptions({
 				autoCenter: e.target.checked,
 			});
+			setAutoCenter(e.target.checked);
 		},
 		[wavesurfer],
 	);
@@ -103,40 +111,40 @@ const WaveSurferPlayer = (props) => {
 	return (
 		<>
 			<label>
-				Zoom:{" "}
+				Zoom:
 				<input
 					type="range"
 					min="10"
 					max="1000"
-					value="100"
+					value={zoom}
 					onChange={onRangeChange}
 				/>
 			</label>
 			<label>
 				<input
 					type="checkbox"
-					checked
+					checked={scrollbar}
 					value="scrollbar"
 					onChange={onScrollbarChange}
-				/>{" "}
+				/>
 				Scroll bar
 			</label>
 			<label>
 				<input
 					type="checkbox"
-					checked
+					checked={fillParent}
 					value="fillParent"
 					onChange={onFillParentChange}
-				/>{" "}
+				/>
 				Fill parent
 			</label>
 			<label>
 				<input
 					type="checkbox"
-					checked
+					checked={autoCenter}
 					value="autoCenter"
 					onChange={onAutoCenterChange}
-				/>{" "}
+				/>
 				Auto center
 			</label>
 			<div ref={containerRef} style={{ minHeight: "120px" }} />
