@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Space, Card } from "antd";
+import { Space, Card, Button, Modal } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 import WaveSurferPlayer from "../../components/recorderAudio/WaveSurferPlayer";
 import AudioRecorder from "../../components/recorderAudio/AudioRecorder";
 import Hover from "wavesurfer.js/plugins/hover";
@@ -13,6 +14,18 @@ const RecordAudio = () => {
 	function handleSetAudios(audios) {
 		setAudios(audios);
 	}
+
+	function handleDeleteAudio(index) {
+		const _audios = [...audios];
+		Modal.confirm({
+			title: "提示",
+			content: `是否删除当前记录`,
+			onOk() {
+				_audios.splice(index, 1);
+				setAudios(_audios);
+			},
+		});
+	}
 	return (
 		<div
 			className={`${styles.recordAudio} ${
@@ -23,10 +36,15 @@ const RecordAudio = () => {
 				<AudioRecorder onSetAudios={handleSetAudios} />
 				{audios.map((audio, index) => (
 					<Card
-						title={`记录_${audios.length - index}(创建时间:${
-							audio.createdAt
-						}, 时长:${parseInt(String(audio.duration / 1000))}秒)`}
+						title={`${audio.name}(创建时间:${audio.createdAt}, 时长:${
+							audio.duration ? parseInt(String(audio.duration / 1000)) : "--"
+						}秒)`}
 						key={index}
+						extra={
+							<Button type="text" onClick={() => handleDeleteAudio(index)}>
+								<CloseOutlined />
+							</Button>
+						}
 					>
 						<WaveSurferPlayer
 							height={100}

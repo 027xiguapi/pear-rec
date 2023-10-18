@@ -2,8 +2,7 @@ import React, { useImperativeHandle, forwardRef, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { PictureOutlined, DownOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Space, Card, Dropdown } from "antd";
-import type { UploadProps } from "antd/es/upload/interface";
+import { Space, Card, Dropdown, Modal } from "antd";
 
 const ViewImageCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
@@ -47,7 +46,13 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 			window.electronAPI.sendViOpenWin({ imgUrl: file.path });
 		} else {
 			const imgUrl = window.URL.createObjectURL(file);
-			window.open(`/viewImage.html?imgUrl=${encodeURIComponent(imgUrl)}`);
+			Modal.confirm({
+				title: "提示",
+				content: `是否打开${file.name}`,
+				onOk() {
+					window.open(`/viewImage.html?imgUrl=${encodeURIComponent(imgUrl)}`);
+				},
+			});
 		}
 	}
 

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import type { MenuProps } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import { Space, Card, Dropdown } from "antd";
+import { Space, Card, Dropdown, Modal } from "antd";
 
 const ViewAudioCard = forwardRef((props: any, ref: any) => {
 	useImperativeHandle(ref, () => ({
@@ -47,7 +47,14 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 			window.electronAPI.sendVaOpenWin({ url: file.path });
 		} else {
 			const url = window.URL.createObjectURL(file);
-			window.open(`/viewAudio.html?audioUrl=${encodeURIComponent(url)}`);
+			Modal.confirm({
+				title: "提示",
+				content: `是否打开${file.name}`,
+				onOk() {
+					window.open(`/viewAudio.html?audioUrl=${encodeURIComponent(url)}`);
+				},
+				onCancel() {},
+			});
 		}
 	}
 

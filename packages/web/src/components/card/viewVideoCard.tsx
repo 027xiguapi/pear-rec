@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, forwardRef, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { PlayCircleOutlined, DownOutlined } from "@ant-design/icons";
-import { Space, Card, Dropdown } from "antd";
+import { Space, Card, Dropdown, Modal } from "antd";
 import type { MenuProps } from "antd";
 
 const ViewVideoCard = forwardRef((props: any, ref: any) => {
@@ -46,7 +46,13 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 			window.electronAPI.sendVvOpenWin({ url: file.path });
 		} else {
 			const url = window.URL.createObjectURL(file);
-			window.open(`/viewVideo.html?videoUrl=${encodeURIComponent(url)}`);
+			Modal.confirm({
+				title: "提示",
+				content: `是否打开${file.name}`,
+				onOk() {
+					window.open(`/viewVideo.html?videoUrl=${encodeURIComponent(url)}`);
+				},
+			});
 		}
 	}
 
