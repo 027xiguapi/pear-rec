@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Button, Space, Divider } from "antd";
+import { Button, Space, Divider, Slider, Row, Col, Checkbox } from "antd";
 import WaveSurfer from "wavesurfer.js";
 import { saveAs } from "file-saver";
 
@@ -32,7 +32,6 @@ const WaveSurferPlayer = (props) => {
 	const containerRef = useRef();
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentTime, setCurrentTime] = useState(0);
-	const [zoom, setZoom] = useState(100);
 	const [scrollbar, setScrollbar] = useState(true);
 	const [fillParent, setFillParent] = useState(true);
 	const [autoCenter, setAutoCenter] = useState(true);
@@ -53,10 +52,8 @@ const WaveSurferPlayer = (props) => {
 	}, [wavesurfer]);
 
 	const onRangeChange = useCallback(
-		(e) => {
-			const minPxPerSec = e.target.valueAsNumber;
+		(minPxPerSec) => {
 			wavesurfer.zoom(minPxPerSec);
-			setZoom(minPxPerSec);
 		},
 		[wavesurfer],
 	);
@@ -110,43 +107,30 @@ const WaveSurferPlayer = (props) => {
 
 	return (
 		<>
-			<label>
+			<Row className="tools">
 				Zoom:
-				<input
-					type="range"
-					min="10"
-					max="1000"
-					value={zoom}
-					onChange={onRangeChange}
-				/>
-			</label>
-			<label>
-				<input
-					type="checkbox"
-					checked={scrollbar}
-					value="scrollbar"
-					onChange={onScrollbarChange}
-				/>
-				Scroll bar
-			</label>
-			<label>
-				<input
-					type="checkbox"
-					checked={fillParent}
-					value="fillParent"
-					onChange={onFillParentChange}
-				/>
-				Fill parent
-			</label>
-			<label>
-				<input
-					type="checkbox"
-					checked={autoCenter}
-					value="autoCenter"
-					onChange={onAutoCenterChange}
-				/>
-				Auto center
-			</label>
+				<Col span={12}>
+					<Slider
+						defaultValue={100}
+						min={10}
+						max={1000}
+						step={10}
+						tooltip={{ open: true, placement: "top" }}
+						onChange={onRangeChange}
+					/>
+				</Col>
+				<Col>
+					<Checkbox checked={scrollbar} onChange={onScrollbarChange}>
+						Scroll bar
+					</Checkbox>
+					<Checkbox checked={fillParent} onChange={onFillParentChange}>
+						Fill parent
+					</Checkbox>
+					<Checkbox checked={autoCenter} onChange={onAutoCenterChange}>
+						Auto center
+					</Checkbox>
+				</Col>
+			</Row>
 			<div ref={containerRef} style={{ minHeight: "120px" }} />
 			<Divider />
 			<Space wrap>
