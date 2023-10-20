@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { Button, Modal, message, Space } from "antd";
 import Screenshots, { Bounds } from "@pear-rec/screenshot";
+import UploadImg from "../../components/upload/UploadImg";
 import { saveAs } from "file-saver";
 import ininitApp from "../../pages/main";
 import { useUserApi } from "../../api/user";
@@ -9,14 +10,12 @@ import { isURL } from "../../util/validate";
 import { useApi } from "../../api";
 import "@pear-rec/screenshot/src/Screenshots/screenshots.scss";
 import styles from "./index.module.scss";
-import { init } from "i18next";
 
 const defaultImg = "/imgs/th.webp";
 function ShotScreen() {
 	const api = useApi();
 	const userApi = useUserApi();
 	const userRef = useRef({} as any);
-	const inputRef = useRef(null);
 	const [screenShotImg, setScreenShotImg] = useState("");
 
 	useEffect(() => {
@@ -150,13 +149,9 @@ function ShotScreen() {
 		]);
 	}
 
-	function handleImgUpload(event) {
-		const selectedFile = event.target.files[0];
+	function handleUploadImg(files) {
+		const selectedFile = files[0];
 		setScreenShotImg(window.URL.createObjectURL(selectedFile));
-	}
-
-	function getImgUpload() {
-		inputRef.current.click();
 	}
 
 	return (
@@ -174,15 +169,7 @@ function ShotScreen() {
 				/>
 			) : (
 				<Space wrap className="btns">
-					<Button type="primary" onClick={getImgUpload}>
-						图片
-					</Button>
-					<input
-						type="file"
-						className="inputRef"
-						ref={inputRef}
-						onChange={handleImgUpload}
-					/>
+					<UploadImg handleUploadImg={handleUploadImg} />
 					<Button type="primary" onClick={getShotScreenImg}>
 						屏幕
 					</Button>

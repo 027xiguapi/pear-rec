@@ -31,7 +31,7 @@ const BasicSetting = (props) => {
 	}
 
 	function getLanguage() {
-		const lng = user.language || localStorage.getItem("pear-rec_i18n");
+		const lng = user.language || localStorage.getItem("pear-rec_i18n") || "zh";
 		form.setFieldValue("language", lng);
 	}
 
