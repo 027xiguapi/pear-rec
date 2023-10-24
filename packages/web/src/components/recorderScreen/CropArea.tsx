@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Resizable } from "re-resizable";
-// import ScreenRecorder from "./ScreenRecorder";
 
 const CropArea = (props) => {
 	const [isDragging, setIsDragging] = useState(false);
@@ -66,15 +65,13 @@ const CropArea = (props) => {
 				}}
 				onResize={handleResizeCropArea}
 			>
-				<div className="contentCropArea">
-					<div
-						className="innerCropArea"
-						id="innerCropArea"
-						onMouseDown={handleMouseDownCropArea}
-						onMouseMove={handleMouseMoveCropArea}
-						onMouseUp={handleMouseUpCropArea}
-					></div>
-				</div>
+				<div
+					className="innerCropArea"
+					id="innerCropArea"
+					onMouseDown={handleMouseDownCropArea}
+					onMouseMove={handleMouseMoveCropArea}
+					onMouseUp={handleMouseUpCropArea}
+				></div>
 			</Resizable>
 		</div>
 	);

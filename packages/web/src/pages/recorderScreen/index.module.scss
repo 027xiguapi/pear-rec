@@ -13,22 +13,19 @@
 		.cropArea {
 			position: absolute;
 			z-index: 10;
-			outline: 2px solid #f0f0f0;
-			user-select: none;
-			.contentCropArea {
-				width: 100%;
+			outline: 2px solid #ccc;
+			#innerCropArea {
 				height: 100%;
+				width: 100%;
 			}
-			.innerCropArea {
-				height: 100%;
-				width: 100%;
-				cursor: move;
+			.react-resizable-handle {
+				background-image: none;
 			}
 		}
 		.screenRecorder {
 			position: absolute;
 			z-index: 100;
-			outline: 2px solid #f0f0f0;
+			outline: 2px solid #ccc;
 			display: flex;
 			cursor: pointer;
 			background-color: #ccc;
@@ -66,6 +63,7 @@
 				display: flex;
 				.toolbarTitle {
 					height: 30px;
+					line-height: 35px;
 				}
 			}
 		}
