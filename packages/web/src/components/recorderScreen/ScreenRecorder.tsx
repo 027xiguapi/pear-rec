@@ -120,8 +120,7 @@ const ScreenRecorder = (props) => {
 			style={{
 				top: props.position.y + props.size.height + 2,
 				left: props.position.x,
-				width: props.size.width,
-				// pointerEvents: isRecording ? "none" : "auto",
+				// width: props.size.width,
 			}}
 		>
 			<video ref={videoRef} className="hide" playsInline autoPlay />
