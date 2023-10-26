@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { Button, Modal, message, Space } from "antd";
+import { useTranslation } from "react-i18next";
 import Screenshots, { Bounds } from "@pear-rec/screenshot";
 import UploadImg from "../../components/upload/UploadImg";
 import { saveAs } from "file-saver";
@@ -13,6 +14,7 @@ import styles from "./index.module.scss";
 
 const defaultImg = "/imgs/th.webp";
 function ShotScreen() {
+	const { t } = useTranslation();
 	const api = useApi();
 	const userApi = useUserApi();
 	const userRef = useRef({} as any);
@@ -86,6 +88,8 @@ function ShotScreen() {
 		Modal.confirm({
 			title: "扫码结果",
 			content: result,
+			okText: t("modal.ok"),
+			cancelText: t("modal.cancel"),
 			onOk() {
 				if (isURL(result)) {
 					window.electronAPI
@@ -124,6 +128,8 @@ function ShotScreen() {
 				Modal.confirm({
 					title: "图片已保存，是否查看？",
 					content: res.data.filePath,
+					okText: t("modal.ok"),
+					cancelText: t("modal.cancel"),
 					onOk() {
 						window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
 						console.log("OK");

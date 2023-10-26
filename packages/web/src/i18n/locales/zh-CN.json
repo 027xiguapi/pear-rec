@@ -1,4 +1,8 @@
 {
+  "modal": {
+    "ok": "确定",
+    "cancel": "取消"
+  },
   "nav": {
     "setting": "设置",
     "minimize": "最小化",

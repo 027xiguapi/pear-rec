@@ -1,29 +1,9 @@
 import Digit from "./digit";
 import styles from "./index.module.scss";
 
-export default function Timer({
-	seconds,
-	minutes,
-	hours,
-	days,
-	isShowTitle,
-}: any) {
+export default function Timer({ hours, minutes, seconds, isShowTitle }: any) {
 	return (
 		<div className={styles.timerContainer}>
-			{days !== undefined ? (
-				<Digit
-					value={days}
-					isShowTitle={isShowTitle}
-					title="DAYS"
-					addSeparator
-				/>
-			) : null}
-			{days !== undefined ? (
-				<span className="separtorContainer">
-					<span className="separtor" />
-					<span className="separtor" />
-				</span>
-			) : null}
 			<Digit
 				value={hours}
 				isShowTitle={isShowTitle}

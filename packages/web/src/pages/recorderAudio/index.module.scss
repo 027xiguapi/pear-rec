@@ -14,6 +14,16 @@
 		.tools {
 			line-height: 34px;
 		}
+		.singleDigit {
+			font-size: 26px;
+		}
+		.separtorContainer {
+			margin: 0 0 7px 0px;
+			.separtor {
+				width: 3px;
+				height: 3px;
+			}
+		}
 	}
 }
 .web {

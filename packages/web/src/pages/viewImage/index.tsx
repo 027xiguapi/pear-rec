@@ -88,6 +88,8 @@ const ViewImage = () => {
 						Modal.confirm({
 							title: "扫码结果",
 							content: result,
+							okText: t("modal.ok"),
+							cancelText: t("modal.cancel"),
 							onOk() {
 								if (isURL(result)) {
 									window.electronAPI
