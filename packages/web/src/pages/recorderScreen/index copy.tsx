@@ -185,6 +185,8 @@ const RecorderScreen = () => {
 				Modal.confirm({
 					title: "录屏已保存，是否查看？",
 					content: `${res.data.filePath}`,
+					okText: t("modal.ok"),
+					cancelText: t("modal.cancel"),
 					onOk() {
 						window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
 						console.log("OK");

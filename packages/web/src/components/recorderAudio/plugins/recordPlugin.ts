@@ -31,17 +31,39 @@ class Record extends RecordPlugin {
 		return this.mediaRecorder;
 	}
 
+	public isPaused(): boolean {
+		return this.getMediaRecorder()?.state === "paused";
+	}
+
 	/** Pause the recording */
 	public pauseRecording() {
 		if (this.isRecording()) {
-			this.getMediaRecorder()?.pause();
+			const mediaRecorder = this.getMediaRecorder();
+			if (mediaRecorder) {
+				mediaRecorder?.pause();
+				mediaRecorder.onpause = () => {
+					// @ts-ignore
+					this.emit("record-pause");
+				};
+			}
 		}
 	}
 
 	/** Resume the recording */
 	public resumeRecording() {
-		if (this.isRecording()) {
-			this.getMediaRecorder()?.resume();
+		if (this.isPaused()) {
+			const mediaRecorder = this.getMediaRecorder();
+			if (mediaRecorder) {
+				mediaRecorder.resume();
+				mediaRecorder.onresume = () => {
+					// @ts-ignore
+					this.emit("record-resume");
+				};
+			}
+
+			// mediaRecorder.onpause = () => {
+			//   this.emit("record-pause");
+			// };
 		}
 	}
 

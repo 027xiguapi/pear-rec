@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Space, Card, Button, Modal } from "antd";
+import { useTranslation } from "react-i18next";
 import { CloseOutlined } from "@ant-design/icons";
 import WaveSurferPlayer from "../../components/recorderAudio/WaveSurferPlayer";
 import AudioRecorder from "../../components/recorderAudio/AudioRecorder";
@@ -9,6 +10,7 @@ import ininitApp from "../../pages/main";
 import styles from "./index.module.scss";
 
 const RecordAudio = () => {
+	const { t } = useTranslation();
 	const [audios, setAudios] = useState([]);
 
 	function handleSetAudios(audios) {
@@ -20,6 +22,8 @@ const RecordAudio = () => {
 		Modal.confirm({
 			title: "提示",
 			content: `是否删除当前记录`,
+			okText: t("modal.ok"),
+			cancelText: t("modal.cancel"),
 			onOk() {
 				_audios.splice(index, 1);
 				setAudios(_audios);

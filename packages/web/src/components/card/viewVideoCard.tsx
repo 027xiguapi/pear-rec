@@ -49,6 +49,8 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 			Modal.confirm({
 				title: "提示",
 				content: `是否打开${file.name}`,
+				okText: t("modal.ok"),
+				cancelText: t("modal.cancel"),
 				onOk() {
 					window.open(`/viewVideo.html?videoUrl=${encodeURIComponent(url)}`);
 				},

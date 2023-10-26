@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, message, Modal } from "antd";
+import { Button, Modal } from "antd";
 import ImageEditor from "tui-image-editor";
 import ininitApp from "../../pages/main";
 import { useApi } from "../../api";
 import { useUserApi } from "../../api/user";
+import { saveAs } from "file-saver";
 import "tui-image-editor/dist/tui-image-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import styles from "./index.module.scss";
@@ -241,6 +242,8 @@ const EditImage = () => {
 				Modal.confirm({
 					title: "图片已保存，是否查看？",
 					content: `${res.data.filePath}`,
+					okText: t("modal.ok"),
+					cancelText: t("modal.cancel"),
 					onOk() {
 						window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
 						console.log("OK");
@@ -251,7 +254,7 @@ const EditImage = () => {
 				});
 			}
 		} catch (err) {
-			message.error("保存失败");
+			saveAs(blob, `pear-rec_${+new Date()}.png`);
 		}
 	}
 

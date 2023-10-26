@@ -11,7 +11,6 @@ import { saveAs } from "file-saver";
 
 const ScreenRecorder = (props) => {
 	const { t } = useTranslation();
-	const [position, setPosition] = useState({ x: 200, y: 422 });
 	const videoRef = useRef<HTMLVideoElement>();
 	const mediaStream = useRef<MediaStream>();
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
