@@ -6,6 +6,7 @@ import { useUserApi } from "../../api/user";
 import CropArea from "../../components/recorderScreen/CropArea";
 import SelectMedia from "../../components/recorderScreen/SelectMedia";
 import CropRecorder from "../../components/recorderScreen/CropRecorder";
+import ScreenRecorder from "../../components/recorderScreen/ScreenRecorder";
 import "@pear-rec/timer/src/Timer/index.module.scss";
 import styles from "./index.module.scss";
 
@@ -46,29 +47,35 @@ const RecorderScreen = () => {
 
 	return (
 		<div className={styles.recorderScreen}>
-			{isMedia ? (
-				<CropRecorder />
+			{window.isElectron ? (
+				<ScreenRecorder />
 			) : (
-				<SelectMedia
-					setIframeRef={setIframeRef}
-					setMediaStream={setMediaStream}
-				/>
+				<>
+					{isMedia ? (
+						<CropRecorder />
+					) : (
+						<SelectMedia
+							setIframeRef={setIframeRef}
+							setMediaStream={setMediaStream}
+						/>
+					)}
+					<iframe
+						ref={iframeRef}
+						className={`iframeRef ${isIframe ? "show" : "hide"}`}
+						src=""
+						width={"100%"}
+						height={"100%"}
+						frameBorder="0"
+					></iframe>
+					<video
+						ref={videoRef}
+						className={`videoRef ${isIframe ? "hide" : "show"}`}
+						autoPlay
+						muted
+						playsInline
+					></video>
+				</>
 			)}
-			<iframe
-				ref={iframeRef}
-				className={`iframeRef ${isIframe ? "show" : "hide"}`}
-				src=""
-				width={"100%"}
-				height={"100%"}
-				frameBorder="0"
-			></iframe>
-			<video
-				ref={videoRef}
-				className={`videoRef ${isIframe ? "hide" : "show"}`}
-				autoPlay
-				muted
-				playsInline
-			></video>
 		</div>
 	);
 };

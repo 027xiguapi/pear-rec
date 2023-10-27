@@ -5,7 +5,8 @@ import { sequelize } from "./database/sequelize";
 
 const port = process.env.PORT || 5000;
 global.crypto = crypto;
-(async () => {
+
+const initServer = async () => {
 	// await sequelize.sync({ force: true });
 	await sequelize.sync();
 	try {
@@ -18,4 +19,6 @@ global.crypto = crypto;
 	createServer(app).listen(port, () =>
 		console.log(`Server listen on port ${port}`),
 	);
-})();
+};
+
+export default initServer;

@@ -1,7 +1,8 @@
 .recordAudio {
-	overflow: hidden;
 	position: relative;
-	border-radius: 8px;
+	width: calc(100% - 30px);
+	max-width: 1000px;
+	margin: 15px auto;
 	:global {
 		#mic {
 			border: 1px solid #ddd;
@@ -25,15 +26,4 @@
 			}
 		}
 	}
-}
-.web {
-	width: calc(100% - 30px);
-	margin: 15px auto;
-	max-width: 1000px;
-}
-.electron {
-	width: 100vw;
-	height: 100vh;
-	margin: 0;
-	box-shadow: unset;
 }

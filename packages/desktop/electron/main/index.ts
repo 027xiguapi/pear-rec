@@ -10,8 +10,10 @@ import {
 	unregisterAllGlobalShortcut,
 } from "./globalShortcut";
 import { initConfig } from "./store";
-import "@pear-rec/server";
+import { isDev } from "./contract";
+import initServer from "@pear-rec/server";
 
+isDev || initServer();
 const config = initConfig();
 
 // The built directory structure

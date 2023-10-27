@@ -11,8 +11,8 @@ function createRecorderAudioWin(): BrowserWindow {
 	recorderAudioWin = new BrowserWindow({
 		title: "pear-rec 录音",
 		icon: ICON,
-		// width: 350, // 宽度(px), 默认值为 800
-		// height: 650, // 高度(px), 默认值为 600
+		width: 960, // 宽度(px), 默认值为 800
+		height: 660, // 高度(px), 默认值为 600
 		autoHideMenuBar: true, // 自动隐藏菜单栏
 		// useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
 		// movable: false, // 是否可移动
@@ -38,11 +38,11 @@ function createRecorderAudioWin(): BrowserWindow {
 
 	recorderAudioWin?.webContents.session.on(
 		"will-download",
-		(event: any, item: any, webContents: any) => {
+		async (event: any, item: any, webContents: any) => {
 			const url = item.getURL();
 			if (downloadSet.has(url)) {
 				const fileName = item.getFilename();
-				const filePath = getFilePath() as string;
+				const filePath = (await getFilePath()) as string;
 				const rsFilePath = join(`${filePath}/ra`, `${fileName}`);
 				item.setSavePath(rsFilePath);
 

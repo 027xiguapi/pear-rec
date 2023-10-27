@@ -121,6 +121,13 @@ const AudioRecorder = (props) => {
 					unCheckedChildren="关闭"
 					onChange={changeMic}
 				/>
+				计时
+				<Timer
+					seconds={timer.seconds}
+					minutes={timer.minutes}
+					hours={timer.hours}
+					isShowTitle={false}
+				/>
 				<UploadAudio handleUploadAudios={handleUploadAudios} />
 			</Space>
 			<Divider />
@@ -150,13 +157,6 @@ const AudioRecorder = (props) => {
 						Histogram
 					</Radio.Button>
 				</Radio.Group>
-				计时
-				<Timer
-					seconds={timer.seconds}
-					minutes={timer.minutes}
-					hours={timer.hours}
-					isShowTitle={false}
-				/>
 			</Space>
 			<Divider />
 			<div id="mic" ref={micRef}></div>

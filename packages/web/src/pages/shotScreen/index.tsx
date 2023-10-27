@@ -173,6 +173,8 @@ function ShotScreen() {
 					onSearch={onSearch}
 					onScan={onScan}
 				/>
+			) : window.isElectron ? (
+				<></>
 			) : (
 				<Space wrap className="btns">
 					<UploadImg handleUploadImg={handleUploadImg} />
