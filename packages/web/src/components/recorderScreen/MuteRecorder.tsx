@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { useStopwatch } from "react-timer-hook";
 import { useTranslation } from "react-i18next";
 import { CameraOutlined } from "@ant-design/icons";
 import {

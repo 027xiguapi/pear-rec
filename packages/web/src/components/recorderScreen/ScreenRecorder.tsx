@@ -1,16 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { BsRecordCircle } from "react-icons/bs";
+import { CameraOutlined } from "@ant-design/icons";
 import { SettingOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import PlayRecorder from "./PlayRecorder";
 import PauseRecorder from "./PauseRecorder";
 import MuteRecorder from "./MuteRecorder";
+import Timer from "@pear-rec/timer";
 import StopRecorder from "./StopRecorder";
 import { saveAs } from "file-saver";
+import useTimer from "@pear-rec/timer/src/useTimer";
 
 const ScreenRecorder = (props) => {
 	const { t } = useTranslation();
+	const timer = useTimer();
 	const videoRef = useRef<HTMLVideoElement>();
 	const mediaStream = useRef<MediaStream>();
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
@@ -44,8 +48,22 @@ const ScreenRecorder = (props) => {
 				recordedChunks.current.push(event.data);
 			}
 		};
+
+		mediaRecorder.current.onstart = (event) => {
+			timer.start();
+		};
+
 		mediaRecorder.current.onstop = (event) => {
 			exportRecord();
+			timer.reset();
+		};
+
+		mediaRecorder.current.onpause = (event) => {
+			timer.pause();
+		};
+
+		mediaRecorder.current.onresume = (event) => {
+			timer.resume();
 		};
 	}
 
@@ -59,16 +77,17 @@ const ScreenRecorder = (props) => {
 		if (window.electronAPI) {
 			window.electronAPI.sendRsShotScreen();
 		} else {
-			// const canvas = document.createElement("canvas");
-			// canvas.width = window.innerWidth;
-			// canvas.height = window.innerHeight;
-			// const context = canvas.getContext("2d");
-			// context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-			// const url = canvas.toDataURL("image/png");
-			// const link = document.createElement("a");
-			// link.href = url;
-			// link.download = `pear-rec_${+new Date()}.png`;
-			// link.click();
+			const { width, height } = props.size;
+			const canvas = document.createElement("canvas");
+			canvas.width = width;
+			canvas.height = height;
+			const context = canvas.getContext("2d");
+			context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+			const url = canvas.toDataURL("image/png");
+			const link = document.createElement("a");
+			link.href = url;
+			link.download = `pear-rec_${+new Date()}.png`;
+			link.click();
 		}
 	}
 
@@ -98,8 +117,6 @@ const ScreenRecorder = (props) => {
 			// mediaStream.current?.getTracks().forEach((track) => track.stop());
 			setIsRecording(false);
 			props.setIsRecording(false);
-			// timer.reset(null, false);
-			console.log("录像完成！");
 		}
 	}
 
@@ -135,17 +152,23 @@ const ScreenRecorder = (props) => {
 				title={t("nav.setting")}
 				onClick={handleOpenSettingWin}
 			></Button>
-			{/* <Button
+			<Button
 				type="text"
 				icon={<CameraOutlined />}
 				className="toolbarIcon shotScreenBtn"
 				title={t("recorderScreen.shotScreen")}
-				// onClick={handleShotScreen}
-			></Button> */}
+				onClick={handleShotScreen}
+			></Button>
 			<div className="drgan"></div>
 			{isRecording ? (
 				<>
 					{/* <MuteRecorder /> */}
+					<Timer
+						seconds={timer.seconds}
+						minutes={timer.minutes}
+						hours={timer.hours}
+						isShowTitle={false}
+					/>
 					<PauseRecorder
 						pauseRecord={handlePauseRecord}
 						resumeRecord={handleResumeRecord}

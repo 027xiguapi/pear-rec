@@ -14,7 +14,6 @@ const AudioRecorder = (props) => {
 	const micRef = useRef();
 	const [record, setRecord] = useState<any>(null);
 	const [isOpenMic, setIsOpenMic] = useState(false);
-	// const [isRunning, setIsRunning] = useState(false);
 	const [value, setValue] = useState("");
 
 	useEffect(() => {
