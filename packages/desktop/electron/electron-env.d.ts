@@ -9,3 +9,5 @@ declare namespace NodeJS {
 		PUBLIC: string;
 	}
 }
+
+declare module "@pear-rec/server";

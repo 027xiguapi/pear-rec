@@ -24,21 +24,52 @@ const ScreenRecorder = (props) => {
 	const [isSave, setIsSave] = useState(false); // 标记是否正在保存
 
 	useEffect(() => {
-		getCropArea();
+		if (window.electronAPI) {
+			initElectron();
+		} else {
+			initCropArea();
+		}
 	}, []);
 
-	async function getCropArea() {
-		const innerCropArea = document.querySelector("#innerCropArea");
-		const cropTarget = await (window as any).CropTarget.fromElement(
-			innerCropArea,
-		);
+	async function initElectron() {
+		const sources =
+			await window.electronAPI?.invokeRsGetDesktopCapturerSource();
+		const source = sources.filter((e: any) => e.id == "screen:0:0")[0];
+		const constraints: any = {
+			audio: false,
+			video: {
+				mandatory: {
+					chromeMediaSource: "desktop",
+					chromeMediaSourceId: source.id,
+				},
+			},
+		};
+		try {
+			mediaStream.current = await navigator.mediaDevices.getUserMedia(
+				constraints,
+			);
+		} catch (err) {
+			console.log("getUserMedia", err);
+		}
 
-		mediaStream.current = await navigator.mediaDevices.getDisplayMedia({
-			preferCurrentTab: true,
-		} as any);
-		const [videoTrack] = mediaStream.current.getVideoTracks();
-		await (videoTrack as any).cropTo(cropTarget);
-		videoRef.current.srcObject = mediaStream.current;
+		return constraints;
+	}
+
+	async function initCropArea() {
+		try {
+			const innerCropArea = document.querySelector("#innerCropArea");
+			const cropTarget = await (window as any).CropTarget.fromElement(
+				innerCropArea,
+			);
+			mediaStream.current = await navigator.mediaDevices.getDisplayMedia({
+				preferCurrentTab: true,
+			} as any);
+			const [videoTrack] = mediaStream.current.getVideoTracks();
+			await (videoTrack as any).cropTo(cropTarget);
+			videoRef.current.srcObject = mediaStream.current;
+		} catch (err) {
+			console.log("initCropArea", err);
+		}
 	}
 
 	function setMediaRecorder() {
@@ -134,9 +165,9 @@ const ScreenRecorder = (props) => {
 		<div
 			className="screenRecorder"
 			style={{
-				top: props.position.y + props.size.height + 2,
-				left: props.position.x,
-				// width: props.size.width,
+				top: props.position ? props.position.y + props.size.height + 2 : 0,
+				left: props.position ? props.position.x : 0,
+				width: props.position ? "auto" : "100%",
 			}}
 		>
 			<video ref={videoRef} className="hide" playsInline autoPlay />
