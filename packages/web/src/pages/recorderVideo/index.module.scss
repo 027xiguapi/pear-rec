@@ -16,6 +16,7 @@
 			width: 100%;
 			bottom: 0px;
 			border-top: 1px solid #eee;
+      background: #ccc;
 			.separtorContainer {
 				margin: 0 0 8px;
 				.separtor {
@@ -23,6 +24,9 @@
 					height: 3px;
 				}
 			}
+      .singleDigit {
+        background: transparent;
+      }
 			.recorderTools {
 				display: flex;
 				align-items: center;

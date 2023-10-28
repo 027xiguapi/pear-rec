@@ -56,14 +56,15 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 				},
 			});
 		}
+		event.target.value = "";
 	}
 
 	function handleUploadDirectory(event) {
-		console.log(event);
 		const file = event.target.files[0];
 		if (window.electronAPI) {
 			window.electronAPI.sendVvOpenWin({ imgUrl: file.path });
 		}
+    event.target.value = "";
 	}
 
 	return (
@@ -77,7 +78,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 					<Space>
 						<PlayCircleOutlined
 							className="cardIcon"
-							onClick={handleViewVideo}
+							onClick={() => fileRef.current.click()}
 						/>
 						<DownOutlined className="cardToggle" />
 					</Space>

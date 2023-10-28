@@ -56,6 +56,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 				},
 			});
 		}
+    event.target.value = "";
 	}
 
 	function handleUploadDirectory(event) {
@@ -63,6 +64,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 		if (window.electronAPI) {
 			window.electronAPI.sendViOpenWin({ imgUrl: file.path });
 		}
+    event.target.value = "";
 	}
 
 	return (
@@ -74,7 +76,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 			<div className="cardContent">
 				<Dropdown menu={{ items, onClick }}>
 					<Space>
-						<PictureOutlined className="cardIcon" onClick={handleViewImage} />
+						<PictureOutlined className="cardIcon" onClick={()=>fileRef.current.click()} />
 						<DownOutlined className="cardToggle" />
 					</Space>
 				</Dropdown>

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useStopwatch } from "react-timer-hook";
 import { useTranslation } from "react-i18next";
 import { Button, Modal, message } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
@@ -11,10 +10,12 @@ import {
 	BsPause,
 	BsFillStopFill,
 } from "react-icons/bs";
-import Timer from "@pear-rec/timer";
 import ininitApp from "../../pages/main";
 import { useApi } from "../../api";
 import { useUserApi } from "../../api/user";
+import { saveAs } from "file-saver";
+import Timer from "@pear-rec/timer";
+import useTimer from "@pear-rec/timer/src/useTimer";
 import "@pear-rec/timer/src/Timer/index.module.scss";
 import styles from "./index.module.scss";
 
@@ -32,7 +33,7 @@ const RecorderVideo = () => {
 	const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
 	const [isMute, setIsMute] = useState(false); // 标记是否静音
 	const isSave = useRef<boolean>(false);
-	const timer = useStopwatch({ autoStart: false });
+	const timer = useTimer();
 
 	useEffect(() => {
 		userRef.current.id || getCurrentUser();
@@ -109,7 +110,7 @@ const RecorderVideo = () => {
 		if (isPause && mediaRecorder.current.state === "paused") {
 			mediaRecorder.current.resume();
 			setIsPause(false);
-			timer.start();
+			timer.resume();
 			console.log("恢复录像...");
 		}
 	}
@@ -120,7 +121,7 @@ const RecorderVideo = () => {
 			mediaRecorder.current.stop();
 			mediaStream.current?.getTracks().forEach((track) => track.stop());
 			setIsRecording(false);
-			timer.reset(null, false);
+			timer.reset();
 			recordedChunks.current = [];
 			console.log("录像完成！");
 		}
@@ -135,17 +136,12 @@ const RecorderVideo = () => {
 	function exportRecording() {
 		if (recordedChunks.current.length > 0) {
 			const blob = new Blob(recordedChunks.current, { type: "video/webm" });
-			saveFile(blob);
-			// if (window.electronAPI) {
-			// 	window.electronAPI.sendRaDownloadRecord(url);
-			// } else {
-			// 	const link = document.createElement("a");
-			// 	link.href = url;
-			// 	link.download = `pear-rec_${+new Date()}.webm`;
-			// 	link.click();
-			// 	recordedChunks.current = [];
-			// 	isSave.current = false;
-			// }
+      const url = URL.createObjectURL(blob);
+			if (window.isElectron) {
+				window.electronAPI.sendRaDownloadRecord(url);
+			} else {
+				window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
+			}
 		}
 	}
 

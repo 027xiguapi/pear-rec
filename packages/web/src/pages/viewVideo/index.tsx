@@ -63,7 +63,7 @@ const ViewVideo = () => {
 				if (res.code == 0) {
 					setVideos(res.data.videos);
 					setVideoIndex(res.data.currentIndex);
-					setSource(res.data.videos[res.data.currentIndex].url);
+					res.data.videos[res.data.currentIndex] && setSource(res.data.videos[res.data.currentIndex].url);
 				} else {
 					setSource(defaultVideo);
 				}

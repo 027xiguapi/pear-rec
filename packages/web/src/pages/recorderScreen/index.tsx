@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import ininitApp from "../../pages/main";
 import { useApi } from "../../api";
 import { useUserApi } from "../../api/user";
-import CropArea from "../../components/recorderScreen/CropArea";
 import SelectMedia from "../../components/recorderScreen/SelectMedia";
 import CropRecorder from "../../components/recorderScreen/CropRecorder";
 import ScreenRecorder from "../../components/recorderScreen/ScreenRecorder";

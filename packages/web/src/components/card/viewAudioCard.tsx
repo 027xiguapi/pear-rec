@@ -54,18 +54,18 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 				cancelText: t("modal.cancel"),
 				onOk() {
 					window.open(`/viewAudio.html?audioUrl=${encodeURIComponent(url)}`);
-				},
-				onCancel() {},
+				}
 			});
 		}
+    event.target.value = "";
 	}
 
 	function handleUploadDirectory(event) {
-		console.log(event);
 		const file = event.target.files[0];
 		if (window.electronAPI) {
 			window.electronAPI.sendVaOpenWin({ imgUrl: file.path });
 		}
+    event.target.value = "";
 	}
 
 	return (
@@ -77,7 +77,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
 			<div className="cardContent">
 				<Dropdown menu={{ items, onClick }}>
 					<Space>
-						<BsMusicNoteBeamed className="cardIcon" onClick={handleViewAudio} />
+						<BsMusicNoteBeamed className="cardIcon" onClick={()=>fileRef.current.click()} />
 						<DownOutlined className="cardToggle" />
 					</Space>
 				</Dropdown>

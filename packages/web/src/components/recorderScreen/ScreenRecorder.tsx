@@ -7,9 +7,9 @@ import { Button } from "antd";
 import PlayRecorder from "./PlayRecorder";
 import PauseRecorder from "./PauseRecorder";
 import MuteRecorder from "./MuteRecorder";
-import Timer from "@pear-rec/timer";
 import StopRecorder from "./StopRecorder";
 import { saveAs } from "file-saver";
+import Timer from "@pear-rec/timer";
 import useTimer from "@pear-rec/timer/src/useTimer";
 
 const ScreenRecorder = (props) => {

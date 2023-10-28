@@ -17,7 +17,6 @@ export function getImgsByImgUrl(imgUrl: string, isElectron: boolean) {
 	try {
 		const directoryPath = dirname(imgUrl);
 		const files = fs.readdirSync(directoryPath); // 读取目录内容
-
 		files.forEach((file) => {
 			const filePath = join(directoryPath, file);
 
@@ -38,6 +37,7 @@ export function getImgsByImgUrl(imgUrl: string, isElectron: boolean) {
 
 function isImgFile(filePath: string): boolean {
 	const ext = extname(filePath).toLowerCase();
+  console.log(ext);
 	return [
 		".jpg",
 		".jpeg",
@@ -91,7 +91,7 @@ function isAudioFile(filePath: string): boolean {
 		".ogg",
 		".flac",
 		".aiff",
-		"aif",
+		".aif",
 		".m4a",
 		".alac",
 		".ac3",
@@ -122,5 +122,5 @@ export function getVideosByVideoUrl(videoUrl: string, isElectron: boolean) {
 
 function isVideoFile(filePath: string): boolean {
 	const ext = extname(filePath).toLowerCase();
-	return [".mp4", ".mkv", ".avi", ".mov", ".wmv", "webm"].includes(ext);
+	return [".mp4", ".mkv", ".avi", ".mov", ".wmv", ".webm"].includes(ext);
 }
