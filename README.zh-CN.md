@@ -27,13 +27,13 @@ github: https://github.com/027xiguapi/pear-rec
 
 ## 源码运行&编译
 
-编译需要`nodejs`和`pnpmp`环境
+编译需要`nodejs`和`pnpm`环境
 
 ### 测试环境
 
 ```
 nodejs: 18
-pnpmp: 8
+pnpm: 8
 ```
 
 ### 开始
