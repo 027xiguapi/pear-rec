@@ -114,7 +114,12 @@ function ShotScreen() {
 	}, []);
 
 	const onOk = useCallback((blob: Blob, bounds: Bounds) => {
-		saveFile(blob);
+    const url = URL.createObjectURL(blob);
+    if (window.isElectron) {
+      window.electronAPI?.sendSsDownloadImg(url);
+    } else {
+      window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.png`) : saveFile(blob);
+    }
 	}, []);
 
 	async function saveFile(blob) {

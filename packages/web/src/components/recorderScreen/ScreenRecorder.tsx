@@ -3,17 +3,22 @@ import { useTranslation } from "react-i18next";
 import { BsRecordCircle } from "react-icons/bs";
 import { CameraOutlined } from "@ant-design/icons";
 import { SettingOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, Modal, message } from "antd";
 import PlayRecorder from "./PlayRecorder";
 import PauseRecorder from "./PauseRecorder";
 import MuteRecorder from "./MuteRecorder";
 import StopRecorder from "./StopRecorder";
 import { saveAs } from "file-saver";
+import { useApi } from "../../api";
+import { useUserApi } from "../../api/user";
 import Timer from "@pear-rec/timer";
 import useTimer from "@pear-rec/timer/src/useTimer";
 
 const ScreenRecorder = (props) => {
 	const { t } = useTranslation();
+	const api = useApi();
+	const userApi = useUserApi();
+  const [user, setUser] = useState({} as any);
 	const timer = useTimer();
 	const videoRef = useRef<HTMLVideoElement>();
 	const mediaStream = useRef<MediaStream>();
@@ -24,12 +29,24 @@ const ScreenRecorder = (props) => {
 	const [isSave, setIsSave] = useState(false); // 标记是否正在保存
 
 	useEffect(() => {
-		if (window.electronAPI) {
+		if (window.isElectron) {
 			initElectron();
 		} else {
 			initCropArea();
 		}
+    user.id || getCurrentUser();
 	}, []);
+
+  async function getCurrentUser() {
+		try {
+			const res = (await userApi.getCurrentUser()) as any;
+			if (res.code == 0) {
+        setUser(res.data);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	async function initElectron() {
 		const sources =
@@ -105,7 +122,7 @@ const ScreenRecorder = (props) => {
 	}
 
 	function handleShotScreen() {
-		if (window.electronAPI) {
+		if (window.isElectron) {
 			window.electronAPI.sendRsShotScreen();
 		} else {
 			const { width, height } = props.size;
@@ -115,10 +132,7 @@ const ScreenRecorder = (props) => {
 			const context = canvas.getContext("2d");
 			context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 			const url = canvas.toDataURL("image/png");
-			const link = document.createElement("a");
-			link.href = url;
-			link.download = `pear-rec_${+new Date()}.png`;
-			link.click();
+      saveAs(url, `pear-rec_${+new Date()}.png`);
 		}
 	}
 
@@ -157,7 +171,40 @@ const ScreenRecorder = (props) => {
 			const blob = new Blob(recordedChunks.current, { type: "video/webm" });
 			const url = URL.createObjectURL(blob);
 			recordedChunks.current = [];
-			saveAs(url, `pear-rec_${+new Date()}.webm`);
+      if (window.isElectron) {
+        window.electronAPI?.sendRsStopRecord();
+      } else {
+			  window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
+      }
+		}
+	}
+
+  async function saveFile(blob) {
+		try {
+			recordedChunks.current = [];
+			setIsSave(false);
+			const formData = new FormData();
+			formData.append("type", "rs");
+			formData.append("userUuid", user.uuid);
+			formData.append("file", blob);
+			const res = (await api.saveFile(formData)) as any;
+			if (res.code == 0) {
+				Modal.confirm({
+					title: "录屏已保存，是否查看？",
+					content: `${res.data.filePath}`,
+					okText: t("modal.ok"),
+					cancelText: t("modal.cancel"),
+					onOk() {
+						window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
+						console.log("OK");
+					},
+					onCancel() {
+						console.log("Cancel");
+					},
+				});
+			}
+		} catch (err) {
+			message.error("保存失败");
 		}
 	}
 
