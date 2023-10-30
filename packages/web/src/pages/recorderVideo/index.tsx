@@ -36,7 +36,7 @@ const RecorderVideo = () => {
 	const timer = useTimer();
 
 	useEffect(() => {
-		userRef.current.id || getCurrentUser();
+		window.isOffline || userRef.current.id || getCurrentUser();
 	}, []);
 
 	async function getCurrentUser() {
@@ -136,11 +136,13 @@ const RecorderVideo = () => {
 	function exportRecording() {
 		if (recordedChunks.current.length > 0) {
 			const blob = new Blob(recordedChunks.current, { type: "video/webm" });
-      const url = URL.createObjectURL(blob);
+			const url = URL.createObjectURL(blob);
 			if (window.isElectron) {
 				window.electronAPI.sendRaDownloadRecord(url);
 			} else {
-				window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
+				window.isOffline
+					? saveAs(url, `pear-rec_${+new Date()}.webm`)
+					: saveFile(blob);
 			}
 		}
 	}

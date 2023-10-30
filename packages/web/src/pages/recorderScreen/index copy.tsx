@@ -54,7 +54,7 @@ const RecorderScreen = () => {
 		window.electronAPI?.handleRsGetEndRecord(() => {
 			setIsSave(false);
 		});
-		getCurrentUser();
+		window.isOffline || user.id || getCurrentUser();
 	}, []);
 
 	async function getCurrentUser() {

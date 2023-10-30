@@ -20,7 +20,7 @@ const Home: React.FC = () => {
 	const rscRef = useRef(null);
 	const rvcRef = useRef(null);
 	const racRef = useRef(null);
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState({} as any);
 	const [videoinputDevices, setVideoinputDevices] = useState([]); // 视频输入 (摄像头)
 	const [audioinputDevices, setAudioinputDevices] = useState([]); // 音频输入 (麦克风)
 	const [audiooutputDevices, setAudiooutputDevices] = useState([]); // 音频输出 (扬声器)
@@ -28,7 +28,7 @@ const Home: React.FC = () => {
 	useEffect(() => {
 		document.addEventListener("keydown", handleKeydown);
 		getDevices();
-		getCurrentUser();
+		window.isOffline || user.id || getCurrentUser();
 	}, []);
 
 	function handleKeydown(event: any) {

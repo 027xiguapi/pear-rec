@@ -37,7 +37,7 @@ export function getImgsByImgUrl(imgUrl: string, isElectron: boolean) {
 
 function isImgFile(filePath: string): boolean {
 	const ext = extname(filePath).toLowerCase();
-  console.log(ext);
+	console.log(ext);
 	return [
 		".jpg",
 		".jpeg",
@@ -65,13 +65,13 @@ export function getAudiosByAudioUrl(audioUrl: string, isElectron: boolean) {
 			const fileName = basename(filePath);
 			if (filePath == audioUrl) {
 				audios.unshift({
-					url: `${getProtocol(isElectron, "getFile")}${filePath}`,
+					url: `${getProtocol(isElectron, "audio")}${filePath}`,
 					name: fileName,
 					cover: "./imgs/music.png",
 				});
 			} else {
 				audios.push({
-					url: `${getProtocol(isElectron, "getFile")}${filePath}`,
+					url: `${getProtocol(isElectron, "audio")}${filePath}`,
 					name: fileName,
 					cover: "./imgs/music.png",
 				});
@@ -95,6 +95,7 @@ function isAudioFile(filePath: string): boolean {
 		".m4a",
 		".alac",
 		".ac3",
+		".webm",
 	].includes(ext);
 }
 

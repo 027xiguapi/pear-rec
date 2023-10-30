@@ -17,14 +17,15 @@ function createViewVideoWin(search?: any): BrowserWindow {
 		},
 	});
 
+	const videoUrl = search?.videoUrl || "";
+
 	if (url) {
-		// electron-vite-vue#298
-		viewVideoWin.loadURL(url + `viewVideo.html?videoUrl=${search?.url || ""}`);
+		viewVideoWin.loadURL(url + `viewVideo.html?videoUrl=${videoUrl}`);
 		// Open devTool if the app is not packaged
 		// viewVideoWin.webContents.openDevTools();
 	} else {
 		viewVideoWin.loadFile(viewVideoHtml, {
-			search: `?videoUrl=${search?.url || ""}`,
+			search: `?videoUrl=${videoUrl}`,
 		});
 	}
 

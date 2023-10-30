@@ -28,7 +28,7 @@ const ViewImage = () => {
 	const [isFull, setIsFull] = useState(false);
 
 	useEffect(() => {
-		getCurrentUser();
+		window.isOffline || user.id || getCurrentUser();
 		handleDrop();
 		initImgs();
 		return destroyViewer;

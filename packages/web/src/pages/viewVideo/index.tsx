@@ -28,7 +28,7 @@ const ViewVideo = () => {
 			refPlayer.current = player;
 		} else {
 			handleDrop();
-			getCurrentUser();
+			window.isOffline || user.id || getCurrentUser();
 			initVideo();
 		}
 	}, [source]);
@@ -63,7 +63,8 @@ const ViewVideo = () => {
 				if (res.code == 0) {
 					setVideos(res.data.videos);
 					setVideoIndex(res.data.currentIndex);
-					res.data.videos[res.data.currentIndex] && setSource(res.data.videos[res.data.currentIndex].url);
+					res.data.videos[res.data.currentIndex] &&
+						setSource(res.data.videos[res.data.currentIndex].url);
 				} else {
 					setSource(defaultVideo);
 				}

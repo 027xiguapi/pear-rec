@@ -62,9 +62,9 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 	function handleUploadDirectory(event) {
 		const file = event.target.files[0];
 		if (window.electronAPI) {
-			window.electronAPI.sendVvOpenWin({ imgUrl: file.path });
+			window.electronAPI.sendVvOpenWin({ videoUrl: file.path });
 		}
-    event.target.value = "";
+		event.target.value = "";
 	}
 
 	return (
