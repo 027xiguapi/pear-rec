@@ -18,7 +18,7 @@ const RecorderScreen = () => {
 	const [isMedia, setIsMedia] = useState(false);
 
 	useEffect(() => {
-		userRef.current.id || getCurrentUser();
+		window.isOffline || userRef.current.id || getCurrentUser();
 	}, []);
 
 	async function getCurrentUser() {

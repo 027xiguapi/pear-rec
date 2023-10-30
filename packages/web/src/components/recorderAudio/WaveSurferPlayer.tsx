@@ -1,7 +1,19 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Button, Space, Divider, Slider, Row, Col, Checkbox } from "antd";
+import { useTranslation } from "react-i18next";
+import {
+	Button,
+	Space,
+	Divider,
+	Slider,
+	Row,
+	Col,
+	Checkbox,
+	Modal,
+	message,
+} from "antd";
 import WaveSurfer from "wavesurfer.js";
 import { saveAs } from "file-saver";
+import { useApi } from "../../api";
 
 const useWavesurfer = (containerRef, options) => {
 	const [wavesurfer, setWavesurfer] = useState(null);
@@ -29,6 +41,8 @@ const useWavesurfer = (containerRef, options) => {
 };
 
 const WaveSurferPlayer = (props) => {
+	const { t } = useTranslation();
+	const api = useApi();
 	const containerRef = useRef();
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentTime, setCurrentTime] = useState(0);
@@ -41,15 +55,43 @@ const WaveSurferPlayer = (props) => {
 		wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer.play();
 	}, [wavesurfer]);
 
-	const onDownloadClick = useCallback(() => {
+	const onDownloadClick = useCallback(async () => {
 		const url = wavesurfer.getMediaElement().src;
+		const data = await fetch(url);
+		const blob = await data.blob();
 
-		if (window.isElectron) {
-			window.electronAPI.sendRaDownloadRecord(url);
-		} else {
-			saveAs(url);
-		}
+		window.isOffline
+			? saveAs(url, `pear-rec_${+new Date()}.webm`)
+			: saveFile(blob);
 	}, [wavesurfer]);
+
+	async function saveFile(blob) {
+		try {
+			const formData = new FormData();
+			formData.append("type", "ra");
+			formData.append("userUuid", props.user.uuid);
+			formData.append("file", blob);
+			const res = (await api.saveFile(formData)) as any;
+			if (res.code == 0) {
+				if (window.isElectron) {
+					window.electronAPI.sendRaCloseWin();
+					window.electronAPI.sendVaOpenWin({ audioUrl: res.data.filePath });
+				} else {
+					Modal.confirm({
+						title: "音频已保存，是否查看？",
+						content: `${res.data.filePath}`,
+						okText: t("modal.ok"),
+						cancelText: t("modal.cancel"),
+						onOk() {
+							window.open(`/viewAudio.html?audioUrl=${res.data.filePath}`);
+						},
+					});
+				}
+			}
+		} catch (err) {
+			message.error("保存失败");
+		}
+	}
 
 	const onRangeChange = useCallback(
 		(minPxPerSec) => {

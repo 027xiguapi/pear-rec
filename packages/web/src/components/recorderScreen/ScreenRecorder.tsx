@@ -18,7 +18,7 @@ const ScreenRecorder = (props) => {
 	const { t } = useTranslation();
 	const api = useApi();
 	const userApi = useUserApi();
-  const [user, setUser] = useState({} as any);
+	const [user, setUser] = useState({} as any);
 	const timer = useTimer();
 	const videoRef = useRef<HTMLVideoElement>();
 	const mediaStream = useRef<MediaStream>();
@@ -34,14 +34,14 @@ const ScreenRecorder = (props) => {
 		} else {
 			initCropArea();
 		}
-    user.id || getCurrentUser();
+		user.id || getCurrentUser();
 	}, []);
 
-  async function getCurrentUser() {
+	async function getCurrentUser() {
 		try {
 			const res = (await userApi.getCurrentUser()) as any;
 			if (res.code == 0) {
-        setUser(res.data);
+				setUser(res.data);
 			}
 		} catch (err) {
 			console.log(err);
@@ -132,7 +132,7 @@ const ScreenRecorder = (props) => {
 			const context = canvas.getContext("2d");
 			context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 			const url = canvas.toDataURL("image/png");
-      saveAs(url, `pear-rec_${+new Date()}.png`);
+			saveAs(url, `pear-rec_${+new Date()}.png`);
 		}
 	}
 
@@ -171,15 +171,14 @@ const ScreenRecorder = (props) => {
 			const blob = new Blob(recordedChunks.current, { type: "video/webm" });
 			const url = URL.createObjectURL(blob);
 			recordedChunks.current = [];
-      if (window.isElectron) {
-        window.electronAPI?.sendRsStopRecord();
-      } else {
-			  window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
-      }
+
+			window.isOffline
+				? saveAs(url, `pear-rec_${+new Date()}.webm`)
+				: saveFile(blob);
 		}
 	}
 
-  async function saveFile(blob) {
+	async function saveFile(blob) {
 		try {
 			recordedChunks.current = [];
 			setIsSave(false);
@@ -189,19 +188,20 @@ const ScreenRecorder = (props) => {
 			formData.append("file", blob);
 			const res = (await api.saveFile(formData)) as any;
 			if (res.code == 0) {
-				Modal.confirm({
-					title: "录屏已保存，是否查看？",
-					content: `${res.data.filePath}`,
-					okText: t("modal.ok"),
-					cancelText: t("modal.cancel"),
-					onOk() {
-						window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
-						console.log("OK");
-					},
-					onCancel() {
-						console.log("Cancel");
-					},
-				});
+				if (window.isElectron) {
+					window.electronAPI.sendRsCloseWin();
+					window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
+				} else {
+					Modal.confirm({
+						title: "录屏已保存，是否查看？",
+						content: `${res.data.filePath}`,
+						okText: t("modal.ok"),
+						cancelText: t("modal.cancel"),
+						onOk() {
+							window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
+						},
+					});
+				}
 			}
 		} catch (err) {
 			message.error("保存失败");

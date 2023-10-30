@@ -36,7 +36,7 @@ function ShotScreen() {
 	}
 
 	async function init() {
-		getCurrentUser();
+		window.isOffline || userRef.current.id || getCurrentUser();
 		if (window.electronAPI) {
 			const img = await window.electronAPI?.invokeSsGetShotScreenImg();
 			setScreenShotImg(img || defaultImg);
@@ -57,12 +57,9 @@ function ShotScreen() {
 
 				videoElement.addEventListener("loadedmetadata", () => {
 					const context = canvas.getContext("2d");
+
 					context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-					// 导出绘制内容为图像
 					setScreenShotImg(canvas.toDataURL("image/png"));
-
-					// 停止屏幕捕获
 					stream.getTracks().forEach((track) => track.stop());
 				});
 			})
@@ -73,15 +70,16 @@ function ShotScreen() {
 
 	const onSave = useCallback((blob: Blob, bounds: Bounds) => {
 		const url = URL.createObjectURL(blob);
-		window.electronAPI
-			? window.electronAPI.sendSsDownloadImg(url)
-			: saveAs(url, url.split(`${location.origin}/`)[1] + ".png");
+		saveAs(url, url.split(`${location.origin}/`)[1] + ".png");
 	}, []);
 
 	const onCancel = useCallback(() => {
-		window.electronAPI
-			? window.electronAPI.sendSsCloseWin()
-			: (location.href = `/index.html`);
+		if (window.isElectron) {
+			window.electronAPI.sendSsCloseWin();
+			window.electronAPI.sendMaOpenWin();
+		} else {
+			location.href = `/index.html`;
+		}
 	}, []);
 
 	const onScan = useCallback((result) => {
@@ -114,12 +112,10 @@ function ShotScreen() {
 	}, []);
 
 	const onOk = useCallback((blob: Blob, bounds: Bounds) => {
-    const url = URL.createObjectURL(blob);
-    if (window.isElectron) {
-      window.electronAPI?.sendSsDownloadImg(url);
-    } else {
-      window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.png`) : saveFile(blob);
-    }
+		const url = URL.createObjectURL(blob);
+		window.isOffline
+			? saveAs(url, `pear-rec_${+new Date()}.png`)
+			: saveFile(blob);
 	}, []);
 
 	async function saveFile(blob) {
@@ -130,19 +126,20 @@ function ShotScreen() {
 			formData.append("file", blob);
 			const res = (await api.saveFile(formData)) as any;
 			if (res.code == 0) {
-				Modal.confirm({
-					title: "图片已保存，是否查看？",
-					content: res.data.filePath,
-					okText: t("modal.ok"),
-					cancelText: t("modal.cancel"),
-					onOk() {
-						window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
-						console.log("OK");
-					},
-					onCancel() {
-						console.log("Cancel");
-					},
-				});
+				if (window.isElectron) {
+					window.electronAPI?.sendSsCloseWin();
+					window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
+				} else {
+					Modal.confirm({
+						title: "图片已保存，是否查看？",
+						content: res.data.filePath,
+						okText: t("modal.ok"),
+						cancelText: t("modal.cancel"),
+						onOk() {
+							location.href = `/viewImage.html?imgUrl=${res.data.filePath}`;
+						},
+					});
+				}
 			}
 		} catch (err) {
 			message.error("保存失败");
