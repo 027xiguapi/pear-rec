@@ -1,6 +1,6 @@
 import { app, BrowserWindow, shell } from "electron";
 import { join } from "node:path";
-import { ICON, preload, url, DIST, PUBLIC } from "../main/contract";
+import { ICON, preload, url, DIST, WEB_URL } from "../main/contract";
 
 const settingHtml = join(DIST, "./setting.html");
 let settingWin: BrowserWindow | null = null;
@@ -19,7 +19,7 @@ function createSettingWin(): BrowserWindow {
 
 	// settingWin.webContents.openDevTools();
 	if (url) {
-		settingWin.loadURL(url + "setting.html");
+		settingWin.loadURL(WEB_URL + "setting.html");
 	} else {
 		settingWin.loadFile(settingHtml);
 	}

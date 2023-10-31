@@ -28,6 +28,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^13.2.1",
     "react-icons": "^4.8.0",
+    "sass": "^1.69.5",
     "tui-image-editor": "^3.15.3",
     "viewerjs": "^1.11.3",
     "wavesurfer.js": "^7.3.4"

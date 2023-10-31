@@ -10,10 +10,10 @@ import {
 	unregisterAllGlobalShortcut,
 } from "./globalShortcut";
 import { initConfig } from "./store";
-import { isDev } from "./contract";
-import initServer from "@pear-rec/server";
+import { url } from "./contract";
+// import initServer from "@pear-rec/server";
 
-isDev || initServer();
+// url || initServer();
 const config = initConfig();
 
 // The built directory structure
@@ -26,11 +26,6 @@ const config = initConfig();
 // ├─┬ dist
 // │ └── index.html    > Electron-Renderer
 //
-process.env.DIST_ELECTRON = join(__dirname, "../");
-process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
-	? join(process.env.DIST_ELECTRON, "../public")
-	: process.env.DIST;
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith("6.1")) app.disableHardwareAcceleration();
@@ -64,12 +59,15 @@ app.on("will-quit", () => {
 });
 
 app.on("window-all-closed", () => {
-	// closeMainWin();
 	// if (process.platform !== "darwin") app.quit();
 });
 
 app.on("second-instance", () => {
-	focusMainWin();
+	// if (win) {
+	// 	// Focus on the main window if the user tried to open another
+	// 	if (win.isMinimized()) win.restore();
+	// 	win.focus();
+	// }
 });
 
 app.on("activate", () => {
@@ -80,3 +78,19 @@ app.on("activate", () => {
 		createWindow();
 	}
 });
+
+// ipcMain.handle("open-win", (_, arg) => {
+// 	const childWindow = new BrowserWindow({
+// 		webPreferences: {
+// 			preload,
+// 			nodeIntegration: true,
+// 			contextIsolation: false,
+// 		},
+// 	});
+
+// 	if (process.env.VITE_DEV_SERVER_URL) {
+// 		childWindow.loadURL(`${url}#${arg}`);
+// 	} else {
+// 		childWindow.loadFile(indexHtml, { hash: arg });
+// 	}
+// });

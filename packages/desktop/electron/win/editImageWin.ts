@@ -6,7 +6,7 @@ import {
 	WebContents,
 } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, DIST, preload, url } from "../main/contract";
+import { ICON, DIST, preload, url, WEB_URL } from "../main/contract";
 import { getHistoryImg, getFilePath } from "../main/api";
 
 const editImageHtml = join(DIST, "./clipScreen.html");
@@ -29,7 +29,7 @@ function createEditImageWin(search?: any): BrowserWindow {
 	const imgUrl = search?.imgUrl || "";
 
 	if (url) {
-		editImageWin.loadURL(url + `editImage.html?imgUrl=${imgUrl}`);
+		editImageWin.loadURL(WEB_URL + `editImage.html?imgUrl=${imgUrl}`);
 		// Open devTool if the app is not packaged
 		editImageWin.webContents.openDevTools();
 	} else {
@@ -44,11 +44,11 @@ function createEditImageWin(search?: any): BrowserWindow {
 
 	editImageWin?.webContents.session.on(
 		"will-download",
-		(e: any, item: DownloadItem, webContents: WebContents) => {
+		async (e: any, item: DownloadItem, webContents: WebContents) => {
 			const url = item.getURL();
 			if (downloadSet.has(url)) {
 				const fileName = item.getFilename();
-				const filePath = getFilePath() as string;
+				const filePath = (await getFilePath()) as string;
 				const imgPath = join(savePath || `${filePath}/ei`, `${fileName}`);
 				item.setSavePath(imgPath);
 				item.once("done", (event: any, state: any) => {

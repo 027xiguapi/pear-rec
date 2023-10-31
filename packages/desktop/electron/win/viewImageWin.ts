@@ -6,7 +6,7 @@ import {
 	WebContents,
 } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, preload, url, DIST } from "../main/contract";
+import { ICON, preload, url, DIST, WEB_URL } from "../main/contract";
 import { getImgsByImgUrl, readDirectoryImg } from "../main/utils";
 import { getHistoryImg, getFilePath } from "../main/api";
 
@@ -28,7 +28,7 @@ function createViewImageWin(search?: any): BrowserWindow {
 	const imgUrl = search?.imgUrl || "";
 
 	if (url) {
-		viewImageWin.loadURL(url + `viewImage.html?imgUrl=${imgUrl}`);
+		viewImageWin.loadURL(WEB_URL + `viewImage.html?imgUrl=${imgUrl}`);
 		// Open devTool if the app is not packaged
 		// viewImageWin.webContents.openDevTools();
 	} else {

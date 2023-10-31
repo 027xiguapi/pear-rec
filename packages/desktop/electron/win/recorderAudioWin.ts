@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, preload, url, DIST, PUBLIC } from "../main/contract";
+import { ICON, preload, url, DIST, WEB_URL } from "../main/contract";
 import { getFilePath } from "../main/api";
 
 const recorderAudioHtml = join(DIST, "./recorderAudio.html");
@@ -30,7 +30,7 @@ function createRecorderAudioWin(): BrowserWindow {
 	});
 
 	if (url) {
-		recorderAudioWin.loadURL(url + "recorderAudio.html");
+		recorderAudioWin.loadURL(WEB_URL + "recorderAudio.html");
 		// recorderAudioWin.webContents.openDevTools();
 	} else {
 		recorderAudioWin.loadFile(recorderAudioHtml);

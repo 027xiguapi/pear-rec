@@ -1,6 +1,6 @@
 import { BrowserWindow } from "electron";
 import { join } from "node:path";
-import { ICON, preload, url, DIST } from "../main/contract";
+import { ICON, preload, url, DIST, WEB_URL } from "../main/contract";
 import { readDirectoryVideo } from "../main/utils";
 import { getHistoryVideo } from "../main/api";
 
@@ -20,7 +20,7 @@ function createViewVideoWin(search?: any): BrowserWindow {
 	const videoUrl = search?.videoUrl || "";
 
 	if (url) {
-		viewVideoWin.loadURL(url + `viewVideo.html?videoUrl=${videoUrl}`);
+		viewVideoWin.loadURL(WEB_URL + `viewVideo.html?videoUrl=${videoUrl}`);
 		// Open devTool if the app is not packaged
 		// viewVideoWin.webContents.openDevTools();
 	} else {

@@ -1,7 +1,8 @@
 import jsonfile from "jsonfile";
-import { v4 as uuidv4 } from "uuid";
+import * as fs from "node:fs";
+import { v5 as uuidv5 } from "uuid";
 import dayjs from "dayjs";
-import { configFile } from "./contract";
+import { configFile, filePath } from "./contract";
 
 export function initConfig() {
 	let config: any = {};
@@ -16,7 +17,7 @@ export function initConfig() {
 }
 
 export function initUser() {
-	const uuid = uuidv4();
+	const uuid = uuidv5("https://www.w3.org/", uuidv5.URL);
 	const user = {
 		uuid: uuid,
 		userName: `pear-rec`,
@@ -26,6 +27,10 @@ export function initUser() {
 		createdAt: dayjs().format(),
 	};
 	try {
+		if (!fs.existsSync(filePath)) {
+			// 检查目录是否存在
+			fs.mkdirSync(filePath, { recursive: true }); // 不存在则创建目录
+		}
 		jsonfile.writeFileSync(
 			configFile,
 			{ user: user },

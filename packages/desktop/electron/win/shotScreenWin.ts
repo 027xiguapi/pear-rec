@@ -9,7 +9,7 @@ import {
 	nativeImage,
 } from "electron";
 import { join } from "node:path";
-import { ICON, preload, url, DIST, PUBLIC } from "../main/contract";
+import { ICON, preload, url, DIST, WEB_URL } from "../main/contract";
 import { getFilePath, setHistoryImg } from "../main/api";
 import { openViewImageWin } from "./viewImageWin";
 
@@ -40,7 +40,7 @@ function createShotScreenWin(): BrowserWindow {
 	// shotScreenWin.webContents.openDevTools();
 
 	if (url) {
-		shotScreenWin.loadURL(url + "shotScreen.html");
+		shotScreenWin.loadURL(WEB_URL + "shotScreen.html");
 	} else {
 		shotScreenWin.loadFile(shotScreenHtml);
 	}
@@ -49,11 +49,11 @@ function createShotScreenWin(): BrowserWindow {
 
 	shotScreenWin?.webContents.session.on(
 		"will-download",
-		(e: any, item: DownloadItem, webContents: WebContents) => {
+		async (e: any, item: DownloadItem, webContents: WebContents) => {
 			const url = item.getURL();
 			if (downloadSet.has(url)) {
 				const fileName = item.getFilename();
-				const filePath = getFilePath() as string;
+				const filePath = (await getFilePath()) as string;
 				const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
 				item.setSavePath(ssFilePath);
 				item.once("done", (event: any, state: any) => {

@@ -32,7 +32,7 @@ export function initTray(lng: string) {
 		{
 			label: t.screenRecording,
 			click: () => {
-				openClipScreenWin();
+				// openClipScreenWin();
 			},
 		},
 		{
@@ -119,10 +119,8 @@ export function initTray(lng: string) {
 	]);
 	appIcon.setToolTip("梨子REC");
 	appIcon.setContextMenu(contextMenu);
-
 	appIcon.addListener("click", function () {
 		showMainWin();
 	});
-
 	return appIcon;
 }
