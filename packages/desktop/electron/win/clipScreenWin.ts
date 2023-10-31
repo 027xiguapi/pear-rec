@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell, screen } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, preload, url, DIST, PUBLIC } from "../main/contract";
+import { ICON, preload, url, WEB_URL, DIST } from "../main/contract";
 import {
 	openRecorderScreenWin,
 	setBoundsRecorderScreenWin,
@@ -28,7 +28,7 @@ function createClipScreenWin(): BrowserWindow {
 	});
 
 	if (url) {
-		clipScreenWin.loadURL(url + "clipScreen.html");
+		clipScreenWin.loadURL(WEB_URL + "clipScreen.html");
 		// clipScreenWin.webContents.openDevTools();
 	} else {
 		clipScreenWin.loadFile(clipScreenHtml);

@@ -1,6 +1,6 @@
 import { BrowserWindow } from "electron";
 import { join } from "node:path";
-import { ICON, preload, url, DIST } from "../main/contract";
+import { ICON, preload, url, DIST, WEB_URL } from "../main/contract";
 import { getAudiosByAudioUrl } from "../main/utils";
 import { getHistoryAudio } from "../main/api";
 
@@ -18,8 +18,9 @@ function createViewAudioWin(search?: any): BrowserWindow {
 	});
 
 	if (url) {
-		// electron-vite-vue#298
-		viewAudioWin.loadURL(url + `viewAudio.html?audioUrl=${search?.url || ""}`);
+		viewAudioWin.loadURL(
+			WEB_URL + `viewAudio.html?audioUrl=${search?.url || ""}`,
+		);
 		// Open devTool if the app is not packaged
 		// viewAudioWin.webContents.openDevTools();
 	} else {

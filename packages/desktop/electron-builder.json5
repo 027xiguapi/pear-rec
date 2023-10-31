@@ -13,7 +13,7 @@
 		target: ["dmg", "zip"],
 	},
 	win: {
-		icon: "public/imgs/icons/win/icon.ico",
+		icon: "build/icons/win/icon.ico",
 		target: [
 			{
 				target: "nsis",
@@ -31,6 +31,6 @@
 	publish: {
 		provider: "generic",
 		channel: "latest",
-		url: "",
+		url: "https://github.com/027xiguapi/pear-rec/releases/download/v1.1.0-alpha",
 	},
 }

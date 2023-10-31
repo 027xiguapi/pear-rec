@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join, dirname } from "node:path";
-import { ICON, preload, url, DIST, PUBLIC } from "../main/contract";
+import { ICON, preload, url, DIST, PUBLIC, WEB_URL } from "../main/contract";
 import { getFilePath, setHistoryVideo } from "../main/api";
 
 const recorderVideoHtml = join(DIST, "./recorderVideo.html");
@@ -30,7 +30,7 @@ function createRecorderVideoWin(): BrowserWindow {
 	});
 
 	if (url) {
-		recorderVideoWin.loadURL(url + "recorderVideo.html");
+		recorderVideoWin.loadURL(WEB_URL + "recorderVideo.html");
 		// recorderVideoWin.webContents.openDevTools();
 	} else {
 		recorderVideoWin.loadFile(recorderVideoHtml);
@@ -38,11 +38,11 @@ function createRecorderVideoWin(): BrowserWindow {
 
 	recorderVideoWin?.webContents.session.on(
 		"will-download",
-		(event: any, item: any, webContents: any) => {
+		async (event: any, item: any, webContents: any) => {
 			const url = item.getURL();
 			if (downloadSet.has(url)) {
 				const fileName = item.getFilename();
-				const filePath = getFilePath() as string;
+				const filePath = (await getFilePath()) as string;
 				const rvFilePath = join(`${filePath}/rv`, `${fileName}`);
 				item.setSavePath(rvFilePath);
 

@@ -1,8 +1,8 @@
 import { app, screen, BrowserWindow, shell, ipcMain } from "electron";
-import { ICON, preload, url, DIST } from "../main/contract";
+import { ICON, preload, url, WEB_URL } from "../main/contract";
 import { join } from "node:path";
 
-const indexHtml = join(DIST, "./index.html");
+const indexHtml = join(process.env.DIST, "index.html");
 let mainWin: BrowserWindow | null = null;
 
 const createMainWin = (): BrowserWindow => {
@@ -13,7 +13,7 @@ const createMainWin = (): BrowserWindow => {
 		height: 375, // 高度(px)
 		maxWidth: 660,
 		maxHeight: 375,
-		autoHideMenuBar: false, // 自动隐藏菜单栏
+		autoHideMenuBar: true, // 自动隐藏菜单栏
 		frame: false,
 		// show: false,
 		// alwaysOnTop: !dev, // 为了方便调试，调试模式就不居上了
@@ -32,11 +32,11 @@ const createMainWin = (): BrowserWindow => {
 	});
 
 	if (url) {
-		mainWin.loadURL(url + `index.html`);
-		// mainWin.webContents.openDevTools();
+		mainWin.loadURL(WEB_URL + "index.html");
 	} else {
 		mainWin.loadFile(indexHtml);
 	}
+	// mainWin.webContents.openDevTools();
 
 	// Test actively push message to the Electron-Renderer
 	// mainWin.webContents.on("did-finish-load", () => {
