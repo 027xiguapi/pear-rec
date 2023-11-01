@@ -21,12 +21,12 @@ const ScreenRecorder = (props) => {
 	const [user, setUser] = useState({} as any);
 	const timer = useTimer();
 	const videoRef = useRef<HTMLVideoElement>();
-	const mediaStream = useRef<MediaStream>();
+	const mediaStream = useRef<MediaStream>(); // 视频流
+	const audioStream = useRef<MediaStream>(); // 声音流
 	const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
 	const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
-	const audioTrack = useRef<any>(); // 音频轨道对象
 	const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
-	const [isSave, setIsSave] = useState(false); // 标记是否正在保存
+	const isSave = useRef<boolean>(false);
 
 	useEffect(() => {
 		if (window.isElectron) {
@@ -65,6 +65,13 @@ const ScreenRecorder = (props) => {
 			mediaStream.current = await navigator.mediaDevices.getUserMedia(
 				constraints,
 			);
+			// 添加音频输入流
+			audioStream.current = await navigator.mediaDevices.getUserMedia({
+				audio: true,
+			});
+			audioStream.current
+				?.getAudioTracks()
+				.forEach((audioTrack) => mediaStream.current?.addTrack(audioTrack));
 		} catch (err) {
 			console.log("getUserMedia", err);
 		}
@@ -83,6 +90,12 @@ const ScreenRecorder = (props) => {
 			} as any);
 			const [videoTrack] = mediaStream.current.getVideoTracks();
 			await (videoTrack as any).cropTo(cropTarget);
+			audioStream.current = await navigator.mediaDevices.getUserMedia({
+				audio: true,
+			});
+			audioStream.current
+				?.getAudioTracks()
+				.forEach((audioTrack) => mediaStream.current?.addTrack(audioTrack));
 			videoRef.current.srcObject = mediaStream.current;
 		} catch (err) {
 			console.log("initCropArea", err);
@@ -156,12 +169,11 @@ const ScreenRecorder = (props) => {
 
 	// 停止录制，并将录制的音频数据导出为 Blob 对象
 	function handleStopRecord() {
-		setIsSave(true);
+		isSave.current = true;
 		if (isRecording) {
 			mediaRecorder.current.stop();
-			// mediaStream.current?.getTracks().forEach((track) => track.stop());
-			setIsRecording(false);
-			props.setIsRecording(false);
+			// setIsRecording(false);
+			// props.setIsRecording(false);
 		}
 	}
 
@@ -170,8 +182,9 @@ const ScreenRecorder = (props) => {
 		if (recordedChunks.current.length > 0) {
 			const blob = new Blob(recordedChunks.current, { type: "video/webm" });
 			const url = URL.createObjectURL(blob);
+			isSave.current = false;
+			console.log("录音地址：", url);
 			recordedChunks.current = [];
-
 			window.isOffline
 				? saveAs(url, `pear-rec_${+new Date()}.webm`)
 				: saveFile(blob);
@@ -181,7 +194,7 @@ const ScreenRecorder = (props) => {
 	async function saveFile(blob) {
 		try {
 			recordedChunks.current = [];
-			setIsSave(false);
+
 			const formData = new FormData();
 			formData.append("type", "rs");
 			formData.append("userUuid", user.uuid);
@@ -238,7 +251,11 @@ const ScreenRecorder = (props) => {
 				onClick={handleShotScreen}
 			></Button>
 			<div className="drgan"></div>
-			{isRecording ? (
+			{isSave.current ? (
+				<Button type="text" loading>
+					{t("recorderScreen.saving")}...
+				</Button>
+			) : isRecording ? (
 				<>
 					{/* <MuteRecorder /> */}
 					<Timer
