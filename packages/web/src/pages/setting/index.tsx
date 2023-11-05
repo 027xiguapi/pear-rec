@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocalStorage } from 'react-use';
 import { Button, Switch, Form, Input, Tabs } from "antd";
 import UserSetting from "../../components/setting/userSetting";
 import BasicSetting from "../../components/setting/basicSetting";
+import ServerSetting from "../../components/setting/serverSetting";
 import ininitApp from "../../pages/main";
 import { useUserApi } from "../../api/user";
 import styles from "./index.module.scss";
@@ -11,7 +13,7 @@ const Setting = () => {
 	const userApi = useUserApi();
 	const { t } = useTranslation();
 	const [user, setUser] = useState({} as any);
-	const [setting, setSetting] = useState({});
+  const [value, setValue] = useLocalStorage('pear-rec:user', '');
 
 	useEffect(() => {
 		window.isOffline || user.id || getCurrentUser();
@@ -29,12 +31,19 @@ const Setting = () => {
 			children: BasicSetting,
 			forceRender: true,
 		},
+    {
+			key: "serverSetting",
+			label: "服务设置",
+			children: ServerSetting,
+      forceRender: true,
+		},
 	];
 
 	async function getCurrentUser() {
 		const res = (await userApi.getCurrentUser()) as any;
 		if (res.code == 0) {
 			setUser(res.data);
+      setValue(res.data);
 		}
 	}
 

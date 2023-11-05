@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 
+const __NEXT_NAME__ = "pear-rec";
 /**
  * window.localStorage 浏览器永久缓存
  * @method set 设置永久缓存
@@ -42,7 +43,7 @@ export const Local = {
 export const Session = {
 	// 设置临时缓存
 	set<T>(key: string, val: T) {
-		if (key === "token") return Cookies.set(key, val);
+		if (key === "token") return Cookies.set(key, val as any);
 		window.sessionStorage.setItem(Local.setKey(key), JSON.stringify(val));
 	},
 	// 获取临时缓存

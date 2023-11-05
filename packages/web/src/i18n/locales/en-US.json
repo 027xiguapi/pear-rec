@@ -72,6 +72,8 @@
     "openAtLogin": "openAtLogin",
     "open": "open",
     "close": "close",
-    "download": "download"
+    "download": "download",
+    "openServer": "open server",
+    "serverPath": "server path"
   }
 }
