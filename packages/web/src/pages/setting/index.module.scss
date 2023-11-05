@@ -9,16 +9,12 @@
 			width: 300px;
 			cursor: pointer;
 		}
+    .serverPathInput {
+      width: 300px;
+    }
 	}
 }
 
-// .web {
-// width: 540px;
-// height: 300px;
-// margin-top: 30px;
-// box-shadow: rgb(190, 200, 228) 3px 3px 6px 0px,
-// 	rgb(255, 255, 255) -3px -3px 6px 0px;
-// }
 .electron {
 	width: calc(100vw - 20px);
 	height: calc(100vh - 20px);

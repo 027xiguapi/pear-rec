@@ -1,5 +1,8 @@
 # @pear-rec/web
 
+## 1.2.1
+- feat: 增加服务设置
+
 ## 1.1.2
 
 ### Patch Changes

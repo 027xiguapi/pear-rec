@@ -72,6 +72,8 @@
     "openAtLogin": "开机自启动",
     "open": "开启",
     "close": "关闭",
-    "download": "浏览器下载"
+    "download": "浏览器下载",
+    "openServer": "打开服务",
+    "serverPath": "服务地址"
   }
 }
