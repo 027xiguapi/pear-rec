@@ -1,0 +1,11 @@
+diff --git a/.npmignore b/.npmignore
+deleted file mode 100644
+index bb1c3b14513b45d2b755eef1b4a8ed2f52e24a2f..0000000000000000000000000000000000000000
+diff --git a/index.js b/index.js
+index 04e594c12fcf56fe767f0ec71910ab797b90491f..eab3e0c49f85105d5b47b588ed8c13aae0f5f010 100644
+--- a/index.js
++++ b/index.js
+@@ -1 +1,2 @@
+-module.exports = process.env.FLUENTFFMPEG_COV ? require('./lib-cov/fluent-ffmpeg') : require('./lib/fluent-ffmpeg');
++// module.exports = process.env.FLUENTFFMPEG_COV ? require('./lib-cov/fluent-ffmpeg') : require('./lib/fluent-ffmpeg');
++module.exports = require('./lib/fluent-ffmpeg');
