@@ -18,20 +18,20 @@ const storage = multer.diskStorage({
 		cb(null, filePath);
 	},
 	filename: function (req, file, cb) {
-    const fileTypeMap = {
-      "ss": "png",
-      "rs": "webm",
-      "ei": "png"
-    };
+		const fileTypeMap = {
+			ss: "png",
+			rs: "webm",
+			ei: "png",
+		};
 		const type = req.body.type;
-    const fileType = fileTypeMap[type] || "webm";
+		const fileType = fileTypeMap[type] || "webm";
 		const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
 		cb(null, `${type}-${uniqueSuffix}.${fileType}`);
 	},
 });
 const upload = multer({ storage: storage });
 
-export const historyRouterFactory = (
+export const historyRouterFactory: any = (
 	userRepository: Repository<User>,
 	historyRepository: Repository<History>,
 ) =>

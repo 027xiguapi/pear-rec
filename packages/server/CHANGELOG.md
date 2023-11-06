@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.0.2
+
+perf: 优化打包、指定类型声明文件
+
 ## 1.0.1
 
 ### Patch Changes

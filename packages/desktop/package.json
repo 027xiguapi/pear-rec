@@ -1,6 +1,6 @@
 {
   "name": "@pear-rec/desktop",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "main": "dist-electron/main/index.js",
   "description": "pear-rec",
   "author": {
@@ -26,6 +26,7 @@
     "electron-updater": "^6.1.1"
   },
   "devDependencies": {
+    "@pear-rec/server": "workspace:^",
     "@playwright/test": "^1.37.1",
     "@types/fluent-ffmpeg": "^2.1.23",
     "@types/jsonfile": "^6.1.3",

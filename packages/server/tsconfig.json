@@ -8,6 +8,7 @@
     "outDir": "dist",
     "importHelpers": true,
     "useDefineForClassFields": false,
+    // "declaration": true
   },
   "include": [
     "src/**/*.ts"

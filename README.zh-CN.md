@@ -138,6 +138,8 @@ pnpm run build:desktop
 | ---- | ----------------------------------------------------------------------------------------------------- | ----- | ----- |
 | 链接 | [下载](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯     | ◯     |
 
+国内可以用 [GitHub Proxy](https://ghproxy.com/) 加速下载
+
 ## 反馈和交流
 
 我们推荐使用 [issue](https://github.com/027xiguapi/pear-rec/issues) 列表进行最直接有效的反馈，也可以下面的方式

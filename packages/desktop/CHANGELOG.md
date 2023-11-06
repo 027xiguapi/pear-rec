@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.2.2
+
+feat: 引入@pear-rec/server 服务
+
 ## 1.2.1
 
-fix: fluent-ffmpeg引入bug
+fix: fluent-ffmpeg 引入 bug
