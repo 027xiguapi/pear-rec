@@ -3,7 +3,7 @@ import { Repository } from "sequelize-typescript";
 import { User } from "./User";
 import { History } from "../historys/History";
 
-export const userRouterFactory = (
+export const userRouterFactory: any = (
 	userRepository: Repository<User>,
 	historyRepository: Repository<History>,
 ) =>
@@ -28,9 +28,7 @@ export const userRouterFactory = (
 			userRepository
 				.findOne({ where: { userType: "1" } })
 				.then((user) =>
-					user
-						? res.json({ code: 0, data: user })
-						: next({ statusCode: 404 }),
+					user ? res.json({ code: 0, data: user }) : next({ statusCode: 404 }),
 				)
 				.catch(next),
 		)

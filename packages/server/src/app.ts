@@ -11,11 +11,15 @@ import { initApi } from "./api/index";
 const userRepository = sequelize.getRepository(User);
 const historyRepository = sequelize.getRepository(History);
 
-export const app: Application = express();
+export default function initApp() {
+	const app: Application = express();
 
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(userRouterFactory(userRepository, historyRepository));
-app.use(historyRouterFactory(userRepository, historyRepository));
+	app.use(cors());
+	app.use(bodyParser.urlencoded({ extended: true }));
+	app.use(userRouterFactory(userRepository, historyRepository));
+	app.use(historyRouterFactory(userRepository, historyRepository));
 
-initApi(app);
+	initApi(app);
+
+	return app;
+}
