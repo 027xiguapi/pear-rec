@@ -1,6 +1,6 @@
 {
   "name": "@pear-rec/desktop",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "dist-electron/main/index.js",
   "description": "pear-rec",
   "author": {
@@ -20,10 +20,12 @@
     "build:win": "electron-builder",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "rebuild": "cnpm i sqlite3 electron-rebuild && electron-rebuild -f -w sqlite3"
   },
   "dependencies": {
-    "electron-updater": "^6.1.1"
+    "electron-updater": "^6.1.1",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "@pear-rec/server": "workspace:^",
