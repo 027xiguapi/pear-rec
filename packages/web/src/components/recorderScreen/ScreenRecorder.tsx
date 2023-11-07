@@ -154,7 +154,7 @@ const ScreenRecorder = (props) => {
 		setMediaRecorder();
 		mediaRecorder.current.start();
 		setIsRecording(true);
-		props.setIsRecording(true);
+		props.setIsRecording && props.setIsRecording(true);
 	}
 
 	// 暂停录制
@@ -202,8 +202,7 @@ const ScreenRecorder = (props) => {
 			const res = (await api.saveFile(formData)) as any;
 			if (res.code == 0) {
 				if (window.isElectron) {
-					window.electronAPI.sendRsCloseWin();
-					window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
+					window.electronAPI.sendRsCloseWin(res.data.filePath);
 				} else {
 					Modal.confirm({
 						title: "录屏已保存，是否查看？",

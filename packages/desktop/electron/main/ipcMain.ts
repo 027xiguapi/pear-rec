@@ -61,8 +61,8 @@ function initIpcMain() {
 		mainWin.hideMainWin();
 		recorderScreenWin.openRecorderScreenWin(search);
 	});
-	ipcMain.on("rs:close-win", () => {
-		recorderScreenWin.closeRecorderScreenWin();
+	ipcMain.on("rs:close-win", (e, filePath) => {
+		recorderScreenWin.ffmpegRecorderScreenWin(filePath);
 	});
 	ipcMain.on("rs:hide-win", () => {
 		recorderScreenWin.hideRecorderScreenWin();
@@ -75,9 +75,6 @@ function initIpcMain() {
 			...(await desktopCapturer.getSources({ types: ["screen"] })),
 			...(await selfWindws()),
 		];
-	});
-	ipcMain.on("rs:download-record", async (e, url) => {
-		recorderScreenWin.downloadURLRecorderScreenWin(url);
 	});
 	ipcMain.on("rs:start-record", (event) => {
 		recorderScreenWin.setMovableRecorderScreenWin(false);

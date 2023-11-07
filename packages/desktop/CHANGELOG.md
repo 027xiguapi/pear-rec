@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.2.3
+
+fix: 录屏下载 bug
+
 ## 1.2.2
 
 feat: 引入@pear-rec/server 服务

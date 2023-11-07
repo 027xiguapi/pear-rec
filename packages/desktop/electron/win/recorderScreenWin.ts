@@ -1,10 +1,17 @@
 import { app, BrowserWindow, dialog, shell, screen, Rectangle } from "electron";
 import fs from "node:fs";
-import { join } from "node:path";
+import { join, basename, dirname } from "node:path";
 import Ffmpeg from "fluent-ffmpeg";
 import FfmpegPath from "ffmpeg-static";
 import Jimp from "jimp";
-import { preload, url, DIST, ICON, WEB_URL } from "../main/contract";
+import {
+	preload,
+	url,
+	DIST,
+	ICON,
+	WEB_URL,
+	DIST_ELECTRON,
+} from "../main/contract";
 import { getFilePath, setHistoryVideo } from "../main/api";
 import {
 	closeClipScreenWin,
@@ -15,12 +22,13 @@ import { openViewVideoWin } from "./viewVideoWin";
 
 FfmpegPath &&
 	Ffmpeg.setFfmpegPath(
-		url ? FfmpegPath : FfmpegPath.replace("app.asar", "app.asar.unpacked"),
+		url
+			? join(DIST_ELECTRON, "../node_modules/ffmpeg-static/ffmpeg.exe")
+			: FfmpegPath.replace("app.asar", "app.asar.unpacked"),
 	);
+
 const recorderScreenHtml = join(DIST, "./recorderScreen.html");
-let ffmpegProcess: any | null = null;
 let recorderScreenWin: BrowserWindow | null = null;
-let downloadSet: Set<string> = new Set();
 let isFullScreen: boolean = false;
 
 function createRecorderScreenWin(search?: any): BrowserWindow {
@@ -79,28 +87,6 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
 		});
 	}
 
-	recorderScreenWin?.webContents.session.on(
-		"will-download",
-		(event: any, item: any, webContents: any) => {
-			const url = item.getURL();
-			if (downloadSet.has(url)) {
-				const fileName = item.getFilename();
-				const filePath = getFilePath();
-				const rsFilePath = join(`${filePath}/rs`, `${fileName}`);
-				item.setSavePath(rsFilePath);
-
-				item.once("done", (event: any, state: any) => {
-					if (state === "completed") {
-						recorderScreenWin?.webContents.send("rs:get-end-record");
-						isFullScreen
-							? recorderScreen(rsFilePath)
-							: ffmpegRecorderScreenWin(fileName);
-					}
-				});
-			}
-		},
-	);
-
 	recorderScreenWin.on("move", () => {
 		const recorderScreenWinBounds = getBoundsRecorderScreenWin() as Rectangle;
 		const clipScreenWinBounds = getBoundsClipScreenWin() as Rectangle;
@@ -122,13 +108,16 @@ async function recorderScreen(rsFilePath: string) {
 	shell.showItemInFolder(rsFilePath);
 }
 
-async function ffmpegRecorderScreenWin(fileName?: string) {
-	const filePath = getFilePath();
+async function ffmpegRecorderScreenWin(filePath: string) {
 	const { x, y, width, height } = getBoundsClipScreenWin() as Rectangle;
-	const name = `pear-rec_${+new Date()}.mp4`;
-	const rsInputPath = join(`${filePath}/rs`, `${fileName}`);
-	const rsOutputPath = join(`${filePath}/rs`, `${name}`);
-	ffmpegProcess = Ffmpeg(rsInputPath)
+	// const fileName = basename(filePath);
+	const folderPath = dirname(filePath);
+	const rsInputPath = filePath;
+	const fileName = `pear-rec_${
+		+Date.now() + "-" + Math.round(Math.random() * 1e9)
+	}.mp4`;
+	const rsOutputPath = join(`${folderPath}`, `${fileName}`);
+	const ffmpegProcess = Ffmpeg(rsInputPath)
 		.on("progress", function (progress: any) {
 			console.log("Processing: " + progress.percent + "% done");
 		})
@@ -141,7 +130,7 @@ async function ffmpegRecorderScreenWin(fileName?: string) {
 			setHistoryVideo(rsOutputPath);
 			setTimeout(() => {
 				closeRecorderScreenWin();
-				openViewVideoWin();
+				openViewVideoWin({ videoUrl: rsOutputPath });
 				fs.unlink(rsInputPath, (err) => {
 					if (err) {
 						return console.error(err);
@@ -182,11 +171,6 @@ function showRecorderScreenWin() {
 
 function minimizeRecorderScreenWin() {
 	recorderScreenWin?.minimize();
-}
-
-function downloadURLRecorderScreenWin(url: string) {
-	recorderScreenWin?.webContents.downloadURL(url);
-	downloadSet.add(url);
 }
 
 function setSizeRecorderScreenWin(width: number, height: number) {
@@ -273,7 +257,6 @@ export {
 	hideRecorderScreenWin,
 	showRecorderScreenWin,
 	minimizeRecorderScreenWin,
-	downloadURLRecorderScreenWin,
 	setSizeRecorderScreenWin,
 	setIgnoreMouseEventsRecorderScreenWin,
 	getBoundsRecorderScreenWin,
@@ -285,4 +268,5 @@ export {
 	focusRecorderScreenWin,
 	setBoundsRecorderScreenWin,
 	shotScreen,
+	ffmpegRecorderScreenWin,
 };

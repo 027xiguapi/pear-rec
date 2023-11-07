@@ -15,11 +15,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
 
 	//rsWin
 	sendRsOpenWin: (search?: any) => ipcRenderer.send("rs:open-win", search),
-	sendRsCloseWin: () => ipcRenderer.send("rs:close-win"),
+	sendRsCloseWin: (filePath: string) =>
+		ipcRenderer.send("rs:close-win", filePath),
 	sendRsHideWin: () => ipcRenderer.send("rs:hide-win"),
 	sendRsMinimizeWin: () => ipcRenderer.send("rs:minimize-win"),
-	sendRsDownloadRecord: (url: string) =>
-		ipcRenderer.send("rs:download-record", url),
 	sendRsStartRecord: () => ipcRenderer.send("rs:start-record"),
 	sendRsPauseRecord: () => ipcRenderer.send("rs:pause-record"),
 	sendRsStopRecord: () => ipcRenderer.send("rs:stop-record"),
