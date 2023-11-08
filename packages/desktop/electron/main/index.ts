@@ -11,9 +11,10 @@ import {
 } from "./globalShortcut";
 import { initConfig } from "./store";
 import { url } from "./contract";
-import initServer from "@pear-rec/server";
+import initServer from "@pear-rec/server/src";
 
-url || initServer();
+// url || initServer();
+initServer();
 const config = initConfig();
 
 // The built directory structure

@@ -1,27 +1,38 @@
-import { createServer } from "http";
-import crypto from "node:crypto";
-import initApp from "./app";
-import { sequelize } from "./database/sequelize";
+import "reflect-metadata";
+import cors from "cors";
+import express, { Request, Response } from "express";
+import * as bodyParser from "body-parser";
+import { AppDataSource } from "./dataSource";
+import { AppRoutes } from "./route";
+import { initApi } from "./api/index";
 
 const port = process.env.PORT || 5000;
-global.crypto = crypto;
 
-const initServer = async () => {
-	// await sequelize.sync({ force: true });
-	await sequelize.sync();
-	try {
-		await sequelize.authenticate();
-		console.log("Connection has been established successfully.");
-	} catch (error) {
-		console.error("Unable to connect to the database:", error);
-	}
+export default function initApp() {
+	AppDataSource.initialize()
+		.then(async (connection) => {
+			const app = express();
 
-	const app = initApp();
+			app.use(cors());
+			app.use(bodyParser.urlencoded({ extended: true }));
 
-	createServer(app).listen(port, () =>
-		console.log(`Server listen on port ${port}`),
-	);
-};
+			AppRoutes.forEach((route: any) => {
+				app[route.method](
+					route.path,
+					(request: Request, response: Response, next: Function) => {
+						route
+							.action(request, response)
+							.then(() => next)
+							.catch((err) => next(err));
+					},
+				);
+			});
 
-export { initServer };
-export default initServer;
+			initApi(app);
+
+			app.listen(port);
+
+			console.log(`Express application is up and running on port ${port}`);
+		})
+		.catch((error) => console.log("TypeORM connection error: ", error));
+}

@@ -1,12 +1,47 @@
 import fs from "node:fs";
+import multer from "multer";
+import { join } from "node:path";
+import { homedir } from "node:os";
+import { existsSync, mkdirSync } from "node:fs";
 import { Application, Request, Response } from "express";
 import {
 	getImgsByImgUrl,
 	getAudiosByAudioUrl,
 	getVideosByVideoUrl,
 } from "../util/index";
+import { RecordController } from "../controller/RecordController";
+
+const recordController = new RecordController();
+
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		const { type, userUuid } = req.body;
+		const documentsPath = join(homedir(), "Documents");
+		const filePath = join(documentsPath, `./Pear Files/${userUuid}/${type}`);
+		if (!existsSync(filePath)) {
+			mkdirSync(filePath, { recursive: true });
+		}
+		cb(null, filePath);
+	},
+	filename: function (req, file, cb) {
+		const fileTypeMap = {
+			ss: "png",
+			rs: "webm",
+			ei: "png",
+		};
+		const type = req.body.type;
+		const fileType = fileTypeMap[type] || "webm";
+		const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+		cb(null, `${type}-${uniqueSuffix}.${fileType}`);
+	},
+});
+const upload = multer({ storage: storage });
 
 export function initLocalApi(app: Application) {
+	app.post("/saveFile", upload.single("file"), async (req: any, res) => {
+		recordController.saveFile(req, res);
+	});
+
 	app.get("/getFile", async (req, res) => {
 		const url = req.query.url as string;
 		fs.readFile(url, function (err, data) {
