@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.1.0
+
+perf: 数据库更换 `typeorm` + `better-sqlite3`
+
 ## 1.0.2
 
 perf: 优化打包、指定类型声明文件

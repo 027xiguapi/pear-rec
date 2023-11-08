@@ -1,4 +1,5 @@
 import { Application, Request, Response } from "express";
+
 import { initLocalApi } from "./local";
 import { initPageProxy } from "./page";
 import { initBaiduProxy } from "../proxy/baidu";
