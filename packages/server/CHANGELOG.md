@@ -1,8 +1,12 @@
 # @pear-rec/server
 
+## 1.1.1
+
+perf: 服务端页面联调
+
 ## 1.1.0
 
-perf: 数据库更换 `typeorm` + `better-sqlite3`
+refactor: 数据库更换 `typeorm` + `better-sqlite3`
 
 ## 1.0.2
 

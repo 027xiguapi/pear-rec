@@ -1,5 +1,5 @@
-import {UserRoutes} from "./User"
-import {RecordRoutes} from "./Record"
+import { UserRoutes } from "./User";
+import { RecordRoutes } from "./Record";
 
 /**
  * All application routes.

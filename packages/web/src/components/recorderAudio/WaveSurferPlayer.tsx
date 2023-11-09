@@ -69,7 +69,7 @@ const WaveSurferPlayer = (props) => {
 		try {
 			const formData = new FormData();
 			formData.append("type", "ra");
-			formData.append("userUuid", props.user.uuid);
+			formData.append("userId", props.user.id);
 			formData.append("file", blob);
 			const res = (await api.saveFile(formData)) as any;
 			if (res.code == 0) {

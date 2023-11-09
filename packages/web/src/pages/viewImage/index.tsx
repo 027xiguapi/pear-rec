@@ -35,18 +35,6 @@ const ViewImage = () => {
 	}, []);
 
 	useEffect(() => {
-		const paramsString = location.search;
-		const searchParams = new URLSearchParams(paramsString);
-		const imgUrl = searchParams.get("imgUrl");
-		user.id &&
-			imgUrl &&
-			userApi.editUser(user.id, {
-				...user,
-				historyImg: imgUrl,
-			});
-	}, [user]);
-
-	useEffect(() => {
 		imgs.length && initViewer();
 	}, [imgs]);
 

@@ -4,9 +4,9 @@ import express, { Request, Response } from "express";
 import * as bodyParser from "body-parser";
 import { AppDataSource } from "./dataSource";
 import { AppRoutes } from "./route";
-import { initApi } from "./api/index";
-
-const port = process.env.PORT || 5000;
+import { initApi } from "./api";
+import { initConfig } from "./config";
+import { PORT } from "./contract";
 
 export default function initApp() {
 	AppDataSource.initialize()
@@ -15,6 +15,9 @@ export default function initApp() {
 
 			app.use(cors());
 			app.use(bodyParser.urlencoded({ extended: true }));
+
+			initConfig();
+			initApi(app);
 
 			AppRoutes.forEach((route: any) => {
 				app[route.method](
@@ -28,11 +31,9 @@ export default function initApp() {
 				);
 			});
 
-			initApi(app);
+			app.listen(PORT);
 
-			app.listen(port);
-
-			console.log(`Express application is up and running on port ${port}`);
+			console.log(`Express application is up and running on port ${PORT}`);
 		})
 		.catch((error) => console.log("TypeORM connection error: ", error));
 }

@@ -44,35 +44,7 @@ const Home: React.FC = () => {
 				setUser(res.data);
 			}
 		} catch (err) {
-			addCurrentUser();
-		}
-	}
-
-	async function checkInternetConnection() {
-		const user = {
-			uuid: uuidv4(),
-			userName: "pear-rec",
-			userType: 1,
-			language: "zh",
-			openAtLogin: false,
-		};
-		try {
-			await isProxy();
-			console.log("可以访问 Google");
-			user["isProxy"] = true;
-			return user;
-		} catch (err) {
-			console.log("无法访问 Google");
-			user["isProxy"] = false;
-			return user;
-		}
-	}
-
-	async function addCurrentUser() {
-		const user = await checkInternetConnection();
-		const res = (await userApi.addUser(user)) as any;
-		if (res.code == 0) {
-			setUser(res.data);
+			console.log(err);
 		}
 	}
 

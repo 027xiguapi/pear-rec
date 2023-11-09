@@ -151,7 +151,7 @@ const RecorderVideo = () => {
 		try {
 			const formData = new FormData();
 			formData.append("type", "rv");
-			formData.append("userUuid", userRef.current.uuid);
+			formData.append("userId", userRef.current.id);
 			formData.append("file", blob);
 			const res = (await api.saveFile(formData)) as any;
 			if (res.code == 0) {

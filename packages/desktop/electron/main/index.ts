@@ -13,7 +13,6 @@ import { initConfig } from "./store";
 import { url } from "./contract";
 import initServer from "@pear-rec/server/src";
 
-// url || initServer();
 initServer();
 const config = initConfig();
 
