@@ -20,10 +20,8 @@ export function initUser() {
 	const uuid = uuidv5("https://www.w3.org/", uuidv5.URL);
 	const user = {
 		uuid: uuid,
-		userName: `pear-rec`,
+		userName: `pear-rec:user`,
 		userType: 1,
-		language: "zh",
-		openAtLogin: false,
 		createdAt: dayjs().format(),
 	};
 	try {

@@ -1,22 +1,22 @@
-import { getManager } from "typeorm";
+import { AppDataSource } from "../dataSource";
 import { Record } from "../entity/Record";
 
 export class RecordController {
 	async getRecords(req, res) {
-		const recordRepository = getManager().getRepository(Record);
+		const recordRepository = AppDataSource.getRepository(Record);
 		const records = await recordRepository.find();
 		res.json(records);
 	}
 
 	async createRecord(req, res) {
-		const recordRepository = getManager().getRepository(Record);
+		const recordRepository = AppDataSource.getRepository(Record);
 		const record = recordRepository.create(req.body);
 		await recordRepository.save(record);
 		res.send("record created successfully");
 	}
 
 	async getRecord(req, res) {
-		const recordRepository = getManager().getRepository(Record);
+		const recordRepository = AppDataSource.getRepository(Record);
 		const record = await recordRepository.findOne(req.params.id);
 
 		if (!record) {
@@ -27,7 +27,7 @@ export class RecordController {
 	}
 
 	async updateRecord(req, res) {
-		const recordRepository = getManager().getRepository(Record);
+		const recordRepository = AppDataSource.getRepository(Record);
 		const record = await recordRepository.findOne(req.params.id);
 
 		if (!record) {
@@ -40,7 +40,7 @@ export class RecordController {
 	}
 
 	async deleteRecord(req, res) {
-		const recordRepository = getManager().getRepository(Record);
+		const recordRepository = AppDataSource.getRepository(Record);
 		const record = await recordRepository.findOne(req.params.id);
 
 		if (!record) {
@@ -52,11 +52,11 @@ export class RecordController {
 	}
 
 	async saveFile(req, res) {
-		const recordRepository = getManager().getRepository(Record);
+		const recordRepository = AppDataSource.getRepository(Record);
 		let data = {
 			filePath: req.file.path,
 			fileType: req.body.type,
-			userid: req.body.userid,
+			userId: req.body.userId,
 		};
 		const record = recordRepository.create(data);
 		await recordRepository.save(record);

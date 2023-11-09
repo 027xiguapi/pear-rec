@@ -1,23 +1,26 @@
 import fs from "node:fs";
 import multer from "multer";
 import { join } from "node:path";
-import { homedir } from "node:os";
 import { existsSync, mkdirSync } from "node:fs";
-import { Application, Request, Response } from "express";
+import { Application } from "express";
+import { AppDataSource } from "../dataSource";
 import {
 	getImgsByImgUrl,
 	getAudiosByAudioUrl,
 	getVideosByVideoUrl,
 } from "../util/index";
 import { RecordController } from "../controller/RecordController";
+import { UserController } from "../controller/UserController";
+import { PEAR_FILES_PATH } from "../contract";
 
 const recordController = new RecordController();
+const userController = new UserController();
 
 const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		const { type, userUuid } = req.body;
-		const documentsPath = join(homedir(), "Documents");
-		const filePath = join(documentsPath, `./Pear Files/${userUuid}/${type}`);
+	destination: async function (req, file, cb) {
+		const { type, userId } = req.body;
+		const user = await userController.getUserById(userId);
+		const filePath = join(PEAR_FILES_PATH, `${user.uuid}/${type}`);
 		if (!existsSync(filePath)) {
 			mkdirSync(filePath, { recursive: true });
 		}
@@ -27,6 +30,7 @@ const storage = multer.diskStorage({
 		const fileTypeMap = {
 			ss: "png",
 			rs: "webm",
+			ra: "webm",
 			ei: "png",
 		};
 		const type = req.body.type;

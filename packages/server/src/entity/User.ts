@@ -26,8 +26,8 @@ export class User {
 	userType: string;
 
 	// 是否代理
-	@Column("varchar", { nullable: true })
-	isProxy!: boolean;
+	@Column("boolean", { nullable: true })
+	isProxy: boolean;
 
 	// 代理端口
 	@Column("integer", { nullable: true })
@@ -42,7 +42,7 @@ export class User {
 	filePath: string;
 
 	// 开机自启动
-	@Column("varchar", { nullable: true })
+	@Column("boolean", { nullable: true })
 	openAtLogin: boolean;
 
 	@CreateDateColumn({ nullable: true })

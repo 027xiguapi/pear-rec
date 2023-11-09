@@ -197,7 +197,7 @@ const ScreenRecorder = (props) => {
 
 			const formData = new FormData();
 			formData.append("type", "rs");
-			formData.append("userUuid", user.uuid);
+			formData.append("userId", user.id);
 			formData.append("file", blob);
 			const res = (await api.saveFile(formData)) as any;
 			if (res.code == 0) {

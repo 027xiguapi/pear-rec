@@ -1,53 +1,83 @@
-import { getManager } from "typeorm";
+import { AppDataSource } from "../dataSource";
 import { User } from "../entity/User";
+import { getConfig } from "../config";
+import { PEAR_FILES_PATH } from "../contract";
 
 export class UserController {
-  async getUsers(req, res) {
-    const userRepository = getManager().getRepository(User);
-    const users = await userRepository.find();
-    res.json(users);
-  }
+	async getUsers(req, res) {
+		const userRepository = AppDataSource.getRepository(User);
+		const users = await userRepository.find();
+		res.json({ code: 0, data: users });
+	}
 
-  async createUser(req, res) {
-    const userRepository = getManager().getRepository(User);
-    const user = userRepository.create(req.body);
-    await userRepository.save(user);
-    res.send("User created successfully");
-  }
+	async createUser(req, res) {
+		const userRepository = AppDataSource.getRepository(User);
+		const user = userRepository.create(req.body);
+		await userRepository.save(user);
+		res.json({ code: 0, data: user });
+	}
 
-  async getUser(req, res) {
-    const userRepository = getManager().getRepository(User);
-    const user = await userRepository.findOne(req.params.id);
-    
-    if (!user) {
-      return res.send("User not found");
-    }
+	async getUser(req, res) {
+		const userRepository = AppDataSource.getRepository(User);
+		const user = await userRepository.findOne(req.params.id);
 
-    res.json(user);
-  }
+		if (!user) {
+			res.json({ code: -1, data: "User not found" });
+		}
 
-  async updateUser(req, res) {
-    const userRepository = getManager().getRepository(User);
-    const user = await userRepository.findOne(req.params.id);
-    
-    if (!user) {
-      return res.send("User not found");
-    }
+		res.json({ code: 0, data: user });
+	}
 
-    userRepository.merge(user, req.body);
-    await userRepository.save(user);
-    res.send("User updated successfully");
-  }
+	async updateUser(req, res) {
+		const userRepository = AppDataSource.getRepository(User);
+		const user = await userRepository.findOne(req.params.id);
 
-  async deleteUser(req, res) {
-    const userRepository = getManager().getRepository(User);
-    const user = await userRepository.findOne(req.params.id);
+		if (!user) {
+			res.json({ code: -1, data: "User not found" });
+		}
 
-    if (!user) {
-      return res.send("User not found");
-    }
+		userRepository.merge(user, req.body);
+		await userRepository.save(user);
+		res.json({ code: 0, data: user });
+	}
 
-    await userRepository.remove(user);
-    res.send("User deleted successfully");
-  }
+	async deleteUser(req, res) {
+		const userRepository = AppDataSource.getRepository(User);
+		const user = await userRepository.findOne(req.params.id);
+
+		if (!user) {
+			res.json({ code: -1, data: "User not found" });
+		}
+
+		await userRepository.remove(user);
+		res.json({ code: 0, data: "User deleted successfully" });
+	}
+
+	async getCurrentUser(req, res) {
+		const userRepository = AppDataSource.getRepository(User);
+		const config = getConfig();
+		const user = await userRepository.findOneBy({ uuid: config.user.uuid });
+
+		if (!user) {
+			const _user = {
+				...config.user,
+				language: "zh",
+				openAtLogin: false,
+				isProxy: true,
+				filePath: PEAR_FILES_PATH,
+			};
+			const user = userRepository.create(_user);
+			await userRepository.save(user);
+			res.json({ code: 0, data: user });
+		}
+
+		res.json({ code: 0, data: user });
+	}
+
+	async getUserById(id) {
+		const userRepository = AppDataSource.getRepository(User);
+		const user = await userRepository.findOneBy({ id: id });
+
+		return user;
+	}
 }

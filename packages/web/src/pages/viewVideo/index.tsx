@@ -33,13 +33,6 @@ const ViewVideo = () => {
 		}
 	}, [source]);
 
-	useEffect(() => {
-		const paramsString = location.search;
-		const searchParams = new URLSearchParams(paramsString);
-		const videoUrl = searchParams.get("videoUrl");
-		user.id && userApi.editUser(user.id, { ...user, historyVideo: videoUrl });
-	}, [user]);
-
 	async function getCurrentUser() {
 		try {
 			const res = (await userApi.getCurrentUser()) as any;
