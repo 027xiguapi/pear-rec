@@ -1,23 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocalStorage } from 'react-use';
-import { Button, Switch, Form, Input, Tabs } from "antd";
+import { Tabs } from "antd";
 import UserSetting from "../../components/setting/userSetting";
 import BasicSetting from "../../components/setting/basicSetting";
 import ServerSetting from "../../components/setting/serverSetting";
 import ininitApp from "../../pages/main";
 import { useUserApi } from "../../api/user";
+import { useSettingApi } from "../../api/setting";
+import { Local } from "../../util/storage";
 import styles from "./index.module.scss";
 
 const Setting = () => {
 	const userApi = useUserApi();
+	const settingApi = useSettingApi();
 	const { t } = useTranslation();
-	const [user, setUser] = useState({} as any);
-  const [value, setValue] = useLocalStorage('pear-rec:user', '');
+	const [setting, setSetting] = useState({} as any);
+	const [user, setUser] = useState(Local.get("user") || ({} as any));
 
 	useEffect(() => {
-		window.isOffline || user.id || getCurrentUser();
-	}, []);
+		if (user.id) {
+			getSetting(user.id);
+		} else {
+			window.isOffline || getCurrentUser();
+		}
+	}, [user]);
 
 	const items = [
 		{
@@ -31,19 +37,27 @@ const Setting = () => {
 			children: BasicSetting,
 			forceRender: true,
 		},
-    {
+		{
 			key: "serverSetting",
 			label: "服务设置",
 			children: ServerSetting,
-      forceRender: true,
+			forceRender: true,
 		},
 	];
 
 	async function getCurrentUser() {
 		const res = (await userApi.getCurrentUser()) as any;
 		if (res.code == 0) {
-			setUser(res.data);
-      setValue(res.data);
+			const user = res.data;
+			setUser(user);
+			Local.set("user", user);
+		}
+	}
+
+	async function getSetting(userId) {
+		const res = (await settingApi.getSetting(userId)) as any;
+		if (res.code == 0) {
+			setSetting(res.data || {});
 		}
 	}
 
@@ -59,7 +73,7 @@ const Setting = () => {
 					return {
 						label: tab.label,
 						key: tab.key,
-						children: <tab.children user={user} />,
+						children: <tab.children user={user} setting={setting} />,
 						forceRender: tab.forceRender,
 					};
 				})}

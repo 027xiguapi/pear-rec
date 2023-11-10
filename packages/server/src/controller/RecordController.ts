@@ -20,7 +20,7 @@ export class RecordController {
 		const record = await recordRepository.findOne(req.params.id);
 
 		if (!record) {
-			return res.send("User not found");
+			return res.send("record not found");
 		}
 
 		res.json(record);

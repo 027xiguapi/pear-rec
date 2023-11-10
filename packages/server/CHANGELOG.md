@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.1.2
+
+feat: 设置联调
+
 ## 1.1.1
 
 perf: 服务端页面联调
