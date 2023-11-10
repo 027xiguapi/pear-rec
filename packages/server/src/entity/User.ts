@@ -3,10 +3,12 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	OneToMany,
+	OneToOne,
 	CreateDateColumn,
 	UpdateDateColumn,
 } from "typeorm";
 import { Record } from "./Record";
+import { Setting } from "./Setting";
 
 @Entity()
 export class User {
@@ -25,26 +27,6 @@ export class User {
 	@Column("varchar")
 	userType: string;
 
-	// 是否代理
-	@Column("boolean", { nullable: true })
-	isProxy: boolean;
-
-	// 代理端口
-	@Column("integer", { nullable: true })
-	proxyPort: number;
-
-	// 语言
-	@Column("varchar", { nullable: true })
-	language: string;
-
-	// 文件保存地址
-	@Column("varchar", { nullable: true })
-	filePath: string;
-
-	// 开机自启动
-	@Column("boolean", { nullable: true })
-	openAtLogin: boolean;
-
 	@CreateDateColumn({ nullable: true })
 	createdAt: Date;
 
@@ -59,4 +41,7 @@ export class User {
 
 	@OneToMany(() => Record, (record) => record.user)
 	records: Record[];
+
+	@OneToOne(() => Setting, (setting) => setting.user)
+	setting: Setting;
 }

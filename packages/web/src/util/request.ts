@@ -8,7 +8,8 @@ const service: AxiosInstance = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,
 	timeout: 50000,
 	headers: {
-		"Content-Type": "application/x-www-form-urlencoded",
+		// "Content-Type": "application/x-www-form-urlencoded",
+		"Content-Type": "application/json",
 	},
 	paramsSerializer: {
 		serialize(params) {

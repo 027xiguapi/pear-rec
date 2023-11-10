@@ -4,6 +4,7 @@ import { join, dirname } from "node:path";
 import { DataSource } from "typeorm";
 import { User } from "./entity/User";
 import { Record } from "./entity/Record";
+import { Setting } from "./entity/Setting";
 import { DB_PATH } from "./contract";
 
 const fileDir = dirname(DB_PATH);
@@ -16,7 +17,7 @@ export const AppDataSource = new DataSource({
 	database: DB_PATH,
 	synchronize: true,
 	logging: false,
-	entities: [User, Record],
+	entities: [User, Record, Setting],
 	migrations: [],
 	subscribers: [],
 });

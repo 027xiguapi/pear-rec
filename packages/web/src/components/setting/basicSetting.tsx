@@ -1,53 +1,56 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Switch, Form, Input, Select } from "antd";
-import { useUserApi } from "../../api/user";
+import { useSettingApi } from "../../api/setting";
+import { Local } from "../../util/storage";
 
 const { TextArea } = Input;
 const BasicSetting = (props) => {
-	const userApi = useUserApi();
+	const settingApi = useSettingApi();
 	const { t, i18n } = useTranslation();
 	const [form] = Form.useForm();
-	const { user } = props;
+	const { user, setting } = props;
 
 	useEffect(() => {
-		init();
-	}, [user]);
+		setting.id && init();
+	}, [setting]);
 
 	function init() {
+		getLanguage();
 		getFilePath();
 		getOpenAtLogin();
-		getLanguage();
 	}
 
 	async function handleSetFilePath() {
 		const filePath = await window.electronAPI?.invokeSeSetFilePath();
 		filePath && form.setFieldValue("filePath", filePath);
+		settingApi.editSetting(setting.id, { filePath: filePath || "" });
 	}
 
 	async function getFilePath() {
-		const filePath = user.filePath || t("setting.download");
+		const filePath = setting.filePath || t("setting.download");
 		form.setFieldValue("filePath", filePath);
 	}
 
 	function getLanguage() {
-		const lng = user.language || localStorage.getItem("pear-rec_i18n") || "zh";
+		const lng = setting.language || Local.get("i18n") || "zh";
 		form.setFieldValue("language", lng);
 	}
 
 	function handleSetOpenAtLogin(isOpen: boolean) {
-		userApi.editUser(user.id, { ...user, openAtLogin: isOpen });
+		settingApi.editSetting(setting.id, { openAtLogin: isOpen });
 	}
 
 	async function getOpenAtLogin() {
-		const openAtLogin = user.openAtLogin || false;
+		console.log(setting);
+		const openAtLogin = setting.openAtLogin || false;
 		form.setFieldValue("openAtLogin", openAtLogin);
 	}
 
 	function handleChangeLanguage(lng: string) {
-		localStorage.setItem("pear-rec_i18n", lng);
+		Local.set("i18n", lng);
 		i18n.changeLanguage(lng);
-		userApi.editUser(user.id, { ...user, language: lng });
+		settingApi.editSetting(setting.id, { language: lng });
 		window.electronAPI?.sendSeSetLanguage(lng);
 	}
 

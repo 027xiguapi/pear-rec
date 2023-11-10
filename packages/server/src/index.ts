@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import cors from "cors";
+import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
-import * as bodyParser from "body-parser";
 import { AppDataSource } from "./dataSource";
 import { AppRoutes } from "./route";
 import { initApi } from "./api";
@@ -14,7 +14,8 @@ export default function initApp() {
 			const app = express();
 
 			app.use(cors());
-			app.use(bodyParser.urlencoded({ extended: true }));
+			app.use(bodyParser.json());
+			// app.use(bodyParser.urlencoded({ extended: true }));
 
 			initConfig();
 			initApi(app);

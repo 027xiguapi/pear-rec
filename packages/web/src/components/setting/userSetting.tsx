@@ -10,7 +10,7 @@ const UserSetting = (props) => {
 	const [createdTime, setCreatedTime] = useState("");
 
 	useEffect(() => {
-		getUser();
+		user.id && getUser();
 	}, [user]);
 
 	async function getUser() {
