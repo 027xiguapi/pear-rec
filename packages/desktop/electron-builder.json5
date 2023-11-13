@@ -2,35 +2,35 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-	appId: "com.electron.pear",
-	productName: "pear-rec",
-	directories: {
-		output: "release/${version}",
-	},
-	files: ["dist-electron", "dist"],
-	mac: {
-		artifactName: "pear-rec.${ext}",
-		target: ["dmg", "zip"],
-	},
-	win: {
-		icon: "build/icons/win/icon.ico",
-		target: [
-			{
-				target: "nsis",
-				arch: ["x64"],
-			},
-		],
-		artifactName: "pear-rec.${ext}",
-	},
-	nsis: {
-		oneClick: false,
-		perMachine: false,
-		allowToChangeInstallationDirectory: true,
-		deleteAppDataOnUninstall: false,
-	},
-	publish: {
-		provider: "generic",
-		channel: "latest",
-		url: "https://github.com/027xiguapi/pear-rec/releases/download/v1.1.0-alpha",
-	},
+  appId: 'com.electron.pear',
+  productName: 'pear-rec',
+  directories: {
+    output: 'release/${version}',
+  },
+  files: ['dist-electron', 'dist'],
+  mac: {
+    artifactName: 'pear-rec.${ext}',
+    target: ['dmg', 'zip'],
+  },
+  win: {
+    icon: 'build/icons/win/icon.ico',
+    target: [
+      {
+        target: 'nsis',
+        arch: ['x64'],
+      },
+    ],
+    artifactName: 'pear-rec.${ext}',
+  },
+  nsis: {
+    oneClick: false,
+    perMachine: false,
+    allowToChangeInstallationDirectory: true,
+    deleteAppDataOnUninstall: false,
+  },
+  publish: {
+    provider: 'generic',
+    channel: 'latest',
+    url: 'https://github.com/027xiguapi/pear-rec/releases/download/v1.1.0-alpha',
+  },
 }
