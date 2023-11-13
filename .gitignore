@@ -14,6 +14,8 @@ dist-electron
 release
 *.local
 
+stats.html
+
 # Editor directories and files
 .vscode
 .idea
