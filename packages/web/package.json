@@ -41,7 +41,7 @@
     "@vitejs/plugin-react-swc": "^3.0.0",
     "rimraf": "^5.0.1",
     "rollup-plugin-visualizer": "^5.9.2",
-    "typescript": "^5.0.2",
+    "typescript": "^5.2.2",
     "vite": "^4.3.9"
   },
   "files": [

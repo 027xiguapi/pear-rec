@@ -1,23 +1,21 @@
-import "reflect-metadata";
-import fs from "node:fs";
-import { join, dirname } from "node:path";
-import { DataSource } from "typeorm";
-import { User } from "./entity/User";
-import { Record } from "./entity/Record";
-import { Setting } from "./entity/Setting";
-import { DB_PATH } from "./contract";
+import 'reflect-metadata';
+import fs from 'node:fs';
+import { dirname } from 'node:path';
+import { DataSource } from 'typeorm';
+import { User } from './entity/User';
+import { Record } from './entity/Record';
+import { Setting } from './entity/Setting';
+import { DB_PATH } from './contract';
 
 const fileDir = dirname(DB_PATH);
 if (!fs.existsSync(fileDir)) {
-	fs.mkdirSync(fileDir, { recursive: true });
+  fs.mkdirSync(fileDir, { recursive: true });
 }
 
 export const AppDataSource = new DataSource({
-	type: "better-sqlite3",
-	database: DB_PATH,
-	synchronize: true,
-	logging: false,
-	entities: [User, Record, Setting],
-	migrations: [],
-	subscribers: [],
+  type: 'sqljs',
+  location: DB_PATH,
+  entities: [User, Record, Setting],
+  synchronize: true,
+  logging: false,
 });
