@@ -15,7 +15,9 @@ if (!fs.existsSync(fileDir)) {
 export const AppDataSource = new DataSource({
   type: 'sqljs',
   location: DB_PATH,
+  autoSave: true,
   entities: [User, Record, Setting],
   synchronize: true,
-  logging: false,
+  logging: true,
+  logger: 'file',
 });
