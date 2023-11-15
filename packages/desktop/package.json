@@ -1,6 +1,6 @@
 {
   "name": "@pear-rec/desktop",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "dist-electron/main/index.js",
   "description": "pear-rec",
   "author": {
@@ -23,7 +23,9 @@
     "e2e": "playwright test"
   },
   "dependencies": {
-    "electron-updater": "^6.1.1"
+    "electron-updater": "^6.1.1",
+    "sql.js": "^1.8.0",
+    "typeorm": "^0.3.17"
   },
   "devDependencies": {
     "@pear-rec/server": "workspace:^",

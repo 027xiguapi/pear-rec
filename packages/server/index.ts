@@ -1,3 +1,3 @@
-import initServer from "./src";
+import initApp from './src';
 
-initServer();
+initApp();

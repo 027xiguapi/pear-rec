@@ -7,11 +7,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IUser } from '../model/IUser';
 import { Record } from './Record';
 import { Setting } from './Setting';
+// import { IRecord } from '../model/IRecord';
+import { ISetting } from '../model/ISetting';
 
 @Entity()
-export class User {
+export class User implements IUser {
   @PrimaryGeneratedColumn()
   id: number;
 

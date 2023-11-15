@@ -9,7 +9,7 @@ import { initConfig } from './config';
 import { url } from './contract';
 import initApp from '@pear-rec/server/src';
 
-initApp();
+url || initApp();
 const config = initConfig();
 
 // The built directory structure

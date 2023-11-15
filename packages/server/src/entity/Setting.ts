@@ -8,9 +8,10 @@ import {
   OneToOne,
 } from 'typeorm';
 import { User } from './User';
+import { ISetting } from '../model/ISetting';
 
 @Entity()
-export class Setting {
+export class Setting implements ISetting {
   @PrimaryGeneratedColumn()
   id: number;
 

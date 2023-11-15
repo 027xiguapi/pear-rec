@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.2.1
+
+refactor: 数据库初始化 bug
+
 ## 1.2.0
 
 refactor: 数据库更换 `typeorm` + `sql.js`

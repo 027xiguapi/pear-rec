@@ -1,6 +1,6 @@
 {
   "name": "@pear-rec/server",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "main": "dist/index.js",
   "typings": "index.d.ts",
@@ -33,6 +33,6 @@
     "multer": "1.4.5-lts.1",
     "reflect-metadata": "^0.1.13",
     "sql.js": "^1.8.0",
-    "typeorm": "0.3.14"
+    "typeorm": "^0.3.17"
   }
 }

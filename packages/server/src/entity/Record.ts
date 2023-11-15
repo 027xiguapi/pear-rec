@@ -3,13 +3,15 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './User';
+import { IRecord } from '../model/IRecord';
 
 @Entity()
-export class Record {
+export class Record implements IRecord {
   @PrimaryGeneratedColumn()
   id: number;
 

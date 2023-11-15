@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.2.4
+
+fix: 打包服务无法启动 bug
+
 ## 1.2.3
 
 fix: 录屏下载 bug
