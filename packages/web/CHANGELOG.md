@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.2.4
+
+fix: 设置初始化 bug
+
 ## 1.2.3
 
 feat: 设置联调

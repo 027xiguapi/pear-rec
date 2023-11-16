@@ -1,7 +1,6 @@
 import { AppDataSource } from '../dataSource';
 import { User } from '../entity/User';
 import { getConfig } from '../config';
-import { PEAR_FILES_PATH } from '../contract';
 
 export class UserController {
   async getUsers(req, res) {
@@ -59,16 +58,12 @@ export class UserController {
     const user = await userRepository.findOneBy({ uuid: config.user.uuid });
 
     if (!user) {
-      const _user = {
+      let _user = {
         ...config.user,
-        language: 'zh',
-        openAtLogin: false,
-        isProxy: true,
-        filePath: PEAR_FILES_PATH,
       };
-      const user = userRepository.create(_user);
-      await userRepository.save(user);
-      res.json({ code: 0, data: user });
+      _user = userRepository.create(_user);
+      await userRepository.save(_user);
+      res.json({ code: 0, data: _user });
     }
 
     res.json({ code: 0, data: user });

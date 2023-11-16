@@ -6,10 +6,9 @@ import './ipcMain';
 import { registerFileProtocol } from './protocol';
 import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
 import { initConfig } from './config';
-import { url } from './contract';
 import initApp from '@pear-rec/server/src';
 
-url || initApp();
+initApp();
 const config = initConfig();
 
 // The built directory structure
