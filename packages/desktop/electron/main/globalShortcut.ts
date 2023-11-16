@@ -1,27 +1,23 @@
-import { globalShortcut } from "electron";
-import { openShotScreenWin, closeShotScreenWin } from "../win/shotScreenWin";
+import { globalShortcut } from 'electron';
+import { openShotScreenWin, closeShotScreenWin } from '../win/shotScreenWin';
 
 function registerGlobalShortcut() {
-	globalShortcut.register("Alt+q", () => {
-		openShotScreenWin();
-	});
+  globalShortcut.register('Alt+q', () => {
+    openShotScreenWin();
+  });
 
-	globalShortcut.register("Esc", () => {
-		closeShotScreenWin();
-	});
+  globalShortcut.register('Esc', () => {
+    closeShotScreenWin();
+  });
 }
 
 function unregisterGlobalShortcut() {
-	globalShortcut.unregister("Alt+q");
-	globalShortcut.unregister("Esc");
+  globalShortcut.unregister('Alt+q');
+  globalShortcut.unregister('Esc');
 }
 
 function unregisterAllGlobalShortcut() {
-	globalShortcut.unregisterAll();
+  globalShortcut.unregisterAll();
 }
 
-export {
-	registerGlobalShortcut,
-	unregisterGlobalShortcut,
-	unregisterAllGlobalShortcut,
-};
+export { registerGlobalShortcut, unregisterGlobalShortcut, unregisterAllGlobalShortcut };

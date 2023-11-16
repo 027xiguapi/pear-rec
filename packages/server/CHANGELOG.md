@@ -1,8 +1,12 @@
 # @pear-rec/server
 
+## 1.2.2
+
+fix: 设置初始化 bug
+
 ## 1.2.1
 
-refactor: 数据库初始化 bug
+bug: 数据库初始化 bug
 
 ## 1.2.0
 

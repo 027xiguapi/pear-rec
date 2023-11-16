@@ -14,11 +14,15 @@ const storage = multer.diskStorage({
   destination: async function (req, file, cb) {
     const { type, userId } = req.body;
     const user = await userController.getUserById(userId);
-    const filePath = join(PEAR_FILES_PATH, `${user.uuid}/${type}`);
-    if (!fs.existsSync(filePath)) {
-      fs.mkdirSync(filePath, { recursive: true });
+    try {
+      const filePath = join(PEAR_FILES_PATH, `${user.uuid}/${type}`);
+      if (!fs.existsSync(filePath)) {
+        fs.mkdirSync(filePath, { recursive: true });
+      }
+      cb(null, filePath);
+    } catch (err) {
+      console.log('saveFile err', err);
     }
-    cb(null, filePath);
   },
   filename: function (req, file, cb) {
     const fileTypeMap = {
