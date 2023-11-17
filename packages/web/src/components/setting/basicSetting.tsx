@@ -12,7 +12,6 @@ const BasicSetting = (props) => {
   const { user, setting } = props;
 
   useEffect(() => {
-    console.log(setting);
     setting.id && init();
   }, [setting]);
 
