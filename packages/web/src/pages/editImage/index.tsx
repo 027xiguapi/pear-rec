@@ -232,19 +232,24 @@ const EditImage = () => {
       formData.append('file', blob);
       const res = (await api.saveFile(formData)) as any;
       if (res.code == 0) {
-        Modal.confirm({
-          title: '图片已保存，是否查看？',
-          content: `${res.data.filePath}`,
-          okText: t('modal.ok'),
-          cancelText: t('modal.cancel'),
-          onOk() {
-            window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
-            console.log('OK');
-          },
-          onCancel() {
-            console.log('Cancel');
-          },
-        });
+        if (window.isElectron) {
+          window.electronAPI?.sendEiCloseWin();
+          window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
+        } else {
+          Modal.confirm({
+            title: '图片已保存，是否查看？',
+            content: `${res.data.filePath}`,
+            okText: t('modal.ok'),
+            cancelText: t('modal.cancel'),
+            onOk() {
+              window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
+              console.log('OK');
+            },
+            onCancel() {
+              console.log('Cancel');
+            },
+          });
+        }
       }
     } catch (err) {
       saveAs(blob, `pear-rec_${+new Date()}.png`);

@@ -136,6 +136,8 @@ const AudioRecorder = (props) => {
   return (
     <Card title="设置">
       <Space>
+        麦克风
+        <Switch checkedChildren="开启" unCheckedChildren="关闭" onChange={changeMic} />
         音源
         <Select
           defaultValue="default"
@@ -143,8 +145,6 @@ const AudioRecorder = (props) => {
           onChange={handleChangeSource}
           options={audioInputOptions.current}
         />
-        麦克风
-        <Switch checkedChildren="开启" unCheckedChildren="关闭" onChange={changeMic} />
         计时
         <Timer
           seconds={timer.seconds}

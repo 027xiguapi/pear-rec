@@ -17,12 +17,12 @@ function createViewAudioWin(search?: any): BrowserWindow {
   });
 
   if (url) {
-    viewAudioWin.loadURL(WEB_URL + `viewAudio.html?audioUrl=${search?.url || ''}`);
+    viewAudioWin.loadURL(WEB_URL + `viewAudio.html?audioUrl=${search?.audioUrl || ''}`);
     // Open devTool if the app is not packaged
     // viewAudioWin.webContents.openDevTools();
   } else {
     viewAudioWin.loadFile(viewAudioHtml, {
-      search: `?audioUrl=${search?.url || ''}`,
+      search: `?audioUrl=${search?.audioUrl || ''}`,
     });
   }
 

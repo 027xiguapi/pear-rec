@@ -42,7 +42,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
   function handleUploadFile(event) {
     const file = event.target.files[0];
     if (window.electronAPI) {
-      window.electronAPI.sendVaOpenWin({ url: file.path });
+      window.electronAPI.sendVaOpenWin({ audioUrl: file.path });
     } else {
       const url = window.URL.createObjectURL(file);
       Modal.confirm({
@@ -61,7 +61,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
   function handleUploadDirectory(event) {
     const file = event.target.files[0];
     if (window.electronAPI) {
-      window.electronAPI.sendVaOpenWin({ imgUrl: file.path });
+      window.electronAPI.sendVaOpenWin({ audioUrl: file.path });
     }
     event.target.value = '';
   }

@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendMaOpenWin: () => ipcRenderer.send('ma:open-win'),
 
   //raWin
+  sendRaCloseWin: () => ipcRenderer.send('ra:close-win'),
   sendRaOpenWin: () => ipcRenderer.send('ra:open-win'),
   sendRaDownloadRecord: (url: string) => ipcRenderer.send('ra:download-record', url),
 
@@ -49,6 +50,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('cs:set-bounds', bounds);
   },
   //rvWin
+  sendRvCloseWin: () => ipcRenderer.send('rv:close-win'),
   sendRvOpenWin: () => ipcRenderer.send('rv:open-win'),
   sendRvDownloadRecord: (url: string) => ipcRenderer.send('rv:download-record', url),
 
@@ -61,6 +63,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendSsOpenExternal: (tabUrl: string) => ipcRenderer.send('ss:open-external', tabUrl),
 
   //viWin
+  sendViCloseWin: () => ipcRenderer.send('vi:close-win'),
   sendViOpenWin: (search?: string) => ipcRenderer.send('vi:open-win', search),
   invokeViSetIsAlwaysOnTop: () => ipcRenderer.invoke('vi:set-always-on-top'),
   invokeViGetImgs: (imgUrl: string) => ipcRenderer.invoke('vi:get-imgs', imgUrl),
@@ -70,6 +73,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
 
   //eiWin
+  sendEiCloseWin: () => ipcRenderer.send('ei:close-win'),
   sendEiOpenWin: (search?: string) => ipcRenderer.send('ei:open-win', search),
   sendEiSaveImg: (imgUrl: string) => ipcRenderer.send('ei:save-img', imgUrl),
 

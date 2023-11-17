@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.2.6
+
+fix: electron 下载录音 bug 、编辑图片下载 bug
+
 ## 1.2.5
 
 feat: 录音增加音源
