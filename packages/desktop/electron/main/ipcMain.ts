@@ -204,6 +204,9 @@ function initIpcMain() {
     return imgs;
   });
   // 图片编辑
+  ipcMain.on('ei:close-win', () => {
+    editImageWin.closeEditImageWin();
+  });
   ipcMain.on('ei:open-win', (e, search) => {
     editImageWin.openEditImageWin(search);
   });
@@ -282,7 +285,6 @@ function initIpcMain() {
   });
   ipcMain.on('ra:close-win', () => {
     recorderAudioWin.closeRecorderAudioWin();
-    mainWin.showMainWin();
   });
   ipcMain.on('ra:hide-win', () => {
     recorderAudioWin.hideRecorderAudioWin();
@@ -308,7 +310,6 @@ function initIpcMain() {
   });
   ipcMain.on('rv:close-win', () => {
     recorderVideoWin.closeRecorderVideoWin();
-    mainWin.showMainWin();
   });
   ipcMain.on('rv:download-record', (e, downloadUrl) => {
     recorderVideoWin.downloadURLRecorderVideoWin(downloadUrl);

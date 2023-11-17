@@ -2,7 +2,7 @@ import { BrowserWindow, dialog, shell, DownloadItem, WebContents } from 'electro
 import { join, dirname } from 'node:path';
 import { ICON, DIST, preload, url, WEB_URL } from '../main/contract';
 
-const editImageHtml = join(DIST, './clipScreen.html');
+const editImageHtml = join(DIST, './editImage.html');
 let editImageWin: BrowserWindow | null = null;
 
 function createEditImageWin(search?: any): BrowserWindow {
@@ -22,7 +22,7 @@ function createEditImageWin(search?: any): BrowserWindow {
   if (url) {
     editImageWin.loadURL(WEB_URL + `editImage.html?imgUrl=${imgUrl}`);
     // Open devTool if the app is not packaged
-    editImageWin.webContents.openDevTools();
+    // editImageWin.webContents.openDevTools();
   } else {
     editImageWin.loadFile(editImageHtml, {
       hash: `?imgUrl=${imgUrl}`,
@@ -43,4 +43,8 @@ function openEditImageWin(search?: any) {
   editImageWin.show();
 }
 
-export { createEditImageWin, openEditImageWin };
+function closeEditImageWin() {
+  editImageWin?.close();
+}
+
+export { createEditImageWin, openEditImageWin, closeEditImageWin };

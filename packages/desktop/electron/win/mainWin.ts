@@ -97,6 +97,7 @@ function focusMainWin() {
   if (mainWin) {
     // Focus on the main window if the user tried to open another
     if (mainWin.isMinimized()) mainWin.restore();
+    if (!mainWin.isVisible()) mainWin.show();
     mainWin.focus();
   }
 }

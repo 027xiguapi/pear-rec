@@ -1,6 +1,6 @@
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { release } from 'node:os';
-import { createMainWin, closeMainWin, focusMainWin } from '../win/mainWin';
+import * as mainWin from '../win/mainWin';
 import { initTray } from './tray';
 import './ipcMain';
 import { registerFileProtocol } from './protocol';
@@ -39,7 +39,7 @@ if (!app.requestSingleInstanceLock()) {
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 async function createWindow() {
-  createMainWin();
+  mainWin.createMainWin();
 }
 
 app.whenReady().then(() => {
@@ -54,15 +54,11 @@ app.on('will-quit', () => {
 });
 
 app.on('window-all-closed', () => {
-  // if (process.platform !== "darwin") app.quit();
+  if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('second-instance', () => {
-  // if (win) {
-  // 	// Focus on the main window if the user tried to open another
-  // 	if (win.isMinimized()) win.restore();
-  // 	win.focus();
-  // }
+  mainWin.focusMainWin();
 });
 
 app.on('activate', () => {
@@ -73,19 +69,3 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
-// ipcMain.handle("open-win", (_, arg) => {
-// 	const childWindow = new BrowserWindow({
-// 		webPreferences: {
-// 			preload,
-// 			nodeIntegration: true,
-// 			contextIsolation: false,
-// 		},
-// 	});
-
-// 	if (process.env.VITE_DEV_SERVER_URL) {
-// 		childWindow.loadURL(`${url}#${arg}`);
-// 	} else {
-// 		childWindow.loadFile(indexHtml, { hash: arg });
-// 	}
-// });
