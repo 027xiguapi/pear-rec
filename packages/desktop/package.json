@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "electron-updater": "^6.1.1",
+    "ffmpeg-static": "^5.2.0",
     "sql.js": "^1.8.0",
     "typeorm": "^0.3.17"
   },
@@ -37,7 +38,6 @@
     "autoprefixer": "^10.4.16",
     "electron": "^26.0.0",
     "electron-builder": "^24.6.3",
-    "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.2",
     "jimp": "^0.22.10",
     "jsonfile": "^6.1.0",
