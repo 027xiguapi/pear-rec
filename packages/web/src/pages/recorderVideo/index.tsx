@@ -137,11 +137,7 @@ const RecorderVideo = () => {
     if (recordedChunks.current.length > 0) {
       const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
       const url = URL.createObjectURL(blob);
-      if (window.isElectron) {
-        window.electronAPI.sendRaDownloadRecord(url);
-      } else {
-        window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
-      }
+      window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
     }
   }
 
@@ -155,7 +151,7 @@ const RecorderVideo = () => {
       if (res.code == 0) {
         if (window.isElectron) {
           window.electronAPI?.sendRvCloseWin();
-          window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
+          window.electronAPI?.sendVvOpenWin({ videoUrl: res.data.filePath });
         } else {
           Modal.confirm({
             title: '录像已保存，是否查看？',

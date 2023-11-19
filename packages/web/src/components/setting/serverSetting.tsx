@@ -11,7 +11,7 @@ const BasicSetting = (props) => {
 	const [server, setServer] = useState(
 		Local.get("server") || {
 			openServer: false,
-			serverPath: "http://localhost:5000/",
+			serverPath: "http://localhost:9190/",
 		},
 	);
 	const [form] = Form.useForm();
@@ -38,7 +38,7 @@ const BasicSetting = (props) => {
 
 	async function getServerPath() {
 		const serverPath =
-			setting.serverPath || server.serverPath || "http://localhost:5000/";
+			setting.serverPath || server.serverPath || "http://localhost:9190/";
 		form.setFieldValue("serverPath", serverPath);
 	}
 

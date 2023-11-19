@@ -1,7 +1,7 @@
 import { join } from "node:path";
 import { homedir } from "node:os";
 
-export const PORT = process.env.PORT || 5000;
+export const PORT = process.env.PORT || 9190;
 
 export const DOCS_PATH = join(homedir(), "Documents");
 

@@ -13,10 +13,7 @@ import {
 import { openViewVideoWin } from './viewVideoWin';
 
 FfmpegPath &&
-  Ffmpeg.setFfmpegPath(
-    url
-      ? join(DIST_ELECTRON, '../node_modules/ffmpeg-static/ffmpeg.exe')
-      : FfmpegPath.replace('app.asar', 'app.asar.unpacked'),
+  Ffmpeg.setFfmpegPath(join(DIST_ELECTRON, '../node_modules/ffmpeg-static/ffmpeg.exe')
   );
 
 const recorderScreenHtml = join(DIST, './recorderScreen.html');

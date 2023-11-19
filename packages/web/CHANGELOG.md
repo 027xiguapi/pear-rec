@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.2.7
+
+fix: 录像下载 bug, perf: 修改端口
+
 ## 1.2.6
 
 fix: electron 下载录音 bug 、编辑图片下载 bug
