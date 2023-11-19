@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import { join, dirname, extname, basename } from 'node:path';
 
 function getProtocol(isElectron: boolean, type: string) {
-  const port = process.env.PORT || 5000;
+  const port = process.env.PORT || 9190;
   const protocol = isElectron ? 'pearrec:///' : `http://localhost:${port}/${type}?url=`;
 
   return protocol;

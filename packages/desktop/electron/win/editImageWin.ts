@@ -19,13 +19,12 @@ function createEditImageWin(search?: any): BrowserWindow {
 
   const imgUrl = search?.imgUrl || '';
 
+  // editImageWin.webContents.openDevTools();
   if (url) {
     editImageWin.loadURL(WEB_URL + `editImage.html?imgUrl=${imgUrl}`);
-    // Open devTool if the app is not packaged
-    // editImageWin.webContents.openDevTools();
   } else {
     editImageWin.loadFile(editImageHtml, {
-      hash: `?imgUrl=${imgUrl}`,
+      search: `?imgUrl=${imgUrl}`,
     });
   }
 

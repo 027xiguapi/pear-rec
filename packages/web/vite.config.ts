@@ -65,7 +65,7 @@ export default ({ mode }) => {
 		},
 		server: {
 			// open: true,
-			port: 3000,
+			port: 9191,
 		},
 		plugins: [react(), visualizer() as any],
 		// build: mode == "lib" ? buildOptionsLib : buildOptionsProject,

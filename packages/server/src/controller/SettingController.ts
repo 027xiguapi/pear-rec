@@ -46,7 +46,7 @@ export class SettingController {
         language: 'zh',
         filePath: PEAR_FILES_PATH,
         openAtLogin: false,
-        serverPath: 'http://localhost:5000/',
+        serverPath: 'http://localhost:9190/',
         user: user,
       };
       _setting = await settingRepository.save(_setting);

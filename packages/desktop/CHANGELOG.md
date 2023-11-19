@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.2.6
+
+fix: electron 修改图片加载 bug, perf: 修改端口
+
 ## 1.2.5
 
 fix: 以管理运行、点击运行软件
