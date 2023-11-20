@@ -6,6 +6,12 @@
 
 <center>本页展示 pear-rec 的一些功能例子</center>
 
+## 架构
+
+<center>
+  <img src="/imgs/1700442414996.jpg" />
+</center>
+
 ## 首页
 
 <center>
