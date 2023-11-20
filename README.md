@@ -17,6 +17,12 @@
 
 [中文](README.zh-CN.md) | [English](README.md) | [Deutsch](README.de-DE.md)
 
+## Frameworks
+
+<center>
+  <img src="https://027xiguapi.github.io/pear-rec/imgs/1700442414996.jpg" />
+</center>
+
 ## Documentation
 
 > pear-rec(pear rec) is a cross platform screenshot, screen recording, audio recording, and video recording software.
@@ -132,9 +138,9 @@ Features that have been ticked are the latest in the development process but may
 
 ## Download
 
-| OS   | Windows                                                                                                   | Linux | Macos |
-| ---- | --------------------------------------------------------------------------------------------------------- | ----- | ----- |
-| link | [Download](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯     | ◯     |
+| OS | Windows | Linux | Macos |
+| --- | --- | --- | --- |
+| link | [Download](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯ | ◯ |
 
 ## Feedback
 

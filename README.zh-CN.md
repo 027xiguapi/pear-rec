@@ -17,6 +17,12 @@
 
 [中文](README.zh-CN.md) | [English](README.md) | [Deutsch](README.de-DE.md)
 
+## 架构
+
+<center>
+  <img src="https://027xiguapi.github.io/pear-rec/imgs/1700442414996.jpg" />
+</center>
+
 ## 简介
 
 > pear-rec(梨子 rec) 是一个跨平台的截图、录屏、录音、录像软件。
@@ -145,9 +151,9 @@ pnpm run build:desktop
 
 ## Download
 
-| 系统 | Windows                                                                                               | Linux | Macos |
-| ---- | ----------------------------------------------------------------------------------------------------- | ----- | ----- |
-| 链接 | [下载](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯     | ◯     |
+| 系统 | Windows | Linux | Macos |
+| --- | --- | --- | --- |
+| 链接 | [下载](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯ | ◯ |
 
 国内可以用 [GitHub Proxy](https://ghproxy.com/) 加速下载
 
