@@ -1,0 +1,28 @@
+.records {
+  background: #fff;
+  :global {
+    .recordsHeader {
+      background-color: #fff;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+      .recordsRow {
+        width: 100%;
+      }
+      .logo {
+        font-size: 20px;
+      }
+      .search {
+        width: 680px;
+      }
+    }
+    .recordsContent {
+      width: 680px;
+      margin: 65px auto 30px;
+      .keyword-lighten {
+        background-color: gold;
+      }
+    }
+  }
+}

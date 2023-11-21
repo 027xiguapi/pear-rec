@@ -18,6 +18,7 @@
     "aplayer": "^1.10.1",
     "axios": "^1.5.0",
     "dayjs": "^1.11.7",
+    "eventemitter3": "^5.0.1",
     "file-saver": "^2.0.5",
     "i18next": "^23.4.6",
     "js-cookie": "^3.0.5",

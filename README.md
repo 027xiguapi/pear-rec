@@ -155,3 +155,5 @@ We recommend that [issue](https://github.com/027xiguapi/pear-rec/issues) be used
 ## License
 
 [pear-rec is available under the Apache License V2.](LICENSE)
+
+[Open source etiquette](https://developer.mozilla.org/en-US/docs/MDN/Community/Open_source_etiquette)

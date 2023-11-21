@@ -9,6 +9,12 @@ export function useApi() {
         data: formData,
       });
     },
+    getFolder: (folderPath) => {
+      return request({
+        url: `/getFolder?folderPath=${folderPath}`,
+        method: 'get',
+      });
+    },
     getFile: (url) => {
       return request({
         url: `/getFile?url=${url}`,
