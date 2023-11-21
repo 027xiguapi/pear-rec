@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.2.3
+
+feat: 增加记录
+
 ## 1.2.2
 
 fix: 设置初始化 bug

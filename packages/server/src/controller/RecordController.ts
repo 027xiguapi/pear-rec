@@ -7,8 +7,13 @@ const userController = new UserController();
 export class RecordController {
   async getRecords(req, res) {
     const recordRepository = AppDataSource.getRepository(Record);
-    const records = await recordRepository.find();
-    res.json({ code: 0, data: records });
+    let { pageSize = 20, pageNumber = 1 } = req.query;
+    const offset = (pageNumber - 1) * pageSize;
+    const [records, total] = await recordRepository.findAndCount({
+      skip: offset,
+      take: pageSize,
+    });
+    res.json({ code: 0, data: records, total: total });
   }
 
   async createRecord(req, res) {
@@ -20,7 +25,7 @@ export class RecordController {
 
   async getRecord(req, res) {
     const recordRepository = AppDataSource.getRepository(Record);
-    const record = await recordRepository.findOne(req.params.id);
+    const record = await recordRepository.findOneBy({ id: req.params.id });
 
     if (!record) {
       return res.json({ code: -1, data: 'record not found' });
@@ -31,7 +36,7 @@ export class RecordController {
 
   async updateRecord(req, res) {
     const recordRepository = AppDataSource.getRepository(Record);
-    const record = await recordRepository.findOne(req.params.id);
+    const record = await recordRepository.findOneBy({ id: req.params.id });
 
     if (!record) {
       return res.json({ code: -1, data: 'record not found' });
@@ -42,9 +47,26 @@ export class RecordController {
     res.json({ code: 0, data: record });
   }
 
+  async deleteAllRecord(req, res) {
+    const recordRepository = AppDataSource.getRepository(Record);
+    const userId = req.params.userId;
+    const records = await recordRepository
+      .createQueryBuilder('record')
+      .leftJoinAndSelect('record.user', 'user')
+      .where('user.id = :id', { id: userId })
+      .getMany();
+
+    if (!records) {
+      return res.json({ code: -1, data: 'record not found' });
+    }
+
+    await recordRepository.remove(records);
+    res.json({ code: 0, data: 'record deleted successfully' });
+  }
+
   async deleteRecord(req, res) {
     const recordRepository = AppDataSource.getRepository(Record);
-    const record = await recordRepository.findOne(req.params.id);
+    const record = await recordRepository.findOneBy({ id: req.params.id });
 
     if (!record) {
       return res.json({ code: -1, data: 'record not found' });
@@ -64,6 +86,7 @@ export class RecordController {
       user: user,
     };
     const record = recordRepository.create(data);
+    recordRepository.save(record);
     res.json({ code: 0, data: record });
   }
 }

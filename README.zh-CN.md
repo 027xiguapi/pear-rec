@@ -170,3 +170,5 @@ pnpm run build:desktop
 ## 开源协议
 
 [pear-rec(梨子 rec) 可在 Apache License V2 下使用。](LICENSE)
+
+[开源项目礼节](https://developer.mozilla.org/zh-CN/docs/MDN/Community/Open_source_etiquette)

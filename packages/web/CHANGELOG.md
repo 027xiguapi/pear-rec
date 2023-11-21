@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.2.8
+
+feat: 增加记录
+
 ## 1.2.7
 
 fix: 录像下载 bug, perf: 修改端口

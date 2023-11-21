@@ -2,13 +2,16 @@ import fs from 'node:fs';
 import multer from 'multer';
 import { join } from 'node:path';
 import { Application } from 'express';
+import { exec } from 'child_process';
 import { getImgsByImgUrl, getAudiosByAudioUrl, getVideosByVideoUrl } from '../util/index';
 import { RecordController } from '../controller/RecordController';
 import { UserController } from '../controller/UserController';
+import { SettingController } from '../controller/SettingController';
 import { PEAR_FILES_PATH } from '../contract';
 
 const recordController = new RecordController();
 const userController = new UserController();
+const settingController = new SettingController();
 
 const storage = multer.diskStorage({
   destination: async function (req, file, cb) {
@@ -131,5 +134,11 @@ export function initLocalApi(app: Application) {
     const { videoUrl, isElectron } = req.query as any;
     const videos = await getVideosByVideoUrl(videoUrl, isElectron);
     res.json({ code: 0, data: videos });
+  });
+
+  app.get('/getFolder', async (req, res) => {
+    const folderPath = req.query.folderPath as string;
+    exec(`start "" "${folderPath}"`);
+    res.json({ code: 0 });
   });
 }
