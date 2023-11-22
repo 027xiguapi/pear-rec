@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.2.7
+
+feat: 增加记录
+
 ## 1.2.6
 
 fix: electron 修改图片加载 bug, perf: 修改端口
