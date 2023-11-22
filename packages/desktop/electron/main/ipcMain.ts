@@ -10,6 +10,7 @@ import * as editImageWin from '../win/editImageWin';
 import * as viewVideoWin from '../win/viewVideoWin';
 import * as viewAudioWin from '../win/viewAudioWin';
 import * as settingWin from '../win/settingWin';
+import * as recordsWin from '../win/recordsWin';
 import * as utils from './utils';
 import { editConfig } from './config';
 
@@ -365,6 +366,12 @@ function initIpcMain() {
   });
   ipcMain.handle('se:get-openAtLogin', () => {
     return app.getLoginItemSettings();
+  });
+
+  // 记录
+  ipcMain.on('re:open-win', () => {
+    recordsWin.closeRecordsWin();
+    recordsWin.openRecordsWin();
   });
 }
 

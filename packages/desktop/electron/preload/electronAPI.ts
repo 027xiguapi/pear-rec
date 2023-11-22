@@ -95,4 +95,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendSeSetOpenAtLogin: (isOpen: boolean) => ipcRenderer.send('se:set-openAtLogin', isOpen),
   sendSeSetLanguage: (lng: string) => ipcRenderer.send('se:set-language', lng),
   invokeSeGetOpenAtLogin: () => ipcRenderer.invoke('se:get-openAtLogin'),
+
+  //re
+  sendReOpenWin: () => ipcRenderer.send('re:open-win'),
 });

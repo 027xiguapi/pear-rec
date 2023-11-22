@@ -11,18 +11,16 @@ const createMainWin = (): BrowserWindow => {
     icon: ICON,
     width: 660, // 宽度(px)
     height: 375, // 高度(px)
-    maxWidth: 660,
-    maxHeight: 375,
+    // maxWidth: 660,
+    // maxHeight: 375,
     autoHideMenuBar: true, // 自动隐藏菜单栏
-    frame: false,
+    // frame: false,
     // show: false,
     // alwaysOnTop: !dev, // 为了方便调试，调试模式就不居上了
     // fullscreenable: true,
     // transparent: true,
-    // frame: false,
     // resizable: process.platform == "linux", // gnome下为false时无法全屏
     // skipTaskbar: true,
-    // autoHideMenuBar: true,
     // movable: false,
     // enableLargerThanScreen: true, // mac
     // hasShadow: false,
