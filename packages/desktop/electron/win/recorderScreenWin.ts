@@ -1,8 +1,5 @@
 import { app, BrowserWindow, dialog, shell, screen, Rectangle } from 'electron';
-import fs from 'node:fs';
 import { join, basename, dirname } from 'node:path';
-import Ffmpeg from 'fluent-ffmpeg';
-import FfmpegPath from 'ffmpeg-static';
 import Jimp from 'jimp';
 import { preload, url, DIST, ICON, WEB_URL, DIST_ELECTRON } from '../main/contract';
 import {
@@ -11,10 +8,6 @@ import {
   setBoundsClipScreenWin,
 } from './clipScreenWin';
 import { openViewVideoWin } from './viewVideoWin';
-
-FfmpegPath &&
-  Ffmpeg.setFfmpegPath(join(DIST_ELECTRON, '../node_modules/ffmpeg-static/ffmpeg.exe')
-  );
 
 const recorderScreenHtml = join(DIST, './recorderScreen.html');
 let recorderScreenWin: BrowserWindow | null = null;
@@ -93,42 +86,6 @@ async function recorderScreen(rsFilePath: string) {
   // closeRecorderScreenWin();
   // setHistoryVideo(rsFilePath);
   shell.showItemInFolder(rsFilePath);
-}
-
-async function ffmpegRecorderScreenWin(filePath: string) {
-  const { x, y, width, height } = getBoundsClipScreenWin() as Rectangle;
-  // const fileName = basename(filePath);
-  const folderPath = dirname(filePath);
-  const rsInputPath = filePath;
-  const fileName = `pear-rec_${+Date.now() + '-' + Math.round(Math.random() * 1e9)}.mp4`;
-  const rsOutputPath = join(`${folderPath}`, `${fileName}`);
-  const ffmpegProcess = Ffmpeg(rsInputPath)
-    .on('progress', function (progress: any) {
-      console.log('Processing: ' + progress.percent + '% done');
-    })
-    .on('start', (commandLine: any) => {
-      console.log('ffmpeg started with command: ', commandLine);
-    })
-    .on('end', (stdout: any, stderr: any) => {
-      console.log('ffmpeg finished: ', stderr);
-
-      setTimeout(() => {
-        closeRecorderScreenWin();
-        openViewVideoWin({ videoUrl: rsOutputPath });
-        fs.unlink(rsInputPath, (err) => {
-          if (err) {
-            return console.error(err);
-          }
-          console.log(`ffmpeg: ${rsInputPath} 文件删除成功！`);
-        });
-      }, 500);
-    })
-    .on('error', (err: any) => {
-      console.log('ffmpeg error: ', err.message);
-    })
-    .videoFilters(`crop=${width - 3}:${height - 3}:${x + 2}:${y + 2}`)
-    // .format('mp4')
-    .save(rsOutputPath);
 }
 
 // 打开关闭录屏窗口
@@ -245,5 +202,4 @@ export {
   focusRecorderScreenWin,
   setBoundsRecorderScreenWin,
   shotScreen,
-  ffmpegRecorderScreenWin,
 };

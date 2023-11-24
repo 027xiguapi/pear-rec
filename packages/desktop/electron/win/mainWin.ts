@@ -1,6 +1,7 @@
 import { app, screen, BrowserWindow, shell, ipcMain } from 'electron';
-import { ICON, preload, url, WEB_URL } from '../main/contract';
 import { join } from 'node:path';
+// import { update } from '../main/update';
+import { ICON, preload, url, WEB_URL } from '../main/contract';
 
 const indexHtml = join(process.env.DIST, 'index.html');
 let mainWin: BrowserWindow | null = null;
@@ -14,6 +15,8 @@ const createMainWin = (): BrowserWindow => {
     // maxWidth: 660,
     // maxHeight: 375,
     autoHideMenuBar: true, // 自动隐藏菜单栏
+    // maximizable: false,
+    // closable: false,
     // frame: false,
     // show: false,
     // alwaysOnTop: !dev, // 为了方便调试，调试模式就不居上了
@@ -52,6 +55,19 @@ const createMainWin = (): BrowserWindow => {
 
   // Apply electron-updater
   // update(mainWin);
+
+  // mainWin.onbeforeunload = (e) => {
+  //   console.log('I do not want to be closed');
+
+  //   // 与通常的浏览器不同,会提示给用户一个消息框,
+  //   //返回非空值将默认取消关闭
+  //   //建议使用对话框 API 让用户确认关闭应用程序.
+  //   e.returnValue = false;
+  // };
+
+  window.addEventListener('beforeunload', (e) => {
+    e.returnValue = false;
+  });
 
   return mainWin;
 };

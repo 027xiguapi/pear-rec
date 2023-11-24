@@ -54,7 +54,7 @@ app.on('will-quit', () => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+  // if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('second-instance', () => {

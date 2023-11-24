@@ -132,12 +132,12 @@ const RecordAudioCard = forwardRef(() => {
     }
     if (record.fileType == 'rs') {
       window.electronAPI
-        ? window.electronAPI.sendVvOpenWin({ videoUrl: record.path })
+        ? window.electronAPI.sendVvOpenWin({ videoUrl: record.filePath })
         : window.open(`/viewVideo.html?videoUrl=${record.filePath}`);
     }
     if (record.fileType == 'rv') {
       window.electronAPI
-        ? window.electronAPI.sendVvOpenWin({ videoUrl: record.path })
+        ? window.electronAPI.sendVvOpenWin({ videoUrl: record.filePath })
         : window.open(`/viewVideo.html?videoUrl=${record.filePath}`);
     }
     if (record.fileType == 'ra') {

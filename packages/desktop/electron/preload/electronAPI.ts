@@ -15,13 +15,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   //rsWin
   sendRsOpenWin: (search?: any) => ipcRenderer.send('rs:open-win', search),
-  sendRsCloseWin: (filePath: string) => ipcRenderer.send('rs:close-win', filePath),
+  sendRsCloseWin: () => ipcRenderer.send('rs:close-win'),
   sendRsHideWin: () => ipcRenderer.send('rs:hide-win'),
   sendRsMinimizeWin: () => ipcRenderer.send('rs:minimize-win'),
   sendRsStartRecord: () => ipcRenderer.send('rs:start-record'),
   sendRsPauseRecord: () => ipcRenderer.send('rs:pause-record'),
   sendRsStopRecord: () => ipcRenderer.send('rs:stop-record'),
-  invokeRsPauseRecord: () => ipcRenderer.invoke('rs:close-record'),
+  invokeRsGetBoundsClip: () => ipcRenderer.invoke('rs:get-bounds-clip'),
   invokeRsGetDesktopCapturerSource: () => {
     return ipcRenderer.invoke('rs:get-desktop-capturer-source');
   },

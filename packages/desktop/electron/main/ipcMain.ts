@@ -53,7 +53,7 @@ function initIpcMain() {
     recorderScreenWin.openRecorderScreenWin(search);
   });
   ipcMain.on('rs:close-win', (e, filePath) => {
-    recorderScreenWin.ffmpegRecorderScreenWin(filePath);
+    recorderScreenWin.closeRecorderScreenWin();
   });
   ipcMain.on('rs:hide-win', () => {
     recorderScreenWin.hideRecorderScreenWin();
@@ -63,6 +63,9 @@ function initIpcMain() {
   });
   ipcMain.handle('rs:get-desktop-capturer-source', async () => {
     return [...(await desktopCapturer.getSources({ types: ['screen'] })), ...(await selfWindws())];
+  });
+  ipcMain.handle('rs:get-bounds-clip', async () => {
+    return clipScreenWin.getBoundsClipScreenWin();
   });
   ipcMain.on('rs:start-record', (event) => {
     recorderScreenWin.setMovableRecorderScreenWin(false);

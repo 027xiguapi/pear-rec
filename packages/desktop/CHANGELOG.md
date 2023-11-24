@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.2.8
+
+perf: 优化桌面录屏
+
 ## 1.2.7
 
 feat: 增加记录
