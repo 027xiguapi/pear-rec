@@ -27,7 +27,7 @@
 
 > pear-rec(pear rec) is a cross platform screenshot, screen recording, audio recording, and video recording software.
 >
-> pear-rec(pear rec) is a project based on react + electron + vite + ffmpeg + viewerjs + plyr + aplayer + react-screenshots.
+> pear-rec(pear rec) is a project based on react + electron + vite + viewerjs + plyr + aplayer + react-screenshots.
 >
 > More functions and APIs can be found on [the official website](https://027xiguapi.github.io/pear-rec).
 
@@ -86,7 +86,7 @@ Features that have been ticked are the latest in the development process but may
   - [ ] Window and control selection (using OpenCV edge recognition)
   - [ ] Long screen capture
   - [ ] Multi-screen
-- [x] Record screen(ffmpeg)
+- [x] Record screen(WebRTC)
   - [x] Recording full screen
   - [x] Screenshot
   - [x] Customize size

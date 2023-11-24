@@ -1,0 +1,19 @@
+name: syncToGitee
+'on':
+  push:
+    branches:
+      - main
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mirror with force push (git push -f)
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: github/027xiguapi
+          dst: gitee/xiguapi027
+          dst_key: '${{ secrets.GITEE_PRIVATE_KEY }}'
+          dst_token: '${{ secrets.GITEE_TOKEN }}'
+          static_list: pear-rec
+          force_update: true
+          debug: true

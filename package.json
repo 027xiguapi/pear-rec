@@ -61,10 +61,5 @@
   "bugs": {
     "url": "https://github.com/027xiguapi/pear-rec/issues"
   },
-  "license": "Apache-2.0",
-  "pnpm": {
-    "patchedDependencies": {
-      "fluent-ffmpeg@2.1.2": "patches/fluent-ffmpeg@2.1.2.patch"
-    }
-  }
+  "license": "Apache-2.0"
 }
