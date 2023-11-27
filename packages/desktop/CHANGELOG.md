@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.2.9
+
+feat: 设置快捷键
+
 ## 1.2.8
 
 perf: 优化桌面录屏

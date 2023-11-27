@@ -5,6 +5,7 @@
   appId: 'com.electron.pear',
   productName: 'pear-rec',
   asar: false,
+  // extraResources: ['node_modules/sql.js', 'node_modules/typeorm'],
   directories: {
     output: 'release/${version}',
   },
@@ -33,6 +34,6 @@
   publish: {
     provider: 'generic',
     channel: 'latest',
-    url: 'https://github.com/027xiguapi/pear-rec/releases/download/v1.1.0-alpha',
+    url: 'https://github.com/027xiguapi/pear-rec/releases/download/v1.1.9',
   },
 }
