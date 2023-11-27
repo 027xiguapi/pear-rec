@@ -69,7 +69,7 @@ export class UserController {
     res.json({ code: 0, data: user });
   }
 
-  async getUserById(id) {
+  async _getUserById(id) {
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOneBy({ id: id });
 

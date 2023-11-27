@@ -16,9 +16,10 @@ const settingController = new SettingController();
 const storage = multer.diskStorage({
   destination: async function (req, file, cb) {
     const { type, userId } = req.body;
-    const user = await userController.getUserById(userId);
+    const user = await userController._getUserById(userId);
+    const setting = await settingController._getSettingByUserId(userId);
     try {
-      const filePath = join(PEAR_FILES_PATH, `${user.uuid}/${type}`);
+      const filePath = join(setting.filePath || PEAR_FILES_PATH, `${user.uuid}/${type}`);
       if (!fs.existsSync(filePath)) {
         fs.mkdirSync(filePath, { recursive: true });
       }

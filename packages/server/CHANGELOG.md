@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.2.4
+
+perf: 设置保存地址
+
 ## 1.2.3
 
 feat: 增加记录

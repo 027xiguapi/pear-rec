@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.2.10
+
+perf: 设置保存地址
+
 ## 1.2.9
 
 feat: 设置快捷键
