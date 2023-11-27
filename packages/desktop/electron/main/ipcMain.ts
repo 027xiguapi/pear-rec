@@ -339,18 +339,14 @@ function initIpcMain() {
     settingWin.closeSettingWin();
     mainWin.showMainWin();
   });
-  ipcMain.handle('se:set-filePath', async () => {
-    // let res = await dialog.showOpenDialog({
-    //   properties: ['openDirectory'],
-    // });
-    // let filePath = '';
-    // if (res.canceled) {
-    //   filePath = '';
-    // } else {
-    //   filePath = res.filePaths[0] || '';
-    //   store.setFilePath(filePath);
-    // }
-    // return filePath;
+  ipcMain.handle('se:set-filePath', async (e, filePath) => {
+    let res = await dialog.showOpenDialog({
+      properties: ['openDirectory'],
+    });
+    if (!res.canceled) {
+      filePath = res.filePaths[0];
+    }
+    return filePath;
   });
   ipcMain.handle('se:get-filePath', async () => {
     // return await store.getFilePath();

@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Switch, Form, Input, Select } from 'antd';
+import { Switch, Form, Input, Select, Button } from 'antd';
+import { FolderOpenOutlined } from '@ant-design/icons';
+import { useApi } from '../../api';
 import { useSettingApi } from '../../api/setting';
 import { Local } from '../../util/storage';
 
 const { TextArea } = Input;
 const BasicSetting = (props) => {
+  const api = useApi();
   const settingApi = useSettingApi();
   const { t, i18n } = useTranslation();
   const [form] = Form.useForm();
@@ -22,9 +25,13 @@ const BasicSetting = (props) => {
   }
 
   async function handleSetFilePath() {
-    const filePath = await window.electronAPI?.invokeSeSetFilePath();
+    const filePath = await window.electronAPI?.invokeSeSetFilePath(setting.filePath);
     filePath && form.setFieldValue('filePath', filePath);
     settingApi.editSetting(setting.id, { filePath: filePath || '' });
+  }
+
+  function handleOpenFilePath() {
+    setting.filePath && api.getFolder(form.getFieldValue('filePath'));
   }
 
   async function getFilePath() {
@@ -74,6 +81,11 @@ const BasicSetting = (props) => {
         </Form.Item>
         <Form.Item label={t('setting.filePath')} name="filePath">
           <TextArea className="filePathInput" readOnly onClick={handleSetFilePath} rows={3} />
+        </Form.Item>
+        <Form.Item label="打开下载文件夹">
+          <Button icon={<FolderOpenOutlined />} onClick={handleOpenFilePath}>
+            打开
+          </Button>
         </Form.Item>
         <Form.Item label={t('setting.openAtLogin')} name="openAtLogin" valuePropName="checked">
           <Switch

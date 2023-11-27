@@ -79,7 +79,7 @@ export class RecordController {
   async saveFile(req, res) {
     const recordRepository = AppDataSource.getRepository(Record);
     const userId = req.body.userId;
-    const user = await userController.getUserById(userId);
+    const user = await userController._getUserById(userId);
     let data = {
       filePath: req.file.path,
       fileType: req.body.type,

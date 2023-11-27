@@ -39,7 +39,7 @@ export class SettingController {
       .getOne();
 
     if (!setting) {
-      const user = await userController.getUserById(userId);
+      const user = await userController._getUserById(userId);
       let _setting = {
         isProxy: false,
         proxyPort: 7890,
@@ -78,5 +78,16 @@ export class SettingController {
 
     await settingRepository.remove(setting);
     res.json({ code: 0, data: 'setting deleted successfully' });
+  }
+
+  async _getSettingByUserId(userId) {
+    const settingRepository = AppDataSource.getRepository(Setting);
+    const setting = await settingRepository
+      .createQueryBuilder('setting')
+      .leftJoinAndSelect('setting.user', 'user')
+      .where('user.id = :id', { id: userId })
+      .getOne();
+
+    return setting;
   }
 }
