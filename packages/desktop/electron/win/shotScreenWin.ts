@@ -10,7 +10,6 @@ import {
 } from 'electron';
 import { join } from 'node:path';
 import { ICON, preload, url, DIST, WEB_URL } from '../main/contract';
-import { openViewImageWin } from './viewImageWin';
 
 const shotScreenHtml = join(DIST, './shotScreen.html');
 let shotScreenWin: BrowserWindow | null = null;
@@ -31,6 +30,7 @@ function createShotScreenWin(): BrowserWindow {
     fullscreenable: true, // 窗口是否可以进入全屏状态
     fullscreen: true, // 窗口是否全屏
     simpleFullscreen: true, // 在 macOS 上使用 pre-Lion 全屏
+    alwaysOnTop: true,
     webPreferences: {
       preload,
     },
