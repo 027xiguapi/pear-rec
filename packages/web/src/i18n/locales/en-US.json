@@ -18,7 +18,8 @@
     "viewImage": "view image",
     "playAudio": "play audio",
     "watchVideo": "watch video",
-    "history": "history"
+    "history": "history",
+    "editImg": "edit image"
   },
   "editImage": {
     "save": "save"

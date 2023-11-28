@@ -66,7 +66,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 200, height: 130 }}>
+    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
       <div className="cardContent">
         <Dropdown menu={{ items, onClick }}>
           <Space>

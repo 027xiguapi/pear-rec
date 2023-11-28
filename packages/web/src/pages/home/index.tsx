@@ -10,6 +10,7 @@ import RecordAudioCard from '../../components/card/recordAudioCard';
 import ViewImageCard from '../../components/card/viewImageCard';
 import ViewVideoCard from '../../components/card/viewVideoCard';
 import ViewAudioCard from '../../components/card/viewAudioCard';
+import EditImageCard from '../../components/card/editImageCard';
 import ininitApp from '../../pages/main';
 import { useUserApi } from '../../api/user';
 import styles from './index.module.scss';
@@ -98,14 +99,17 @@ const Home: React.FC = () => {
           </Col>
         </Row>
         <Row className="cardRow" justify="center" gutter={16}>
-          <Col span={8}>
+          <Col span={6}>
             <ViewImageCard />
           </Col>
-          <Col span={8}>
+          <Col span={6}>
             <ViewVideoCard />
           </Col>
-          <Col span={8}>
+          <Col span={6}>
             <ViewAudioCard />
+          </Col>
+          <Col span={6}>
+            <EditImageCard />
           </Col>
         </Row>
       </div>
