@@ -29,7 +29,7 @@
 >
 > pear-rec(pear rec) 是基于 react + electron + vite + viewerjs + plyr + aplayer + react-screenshots 的一个项目。
 >
-> 更多功能和 api 可以查看[官网](https://027xiguapi.github.io/pear-rec)
+> 更多功能和 api 可以查看[官网(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) 或 [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec)
 
 ## 例子
 

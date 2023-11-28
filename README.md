@@ -29,7 +29,7 @@
 >
 > pear-rec(pear rec) is a project based on react + electron + vite + viewerjs + plyr + aplayer + react-screenshots.
 >
-> More functions and APIs can be found on [the official website](https://027xiguapi.github.io/pear-rec).
+> More functions and APIs can be found on [the official website(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) or [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec).
 
 ## Example
 
