@@ -189,7 +189,12 @@ const EditImage = () => {
   function init() {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
-    const imgUrl = searchParams.get('imgUrl');
+    let imgUrl = searchParams.get('imgUrl');
+    if (window.isElectron) {
+      if (imgUrl.substring(0, 4) != 'blob') {
+        imgUrl = 'pearrec:///' + imgUrl;
+      }
+    }
     const instance = new ImageEditor(document.querySelector('#tui-image-editor'), {
       includeUI: {
         loadImage: {
