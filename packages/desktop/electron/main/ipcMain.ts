@@ -36,20 +36,17 @@ const selfWindws = async () =>
   );
 
 function initIpcMain() {
-  ipcMain.on('ma:show-win', () => {
-    mainWin.showMainWin();
+  ipcMain.on('ma:open-win', () => {
+    mainWin.openMainWin();
   });
-  ipcMain.on('ma:hide-win', () => {
-    mainWin.hideMainWin();
-  });
-  ipcMain.on('ma:minimize-win', () => {
-    mainWin.minimizeMainWin();
+  ipcMain.on('ma:close-win', () => {
+    mainWin.closeMainWin();
   });
   // 录屏
   ipcMain.on('rs:open-win', (e, search) => {
     clipScreenWin.closeClipScreenWin();
     recorderScreenWin.closeRecorderScreenWin();
-    mainWin.hideMainWin();
+    mainWin.closeMainWin();
     recorderScreenWin.openRecorderScreenWin(search);
   });
   ipcMain.on('rs:close-win', (e, filePath) => {
@@ -162,7 +159,6 @@ function initIpcMain() {
   });
   ipcMain.on('ss:open-win', () => {
     shotScreenWin.closeShotScreenWin();
-    mainWin.hideMainWin();
     shotScreenWin.openShotScreenWin();
   });
   ipcMain.on('ss:close-win', () => {
@@ -284,7 +280,6 @@ function initIpcMain() {
   // 录音;
   ipcMain.on('ra:open-win', () => {
     recorderAudioWin.closeRecorderAudioWin();
-    mainWin.hideMainWin();
     recorderAudioWin.openRecorderAudioWin();
   });
   ipcMain.on('ra:close-win', () => {

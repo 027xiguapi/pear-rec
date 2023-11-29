@@ -1,13 +1,11 @@
 import { app, BrowserWindow, dialog, shell, screen, Rectangle } from 'electron';
 import { join, basename, dirname } from 'node:path';
-import Jimp from 'jimp';
 import { preload, url, DIST, ICON, WEB_URL, DIST_ELECTRON } from '../main/contract';
 import {
   closeClipScreenWin,
   getBoundsClipScreenWin,
   setBoundsClipScreenWin,
 } from './clipScreenWin';
-import { openViewVideoWin } from './viewVideoWin';
 
 const recorderScreenHtml = join(DIST, './recorderScreen.html');
 let recorderScreenWin: BrowserWindow | null = null;

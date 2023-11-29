@@ -36,7 +36,6 @@
     "autoprefixer": "^10.4.16",
     "electron": "^26.0.0",
     "electron-builder": "^24.6.3",
-    "jimp": "^0.22.10",
     "jsonfile": "^6.1.0",
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",

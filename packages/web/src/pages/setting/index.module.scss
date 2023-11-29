@@ -1,23 +1,27 @@
 .setting {
-	padding: 10px;
-	margin: 0 auto;
-	overflow: hidden;
-	border-radius: 8px;
-	width: 540px;
-	:global {
-		.filePathInput {
-			width: 300px;
-			cursor: pointer;
-		}
+  padding: 10px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 8px;
+  width: 540px;
+  :global {
+    .tip {
+      padding: 10px 0;
+      color: red;
+    }
+    .filePathInput {
+      width: 300px;
+      cursor: pointer;
+    }
     .serverPathInput {
       width: 300px;
     }
-	}
+  }
 }
 
 .electron {
-	width: calc(100vw - 20px);
-	height: calc(100vh - 20px);
-	margin: 0 auto;
-	box-shadow: unset;
+  width: calc(100vw - 20px);
+  height: calc(100vh - 20px);
+  margin: 0 auto;
+  box-shadow: unset;
 }

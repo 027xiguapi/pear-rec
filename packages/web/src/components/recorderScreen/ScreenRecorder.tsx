@@ -30,7 +30,7 @@ const ScreenRecorder = (props) => {
 
   useEffect(() => {
     if (window.isElectron) {
-      initElectron();
+      // initElectron();
     } else {
       initCropArea();
     }
@@ -61,8 +61,8 @@ const ScreenRecorder = (props) => {
       },
     };
     try {
-      const worker = new Worker(new URL('./worker.js', import.meta.url), { name: 'Crop worker' });
       // mediaStream.current = await navigator.mediaDevices.getUserMedia(constraints);
+      const worker = new Worker(new URL('./worker.js', import.meta.url), { name: 'Crop worker' });
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       const size = await window.electronAPI?.invokeRsGetBoundsClip();
       const [track] = stream.getTracks();
@@ -94,8 +94,7 @@ const ScreenRecorder = (props) => {
     } catch (err) {
       console.log('getUserMedia', err);
     }
-
-    return constraints;
+    return mediaStream.current;
   }
 
   async function initCropArea() {
@@ -119,8 +118,35 @@ const ScreenRecorder = (props) => {
     }
   }
 
-  function setMediaRecorder() {
-    mediaRecorder.current = new MediaRecorder(mediaStream.current);
+  async function cropMediaStream() {
+    const worker = new Worker(new URL('./worker.js', import.meta.url), { name: 'Crop worker' });
+    const size = await window.electronAPI?.invokeRsGetBoundsClip();
+    const [track] = mediaStream.current.getTracks();
+    // @ts-ignore
+    const processor = new MediaStreamTrackProcessor({ track });
+    const { readable } = processor;
+    // @ts-ignore
+    const generator = new MediaStreamTrackGenerator({ kind: 'video' });
+    const { writable } = generator;
+    const _mediaStream = new MediaStream([generator]);
+    videoRef.current.srcObject = _mediaStream;
+
+    worker.postMessage(
+      {
+        operation: 'crop',
+        readable,
+        writable,
+        size,
+      },
+      [readable, writable],
+    );
+
+    return _mediaStream;
+  }
+
+  async function setMediaRecorder() {
+    const _mediaStream = window.isElectron ? await initElectron() : mediaStream.current;
+    mediaRecorder.current = new MediaRecorder(_mediaStream);
     mediaRecorder.current.ondataavailable = (event) => {
       if (event.data.size > 0) {
         recordedChunks.current.push(event.data);
@@ -165,8 +191,8 @@ const ScreenRecorder = (props) => {
   }
 
   // 开始录制
-  function handleStartRecord() {
-    setMediaRecorder();
+  async function handleStartRecord() {
+    await setMediaRecorder();
     mediaRecorder.current.start();
     setIsRecording(true);
     props.setIsRecording && props.setIsRecording(true);
@@ -240,7 +266,7 @@ const ScreenRecorder = (props) => {
       style={{
         top: props.position ? props.position.y + props.size.height + 2 : 0,
         left: props.position ? props.position.x : 0,
-        width: props.position ? 'auto' : '100%',
+        width: props.size ? props.size.width : '100%',
       }}
     >
       <video ref={videoRef} className="hide" playsInline autoPlay />

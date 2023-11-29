@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.2.13
+
+fix: electron 录屏 bug
+
 ## 1.2.12
 
 feat: 首页增加编辑图片

@@ -11,7 +11,12 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
   const { t } = useTranslation();
 
   function handleCutScreen() {
-    window.electronAPI ? window.electronAPI.sendSsOpenWin() : (location.href = '/shotScreen.html');
+    if (window.electronAPI) {
+      window.electronAPI.sendMaCloseWin();
+      window.electronAPI.sendSsOpenWin();
+    } else {
+      location.href = '/shotScreen.html';
+    }
   }
 
   return (

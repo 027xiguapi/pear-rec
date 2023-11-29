@@ -24,7 +24,7 @@ const UserSetting = (props) => {
 
   return (
     <div className="userSetting">
-      <Card style={{ width: 200 }} cover={<img alt="logo" src={logo} />}>
+      <Card style={{ width: 230 }} cover={<img alt="logo" src={logo} />}>
         <Meta title={uuid} description={formatTime(createdTime)} />
       </Card>
     </div>

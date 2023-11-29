@@ -15,7 +15,7 @@ const createMainWin = (): BrowserWindow => {
     // maxWidth: 660,
     // maxHeight: 375,
     autoHideMenuBar: true, // 自动隐藏菜单栏
-    // maximizable: false,
+    maximizable: false,
     // closable: false,
     // frame: false,
     // show: false,
@@ -65,9 +65,9 @@ const createMainWin = (): BrowserWindow => {
   //   e.returnValue = false;
   // };
 
-  window.addEventListener('beforeunload', (e) => {
-    e.returnValue = false;
-  });
+  // window.addEventListener('beforeunload', (e) => {
+  //   e.returnValue = false;
+  // });
 
   return mainWin;
 };

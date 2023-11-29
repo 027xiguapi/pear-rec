@@ -4,9 +4,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setTitle: (title: any) => ipcRenderer.send('set-title', title),
 
   // mainWin
-  sendMaMinimizeWin: () => ipcRenderer.send('ma:minimize-win'),
-  sendMaHideWin: () => ipcRenderer.send('ma:hide-win'),
   sendMaOpenWin: () => ipcRenderer.send('ma:open-win'),
+  sendMaCloseWin: () => ipcRenderer.send('ma:close-win'),
 
   //raWin
   sendRaCloseWin: () => ipcRenderer.send('ra:close-win'),

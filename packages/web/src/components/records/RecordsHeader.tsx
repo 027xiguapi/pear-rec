@@ -39,7 +39,11 @@ const RecordsHeader = forwardRef((props: any, ref: any) => {
   };
 
   function handleLogoClick() {
-    window.open('https://github.com/027xiguapi/pear-rec');
+    if (window.isElectron) {
+      window.electronAPI.sendMaOpenWin();
+    } else {
+      window.open('/');
+    }
   }
 
   return (
