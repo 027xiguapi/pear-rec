@@ -16,7 +16,7 @@ const AudioRecorder = (props) => {
   const [record, setRecord] = useState<any>(null);
   const [isOpenMic, setIsOpenMic] = useState(false);
   const [recordStatus, setRecordStatus] = useState('');
-  const [deviceId, setDeviceId] = useState('default');
+  const [deviceId, setDeviceId] = useState('');
 
   useEffect(() => {
     if (!micRef.current) return;
@@ -29,7 +29,12 @@ const AudioRecorder = (props) => {
     const record = wavesurfer.registerPlugin(RecordPlugin.create() as any);
 
     record.getEnumerateDevices().then((deviceInfos) => {
-      let _audioInputOptions = [];
+      let _audioInputOptions = [
+        {
+          value: '',
+          label: '全部',
+        },
+      ];
       for (let i = 0; i < deviceInfos.length; i++) {
         const deviceInfo = deviceInfos[i];
         if (deviceInfo.kind == 'audioinput') {
@@ -140,7 +145,7 @@ const AudioRecorder = (props) => {
         <Switch checkedChildren="开启" unCheckedChildren="关闭" onChange={changeMic} />
         音源
         <Select
-          defaultValue="default"
+          defaultValue=""
           style={{ width: 120 }}
           onChange={handleChangeSource}
           options={audioInputOptions.current}
