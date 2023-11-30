@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.2.11
+
+feat: 打包发布到 git
+
 ## 1.2.10
 
 perf: 设置保存地址

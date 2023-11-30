@@ -1,6 +1,6 @@
 {
   "name": "@pear-rec/desktop",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "main": "dist-electron/main/index.js",
   "description": "pear-rec",
   "author": {
@@ -20,7 +20,8 @@
     "build:win": "electron-builder",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "release": "electron-builder -p always"
   },
   "dependencies": {
     "electron-updater": "^6.1.1",
@@ -35,7 +36,7 @@
     "@vitejs/plugin-react": "^4.0.4",
     "autoprefixer": "^10.4.16",
     "electron": "^26.0.0",
-    "electron-builder": "^24.6.3",
+    "electron-builder": "^24.9.1",
     "jsonfile": "^6.1.0",
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",

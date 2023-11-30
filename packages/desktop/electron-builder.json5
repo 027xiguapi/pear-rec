@@ -32,8 +32,8 @@
     deleteAppDataOnUninstall: false,
   },
   publish: {
-    provider: 'generic',
-    channel: 'latest',
-    url: 'https://github.com/027xiguapi/pear-rec/releases/download/v1.1.9',
+    provider: 'github',
+    repo: 'pear-rec',
+    owner: '027xiguapi',
   },
 }
