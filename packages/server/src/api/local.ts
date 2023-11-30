@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import multer from 'multer';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
 import { Application } from 'express';
 import { exec } from 'child_process';
 import { getImgsByImgUrl, getAudiosByAudioUrl, getVideosByVideoUrl } from '../util/index';
@@ -139,6 +139,13 @@ export function initLocalApi(app: Application) {
 
   app.get('/getFolder', async (req, res) => {
     const folderPath = req.query.folderPath as string;
+    exec(`start "" "${folderPath}"`);
+    res.json({ code: 0 });
+  });
+
+  app.get('/openFilePath', async (req, res) => {
+    const filePath = req.query.filePath as string;
+    const folderPath = dirname(filePath);
     exec(`start "" "${folderPath}"`);
     res.json({ code: 0 });
   });

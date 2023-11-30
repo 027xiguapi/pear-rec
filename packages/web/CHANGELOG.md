@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.2.14
+
+fix: 录音选择格式
+
 ## 1.2.13
 
 fix: electron 录屏 bug

@@ -13,10 +13,12 @@ const AudioRecorder = (props) => {
   const timer = useTimer();
   const micRef = useRef();
   const audioInputOptions = useRef<any>();
+  const mimeTypesOptions = useRef<any>();
   const [record, setRecord] = useState<any>(null);
   const [isOpenMic, setIsOpenMic] = useState(false);
   const [recordStatus, setRecordStatus] = useState('');
   const [deviceId, setDeviceId] = useState('');
+  const [mimeType, setMimeType] = useState('audio/webm');
 
   useEffect(() => {
     if (!micRef.current) return;
@@ -26,7 +28,7 @@ const AudioRecorder = (props) => {
       progressColor: 'rgb(100, 0, 100)',
     });
 
-    const record = wavesurfer.registerPlugin(RecordPlugin.create() as any);
+    const record = wavesurfer.registerPlugin(RecordPlugin.create({ mimeType }) as any);
 
     record.getEnumerateDevices().then((deviceInfos) => {
       let _audioInputOptions = [
@@ -46,6 +48,17 @@ const AudioRecorder = (props) => {
       }
       audioInputOptions.current = _audioInputOptions;
     });
+
+    const mimeTypes = record.getSupportedMimeTypes();
+    let _mimeTypesOptions = [];
+    for (let i = 0; i < mimeTypes.length; i++) {
+      const mimeType = mimeTypes[i];
+      _mimeTypesOptions.push({
+        value: mimeType,
+        label: mimeType,
+      });
+    }
+    mimeTypesOptions.current = _mimeTypesOptions;
 
     record.on('record-start', () => {
       console.log('record-start');
@@ -138,6 +151,10 @@ const AudioRecorder = (props) => {
     isOpenMic && record.startMic(value);
   }
 
+  function handleChangeMimeType(value) {
+    setMimeType(value);
+  }
+
   return (
     <Card title="设置">
       <Space>
@@ -149,6 +166,13 @@ const AudioRecorder = (props) => {
           style={{ width: 120 }}
           onChange={handleChangeSource}
           options={audioInputOptions.current}
+        />
+        格式
+        <Select
+          defaultValue="audio/webm"
+          style={{ width: 120 }}
+          onChange={handleChangeMimeType}
+          options={mimeTypesOptions.current}
         />
         计时
         <Timer

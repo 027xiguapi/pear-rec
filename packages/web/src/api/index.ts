@@ -15,6 +15,12 @@ export function useApi() {
         method: 'get',
       });
     },
+    openFilePath: (filePath) => {
+      return request({
+        url: `/openFilePath?filePath=${filePath}`,
+        method: 'get',
+      });
+    },
     getFile: (url) => {
       return request({
         url: `/getFile?url=${url}`,

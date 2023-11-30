@@ -6,11 +6,13 @@ import {
   CameraOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
+import { useApi } from '../../api';
 import { useRecordApi } from '../../api/record';
 import { eventEmitter } from '../../util/bus';
 
 const { Content } = Layout;
 const recordApi = useRecordApi();
+const api = useApi();
 
 const RecordAudioCard = forwardRef(() => {
   const [initLoading, setInitLoading] = useState(true);
@@ -158,6 +160,10 @@ const RecordAudioCard = forwardRef(() => {
     }
   }
 
+  function openFilePath(filePath) {
+    api.openFilePath(filePath);
+  }
+
   const loadMore =
     !initLoading && !loading && isMore ? (
       <div
@@ -197,7 +203,14 @@ const RecordAudioCard = forwardRef(() => {
                     dangerouslySetInnerHTML={{ __html: record.filePath }}
                   ></a>
                 }
-                description={<span dangerouslySetInnerHTML={{ __html: record.createdAt }}></span>}
+                description={
+                  <span>
+                    <span dangerouslySetInnerHTML={{ __html: record.createdAt }}></span>{' '}
+                    <span className="openFolder" onClick={() => openFilePath(record.filePath)}>
+                      在文件夹中显示
+                    </span>
+                  </span>
+                }
               />
             </Skeleton>
           </List.Item>
