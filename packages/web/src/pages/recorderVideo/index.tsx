@@ -183,7 +183,8 @@ const RecorderVideo = () => {
 
   return (
     <div className={styles.recorderVideo}>
-      <video className="content" ref={previewVideo} playsInline autoPlay />
+      { isRecording ? <></> : <div className="tip">点击下面按钮开始录像</div> }
+        <video className={isRecording ? "content" : "hide"} ref={previewVideo} playsInline autoPlay />
       <div className="footer">
         <BsRecordCircle className={'recordIcon ' + `${isRecording ? 'blink' : ''}`} />
         <CameraOutlined
