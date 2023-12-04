@@ -13,6 +13,7 @@ const buildOptionsProject = {
       recorderVideo: resolve(__dirname, 'src/pages/recorderVideo.html'),
       recorderAudio: resolve(__dirname, 'src/pages/recorderAudio.html'),
       viewImage: resolve(__dirname, 'src/pages/viewImage.html'),
+      pinImage: resolve(__dirname, 'src/pages/pinImage.html'),
       viewVideo: resolve(__dirname, 'src/pages/viewVideo.html'),
       setting: resolve(__dirname, 'src/pages/setting.html'),
       clipScreen: resolve(__dirname, 'src/pages/clipScreen.html'),

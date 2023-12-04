@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.3.0
+
+feat: 增加钉图功能
+
 ## 1.2.11
 
 feat: 打包发布到 git

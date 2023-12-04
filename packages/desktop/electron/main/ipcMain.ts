@@ -11,6 +11,7 @@ import * as viewVideoWin from '../win/viewVideoWin';
 import * as viewAudioWin from '../win/viewAudioWin';
 import * as settingWin from '../win/settingWin';
 import * as recordsWin from '../win/recordsWin';
+import * as pinImageWin from '../win/pinImageWin';
 import * as utils from './utils';
 import { editConfig } from './config';
 
@@ -366,6 +367,21 @@ function initIpcMain() {
   ipcMain.on('re:open-win', () => {
     recordsWin.closeRecordsWin();
     recordsWin.openRecordsWin();
+  });
+
+  // 钉图
+  ipcMain.on('pi:open-win', (e, search) => {
+    console.log(111, search);
+    pinImageWin.openPinImageWin(search);
+  });
+  ipcMain.on('pi:close-win', () => {
+    pinImageWin.closePinImageWin();
+  });
+  ipcMain.on('pi:minimize-win', () => {
+    pinImageWin.maximizePinImageWin();
+  });
+  ipcMain.on('pi:maximize-win', () => {
+    pinImageWin.maximizePinImageWin();
   });
 }
 

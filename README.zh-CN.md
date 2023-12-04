@@ -62,19 +62,17 @@ git clone https://gitee.com/xiguapi027/pear-rec.git
 cd pear-rec
 # 安装依赖
 pnpm install
-# 重新打包 electron
-pnpm run rebuild:desktop
 # 调试页面
 pnpm run dev:web
-# 编译页面
-pnpm run build:web
-# 查看页面
-pnpm run preview:web
 # 调试服务
 pnpm run dev:server
-# 调试
+# 调试软件
 pnpm run dev:desktop
-# 编译
+# 运行页面
+pnpm run start:web
+# 运行软件
+pnpm run start:desktop
+# 编译软件
 pnpm run build:desktop
 ```
 

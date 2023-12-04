@@ -55,10 +55,16 @@ git clone https://github.com/027xiguapi/pear-rec.git
 cd pear-rec
 # Install dependencies
 pnpm install
-# Rebuild electron
-pnpm run rebuild:desktop
 # Run the web
 pnpm run dev:web
+# Run the server
+pnpm run dev:server
+# Run the desktop
+pnpm run dev:desktop
+# Run the web
+pnpm run start:web
+# Run the desktop
+pnpm run start:desktop
 # Build the web
 pnpm run build:web
 # Build the desktop
