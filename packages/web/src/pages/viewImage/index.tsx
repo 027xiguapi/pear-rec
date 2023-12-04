@@ -201,9 +201,15 @@ const ViewImage = () => {
   }
 
   async function handleToggleAlwaysOnTopWin() {
-    const isAlwaysOnTop = await window.electronAPI?.invokeViSetIsAlwaysOnTop();
-    const icon = document.querySelector('.viewer-always-on-top-win');
-    isAlwaysOnTop ? icon.classList.add('current') : icon.classList.remove('current');
+    const imgUrl = imgs[initialViewIndex]?.url;
+    if (window.isElectron) {
+      window.electronAPI.sendPiOpenWin({ imgUrl });
+    } else {
+      window.open(`/pinImage.html?imgUrl=${imgUrl}`);
+    }
+    // const isAlwaysOnTop = await window.electronAPI?.invokeViSetIsAlwaysOnTop();
+    // const icon = document.querySelector('.viewer-always-on-top-win');
+    // isAlwaysOnTop ? icon.classList.add('current') : icon.classList.remove('current');
   }
 
   async function initImgs() {

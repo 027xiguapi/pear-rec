@@ -16,6 +16,10 @@ export default function initApp() {
       app.use(cors());
       app.use(bodyParser.json());
       app.use(bodyParser.urlencoded({ extended: true }));
+      app.use(function (err, req, res, next) {
+        console.error('server:', err.stack);
+        res.status(500).send('服务器内部错误');
+      });
 
       initConfig();
       initApi(app);
