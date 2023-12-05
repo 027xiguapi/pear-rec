@@ -41,8 +41,7 @@
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",
     "vite": "^4.4.9",
-    "vite-plugin-electron": "^0.13.0-beta.3",
-    "vite-plugin-electron-renderer": "^0.14.5"
+    "vite-plugin-electron": "^0.14.0"
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"

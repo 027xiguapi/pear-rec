@@ -1,8 +1,6 @@
 import { rmSync } from 'node:fs';
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import electron from 'vite-plugin-electron';
-import renderer from 'vite-plugin-electron-renderer';
+import electron from 'vite-plugin-electron/simple';
 import pkg from './package.json';
 
 // https://vitejs.dev/config/
@@ -15,21 +13,12 @@ export default defineConfig(({ command }) => {
 
   return {
     plugins: [
-      react(),
-      electron([
-        {
-          // Main-Process entry file of the Electron App.
+      electron({
+        main: {
           entry: 'electron/main/index.ts',
-          onstart(options) {
-            if (process.env.VSCODE_DEBUG) {
-              console.log(/* For `.vscode/.debug.script.mjs` */ '[startup] Electron App');
-            } else {
-              options.startup();
-            }
-          },
           vite: {
             build: {
-              sourcemap,
+              sourcemap: sourcemap ? 'inline' : undefined, // #332
               minify: isBuild,
               outDir: 'dist-electron/main',
               rollupOptions: {
@@ -38,13 +27,8 @@ export default defineConfig(({ command }) => {
             },
           },
         },
-        {
-          entry: 'electron/preload/index.ts',
-          onstart(options) {
-            // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
-            // instead of restarting the entire Electron App.
-            options.reload();
-          },
+        preload: {
+          input: 'electron/preload/index.ts',
           vite: {
             build: {
               sourcemap: sourcemap ? 'inline' : undefined, // #332
@@ -56,9 +40,7 @@ export default defineConfig(({ command }) => {
             },
           },
         },
-      ]),
-      // Use Node.js API in the Renderer-process
-      renderer(),
+      }),
     ],
     server:
       process.env.VSCODE_DEBUG &&

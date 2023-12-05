@@ -79,7 +79,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //vvWin
   sendVvOpenWin: (search?: string) => ipcRenderer.send('vv:open-win', search),
   invokeVvGetHistoryVideo: () => ipcRenderer.invoke('vv:get-historyVideo'),
-  invokeVvGetVideo: () => ipcRenderer.invoke('vv:get-video'),
   sendVvSetHistoryVideo: (img: string) => ipcRenderer.send('vv:set-historyVideo', img),
 
   //vaWin
@@ -103,4 +102,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendPiCloseWin: () => ipcRenderer.send('pi:close-win'),
   sendPiMinimizeWin: () => ipcRenderer.send('pi:minimize-win'),
   sendPiMaximizeWin: () => ipcRenderer.send('pi:maximize-win'),
+
+  // rfs
+  sendRfsOpenWin: () => ipcRenderer.send('rfs:open-win'),
+  sendRfsCloseWin: () => ipcRenderer.send('rfs:close-win'),
 });
