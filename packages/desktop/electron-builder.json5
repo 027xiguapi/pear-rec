@@ -3,16 +3,21 @@
  */
 {
   appId: 'com.electron.pear',
-  productName: 'pear-rec',
   asar: false,
+  productName: 'pear-rec',
+  copyright: 'Copyright © 2023 ${author}',
   // extraResources: ['node_modules/sql.js', 'node_modules/typeorm'],
   directories: {
     output: 'release/${version}',
   },
   files: ['dist-electron', 'dist'],
   mac: {
-    artifactName: 'pear-rec.${ext}',
+    artifactName: '${productName}-Mac-${version}-Installer.${ext}',
     target: ['dmg', 'zip'],
+  },
+  linux: {
+    target: ['AppImage'],
+    artifactName: '${productName}-Linux-${version}.${ext}',
   },
   win: {
     icon: 'build/icons/win/icon.ico',
@@ -22,7 +27,7 @@
         arch: ['x64'],
       },
     ],
-    artifactName: 'pear-rec.${ext}',
+    artifactName: '${productName}-Windows-${version}-Setup.${ext}',
     requestedExecutionLevel: 'requireAdministrator',
   },
   nsis: {

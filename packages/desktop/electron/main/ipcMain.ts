@@ -12,6 +12,7 @@ import * as viewAudioWin from '../win/viewAudioWin';
 import * as settingWin from '../win/settingWin';
 import * as recordsWin from '../win/recordsWin';
 import * as pinImageWin from '../win/pinImageWin';
+import * as recorderFullScreenWin from '../win/recorderFullScreenWin';
 import * as utils from './utils';
 import { editConfig } from './config';
 
@@ -121,7 +122,6 @@ function initIpcMain() {
   // 录屏截图
   ipcMain.on('cs:open-win', () => {
     clipScreenWin.closeClipScreenWin();
-    mainWin.hideMainWin();
     clipScreenWin.openClipScreenWin();
   });
   ipcMain.on('cs:close-win', () => {
@@ -234,50 +234,6 @@ function initIpcMain() {
     viewVideoWin.setAlwaysOnTopViewVideoWin(isAlwaysOnTop);
   });
 
-  // 打开图片;
-  ipcMain.handle('vi:get-images', async (event, title) => {
-    let res = await dialog.showOpenDialog({
-      title: title,
-      buttonLabel: '按此打开文件',
-      // defaultPath: app.getAppPath("aaa"),
-      properties: ['multiSelections'],
-      filters: [
-        { name: '图片', extensions: ['jpg', 'jpeg', 'png', 'webp', 'svg'] },
-        // { name: "视频", extensions: ["mkv", "avi", "mp4"] },
-      ],
-    });
-    const images = res.filePaths.map((filePath, index) => {
-      return { src: `pearrec:///${filePath}`, key: index };
-    });
-    return images;
-  });
-  ipcMain.handle('vi:get-img', async (event, title) => {
-    // let res = await dialog.showOpenDialog({
-    //   title: title,
-    //   buttonLabel: '按此打开文件',
-    //   properties: ['openFile'],
-    //   filters: [{ name: '图片', extensions: ['jpg', 'jpeg', 'png', 'webp', 'svg'] }],
-    // });
-    // res.filePaths.map((filePath, index) => {
-    //   store.setHistoryImg(filePath);
-    // });
-    // const img = await store.getHistoryImg();
-    // return img;
-  });
-  // 打开视频
-  ipcMain.handle('vv:get-video', async (e) => {
-    // let res = await dialog.showOpenDialog({
-    //   title: '选择视频',
-    //   buttonLabel: '按此打开文件',
-    //   properties: ['openFile'],
-    //   filters: [{ name: '视频', extensions: ['mkv', 'avi', 'mp4', 'webm'] }],
-    // });
-    // res.filePaths.map((filePath, index) => {
-    //   store.setHistoryVideo(filePath);
-    // });
-    // const video = await store.getHistoryVideo();
-    // return video;
-  });
   // 录音;
   ipcMain.on('ra:open-win', () => {
     recorderAudioWin.closeRecorderAudioWin();
@@ -371,7 +327,6 @@ function initIpcMain() {
 
   // 钉图
   ipcMain.on('pi:open-win', (e, search) => {
-    console.log(111, search);
     pinImageWin.openPinImageWin(search);
   });
   ipcMain.on('pi:close-win', () => {
@@ -382,6 +337,15 @@ function initIpcMain() {
   });
   ipcMain.on('pi:maximize-win', () => {
     pinImageWin.maximizePinImageWin();
+  });
+
+  // 录全屏
+  ipcMain.on('rfs:open-win', () => {
+    recorderFullScreenWin.closeRecorderFullScreenWin();
+    recorderFullScreenWin.openRecorderFullScreenWin();
+  });
+  ipcMain.on('rfs:close-win', () => {
+    recorderFullScreenWin.closeRecorderFullScreenWin();
   });
 }
 
