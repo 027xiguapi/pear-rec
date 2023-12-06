@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Col, Row } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
-import Header from '../../components/common/header';
 import HomeFooter from '../../components/home/HomeFooter';
 import CutScreenCard from '../../components/card/shotScreenCard';
 import RecordVideoCard from '../../components/card/recordVideoCard';

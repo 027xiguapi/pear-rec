@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SettingOutlined, HistoryOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-
-const logo = './imgs/icons/png/512x512.png';
+import UpdateElectron from '../update';
 
 const HomeFooter = () => {
   const { t } = useTranslation();
@@ -33,6 +32,7 @@ const HomeFooter = () => {
         title={t('nav.record')}
         onClick={handleOpenRecordWin}
       />
+      <UpdateElectron />
     </div>
   );
 };

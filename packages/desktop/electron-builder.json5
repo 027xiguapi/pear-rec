@@ -2,7 +2,7 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  appId: 'com.electron.pear',
+  appId: 'com.electron.pear-rec',
   asar: false,
   productName: 'pear-rec',
   copyright: 'Copyright © 2023 ${author}',

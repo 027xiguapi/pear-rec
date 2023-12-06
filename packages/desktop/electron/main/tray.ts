@@ -1,6 +1,6 @@
 import { Menu, Tray, app, shell } from 'electron';
 import { ICON } from './contract';
-import { showMainWin } from '../win/mainWin';
+import { openMainWin } from '../win/mainWin';
 import { openShotScreenWin } from '../win/shotScreenWin';
 import { openClipScreenWin } from '../win/clipScreenWin';
 import { openRecorderAudioWin } from '../win/recorderAudioWin';
@@ -85,7 +85,7 @@ export function initTray(lng: string) {
     {
       label: t.home,
       click: () => {
-        showMainWin();
+        openMainWin();
       },
     },
     {
@@ -120,7 +120,7 @@ export function initTray(lng: string) {
   appIcon.setToolTip('梨子REC');
   appIcon.setContextMenu(contextMenu);
   appIcon.addListener('click', function () {
-    showMainWin();
+    openMainWin();
   });
   return appIcon;
 }

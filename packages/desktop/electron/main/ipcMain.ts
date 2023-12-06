@@ -92,9 +92,6 @@ function initIpcMain() {
     clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, false);
     clipScreenWin.setIsPlayClipScreenWin(false);
   });
-  ipcMain.handle('rs:close-record', () => {
-    return recorderScreenWin.getBoundsRecorderScreenWin();
-  });
   ipcMain.handle('rs:get-cursor-screen-point', () => {
     return recorderScreenWin.getCursorScreenPointRecorderScreenWin();
   });
@@ -279,9 +276,6 @@ function initIpcMain() {
     const audios = await viewAudioWin.getAudios(audioUrl);
     return audios;
   });
-  ipcMain.handle('va:set-historyAudio', async (e, audioUrl) => {
-    // store.setHistoryAudio(audioUrl);
-  });
   // 设置
   ipcMain.on('se:open-win', () => {
     settingWin.closeSettingWin();
@@ -289,7 +283,6 @@ function initIpcMain() {
   });
   ipcMain.on('se:close-win', () => {
     settingWin.closeSettingWin();
-    mainWin.showMainWin();
   });
   ipcMain.handle('se:set-filePath', async (e, filePath) => {
     let res = await dialog.showOpenDialog({
