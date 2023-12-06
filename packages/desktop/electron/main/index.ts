@@ -3,6 +3,7 @@ import { release } from 'node:os';
 import * as mainWin from '../win/mainWin';
 import { initTray } from './tray';
 import './ipcMain';
+import { update } from './update';
 import { registerFileProtocol } from './protocol';
 import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
 import { initConfig } from './config';
@@ -39,7 +40,7 @@ if (!app.requestSingleInstanceLock()) {
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 async function createWindow() {
-  mainWin.createMainWin();
+  mainWin.openMainWin();
 }
 
 app.whenReady().then(() => {
@@ -47,6 +48,8 @@ app.whenReady().then(() => {
   createWindow();
   initTray(config.language);
   registerGlobalShortcut();
+  // Apply electron-updater
+  update();
 });
 
 app.on('will-quit', () => {

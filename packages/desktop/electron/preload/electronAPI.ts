@@ -84,8 +84,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //vaWin
   sendVaOpenWin: (search?: any) => ipcRenderer.send('va:open-win', search),
   invokeVaGetAudios: (audioUrl: any) => ipcRenderer.invoke('va:get-audios', audioUrl),
-  sendVaSetHistoryAudio: (audioUrl: any) => ipcRenderer.send('va:set-historyAudio', audioUrl),
-  //seWin
+  //seWin 设置
   sendSeOpenWin: () => ipcRenderer.send('se:open-win'),
   invokeSeGetUser: () => ipcRenderer.invoke('se:get-user'),
   invokeSeSetFilePath: (filePath: string) => ipcRenderer.invoke('se:set-filePath', filePath),
@@ -94,16 +93,30 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendSeSetLanguage: (lng: string) => ipcRenderer.send('se:set-language', lng),
   invokeSeGetOpenAtLogin: () => ipcRenderer.invoke('se:get-openAtLogin'),
 
-  //re
+  //re 记录
   sendReOpenWin: () => ipcRenderer.send('re:open-win'),
 
-  //pi
+  //pi 钉图
   sendPiOpenWin: (search?: any) => ipcRenderer.send('pi:open-win', search),
   sendPiCloseWin: () => ipcRenderer.send('pi:close-win'),
   sendPiMinimizeWin: () => ipcRenderer.send('pi:minimize-win'),
   sendPiMaximizeWin: () => ipcRenderer.send('pi:maximize-win'),
 
-  // rfs
+  // rfs 全屏录屏
   sendRfsOpenWin: () => ipcRenderer.send('rfs:open-win'),
   sendRfsCloseWin: () => ipcRenderer.send('rfs:close-win'),
+
+  // Eu 自动更新
+  handleEuUpdateCanAvailable: (callback: any) =>
+    ipcRenderer.on('eu:update-can-available', callback),
+  handleEuUpdateeError: (callback: any) => ipcRenderer.on('eu:update-error', callback),
+  handleEuDownloadProgress: (callback: any) => ipcRenderer.on('eu:download-progress', callback),
+  handleEuUpdateDownloaded: (callback: any) => ipcRenderer.on('eu:update-downloaded', callback),
+  invokeEuQuitAndInstall: () => ipcRenderer.invoke('eu:quit-and-install'),
+  invokeEuStartDownload: () => ipcRenderer.invoke('eu:start-download'),
+  invokeEuCheckUpdate: () => ipcRenderer.invoke('eu:check-update'),
+  offEuUpdateCanAvailable: (callback: any) => ipcRenderer.on('eu:update-can-available', callback),
+  offEuUpdateeError: (callback: any) => ipcRenderer.on('eu:update-error', callback),
+  offEuDownloadProgress: (callback: any) => ipcRenderer.on('eu:download-progress', callback),
+  offEuUpdateDownloaded: (callback: any) => ipcRenderer.on('eu:update-downloaded', callback),
 });

@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.3.2
+
+feat: 自动更新软件
+
 ## 1.3.1
 
 feat: 增加录全屏

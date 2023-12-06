@@ -1,7 +1,7 @@
 {
   "name": "@pear-rec/web",
   "private": true,
-  "version": "1.3.0",
+  "version": "1.3.2",
   "scripts": {
     "dev": "vite",
     "build": "rimraf dist && tsc && vite build",

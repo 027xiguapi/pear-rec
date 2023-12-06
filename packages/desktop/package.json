@@ -1,6 +1,6 @@
 {
   "name": "@pear-rec/desktop",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "main": "dist-electron/main/index.js",
   "description": "pear-rec",
   "author": {

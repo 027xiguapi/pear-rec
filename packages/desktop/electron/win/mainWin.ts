@@ -1,6 +1,5 @@
 import { app, screen, BrowserWindow, shell, ipcMain } from 'electron';
 import { join } from 'node:path';
-// import { update } from '../main/update';
 import { ICON, preload, url, WEB_URL } from '../main/contract';
 
 const indexHtml = join(process.env.DIST, 'index.html');
@@ -53,9 +52,6 @@ const createMainWin = (): BrowserWindow => {
     return { action: 'deny' };
   });
 
-  // Apply electron-updater
-  // update(mainWin);
-
   // mainWin.onbeforeunload = (e) => {
   //   console.log('I do not want to be closed');
 
@@ -73,22 +69,17 @@ const createMainWin = (): BrowserWindow => {
 };
 
 function closeMainWin() {
-  if (!mainWin?.isDestroyed()) {
-    mainWin!.close();
+  if (mainWin && !mainWin?.isDestroyed()) {
+    mainWin?.close();
   }
   mainWin = null;
 }
 
 function openMainWin() {
-  mainWin = createMainWin();
-  mainWin!.show();
-}
-
-function showMainWin() {
   if (!mainWin || mainWin?.isDestroyed()) {
     mainWin = createMainWin();
   }
-  mainWin!.show();
+  mainWin?.show();
 }
 
 function hideMainWin() {
@@ -99,16 +90,10 @@ function minimizeMainWin() {
   mainWin!.minimize();
 }
 
-function maximizeMainWin() {
-  mainWin!.maximize();
-}
-
-function unmaximizeMainWin() {
-  mainWin!.unmaximize();
-}
-
 function focusMainWin() {
-  if (mainWin) {
+  if (!mainWin || mainWin?.isDestroyed()) {
+    mainWin = createMainWin();
+  } else {
     // Focus on the main window if the user tried to open another
     if (mainWin.isMinimized()) mainWin.restore();
     if (!mainWin.isVisible()) mainWin.show();
@@ -116,13 +101,22 @@ function focusMainWin() {
   }
 }
 
+function sendEuUpdateCanAvailable(arg, update) {
+  if (mainWin && !mainWin?.isDestroyed()) {
+    mainWin.webContents.send('eu:update-can-available', {
+      update: update,
+      version: app.getVersion(),
+      newVersion: arg?.version,
+    });
+  }
+}
+
 export {
-  mainWin,
   createMainWin,
   closeMainWin,
   openMainWin,
   hideMainWin,
-  showMainWin,
   focusMainWin,
   minimizeMainWin,
+  sendEuUpdateCanAvailable,
 };
