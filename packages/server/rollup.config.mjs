@@ -10,7 +10,7 @@ export default {
     format: 'es',
   },
   context: 'window',
-  external: ['typeorm'],
+  external: ['typeorm', 'sql.js'],
   plugins: [
     nodeResolve({ preferBuiltins: true }),
     commonjs({ ignoreDynamicRequires: true }),

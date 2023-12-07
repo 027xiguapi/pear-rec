@@ -69,9 +69,9 @@ pnpm run build:desktop
 
 ## Download
 
-| OS | Windows | Linux | Macos |
-| --- | --- | --- | --- |
-| link | [Download](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯ | ◯ |
+| OS   | Windows                                                     | Linux | Macos |
+| ---- | ----------------------------------------------------------- | ----- | ----- |
+| link | [Download](https://github.com/027xiguapi/pear-rec/releases) | ◯     | ◯     |
 
 ## Feedback
 

@@ -12,7 +12,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
       window.electronAPI.sendCsOpenWin();
       window.electronAPI.sendMaCloseWin();
     } else {
-      location.href = '/recorderFullScreen.html';
+      location.href = '/recorderScreen.html';
     }
   }
 
