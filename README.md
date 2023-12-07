@@ -136,17 +136,11 @@ Features that have been ticked are the latest in the development process but may
 - [x] English
 - [x] German
 
-## Test
-
-| OS   | Windows | Linux | Macos |
-| ---- | ------- | ----- | ----- |
-| Test | 🟢      | ◯     | ◯     |
-
 ## Download
 
-| OS | Windows | Linux | Macos |
-| --- | --- | --- | --- |
-| link | [Download](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯ | ◯ |
+| OS   | Windows                                                     | Linux | Macos |
+| ---- | ----------------------------------------------------------- | ----- | ----- |
+| link | [Download](https://github.com/027xiguapi/pear-rec/releases) | ◯     | ◯     |
 
 ## Feedback
 

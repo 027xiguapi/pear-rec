@@ -144,17 +144,11 @@ pnpm run build:desktop
 - [x] 英语
 - [x] 德语
 
-## 测试
-
-| 系统 | Windows | Linux | Macos |
-| ---- | ------- | ----- | ----- |
-| 测试 | 🟢      | ◯     | ◯     |
-
 ## Download
 
-| 系统 | Windows | Linux | Macos |
-| --- | --- | --- | --- |
-| 链接 | [下载](https://github.com/027xiguapi/pear-rec/releases/download/1.0.0-alpha/pear-rec_1.0.0-alpha.exe) | ◯ | ◯ |
+| 系统 | Windows                                                 | Linux | Macos |
+| ---- | ------------------------------------------------------- | ----- | ----- |
+| 链接 | [下载](https://github.com/027xiguapi/pear-rec/releases) | ◯     | ◯     |
 
 国内可以用 [GitHub Proxy](https://ghproxy.com/) 加速下载
 

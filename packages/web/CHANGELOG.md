@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.3.3
+
+fix: 录屏 bug
+
 ## 1.3.2
 
 feat: 自动更新软件

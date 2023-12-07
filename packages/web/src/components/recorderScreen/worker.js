@@ -29,10 +29,10 @@ onmessage = async (event) => {
   const { operation, size } = event.data;
   if (operation === 'crop') {
     const { readable, writable } = event.data;
-    x = size.x + 2;
-    y = size.y + 2;
-    width = size.width - 4;
-    height = size.height - 4;
+    x = size.x % 2 == 0 ? size.x + 2 : size.x + 1;
+    y = size.y % 2 == 0 ? size.y + 2 : size.y + 1;
+    width = size.width % 2 == 0 ? size.width - 4 : size.width - 3;
+    height = size.height % 2 == 0 ? size.height - 4 : size.height - 3;
     readable.pipeThrough(new TransformStream({ transform })).pipeTo(writable);
   } else {
     console.error('Unknown operation', operation);

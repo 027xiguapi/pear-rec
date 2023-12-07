@@ -1,129 +1,125 @@
-import { app, BrowserWindow, dialog, shell, screen } from "electron";
-import { join, dirname } from "node:path";
-import { ICON, preload, url, WEB_URL, DIST } from "../main/contract";
+import { app, BrowserWindow, dialog, shell, screen } from 'electron';
+import { join, dirname } from 'node:path';
+import { ICON, preload, url, WEB_URL, DIST } from '../main/contract';
 import {
-	openRecorderScreenWin,
-	setBoundsRecorderScreenWin,
-	showRecorderScreenWin,
-	hideRecorderScreenWin,
-} from "./recorderScreenWin";
+  openRecorderScreenWin,
+  setBoundsRecorderScreenWin,
+  showRecorderScreenWin,
+  hideRecorderScreenWin,
+} from './recorderScreenWin';
 
-const clipScreenHtml = join(DIST, "./clipScreen.html");
+const clipScreenHtml = join(DIST, './clipScreen.html');
 let clipScreenWin: BrowserWindow | null = null;
 
 function createClipScreenWin(): BrowserWindow {
-	clipScreenWin = new BrowserWindow({
-		title: "pear-rec_clipScreenWin",
-		icon: ICON,
-		autoHideMenuBar: true, // 自动隐藏菜单栏
-		frame: false, // 无边框窗口
-		resizable: true, // 窗口大小是否可调整
-		transparent: true, // 使窗口透明
-		fullscreenable: false, // 窗口是否可以进入全屏状态
-		alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
-		// skipTaskbar: true,
-		webPreferences: {
-			preload,
-		},
-	});
+  clipScreenWin = new BrowserWindow({
+    title: 'pear-rec_clipScreenWin',
+    icon: ICON,
+    autoHideMenuBar: true, // 自动隐藏菜单栏
+    frame: false, // 无边框窗口
+    resizable: true, // 窗口大小是否可调整
+    transparent: true, // 使窗口透明
+    fullscreenable: false, // 窗口是否可以进入全屏状态
+    alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+    // skipTaskbar: true,
+    webPreferences: {
+      preload,
+    },
+  });
 
-	if (url) {
-		clipScreenWin.loadURL(WEB_URL + "clipScreen.html");
-		// clipScreenWin.webContents.openDevTools();
-	} else {
-		clipScreenWin.loadFile(clipScreenHtml);
-	}
+  if (url) {
+    clipScreenWin.loadURL(WEB_URL + 'clipScreen.html');
+    // clipScreenWin.webContents.openDevTools();
+  } else {
+    clipScreenWin.loadFile(clipScreenHtml);
+  }
 
-	clipScreenWin.on("resize", () => {
-		const clipScreenWinBounds = getBoundsClipScreenWin();
-		setBoundsRecorderScreenWin(clipScreenWinBounds);
-	});
+  clipScreenWin.on('resize', () => {
+    const clipScreenWinBounds = getBoundsClipScreenWin();
+    setBoundsRecorderScreenWin(clipScreenWinBounds);
+  });
 
-	clipScreenWin.on("move", () => {
-		const clipScreenWinBounds = getBoundsClipScreenWin();
-		setBoundsRecorderScreenWin(clipScreenWinBounds);
-	});
+  clipScreenWin.on('move', () => {
+    const clipScreenWinBounds = getBoundsClipScreenWin();
+    setBoundsRecorderScreenWin(clipScreenWinBounds);
+  });
 
-	clipScreenWin.on("restore", () => {
-		showRecorderScreenWin();
-	});
+  clipScreenWin.on('restore', () => {
+    showRecorderScreenWin();
+  });
 
-	clipScreenWin.on("minimize", () => {
-		hideRecorderScreenWin();
-	});
+  clipScreenWin.on('minimize', () => {
+    hideRecorderScreenWin();
+  });
 
-	return clipScreenWin;
+  return clipScreenWin;
 }
 
 function closeClipScreenWin() {
-	clipScreenWin?.isDestroyed() || clipScreenWin?.close();
-	clipScreenWin = null;
+  clipScreenWin?.isDestroyed() || clipScreenWin?.close();
+  clipScreenWin = null;
 }
 
 function showClipScreenWin() {
-	clipScreenWin?.show();
+  clipScreenWin?.show();
 }
 
 function openClipScreenWin() {
-	if (!clipScreenWin || clipScreenWin?.isDestroyed()) {
-		clipScreenWin = createClipScreenWin();
-	}
+  if (!clipScreenWin || clipScreenWin?.isDestroyed()) {
+    clipScreenWin = createClipScreenWin();
+  }
 
-	clipScreenWin?.show();
-	openRecorderScreenWin();
+  clipScreenWin?.show();
+  openRecorderScreenWin();
 }
 
 function getBoundsClipScreenWin() {
-	return clipScreenWin?.getBounds();
+  return clipScreenWin?.getBounds();
 }
 
 function hideClipScreenWin() {
-	clipScreenWin?.hide();
+  clipScreenWin?.hide();
 }
 
 function setAlwaysOnTopClipScreenWin(isAlwaysOnTop: boolean) {
-	clipScreenWin?.setAlwaysOnTop(isAlwaysOnTop);
+  clipScreenWin?.setAlwaysOnTop(isAlwaysOnTop);
 }
 
 function setMovableClipScreenWin(movable: boolean) {
-	clipScreenWin?.setMovable(movable);
+  clipScreenWin?.setMovable(movable);
 }
 
 function setResizableClipScreenWin(resizable: boolean) {
-	clipScreenWin?.setResizable(resizable);
+  clipScreenWin?.setResizable(resizable);
 }
 
 function minimizeClipScreenWin() {
-	clipScreenWin?.minimize();
+  clipScreenWin?.minimize();
 }
 
-function setIgnoreMouseEventsClipScreenWin(
-	event: any,
-	ignore: boolean,
-	options?: any,
-) {
-	clipScreenWin?.setIgnoreMouseEvents(ignore, options);
+function setIgnoreMouseEventsClipScreenWin(event: any, ignore: boolean, options?: any) {
+  clipScreenWin?.setIgnoreMouseEvents(ignore, options);
 }
 
 function setIsPlayClipScreenWin(isPlay: boolean) {
-	clipScreenWin?.webContents.send("cs:set-isPlay", isPlay);
+  clipScreenWin?.webContents.send('cs:set-isPlay', isPlay);
 }
 
 function setBoundsClipScreenWin(bounds: any) {
-	clipScreenWin?.setBounds({ ...bounds });
+  clipScreenWin?.setBounds({ ...bounds });
 }
 
 export {
-	showClipScreenWin,
-	closeClipScreenWin,
-	openClipScreenWin,
-	hideClipScreenWin,
-	getBoundsClipScreenWin,
-	setAlwaysOnTopClipScreenWin,
-	setIgnoreMouseEventsClipScreenWin,
-	setMovableClipScreenWin,
-	setResizableClipScreenWin,
-	setIsPlayClipScreenWin,
-	minimizeClipScreenWin,
-	setBoundsClipScreenWin,
+  showClipScreenWin,
+  closeClipScreenWin,
+  openClipScreenWin,
+  hideClipScreenWin,
+  getBoundsClipScreenWin,
+  setAlwaysOnTopClipScreenWin,
+  setIgnoreMouseEventsClipScreenWin,
+  setMovableClipScreenWin,
+  setResizableClipScreenWin,
+  setIsPlayClipScreenWin,
+  minimizeClipScreenWin,
+  setBoundsClipScreenWin,
 };

@@ -118,32 +118,6 @@ const ScreenRecorder = (props) => {
     }
   }
 
-  async function cropMediaStream() {
-    const worker = new Worker(new URL('./worker.js', import.meta.url), { name: 'Crop worker' });
-    const size = await window.electronAPI?.invokeRsGetBoundsClip();
-    const [track] = mediaStream.current.getTracks();
-    // @ts-ignore
-    const processor = new MediaStreamTrackProcessor({ track });
-    const { readable } = processor;
-    // @ts-ignore
-    const generator = new MediaStreamTrackGenerator({ kind: 'video' });
-    const { writable } = generator;
-    const _mediaStream = new MediaStream([generator]);
-    videoRef.current.srcObject = _mediaStream;
-
-    worker.postMessage(
-      {
-        operation: 'crop',
-        readable,
-        writable,
-        size,
-      },
-      [readable, writable],
-    );
-
-    return _mediaStream;
-  }
-
   async function setMediaRecorder() {
     const _mediaStream = window.isElectron ? await initElectron() : mediaStream.current;
     mediaRecorder.current = new MediaRecorder(_mediaStream);
@@ -155,6 +129,8 @@ const ScreenRecorder = (props) => {
 
     mediaRecorder.current.onstart = (event) => {
       timer.start();
+      setIsRecording(true);
+      props.setIsRecording && props.setIsRecording(true);
     };
 
     mediaRecorder.current.onstop = (event) => {
@@ -194,8 +170,6 @@ const ScreenRecorder = (props) => {
   async function handleStartRecord() {
     await setMediaRecorder();
     mediaRecorder.current.start();
-    setIsRecording(true);
-    props.setIsRecording && props.setIsRecording(true);
   }
 
   // 暂停录制
@@ -213,8 +187,6 @@ const ScreenRecorder = (props) => {
     isSave.current = true;
     if (isRecording) {
       mediaRecorder.current.stop();
-      // setIsRecording(false);
-      // props.setIsRecording(false);
     }
   }
 

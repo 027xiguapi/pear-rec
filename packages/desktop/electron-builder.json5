@@ -3,19 +3,23 @@
  */
 {
   appId: 'com.electron.pear-rec',
-  asar: false,
   productName: 'pear-rec',
   copyright: 'Copyright © 2023 ${author}',
+  asar: false,
+  // asar: true,
   // extraResources: ['node_modules/sql.js', 'node_modules/typeorm'],
+  // asarUnpack: ['node_modules/sql.js', 'node_modules/typeorm'],
   directories: {
     output: 'release/${version}',
   },
   files: ['dist-electron', 'dist'],
   mac: {
+    icon: 'build/mac/icon.icns',
     artifactName: '${productName}-Mac-${version}-Installer.${ext}',
     target: ['dmg', 'zip'],
   },
   linux: {
+    icon: 'build/icons/png/1024x1024.png',
     target: ['AppImage'],
     artifactName: '${productName}-Linux-${version}.${ext}',
   },

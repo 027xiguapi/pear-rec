@@ -2,7 +2,7 @@ import { app, BrowserWindow, dialog, shell, screen, Rectangle } from 'electron';
 import { join, basename, dirname } from 'node:path';
 import { preload, url, DIST, ICON, WEB_URL, DIST_ELECTRON } from '../main/contract';
 
-const recorderFullScreenHtml = join(DIST, './recordeFullScreen.html');
+const recorderFullScreenHtml = join(DIST, './recorderFullScreen.html');
 let recorderFullScreenWin: BrowserWindow | null = null;
 
 function createRecorderFullScreenWin(): BrowserWindow {
@@ -27,10 +27,10 @@ function createRecorderFullScreenWin(): BrowserWindow {
   recorderFullScreenWin?.setResizable(false);
   if (url) {
     recorderFullScreenWin.loadURL(WEB_URL + `recorderFullScreen.html`);
-    // recorderFullScreenWin.webContents.openDevTools();
   } else {
     recorderFullScreenWin.loadFile(recorderFullScreenHtml);
   }
+  // recorderFullScreenWin.webContents.openDevTools();
 
   return recorderFullScreenWin;
 }
