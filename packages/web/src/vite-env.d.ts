@@ -3,17 +3,18 @@
 export {};
 
 declare global {
-	interface Window {
-		electronAPI: any;
-		isElectron: boolean;
+  interface Window {
+    electronAPI: any;
+    isElectron: boolean;
     isOffline: boolean;
-	}
+    baseURL: string;
+  }
 }
 
-declare module "react" {
-	interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
-		// extends React's HTMLAttributes
-		directory?: string;
-		webkitdirectory?: string;
-	}
+declare module 'react' {
+  interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
+    // extends React's HTMLAttributes
+    directory?: string;
+    webkitdirectory?: string;
+  }
 }

@@ -53,9 +53,14 @@ const PinImage: React.FC = () => {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
     let _imgUrl = searchParams.get('imgUrl') || defaultImg;
+    if (_imgUrl.substring(0, 4) != 'blob') {
+      _imgUrl = `${window.baseURL}getFile?url=${_imgUrl}`;
+    }
+
     fetch(_imgUrl)
       .then((response) => response.blob()) // 将获取到的图片转为 Blob
       .then((blob) => {
+        console.log(blob);
         setImgUrl(`url(${URL.createObjectURL(blob)})`);
       });
   }

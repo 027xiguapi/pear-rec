@@ -7,6 +7,9 @@ process.env.DIST = path.join(process.env.DIST_ELECTRON, '../dist');
 export const url = import.meta.env.VITE_DEV_SERVER_URL;
 export const WEB_URL = import.meta.env.VITE_WEB_URL;
 export const VITE_API_URL = import.meta.env.VITE_API_URL;
+// export const url = 'http://127.0.0.1:7777/';
+// export const WEB_URL = 'http://127.0.0.1:9191/';
+// export const VITE_API_URL = 'http://127.0.0.1:9190/';
 export const preload = path.join(__dirname, '../preload/index.js');
 
 export const DIST_ELECTRON = path.join(__dirname, '../');

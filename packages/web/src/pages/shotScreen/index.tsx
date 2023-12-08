@@ -114,7 +114,7 @@ function ShotScreen() {
     window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.png`) : saveFile(blob);
   }, []);
 
-  async function saveFile(blob) {
+  async function saveFile(blob, isPin?) {
     try {
       const formData = new FormData();
       formData.append('type', 'ss');
@@ -122,9 +122,14 @@ function ShotScreen() {
       formData.append('file', blob);
       const res = (await api.saveFile(formData)) as any;
       if (res.code == 0) {
+        copyImg(window.isElectron ? res.data.filePath : blob);
         if (window.isElectron) {
           window.electronAPI?.sendSsCloseWin();
-          window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
+          isPin
+            ? window.electronAPI?.sendPiOpenWin({
+                imgUrl: res.data.filePath,
+              })
+            : window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
         } else {
           Modal.confirm({
             title: '图片已保存，是否查看？',
@@ -132,7 +137,9 @@ function ShotScreen() {
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
-              location.href = `/viewImage.html?imgUrl=${res.data.filePath}`;
+              location.href = isPin
+                ? `/pinImage.html?imgUrl=${res.data.filePath}`
+                : `/viewImage.html?imgUrl=${res.data.filePath}`;
             },
           });
         }
@@ -142,15 +149,21 @@ function ShotScreen() {
     }
   }
 
-  async function copyImg(url) {
-    const data = await fetch(url);
-    const blob = await data.blob();
+  const onPin = useCallback(async (blob) => {
+    const imgUrl = URL.createObjectURL(blob);
+    window.isOffline ? saveAs(imgUrl, `pear-rec_${+new Date()}.png`) : saveFile(blob, true);
+  }, []);
 
-    await navigator.clipboard.write([
-      new ClipboardItem({
-        [blob.type]: blob,
-      }),
-    ]);
+  async function copyImg(blob) {
+    if (window.isElectron) {
+      window.electronAPI.sendSsCopyImg(blob);
+    } else {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob,
+        }),
+      ]);
+    }
   }
 
   function handleUploadImg(files) {
@@ -170,6 +183,7 @@ function ShotScreen() {
           onOk={onOk}
           onSearch={onSearch}
           onScan={onScan}
+          onPin={onPin}
         />
       ) : window.isElectron ? (
         <></>

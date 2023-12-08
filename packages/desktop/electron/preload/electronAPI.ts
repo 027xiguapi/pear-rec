@@ -59,6 +59,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendSsDownloadImg: (imgUrl: string) => ipcRenderer.send('ss:download-img', imgUrl),
   sendSsSaveImg: (imgUrl: string) => ipcRenderer.send('ss:save-img', imgUrl),
   sendSsOpenExternal: (tabUrl: string) => ipcRenderer.send('ss:open-external', tabUrl),
+  sendSsCopyImg: (imgUrl: string) => ipcRenderer.send('ss:copy-img', imgUrl),
 
   //viWin
   sendViCloseWin: () => ipcRenderer.send('vi:close-win'),

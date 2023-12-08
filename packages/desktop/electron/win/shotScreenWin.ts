@@ -137,4 +137,5 @@ export {
   maximizeShotScreenWin,
   unmaximizeShotScreenWin,
   downloadURLShotScreenWin,
+  copyImg,
 };

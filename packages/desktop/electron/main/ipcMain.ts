@@ -14,7 +14,7 @@ import * as recordsWin from '../win/recordsWin';
 import * as pinImageWin from '../win/pinImageWin';
 import * as recorderFullScreenWin from '../win/recorderFullScreenWin';
 import * as utils from './utils';
-import { editConfig } from './config';
+import { editConfig } from '@pear-rec/server/src/config';
 
 const selfWindws = async () =>
   await Promise.all(
@@ -158,6 +158,9 @@ function initIpcMain() {
   });
   ipcMain.handle('ss:get-desktop-capturer-source', async () => {
     return [...(await desktopCapturer.getSources({ types: ['screen'] })), ...(await selfWindws())];
+  });
+  ipcMain.on('ss:copy-img', (e, imgUrl) => {
+    shotScreenWin.copyImg(imgUrl);
   });
   // 图片展示
   ipcMain.on('vi:open-win', (e, search) => {
