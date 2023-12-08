@@ -42,9 +42,7 @@ function closePinImageWin() {
 }
 
 function openPinImageWin(search?: any) {
-  if (!pinImageWin || pinImageWin?.isDestroyed()) {
-    pinImageWin = createPinImageWin(search);
-  }
+  pinImageWin = createPinImageWin(search);
   pinImageWin?.show();
 }
 

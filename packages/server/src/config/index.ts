@@ -72,14 +72,18 @@ export function resetConfig() {
   }
 }
 
-export function editConfig(key: string, value: any) {
+export function editConfig(key: string, value: any, cb?: Function) {
   try {
     let config = jsonfile.readFileSync(CONFIG_FILE_PATH) || {};
     config[key] = value;
-    jsonfile.writeFileSync(CONFIG_FILE_PATH, config, {
-      spaces: 2,
-      EOL: '\r\n',
-    });
+    jsonfile
+      .writeFile(CONFIG_FILE_PATH, config, {
+        spaces: 2,
+        EOL: '\r\n',
+      })
+      .then(() => {
+        cb && cb();
+      });
     return config;
   } catch (err) {
     console.log('editConfig :', err);

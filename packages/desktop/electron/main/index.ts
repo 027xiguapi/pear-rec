@@ -2,15 +2,14 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { release } from 'node:os';
 import * as mainWin from '../win/mainWin';
 import { initTray } from './tray';
-import './ipcMain';
 import { update } from './update';
 import { registerFileProtocol } from './protocol';
 import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
-import { initConfig } from './config';
-import initApp from '@pear-rec/server/src';
+import { initConfig, getConfig } from '@pear-rec/server/src/config';
+import './ipcMain';
+import '@pear-rec/server/src';
 
-initApp();
-const config = initConfig();
+initConfig();
 
 // The built directory structure
 //
@@ -44,11 +43,11 @@ async function createWindow() {
 }
 
 app.whenReady().then(() => {
+  const config = getConfig();
   registerFileProtocol();
   createWindow();
   initTray(config.language);
   registerGlobalShortcut();
-  // Apply electron-updater
   update();
 });
 

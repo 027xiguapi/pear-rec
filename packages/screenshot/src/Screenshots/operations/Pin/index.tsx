@@ -1,5 +1,4 @@
 import React, { ReactElement, useCallback } from 'react';
-import QrScanner from 'qr-scanner';
 import useStore from '../../hooks/useStore';
 import useCall from '../../hooks/useCall';
 import useCanvasContextRef from '../../hooks/useCanvasContextRef';
@@ -8,7 +7,7 @@ import useReset from '../../hooks/useReset';
 import ScreenshotsButton from '../../ScreenshotsButton';
 import composeImage from '../../composeImage';
 
-export default function Scan(): ReactElement {
+export default function Pin(): ReactElement {
   const { image, width, height, history, bounds, lang } = useStore();
   const canvasContextRef = useCanvasContextRef();
   const [, historyDispatcher] = useHistory();
@@ -27,20 +26,12 @@ export default function Scan(): ReactElement {
         height,
         history,
         bounds,
-      }).then(async (blob) => {
-        try {
-          const result = await QrScanner.scanImage(blob);
-          if (result) {
-            call('onScan', result);
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-
+      }).then((blob) => {
+        call('onPin', blob, bounds);
         reset();
       });
     });
   }, [canvasContextRef, historyDispatcher, image, width, height, history, bounds, call, reset]);
 
-  return <ScreenshotsButton title={lang.operation_scan_title} icon="icon-scan" onClick={onClick} />;
+  return <ScreenshotsButton title={lang.operation_scan_title} icon="icon-pin" onClick={onClick} />;
 }

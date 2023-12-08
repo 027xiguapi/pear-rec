@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "nodemon index.ts",
     "build": "rollup -c",
+    "watch": "rollup -c --watch",
     "preview": "node dist/index.js"
   },
   "author": "027xiguapi",

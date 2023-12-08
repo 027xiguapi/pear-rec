@@ -20,11 +20,11 @@ const ViewImage = () => {
   const { t } = useTranslation();
   const api = useApi();
   const userApi = useUserApi();
-  let viewerRef = useRef<any>();
+  const viewerRef = useRef<any>();
+  const initialViewIndexRef = useRef<any>(0);
   const inputRef = useRef(null);
   const [user, setUser] = useState<any>({});
   const [imgs, setImgs] = useState([]);
-  const [initialViewIndex, setInitialViewIndex] = useState(0);
   const [isFull, setIsFull] = useState(false);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const ViewImage = () => {
       // 3: width>992px
       // 4: width>1200px
       inline: true,
-      initialViewIndex: initialViewIndex,
+      initialViewIndex: initialViewIndexRef.current,
       className: 'viewImgs',
       toolbar: {
         alwaysOnTopWin: handleToggleAlwaysOnTopWin,
@@ -71,7 +71,7 @@ const ViewImage = () => {
         },
         scan: async () => {
           try {
-            const imgUrl = imgs[initialViewIndex]?.url;
+            const imgUrl = imgs[initialViewIndexRef.current]?.url;
             const result = await QrScanner.scanImage(imgUrl);
             Modal.confirm({
               title: '扫码结果',
@@ -94,7 +94,7 @@ const ViewImage = () => {
           }
         },
         search: async () => {
-          const imgUrl = imgs[initialViewIndex]?.url;
+          const imgUrl = imgs[initialViewIndexRef.current]?.url;
           const blob = await urlToBlob(imgUrl);
           const tabUrl = await searchImg(blob, user.isProxy);
           if (window.electronAPI) {
@@ -121,7 +121,7 @@ const ViewImage = () => {
           window.print();
         },
         edit: () => {
-          const imgUrl = imgs[initialViewIndex]?.url;
+          const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
           if (window.electronAPI) {
             window.electronAPI.sendViCloseWin();
             window.electronAPI.sendEiOpenWin({ imgUrl });
@@ -130,6 +130,9 @@ const ViewImage = () => {
             window.open(`/editImage.html?imgUrl=${imgUrl}`);
           }
         },
+      },
+      viewed: () => {
+        initialViewIndexRef.current = viewer.index;
       },
     }) as any;
     viewerRef.current = viewer;
@@ -201,15 +204,13 @@ const ViewImage = () => {
   }
 
   async function handleToggleAlwaysOnTopWin() {
-    const imgUrl = imgs[initialViewIndex]?.url;
+    const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
     if (window.isElectron) {
+      window.electronAPI.sendViCloseWin();
       window.electronAPI.sendPiOpenWin({ imgUrl });
     } else {
       window.open(`/pinImage.html?imgUrl=${imgUrl}`);
     }
-    // const isAlwaysOnTop = await window.electronAPI?.invokeViSetIsAlwaysOnTop();
-    // const icon = document.querySelector('.viewer-always-on-top-win');
-    // isAlwaysOnTop ? icon.classList.add('current') : icon.classList.remove('current');
   }
 
   async function initImgs() {
@@ -218,18 +219,18 @@ const ViewImage = () => {
     const imgUrl = searchParams.get('imgUrl') || user.historyImg;
     if (imgUrl) {
       if (imgUrl.substring(0, 4) == 'blob') {
-        setImgs([{ url: imgUrl, index: 0 }]);
+        setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
       } else {
         const res = (await api.getImgs(imgUrl)) as any;
         if (res.code == 0) {
           setImgs(res.data.imgs);
-          setInitialViewIndex(res.data.currentIndex);
+          initialViewIndexRef.current = res.data.currentIndex;
         } else {
-          setImgs([{ url: imgUrl, index: 0 }]);
+          setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
         }
       }
     } else {
-      setImgs([{ url: defaultImg, index: 0 }]);
+      setImgs([{ url: defaultImg, filePath: defaultImg, index: 0 }]);
     }
   }
 
@@ -238,7 +239,7 @@ const ViewImage = () => {
     const url = window.URL.createObjectURL(selectedFile);
     viewerRef.current?.destroy();
     setImgs([...imgs, { url: url, index: imgs.length }]);
-    setInitialViewIndex(imgs.length);
+    initialViewIndexRef.current = imgs.length;
   }
 
   return (

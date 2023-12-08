@@ -22,6 +22,7 @@ export function getImgsByImgUrl(imgUrl: string, isElectron: boolean) {
         filePath == imgUrl && (currentIndex = index);
         imgs.push({
           url: `${getProtocol(isElectron, 'getFile')}${filePath}`,
+          filePath: filePath,
           index,
         });
         index++;

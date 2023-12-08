@@ -3,7 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import express, { Request, Response } from 'express';
 import { AppDataSource } from './dataSource';
-import { AppRoutes } from './route';
+import { AppRoutes } from './route/index';
 import { initApi } from './api';
 import { initConfig } from './config';
 import { PORT } from './contract';
@@ -39,3 +39,5 @@ export default function initApp() {
     })
     .catch((error) => console.log('TypeORM connection error: ', error));
 }
+
+initApp();

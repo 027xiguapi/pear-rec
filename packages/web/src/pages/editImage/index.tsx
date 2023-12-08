@@ -190,6 +190,9 @@ const EditImage = () => {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
     let imgUrl = searchParams.get('imgUrl');
+    if (imgUrl.substring(0, 4) != 'blob') {
+      imgUrl = `${window.baseURL}getFile?url=${imgUrl}`;
+    }
     const instance = new ImageEditor(document.querySelector('#tui-image-editor'), {
       includeUI: {
         loadImage: {
