@@ -152,18 +152,14 @@ const ScreenRecorder = (props) => {
   }
 
   function handleShotScreen() {
-    if (window.isElectron) {
-      window.electronAPI.sendRsShotScreen();
-    } else {
-      const { width, height } = props.size;
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-      const context = canvas.getContext('2d');
-      context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      const url = canvas.toDataURL('image/png');
-      saveAs(url, `pear-rec_${+new Date()}.png`);
-    }
+    const { width, height } = props.size;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    const url = canvas.toDataURL('image/png');
+    saveAs(url, `pear-rec_${+new Date()}.png`);
   }
 
   // 开始录制

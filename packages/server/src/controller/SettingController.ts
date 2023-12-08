@@ -1,7 +1,7 @@
 import { AppDataSource } from '../dataSource';
 import { Setting } from '../entity/Setting';
 import { UserController } from '../controller/UserController';
-import { PEAR_FILES_PATH } from '../contract';
+import { getDefaultConfig, resetConfig, editConfig } from '../config';
 
 const userController = new UserController();
 export class SettingController {
@@ -40,19 +40,42 @@ export class SettingController {
 
     if (!setting) {
       const user = await userController._getUserById(userId);
+      const defaultConfig = getDefaultConfig();
       let _setting = {
-        isProxy: false,
-        proxyPort: 7890,
-        language: 'zh',
-        filePath: PEAR_FILES_PATH,
-        openAtLogin: false,
-        serverPath: 'http://localhost:9190/',
+        isProxy: defaultConfig.isProxy,
+        proxyPort: defaultConfig.proxyPort,
+        language: defaultConfig.language,
+        filePath: defaultConfig.filePath,
+        openAtLogin: defaultConfig.openAtLogin,
+        serverPath: defaultConfig.serverPath,
         user: user,
       };
       _setting = await settingRepository.save(_setting);
       return res.json({ code: 0, data: _setting });
     }
 
+    res.json({ code: 0, data: setting });
+  }
+
+  async resetSetting(req, res) {
+    const settingRepository = AppDataSource.getRepository(Setting);
+    const setting = await settingRepository.findOneBy({ id: req.params.id });
+
+    if (!setting) {
+      return res.json({ code: -1, data: 'setting not found' });
+    }
+    let defaultConfig = getDefaultConfig();
+    let _setting = {
+      isProxy: defaultConfig.isProxy,
+      proxyPort: defaultConfig.proxyPort,
+      language: defaultConfig.language,
+      filePath: defaultConfig.filePath,
+      openAtLogin: defaultConfig.openAtLogin,
+      serverPath: defaultConfig.serverPath,
+    };
+    settingRepository.merge(setting, _setting);
+    await settingRepository.save(setting);
+    resetConfig();
     res.json({ code: 0, data: setting });
   }
 
@@ -63,8 +86,13 @@ export class SettingController {
     if (!setting) {
       return res.json({ code: -1, data: 'setting not found' });
     }
-    settingRepository.merge(setting, req.body);
+    const _setting = req.body;
+    settingRepository.merge(setting, _setting);
     await settingRepository.save(setting);
+    for (let key in _setting) {
+      let value = _setting[key];
+      editConfig(key, value);
+    }
     res.json({ code: 0, data: setting });
   }
 

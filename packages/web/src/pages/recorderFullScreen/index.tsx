@@ -212,20 +212,16 @@ const RecorderScreen = () => {
   }
 
   function handleShotScreen() {
-    if (window.electronAPI) {
-      window.electronAPI.sendRsShotScreen();
-    } else {
-      const canvas = document.createElement('canvas');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      const context = canvas.getContext('2d');
-      context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      const url = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `pear-rec_${+new Date()}.png`;
-      link.click();
-    }
+    const canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const context = canvas.getContext('2d');
+    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    const url = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `pear-rec_${+new Date()}.png`;
+    link.click();
   }
 
   function handleTogglePause() {
@@ -313,4 +309,3 @@ const RecorderScreen = () => {
 };
 
 ininitApp(RecorderScreen);
-export default RecorderScreen;

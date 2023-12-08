@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.2.5
+
+feat: 重置设置
+
 ## 1.2.4
 
 perf: 设置保存地址

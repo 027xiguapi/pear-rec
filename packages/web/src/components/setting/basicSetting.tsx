@@ -82,7 +82,7 @@ const BasicSetting = (props) => {
         <Form.Item label={t('setting.filePath')} name="filePath">
           <TextArea className="filePathInput" readOnly onClick={handleSetFilePath} rows={3} />
         </Form.Item>
-        <Form.Item label="打开下载文件夹">
+        <Form.Item label={t('setting.openFilePath')}>
           <Button icon={<FolderOpenOutlined />} onClick={handleOpenFilePath}>
             打开
           </Button>

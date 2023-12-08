@@ -75,13 +75,20 @@
     "emptyBtn": "open video"
   },
   "setting": {
-    "userSetting": "userSetting",
-    "basicSetting": "basicSetting",
+    "userSetting": "user",
+    "basicSetting": "basic",
+    "serverSetting": "server",
+    "shortcutSetting": "shortcut",
+    "address": "web address",
+    "openFilePath": "open folder",
+    "reset": "reset",
     "language": "language",
     "filePath": "filePath",
     "openAtLogin": "openAtLogin",
     "open": "open",
     "close": "close",
-    "download": "download"
+    "download": "download",
+    "openServer": "open server",
+    "serverPath": "server path"
   }
 }

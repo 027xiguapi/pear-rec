@@ -101,21 +101,6 @@ function initIpcMain() {
   ipcMain.on('rs:focus', () => {
     recorderScreenWin.focusRecorderScreenWin();
   });
-  ipcMain.on('rs:shotScreen', async () => {
-    const { width, height } = utils.getScreenSize();
-    const sources = [
-      ...(await desktopCapturer.getSources({
-        types: ['screen'],
-        thumbnailSize: {
-          width,
-          height,
-        },
-      })),
-    ];
-    const source = sources.filter((e: any) => e.id == 'screen:0:0')[0];
-    const img = source.thumbnail.toPNG();
-    recorderScreenWin.shotScreen(img);
-  });
   // 录屏截图
   ipcMain.on('cs:open-win', () => {
     clipScreenWin.closeClipScreenWin();

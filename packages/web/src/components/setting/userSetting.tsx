@@ -1,19 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Card } from 'antd';
+import { Button, Modal } from 'antd';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import { useSettingApi } from '../../api/setting';
+import { Local } from '../../util/storage';
 
 const logo = './imgs/icons/png/512x512.png';
-const { Meta } = Card;
+const settingApi = useSettingApi();
+
 const UserSetting = (props) => {
-  const { user } = props;
+  const { t, i18n } = useTranslation();
+  const { user, setting } = props;
   const [uuid, setUuid] = useState('');
   const [createdTime, setCreatedTime] = useState('');
 
   useEffect(() => {
-    user.id && getUser();
+    user.id && setUser();
   }, [user]);
 
-  async function getUser() {
+  async function setUser() {
     setUuid(user.uuid);
     setCreatedTime(user.createdAt);
   }
@@ -22,11 +27,33 @@ const UserSetting = (props) => {
     return dayjs(time).format('YYYY-MM-DD hh:mm:ss');
   }
 
+  function handleResetClick() {
+    Modal.confirm({
+      title: '提示',
+      content: `是否重置设置？`,
+      okText: t('modal.ok'),
+      cancelText: t('modal.cancel'),
+      onOk() {
+        Local.set('i18n', 'zh');
+        i18n.changeLanguage('zh');
+        setting.id && settingApi.resetSetting(setting.id);
+        window.electronAPI?.sendSeSetLanguage('zh');
+      },
+    });
+  }
+
   return (
     <div className="userSetting">
-      <Card style={{ width: 230 }} cover={<img alt="logo" src={logo} />}>
-        <Meta title={uuid} description={formatTime(createdTime)} />
-      </Card>
+      <div className="logo">
+        <img alt="logo" src={logo} />
+      </div>
+      <div className="info">
+        <p>{uuid}</p>
+        <p>{formatTime(createdTime)}</p>
+        <Button type="primary" className="resetBtn" danger onClick={handleResetClick}>
+          {t('setting.reset')}
+        </Button>
+      </div>
     </div>
   );
 };

@@ -26,4 +26,6 @@ export const PEAR_FILES_PATH = path.join(DOCS_PATH, 'Pear Files');
 
 export const CONFIG_FILE_PATH = path.join(PEAR_FILES_PATH, `config.json`);
 
+export const DEFAULT_CONFIG_FILE_PATH = path.join(PEAR_FILES_PATH, `default-config.json`);
+
 export const DB_PATH = path.join(PEAR_FILES_PATH, 'db/pear-rec.db');
