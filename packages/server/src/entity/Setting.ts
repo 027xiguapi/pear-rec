@@ -20,7 +20,7 @@ export class Setting implements ISetting {
   isProxy: boolean;
 
   // 代理端口
-  @Column('integer', { nullable: true })
+  @Column('varchar', { nullable: true })
   proxyPort: number;
 
   // 语言

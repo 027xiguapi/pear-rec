@@ -27,7 +27,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   invokeRsGetCursorScreenPoint: () => ipcRenderer.invoke('rs:get-cursor-screen-point'),
   invokeRsIsFocused: () => ipcRenderer.invoke('rs:is-focused'),
   sendRsFocus: () => ipcRenderer.send('rs:focus'),
-  sendRsShotScreen: () => ipcRenderer.send('rs:shotScreen'),
   sendRsSetIgnoreMouseEvents: (ignore: boolean, options: any) => {
     ipcRenderer.send('rs:set-ignore-mouse-events', ignore, options);
   },

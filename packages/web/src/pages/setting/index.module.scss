@@ -5,6 +5,14 @@
   border-radius: 8px;
   width: 540px;
   :global {
+    .userSetting {
+      .logo img {
+        width: 120px;
+      }
+      .resetBtn {
+        margin-left: 40px;
+      }
+    }
     .tip {
       padding: 10px 0;
       color: red;
@@ -15,6 +23,11 @@
     }
     .serverPathInput {
       width: 300px;
+    }
+    .shortcutSetting {
+      .ant-input {
+        width: 260px;
+      }
     }
   }
 }

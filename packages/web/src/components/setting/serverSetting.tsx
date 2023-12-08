@@ -79,7 +79,7 @@ const BasicSetting = (props) => {
       </Form>
 
       <p className="tip" onClick={handleTipClick}>
-        软件地址: https://github.com/027xiguapi/pear-rec
+        {t('setting.address')}: https://github.com/027xiguapi/pear-rec
       </p>
     </div>
   );

@@ -77,11 +77,18 @@
   "setting": {
     "userSetting": "账户设置",
     "basicSetting": "通用设置",
+    "serverSetting": "服务设置",
+    "shortcutSetting": "快捷键",
+    "address": "软件地址",
+    "openFilePath": "打开下载文件夹",
+    "reset": "重置",
     "language": "语言",
     "filePath": "保存地址",
     "openAtLogin": "开机自启动",
     "open": "开启",
     "close": "关闭",
-    "download": "浏览器下载"
+    "download": "浏览器下载",
+    "openServer": "打开服务",
+    "serverPath": "服务地址"
   }
 }

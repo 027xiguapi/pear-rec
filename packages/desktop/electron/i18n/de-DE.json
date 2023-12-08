@@ -77,6 +77,10 @@
   "setting": {
     "userSetting": "Nutzereinstellungen",
     "basicSetting": "Basiseinstellungen",
+    "serverSetting": "server",
+    "shortcutSetting": "shortcut",
+    "address": "web address",
+    "openFilePath": "open folder",
     "language": "Sprache",
     "filePath": "Dateipfad",
     "openAtLogin": "Bei Anmeldung öffnen",

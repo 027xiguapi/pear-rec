@@ -15,5 +15,11 @@ export function useSettingApi() {
         data: data,
       });
     },
+    resetSetting: (userId) => {
+      return request({
+        url: `/resetSetting/${userId}`,
+        method: 'get',
+      });
+    },
   };
 }
