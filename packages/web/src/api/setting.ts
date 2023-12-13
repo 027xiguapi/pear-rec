@@ -4,21 +4,21 @@ export function useSettingApi() {
   return {
     getSetting: (userId: string) => {
       return request({
-        url: `/getSettingByUserId/${userId}`,
+        url: `/settings/${userId}`,
         method: 'get',
       });
     },
     editSetting: (settingId, data) => {
       return request({
-        url: `/editSetting/${settingId}`,
+        url: `/settings/edit/${settingId}`,
         method: 'post',
         data: data,
       });
     },
-    resetSetting: (userId) => {
+    resetSetting: (settingId) => {
       return request({
-        url: `/resetSetting/${userId}`,
-        method: 'get',
+        url: `/settings/reset/${settingId}`,
+        method: 'post',
       });
     },
   };

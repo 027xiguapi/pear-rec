@@ -9,6 +9,7 @@ import {
 import { useApi } from '../../api';
 import { useRecordApi } from '../../api/record';
 import { eventEmitter } from '../../util/bus';
+import Item from 'antd/es/list/Item';
 
 const { Content } = Layout;
 const recordApi = useRecordApi();
@@ -23,6 +24,7 @@ const RecordAudioCard = forwardRef(() => {
   const [pageNumber, setPageNumber] = useState(1);
   const [isMore, setIsMore] = useState(true);
   const [filterVal, setFilterVal] = useState('');
+  const [isDelete, setIsDelete] = useState(false);
 
   useEffect(() => {
     setPageNumber(1);
@@ -41,14 +43,27 @@ const RecordAudioCard = forwardRef(() => {
     filterData();
   }, [filterVal]);
 
+  useEffect(() => {
+    isDelete && deleteListRecord();
+  }, [isDelete]);
+
   async function handleDeleteAllRecord() {
-    const res = (await recordApi.deleteAllRecord()) as any;
+    setIsDelete(true);
+  }
+
+  async function deleteListRecord() {
+    let ids = [];
+    data.map((item) => {
+      ids.push(item.id);
+    });
+    const res = (await recordApi.deleteListRecord(ids)) as any;
     if (res.code == 0) {
       const newData = [];
       setData(newData);
       setList(newData);
       window.dispatchEvent(new Event('resize'));
     }
+    setIsDelete(false);
   }
 
   function handleSearchRecord(filterVal) {

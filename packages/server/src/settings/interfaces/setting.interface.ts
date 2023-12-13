@@ -1,3 +1,5 @@
+import { IUser } from '../../users/interfaces/user.interface';
+
 export interface ISetting {
   id: number;
 
@@ -12,6 +14,8 @@ export interface ISetting {
   openAtLogin: boolean;
 
   serverPath: string;
+
+  user: IUser;
 
   createdAt: Date;
 
