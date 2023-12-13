@@ -7,11 +7,13 @@ import {
   UpdateDateColumn,
   OneToOne,
 } from 'typeorm';
-import { User } from './User';
-import { ISetting } from '../model/ISetting';
+import { User } from '../../users/entity/user.entity';
+import { IUser } from '../../users/interfaces/user.interface';
+import { ISetting } from '../interfaces/setting.interface';
 
 @Entity()
 export class Setting implements ISetting {
+  user: IUser;
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -51,7 +53,7 @@ export class Setting implements ISetting {
   @Column('varchar', { nullable: true })
   updatedBy: string;
 
-  @OneToOne(() => User, (user) => user.setting)
-  @JoinColumn()
-  user: User;
+  // @OneToOne(() => User, (user) => user.setting)
+  // @JoinColumn()
+  // user: IUser;
 }

@@ -1,4 +1,4 @@
-import jsonfile from 'jsonfile';
+import * as jsonfile from 'jsonfile';
 import * as fs from 'node:fs';
 import { v5 as uuidv5 } from 'uuid';
 import dayjs from 'dayjs';

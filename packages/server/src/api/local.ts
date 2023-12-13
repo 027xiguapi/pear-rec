@@ -4,26 +4,24 @@ import { join, dirname } from 'node:path';
 import { Application } from 'express';
 import { exec } from 'child_process';
 import { getImgsByImgUrl, getAudiosByAudioUrl, getVideosByVideoUrl } from '../util/index';
-import { RecordController } from '../controller/RecordController';
-import { UserController } from '../controller/UserController';
-import { SettingController } from '../controller/SettingController';
+import { RecordsService } from '../records/records.service';
+import { UsersService } from '../users/users.service';
+import { SettingsService } from '../settings/settings.service';
 import { PEAR_FILES_PATH } from '../contract';
 
-const recordController = new RecordController();
-const userController = new UserController();
-const settingController = new SettingController();
+// const usersService = new UsersService();
 
 const storage = multer.diskStorage({
   destination: async function (req, file, cb) {
     const { type, userId } = req.body;
-    const user = await userController._getUserById(userId);
-    const setting = await settingController._getSettingByUserId(userId);
+    // const user = await usersService.findOneById(userId);
+    // const setting = await settingController._getSettingByUserId(userId);
     try {
-      const filePath = join(setting?.filePath || PEAR_FILES_PATH, `${user.uuid}/${type}`);
-      if (!fs.existsSync(filePath)) {
-        fs.mkdirSync(filePath, { recursive: true });
-      }
-      cb(null, filePath);
+      // const filePath = join(setting?.filePath || PEAR_FILES_PATH, `${user.uuid}/${type}`);
+      // if (!fs.existsSync(filePath)) {
+      //   fs.mkdirSync(filePath, { recursive: true });
+      // }
+      // cb(null, filePath);
     } catch (err) {
       console.log('saveFile err', err);
     }
@@ -45,7 +43,7 @@ const upload = multer({ storage: storage });
 
 export function initLocalApi(app: Application) {
   app.post('/saveFile', upload.single('file'), async (req: any, res) => {
-    recordController.saveFile(req, res);
+    // recordController.saveFile(req, res);
   });
 
   app.get('/getFile', async (req, res) => {

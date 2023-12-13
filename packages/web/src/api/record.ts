@@ -10,14 +10,17 @@ export function useRecordApi() {
     },
     deleteRecord: (recordId) => {
       return request({
-        url: `/deleteRecord/${recordId}`,
+        url: `/records/delete/${recordId}`,
         method: 'post',
       });
     },
-    deleteAllRecord: () => {
+    deleteListRecord: (ids) => {
       return request({
-        url: `/deleteAllRecord`,
+        url: `/records/delete/list`,
         method: 'post',
+        data: {
+          ids: JSON.stringify(ids),
+        },
       });
     },
   };

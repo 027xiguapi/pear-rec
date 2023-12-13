@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.3.0
+
+refactor: 升级 nestjs 架构
+
 ## 1.2.5
 
 feat: 重置设置

@@ -4,8 +4,11 @@ export function useApi() {
   return {
     saveFile: (formData) => {
       return request({
-        url: `/saveFile`,
+        url: `/upload/file`,
         method: 'post',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
         data: formData,
       });
     },

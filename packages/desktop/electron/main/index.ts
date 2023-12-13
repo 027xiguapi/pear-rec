@@ -1,13 +1,17 @@
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { release } from 'node:os';
+import { spawn } from 'node:child_process';
 import * as mainWin from '../win/mainWin';
 import { initTray } from './tray';
 import { update } from './update';
 import { registerFileProtocol } from './protocol';
 import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
 import { initConfig, getConfig } from '@pear-rec/server/src/config';
+import { serverPath } from './contract';
 import './ipcMain';
-import '@pear-rec/server/src';
+
+const appName = app.getPath('exe');
+const serverAppProcess = spawn(appName, [serverPath]);
 
 initConfig();
 
@@ -16,8 +20,10 @@ initConfig();
 // ├─┬ dist-electron
 // │ ├─┬ main
 // │ │ └── index.js    > Electron-Main
-// │ └─┬ preload
-// │   └── index.js    > Preload-Scripts
+// │ ├─┬ preload
+// │ │ └── index.js    > Preload-Scripts
+// │ └─┬ server
+// │   └── index.js    > Server-Scripts
 // ├─┬ dist
 // │ └── index.html    > Electron-Renderer
 //
@@ -52,6 +58,7 @@ app.whenReady().then(() => {
 });
 
 app.on('will-quit', () => {
+  serverAppProcess?.kill();
   unregisterAllGlobalShortcut();
 });
 
