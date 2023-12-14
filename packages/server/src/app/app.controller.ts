@@ -1,14 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  StreamableFile,
-  Query,
-  UseInterceptors,
-  Res,
-  UploadedFile,
-} from '@nestjs/common';
+import { Controller, Get, Post, StreamableFile, Query, Res } from '@nestjs/common';
 import { join, dirname, basename, extname } from 'node:path';
+import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import { readdirSync, createReadStream, statSync } from 'node:fs';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateFileDto } from './dto/create-file.dto';
@@ -20,18 +12,6 @@ import type { Response } from 'express';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
-  @Post('/upload/file')
-  // @UseInterceptors(FileInterceptor('fileName'))
-  async uploadFile(@UploadedFile() fileDto: CreateFileDto): Promise<Record> {
-    return this.appService.uploadFile(fileDto);
-  }
-
-  @Get('/getFile')
-  getFile(@Query() query): StreamableFile {
-    const file = createReadStream(query.url);
-    return new StreamableFile(file);
-  }
 
   @Get('/audio')
   getAudio(@Query() query, @Res({ passthrough: true }) res: Response): StreamableFile {
@@ -86,7 +66,7 @@ export class AppController {
           ].includes(ext);
         }
         const port = process.env.PORT || 9190;
-        const protocol = `http://localhost:${port}/getFile?url=`;
+        const protocol = `http://localhost:${port}/file?url=`;
         if (isImgFile(filePath)) {
           filePath == imgUrl && (currentIndex = index);
           imgs.push({

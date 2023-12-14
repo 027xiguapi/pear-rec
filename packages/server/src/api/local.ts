@@ -3,11 +3,11 @@ import multer from 'multer';
 import { join, dirname } from 'node:path';
 import { Application } from 'express';
 import { exec } from 'child_process';
-import { getImgsByImgUrl, getAudiosByAudioUrl, getVideosByVideoUrl } from '../util/index';
-import { RecordsService } from '../records/records.service';
-import { UsersService } from '../users/users.service';
-import { SettingsService } from '../settings/settings.service';
-import { PEAR_FILES_PATH } from '../contract';
+// import { getImgsByImgUrl, getAudiosByAudioUrl, getVideosByVideoUrl } from '../util/index';
+// import { RecordsService } from '../records/records.service';
+// import { UsersService } from '../users/users.service';
+// import { SettingsService } from '../settings/settings.service';
+// import { PEAR_FILES_PATH } from '../contract';
 
 // const usersService = new UsersService();
 
@@ -117,34 +117,34 @@ export function initLocalApi(app: Application) {
     }
   });
 
-  app.get('/getImgs', async (req, res) => {
-    const { imgUrl, isElectron } = req.query as any;
-    const imgs = await getImgsByImgUrl(imgUrl, isElectron);
-    res.json({ code: 0, data: imgs });
-  });
+  // app.get('/getImgs', async (req, res) => {
+  //   const { imgUrl, isElectron } = req.query as any;
+  //   const imgs = await getImgsByImgUrl(imgUrl, isElectron);
+  //   res.json({ code: 0, data: imgs });
+  // });
 
-  app.get('/getAudios', async (req, res) => {
-    const { audioUrl, isElectron } = req.query as any;
-    const audios = await getAudiosByAudioUrl(audioUrl, isElectron);
-    res.json({ code: 0, data: audios });
-  });
+  // app.get('/getAudios', async (req, res) => {
+  //   const { audioUrl, isElectron } = req.query as any;
+  //   const audios = await getAudiosByAudioUrl(audioUrl, isElectron);
+  //   res.json({ code: 0, data: audios });
+  // });
 
-  app.get('/getVideos', async (req, res) => {
-    const { videoUrl, isElectron } = req.query as any;
-    const videos = await getVideosByVideoUrl(videoUrl, isElectron);
-    res.json({ code: 0, data: videos });
-  });
+  // app.get('/getVideos', async (req, res) => {
+  //   const { videoUrl, isElectron } = req.query as any;
+  //   const videos = await getVideosByVideoUrl(videoUrl, isElectron);
+  //   res.json({ code: 0, data: videos });
+  // });
 
-  app.get('/getFolder', async (req, res) => {
-    const folderPath = req.query.folderPath as string;
-    exec(`start "" "${folderPath}"`);
-    res.json({ code: 0 });
-  });
+  // app.get('/getFolder', async (req, res) => {
+  //   const folderPath = req.query.folderPath as string;
+  //   exec(`start "" "${folderPath}"`);
+  //   res.json({ code: 0 });
+  // });
 
-  app.get('/openFilePath', async (req, res) => {
-    const filePath = req.query.filePath as string;
-    const folderPath = dirname(filePath);
-    exec(`start "" "${folderPath}"`);
-    res.json({ code: 0 });
-  });
+  // app.get('/openFilePath', async (req, res) => {
+  //   const filePath = req.query.filePath as string;
+  //   const folderPath = dirname(filePath);
+  //   exec(`start "" "${folderPath}"`);
+  //   res.json({ code: 0 });
+  // });
 }

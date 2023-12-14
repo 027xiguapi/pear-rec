@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import { Injectable } from '@nestjs/common';
 import { CreateFileDto } from './dto/create-file.dto';
 import { Record } from '../records/entity/record.entity';
@@ -17,8 +15,7 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async uploadFile(fileDto: CreateFileDto): Promise<Record> {
-    const userId = fileDto.userId;
+  async uploadFile(fileDto, userId: number): Promise<Record> {
     const user = await this.usersService.findOne(userId);
     let record = {
       filePath: fileDto.path,

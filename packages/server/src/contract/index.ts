@@ -1,8 +1,6 @@
 import { join } from 'node:path';
 import { homedir } from 'node:os';
 
-export const PORT = process.env.PORT || 9190;
-
 export const DOCS_PATH = join(homedir(), 'Documents');
 
 export const PEAR_FILES_PATH = join(DOCS_PATH, 'Pear Files');
