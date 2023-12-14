@@ -7,11 +7,11 @@ import { update } from './update';
 import { registerFileProtocol } from './protocol';
 import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
 import { initConfig, getConfig } from '@pear-rec/server/src/config';
-import { serverPath } from './contract';
+import { url, serverPath } from './contract';
 import './ipcMain';
 
 const appName = app.getPath('exe');
-const serverAppProcess = spawn(appName, [serverPath]);
+const serverAppProcess = url || spawn(appName, [serverPath]);
 
 initConfig();
 

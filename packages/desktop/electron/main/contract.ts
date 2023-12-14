@@ -11,7 +11,7 @@ export const VITE_API_URL = import.meta.env.VITE_API_URL;
 // export const WEB_URL = 'http://127.0.0.1:9191/';
 // export const VITE_API_URL = 'http://127.0.0.1:9190/';
 export const preload = path.join(__dirname, '../preload/index.js');
-export const serverPath = path.join(__dirname, '../server/index.js');
+export const serverPath = path.join(__dirname, '../server/mian.js');
 export const DIST_ELECTRON = path.join(__dirname, '../');
 export const DIST = path.join(DIST_ELECTRON, '../dist');
 

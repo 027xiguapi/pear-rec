@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.3.1
+
+fix: 接口代理、上传文件
+
 ## 1.3.0
 
 refactor: 升级 nestjs 架构
