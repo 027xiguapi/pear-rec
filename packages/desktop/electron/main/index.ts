@@ -1,6 +1,5 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, utilityProcess } from 'electron';
 import { release } from 'node:os';
-import { spawn } from 'node:child_process';
 import * as mainWin from '../win/mainWin';
 import { initTray } from './tray';
 import { update } from './update';
@@ -10,8 +9,13 @@ import { initConfig, getConfig } from '@pear-rec/server/src/config';
 import { url, serverPath } from './contract';
 import './ipcMain';
 
-const appName = app.getPath('exe');
-const serverAppProcess = url || spawn(appName, [serverPath]);
+const serverAppProcess = utilityProcess.fork(serverPath);
+serverAppProcess.stdout?.on('data', (data) => {
+  console.log(`serverAppProcess output: ${data}`);
+});
+serverAppProcess.stderr?.on('data', (data) => {
+  console.error(`serverAppProcess err: ${data}`);
+});
 
 initConfig();
 
