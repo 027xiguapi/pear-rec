@@ -11,7 +11,6 @@ export class UploadMiddleware implements MulterOptionsFactory {
     return {
       storage: diskStorage({
         destination: async function (req, file, cb) {
-          console.log(1234);
           const { type, userId } = req.body;
           const config = getConfig();
           const user = config.user;
