@@ -1,43 +1,56 @@
 .recorderFullScreen {
-  display: flex;
-  align-items: center;
   border-radius: 5px;
-  background-color: rgba(#eee, 0.1);
-
+  height: 35px;
   :global {
-    .recordIcon {
-      font-size: 18px;
-      width: 32px;
-      padding: 4px 0;
-    }
-    .ant-btn {
-      padding-top: 5px;
-      .ant-btn-icon .anticon {
-        font-size: 18px;
-      }
-    }
-    .singleDigit {
-      background-color: transparent;
-    }
-    .recorderTools {
+    .recordTool {
       display: flex;
       align-items: center;
-      .pauseBtn,
-      .stopBtn,
-      .playBtn {
-        padding-top: 2px;
-        color: #1677ff;
-        .ant-btn-icon {
-          font-size: 26px;
+      background-color: rgba(#eee, 0.1);
+      .recordIcon {
+        font-size: 18px;
+        width: 32px;
+        padding: 4px 0;
+      }
+      .ant-btn {
+        padding-top: 5px;
+        .ant-btn-icon .anticon {
+          font-size: 18px;
         }
       }
-      .stopBtn {
-        color: red;
+      .singleDigit {
+        background-color: transparent;
       }
+      .recorderTools {
+        display: flex;
+        align-items: center;
+        .pauseBtn,
+        .stopBtn,
+        .playBtn {
+          padding-top: 2px;
+          color: #1677ff;
+          .ant-btn-icon {
+            font-size: 26px;
+          }
+        }
+        .stopBtn {
+          color: red;
+        }
+      }
+    }
+    .recording {
+      height: 0px;
+      overflow: hidden;
+      border-bottom: 2px solid #eee;
     }
   }
 }
 
 .recorderFullScreen:hover {
   background-color: rgba(#fff, 0.5);
+  :global {
+    .recordTool {
+      height: 35px;
+      border-bottom: 0;
+    }
+  }
 }
