@@ -23,6 +23,30 @@ export class SettingsService {
     return await this.settingRepository.findOneBy({ id });
   }
 
+  async findOneByUserId(userId: number): Promise<Setting> {
+    let setting = await this.settingRepository
+      .createQueryBuilder('setting')
+      .leftJoinAndSelect('setting.user', 'user')
+      .where('user.id = :id', { id: userId })
+      .getOne();
+
+    if (setting == null) {
+      const defaultConfig = getDefaultConfig();
+      setting = {
+        isProxy: defaultConfig.isProxy,
+        proxyPort: defaultConfig.proxyPort,
+        language: defaultConfig.language,
+        filePath: defaultConfig.filePath,
+        openAtLogin: defaultConfig.openAtLogin,
+        serverPath: defaultConfig.serverPath,
+      } as any;
+
+      return await this.settingRepository.save(setting);
+    } else {
+      return setting;
+    }
+  }
+
   async update(id: number, setting: Setting): Promise<Setting> {
     await this.settingRepository.update(id, setting);
     return await this.settingRepository.findOneBy({ id });

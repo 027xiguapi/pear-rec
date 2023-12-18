@@ -210,7 +210,8 @@ const ScreenRecorder = (props) => {
       if (res.code == 0) {
         if (window.isElectron) {
           window.electronAPI.sendRsCloseWin();
-          window.electronAPI?.sendVvOpenWin({ videoUrl: res.data.filePath });
+          window.electronAPI.sendVvCloseWin();
+          window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
         } else {
           Modal.confirm({
             title: '录屏已保存，是否查看？',

@@ -13,7 +13,6 @@ import { IUser } from '../../users/interfaces/user.interface';
 
 @Entity()
 export class Record {
-  user: IUser;
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -29,15 +28,15 @@ export class Record {
   @CreateDateColumn({ nullable: true })
   createdAt?: Date;
 
-  @Column('varchar', { nullable: true })
-  createdBy?: string;
+  @Column('int', { nullable: true })
+  createdBy?: number;
 
   @UpdateDateColumn({ nullable: true })
   updatedAt?: Date;
 
-  @Column('varchar', { nullable: true })
-  updatedBy?: string;
+  @Column('int', { nullable: true })
+  updatedBy?: number;
 
-  // @ManyToOne(() => User, (user) => user.records)
-  // user: IUser;
+  @ManyToOne(() => User, (user) => user.records)
+  user: IUser;
 }

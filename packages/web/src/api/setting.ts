@@ -4,7 +4,7 @@ export function useSettingApi() {
   return {
     getSetting: (userId: string) => {
       return request({
-        url: `/settings/${userId}`,
+        url: `/settings/user/${userId}`,
         method: 'get',
       });
     },

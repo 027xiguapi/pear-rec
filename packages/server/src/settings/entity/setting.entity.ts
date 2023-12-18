@@ -13,7 +13,6 @@ import { ISetting } from '../interfaces/setting.interface';
 
 @Entity()
 export class Setting implements ISetting {
-  user: IUser;
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -53,7 +52,7 @@ export class Setting implements ISetting {
   @Column('varchar', { nullable: true })
   updatedBy: string;
 
-  // @OneToOne(() => User, (user) => user.setting)
-  // @JoinColumn()
-  // user: IUser;
+  @OneToOne(() => User, (user) => user.setting)
+  @JoinColumn()
+  user: IUser;
 }

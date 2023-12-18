@@ -43,7 +43,9 @@ function openViewVideoWin(search?: any) {
 }
 
 function closeViewVideoWin() {
-  viewVideoWin?.close();
+  if (!(viewVideoWin && viewVideoWin.isDestroyed())) {
+    viewVideoWin?.close();
+  }
   viewVideoWin = null;
 }
 

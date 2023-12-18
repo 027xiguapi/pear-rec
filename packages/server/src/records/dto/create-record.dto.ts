@@ -11,9 +11,9 @@ export class CreateRecordDto {
 
   createdAt?: Date;
 
-  createdBy?: string;
+  createdBy?: number;
 
   updatedAt?: Date;
 
-  updatedBy?: string;
+  updatedBy?: number;
 }

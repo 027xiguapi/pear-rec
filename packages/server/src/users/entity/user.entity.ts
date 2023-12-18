@@ -42,9 +42,9 @@ export class User implements IUser {
   @Column('varchar', { nullable: true })
   updatedBy: string;
 
-  // @OneToMany(() => Record, (record) => record.user)
-  // records: Record[];
+  @OneToMany(() => Record, (record) => record.user)
+  records: Record[];
 
-  // @OneToOne(() => Setting, (setting) => setting.user)
-  // setting: Setting;
+  @OneToOne(() => Setting, (setting) => setting.user)
+  setting: Setting;
 }
