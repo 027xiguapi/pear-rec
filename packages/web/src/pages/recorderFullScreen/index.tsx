@@ -234,75 +234,77 @@ const RecorderScreen = () => {
 
   return (
     <div className={styles.recorderFullScreen}>
-      <BsRecordCircle className={'recordIcon ' + `${isRecording && !isPause ? 'blink' : ''}`} />
-      <Button
-        type="text"
-        icon={<SettingOutlined />}
-        className="toolbarIcon settingBtn"
-        title={t('nav.setting')}
-        onClick={handleOpenSettingWin}
-      ></Button>
-      <Button
-        type="text"
-        icon={<CloseOutlined />}
-        className="toolbarIcon closeBtn"
-        title={t('nav.close')}
-        onClick={handleCloseWin}
-      ></Button>
-      {/* <Button
+      <div className={'recordTool ' + `${isRecording ? 'recording' : ''}`}>
+        <BsRecordCircle className={'recordIcon ' + `${isRecording && !isPause ? 'blink' : ''}`} />
+        <Button
+          type="text"
+          icon={<SettingOutlined />}
+          className="toolbarIcon settingBtn"
+          title={t('nav.setting')}
+          onClick={handleOpenSettingWin}
+        ></Button>
+        <Button
+          type="text"
+          icon={<CloseOutlined />}
+          className="toolbarIcon closeBtn"
+          title={t('nav.close')}
+          onClick={handleCloseWin}
+        ></Button>
+        {/* <Button
           type="text"
           icon={<CameraOutlined />}
           className="toolbarIcon shotScreenBtn"
           title={t('recorderScreen.shotScreen')}
           onClick={handleShotScreen}
         ></Button> */}
-      <Timer
-        seconds={timer.seconds}
-        minutes={timer.minutes}
-        hours={timer.hours}
-        className="timer"
-      />
-      <div className="recorderTools">
-        {isSave ? (
-          <Button type="text" loading>
-            {t('recorderScreen.saving')}...
-          </Button>
-        ) : isRecording ? (
-          <>
-            <Button
-              type="text"
-              icon={isPause ? <BsPlayFill /> : <BsPause />}
-              className="toolbarIcon pauseBtn"
-              title={isPause ? t('recorderScreen.resume') : t('recorderScreen.pause')}
-              onClick={handleTogglePause}
-            />
-            {/* <Button
+        <Timer
+          seconds={timer.seconds}
+          minutes={timer.minutes}
+          hours={timer.hours}
+          className="timer"
+        />
+        <div className="recorderTools">
+          {isSave ? (
+            <Button type="text" loading>
+              {t('recorderScreen.saving')}...
+            </Button>
+          ) : isRecording ? (
+            <>
+              <Button
+                type="text"
+                icon={isPause ? <BsPlayFill /> : <BsPause />}
+                className="toolbarIcon pauseBtn"
+                title={isPause ? t('recorderScreen.resume') : t('recorderScreen.pause')}
+                onClick={handleTogglePause}
+              />
+              {/* <Button
               className={`toolbarIcon toggleMuteBtn ${isMute ? '' : 'muted'}`}
               type="text"
               onClick={handleToggleMute}
               icon={isMute ? <BsMicMute /> : <BsMic />}
               title={isMute ? t('recorderScreen.unmute') : t('recorderScreen.mute')}
             /> */}
-            <Button
-              type="text"
-              icon={<BsFillStopFill />}
-              className="toolbarIcon stopBtn"
-              title={t('recorderScreen.save')}
-              onClick={saveRecording}
-            />
-          </>
-        ) : (
-          <>
-            <span className="toolbarTitle">{t('recorderScreen.play')}</span>
-            <Button
-              type="text"
-              icon={<BsPlayFill />}
-              className="toolbarIcon playBtn"
-              title={t('recorderScreen.play')}
-              onClick={handleStartRecording}
-            ></Button>
-          </>
-        )}
+              <Button
+                type="text"
+                icon={<BsFillStopFill />}
+                className="toolbarIcon stopBtn"
+                title={t('recorderScreen.save')}
+                onClick={saveRecording}
+              />
+            </>
+          ) : (
+            <>
+              <span className="toolbarTitle">{t('recorderScreen.play')}</span>
+              <Button
+                type="text"
+                icon={<BsPlayFill />}
+                className="toolbarIcon playBtn"
+                title={t('recorderScreen.play')}
+                onClick={handleStartRecording}
+              ></Button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

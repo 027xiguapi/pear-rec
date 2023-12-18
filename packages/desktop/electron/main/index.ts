@@ -6,17 +6,10 @@ import { update } from './update';
 import { registerFileProtocol } from './protocol';
 import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
 import { initConfig, getConfig } from '@pear-rec/server/src/config';
-import { url, serverPath } from './contract';
+import { initServerProcess, quitServerProcess } from './serverProcess';
 import './ipcMain';
 
-const serverAppProcess = utilityProcess.fork(serverPath);
-serverAppProcess.stdout?.on('data', (data) => {
-  console.log(`serverAppProcess output: ${data}`);
-});
-serverAppProcess.stderr?.on('data', (data) => {
-  console.error(`serverAppProcess err: ${data}`);
-});
-
+initServerProcess();
 initConfig();
 
 // The built directory structure
@@ -62,7 +55,7 @@ app.whenReady().then(() => {
 });
 
 app.on('will-quit', () => {
-  serverAppProcess?.kill();
+  quitServerProcess();
   unregisterAllGlobalShortcut();
 });
 
