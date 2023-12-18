@@ -78,6 +78,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   //vvWin
   sendVvOpenWin: (search?: string) => ipcRenderer.send('vv:open-win', search),
+  sendVvCloseWin: () => ipcRenderer.send('vv:close-win'),
   invokeVvGetHistoryVideo: () => ipcRenderer.invoke('vv:get-historyVideo'),
   sendVvSetHistoryVideo: (img: string) => ipcRenderer.send('vv:set-historyVideo', img),
 

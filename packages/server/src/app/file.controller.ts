@@ -30,6 +30,6 @@ export class FileController {
     @UploadedFile() file: Express.Multer.File,
     @Body() createFileDto: CreateFileDto,
   ): Promise<Record> {
-    return this.appService.uploadFile(file, createFileDto.userId);
+    return this.appService.uploadFile(file, createFileDto);
   }
 }

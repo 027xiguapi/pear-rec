@@ -15,12 +15,13 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async uploadFile(fileDto, userId: number): Promise<Record> {
-    const user = await this.usersService.findOne(userId);
+  async uploadFile(file: Express.Multer.File, fileDto: CreateFileDto): Promise<Record> {
+    const user = await this.usersService.findOne(fileDto.userId);
     let record = {
-      filePath: fileDto.path,
+      filePath: file.path,
       fileType: fileDto.type,
       user: user,
+      createdBy: user.id,
     };
 
     return this.recordsService.create(record);

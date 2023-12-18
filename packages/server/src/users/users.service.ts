@@ -15,9 +15,14 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findCurrent(): Promise<User | null> {
+  async findCurrent(): Promise<User | null> {
     const config = getConfig();
-    return this.usersRepository.findOneBy({ uuid: config.user.uuid });
+    let user = await this.usersRepository.findOneBy({ uuid: config.user.uuid });
+    if (user == null) {
+      return await this.usersRepository.save(config.user);
+    } else {
+      return user;
+    }
   }
 
   findOne(id: number): Promise<User | null> {

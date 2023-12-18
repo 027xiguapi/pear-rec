@@ -21,5 +21,5 @@ export function initServerProcess() {
 }
 
 export function quitServerProcess() {
-  serverProcess?.kill();
+  url || serverProcess?.kill();
 }
