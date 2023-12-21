@@ -10,8 +10,6 @@ import {
 import { IUser } from '../interfaces/user.interface';
 import { Record } from '../../records/entity/record.entity';
 import { Setting } from '../../settings/entity/setting.entity';
-// import { IRecord } from '../model/IRecord';
-// import { ISetting } from '../model/ISetting';
 
 @Entity()
 export class User implements IUser {

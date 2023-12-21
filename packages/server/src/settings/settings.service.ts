@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Setting } from './entity/setting.entity';
+import { UsersService } from '../users/users.service';
 import { getDefaultConfig } from '../config';
 
 @Injectable()
@@ -9,6 +10,7 @@ export class SettingsService {
   constructor(
     @InjectRepository(Setting)
     private readonly settingRepository: Repository<Setting>,
+    private readonly usersService: UsersService,
   ) {}
 
   async create(setting: Setting): Promise<Setting> {
@@ -32,6 +34,7 @@ export class SettingsService {
 
     if (setting == null) {
       const defaultConfig = getDefaultConfig();
+      const user = await this.usersService.findOne(userId);
       setting = {
         isProxy: defaultConfig.isProxy,
         proxyPort: defaultConfig.proxyPort,
@@ -39,6 +42,8 @@ export class SettingsService {
         filePath: defaultConfig.filePath,
         openAtLogin: defaultConfig.openAtLogin,
         serverPath: defaultConfig.serverPath,
+        user: user,
+        createdBy: user.id,
       } as any;
 
       return await this.settingRepository.save(setting);

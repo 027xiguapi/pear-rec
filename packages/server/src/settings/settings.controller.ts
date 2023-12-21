@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Param, UseInterceptors } from '@nestjs/common';
 import { CreateSettingDto } from './dto/create-setting.dto';
 import { SettingsService } from './settings.service';
-import { UsersService } from 'src/users/users.service';
 import { Setting } from './entity/setting.entity';
 
 @Controller('settings')
@@ -9,8 +8,8 @@ export class SettingsController {
   constructor(private settingsService: SettingsService) {}
 
   @Post()
-  create(@Body() record: CreateSettingDto): Promise<Setting> {
-    return this.settingsService.create(record);
+  create(@Body() setting: CreateSettingDto): Promise<Setting> {
+    return this.settingsService.create(setting);
   }
 
   @Get()
@@ -29,8 +28,8 @@ export class SettingsController {
   }
 
   @Post('/edit/:id')
-  update(@Param('id') id: number, @Body() record: CreateSettingDto): Promise<Setting> {
-    return this.settingsService.update(id, record);
+  update(@Param('id') id: number, @Body() setting: CreateSettingDto): Promise<Setting> {
+    return this.settingsService.update(id, setting);
   }
 
   @Post('/delete/:id')

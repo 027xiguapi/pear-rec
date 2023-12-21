@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.3.3
+
+fix: 创建设置bug
+
 ## 1.3.2
 
 fix: 配置初始 bug

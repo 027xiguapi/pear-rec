@@ -54,7 +54,7 @@ const PinImage: React.FC = () => {
     const searchParams = new URLSearchParams(paramsString);
     let _imgUrl = searchParams.get('imgUrl') || defaultImg;
     if (_imgUrl.substring(0, 4) != 'blob') {
-      _imgUrl = `${window.baseURL}getFile?url=${_imgUrl}`;
+      _imgUrl = `${window.baseURL}file?url=${_imgUrl}`;
     }
 
     fetch(_imgUrl)

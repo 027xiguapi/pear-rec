@@ -14,11 +14,11 @@ export class CreateUserDto {
 
   // setting: ISetting;
 
-  createdAt: Date;
+  createdAt: number;
 
   createdBy: string;
 
-  updatedAt: Date;
+  updatedAt: number;
 
   updatedBy: string;
 }

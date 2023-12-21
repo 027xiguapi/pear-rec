@@ -17,6 +17,7 @@ export class RecordsService {
 
   async findAll(pageNumber: number, pageSize: number): Promise<Record[]> {
     const [records, totalCount] = await this.recordRepository.findAndCount({
+      order: { createdAt: 'DESC' },
       skip: (pageNumber - 1) * pageSize,
       take: pageSize,
     });

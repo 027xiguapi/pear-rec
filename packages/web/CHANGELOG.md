@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.3.8
+
+fix: 修改图片和钉图打不开bug
+
 ## 1.3.7
 
 feat: 录制GIF
