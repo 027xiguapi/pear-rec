@@ -25,6 +25,7 @@ const ScreenRecorder = (props) => {
   const audioStream = useRef<MediaStream>(); // 声音流
   const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
   const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
+  const recordedUrl = useRef<string>(''); // 存储录制的音频数据
   const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
   const isSave = useRef<boolean>(false);
 
@@ -191,6 +192,7 @@ const ScreenRecorder = (props) => {
     if (recordedChunks.current.length > 0) {
       const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
       const url = URL.createObjectURL(blob);
+      recordedUrl.current = url;
       isSave.current = false;
       console.log('录屏地址：', url);
       recordedChunks.current = [];
@@ -201,7 +203,6 @@ const ScreenRecorder = (props) => {
   async function saveFile(blob) {
     try {
       recordedChunks.current = [];
-
       const formData = new FormData();
       formData.append('type', 'rs');
       formData.append('userId', user.id);
