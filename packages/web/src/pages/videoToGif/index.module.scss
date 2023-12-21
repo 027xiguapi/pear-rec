@@ -1,0 +1,18 @@
+.videoToGif {
+  background: #fff;
+  max-width: 1000px;
+  :global {
+    .videoRef {
+      width: 100%;
+    }
+    .tool {
+      text-align: center;
+      .playBtn {
+        margin-right: 10px;
+      }
+      .convertBtn {
+        margin-right: 10px;
+      }
+    }
+  }
+}

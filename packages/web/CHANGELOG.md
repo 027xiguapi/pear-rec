@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.3.7
+
+feat: 录制GIF
+
 ## 1.3.6
 
 perf: 优化录制全屏
