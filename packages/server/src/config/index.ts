@@ -2,7 +2,6 @@ import * as jsonfile from 'jsonfile';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { v5 as uuidv5 } from 'uuid';
-import dayjs from 'dayjs';
 import { PEAR_FILES_PATH, DB_PATH, CONFIG_FILE_PATH, DEFAULT_CONFIG_FILE_PATH } from '../contract';
 
 export function initConfig() {
@@ -26,7 +25,7 @@ function initDefaultConfig() {
       uuid: uuidv5('https://www.w3.org/', uuidv5.URL),
       userName: `pear-rec:user`,
       userType: 1,
-      createdAt: dayjs(new Date()).format(),
+      createdAt: new Date(),
     },
     isProxy: false,
     proxyPort: '7890',

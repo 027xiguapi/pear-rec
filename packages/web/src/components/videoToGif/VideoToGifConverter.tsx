@@ -80,6 +80,10 @@ export default function VideoToGifConverter({ videoSrc, user }) {
 
   async function handleSaveClick() {
     const blob = gifBlobRef.current;
+    if (blob == null) {
+      Modal.error({ title: '提示', content: '先保存再下载' });
+      return false;
+    }
     try {
       const formData = new FormData();
       formData.append('type', 'gif');

@@ -9,7 +9,6 @@ import {
 import { useApi } from '../../api';
 import { useRecordApi } from '../../api/record';
 import { eventEmitter } from '../../util/bus';
-import Item from 'antd/es/list/Item';
 
 const { Content } = Layout;
 const recordApi = useRecordApi();
@@ -127,7 +126,8 @@ const RecordAudioCard = forwardRef(() => {
   }
 
   function getAvatar(record: any) {
-    if (record.fileType == 'ss') {
+    console.log(record.fileType);
+    if (record.fileType == 'ss' || record.fileType == 'gif') {
       return <ScissorOutlined />;
     }
     if (record.fileType == 'rs') {
