@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import ininitApp from '../../pages/main';
 import { useUserApi } from '../../api/user';
 import { Local } from '../../util/storage';
-import VideoToGifConverter from '../../components/videoToGif/VideoToGifConverter';
+import VideoToGifConverter from '../../components/editGif/VideoToGifConverter';
 import styles from './index.module.scss';
 
-const VideoToGif = () => {
+const EditGif = () => {
   const userApi = useUserApi();
   const { t } = useTranslation();
   const [user, setUser] = useState(Local.get('user') || ({} as any));
@@ -51,6 +51,6 @@ const VideoToGif = () => {
   );
 };
 
-ininitApp(VideoToGif);
+ininitApp(EditGif);
 
-export default VideoToGif;
+export default EditGif;

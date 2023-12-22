@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.3.6
+
+feat: 修改GIF
+
 ## 1.3.5
 
 feat: 增加服务子进程

@@ -126,8 +126,7 @@ const RecordAudioCard = forwardRef(() => {
   }
 
   function getAvatar(record: any) {
-    console.log(record.fileType);
-    if (record.fileType == 'ss' || record.fileType == 'gif') {
+    if (record.fileType == 'ss' || record.fileType == 'eg') {
       return <ScissorOutlined />;
     }
     if (record.fileType == 'rs') {

@@ -86,7 +86,7 @@ export default function VideoToGifConverter({ videoSrc, user }) {
     }
     try {
       const formData = new FormData();
-      formData.append('type', 'gif');
+      formData.append('type', 'eg');
       formData.append('userId', user.id);
       formData.append('file', blob);
       const res = (await api.saveFile(formData)) as any;
@@ -117,19 +117,20 @@ export default function VideoToGifConverter({ videoSrc, user }) {
 
   return (
     <div>
-      <video className="videoRef" ref={videoRef} src={videoSrc}></video>
       <div className="tool">
-        <Progress percent={percent} />
         <Button className="playBtn" onClick={handlePlayClick} type="primary" danger>
           播放
         </Button>
         <Button className="convertBtn" onClick={handleConvertClick} type="primary">
           保存
         </Button>
-        <Button className="saveBtn" onClick={handleSaveClick}>
+        <Button className="saveBtn" disabled={percent != 100} onClick={handleSaveClick}>
           下载
         </Button>
+        <Progress percent={percent} />
       </div>
+      <video className="videoRef" ref={videoRef} src={videoSrc}></video>
+
       <img ref={gifRef} className="hide" alt="GIF" />
     </div>
   );

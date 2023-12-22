@@ -35,7 +35,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   handleRsGetEndRecord: (callback: any) => ipcRenderer.on('rs:get-end-record', callback),
 
   //csWin
-  sendCsOpenWin: () => ipcRenderer.send('cs:open-win'),
+  sendCsOpenWin: (search?: any) => ipcRenderer.send('cs:open-win', search),
   sendCsCloseWin: () => ipcRenderer.send('cs:close-win'),
   sendCsHideWin: () => ipcRenderer.send('cs:hide-win'),
   sendCsMinimizeWin: () => ipcRenderer.send('cs:minimize-win'),
@@ -47,6 +47,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendCsSetBounds: (bounds: any) => {
     ipcRenderer.send('cs:set-bounds', bounds);
   },
+
   //rvWin
   sendRvCloseWin: () => ipcRenderer.send('rv:close-win'),
   sendRvOpenWin: () => ipcRenderer.send('rv:open-win'),
@@ -74,7 +75,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //eiWin
   sendEiCloseWin: () => ipcRenderer.send('ei:close-win'),
   sendEiOpenWin: (search?: string) => ipcRenderer.send('ei:open-win', search),
-  sendEiSaveImg: (imgUrl: string) => ipcRenderer.send('ei:save-img', imgUrl),
+
+  //egWin
+  sendEgCloseWin: () => ipcRenderer.send('eg:close-win'),
+  sendEgOpenWin: (search?: string) => ipcRenderer.send('eg:open-win', search),
 
   //vvWin
   sendVvOpenWin: (search?: string) => ipcRenderer.send('vv:open-win', search),
