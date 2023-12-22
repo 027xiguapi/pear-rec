@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.3.7
+
+feat: 增加日志
+
 ## 1.3.6
 
 feat: 修改GIF

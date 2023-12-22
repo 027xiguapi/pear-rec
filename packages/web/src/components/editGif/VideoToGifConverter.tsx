@@ -130,7 +130,6 @@ export default function VideoToGifConverter({ videoSrc, user }) {
         <Progress percent={percent} />
       </div>
       <video className="videoRef" ref={videoRef} src={videoSrc}></video>
-
       <img ref={gifRef} className="hide" alt="GIF" />
     </div>
   );

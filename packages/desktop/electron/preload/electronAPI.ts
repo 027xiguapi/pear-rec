@@ -1,7 +1,8 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  setTitle: (title: any) => ipcRenderer.send('set-title', title),
+  // logger
+  sendLogger: (msg: any) => ipcRenderer.send('lg:send-msg', msg),
 
   // mainWin
   sendMaOpenWin: () => ipcRenderer.send('ma:open-win'),

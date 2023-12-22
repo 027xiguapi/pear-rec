@@ -8,6 +8,7 @@ import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalSho
 import { initConfig, getConfig } from '@pear-rec/server/src/config';
 import { initServerProcess, quitServerProcess } from './serverProcess';
 import './ipcMain';
+import './logger';
 
 initServerProcess();
 initConfig();
@@ -30,6 +31,8 @@ if (release().startsWith('6.1')) app.disableHardwareAcceleration();
 
 // Set application name for Windows 10+ notifications
 if (process.platform === 'win32') app.setAppUserModelId(app.getName());
+
+app.commandLine.appendSwitch('in-process-gpu');
 
 if (!app.requestSingleInstanceLock()) {
   app.quit();
