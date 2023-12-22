@@ -1,4 +1,4 @@
-import { app } from 'electron';
+import { homedir } from 'node:os';
 import path from 'node:path';
 
 process.env.DIST_ELECTRON = path.join(__dirname, '../');
@@ -21,7 +21,7 @@ export const ICON = url
   : path.join(DIST, './imgs/logo/favicon.ico');
 export const PEAR_FILES = path.join(DIST_ELECTRON, `../Pear Files`);
 
-const DOCS_PATH = app.getPath('documents');
+export const DOCS_PATH = path.join(homedir(), 'Documents');
 
 export const filePath = path.join(DOCS_PATH, `Pear Files`);
 
@@ -32,3 +32,5 @@ export const CONFIG_FILE_PATH = path.join(PEAR_FILES_PATH, `config.json`);
 export const DEFAULT_CONFIG_FILE_PATH = path.join(PEAR_FILES_PATH, `default-config.json`);
 
 export const DB_PATH = path.join(PEAR_FILES_PATH, 'db/pear-rec.db');
+
+export const LOG_PATH = path.join(PEAR_FILES_PATH, 'log');

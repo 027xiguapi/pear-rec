@@ -16,6 +16,7 @@ import * as recorderFullScreenWin from '../win/recorderFullScreenWin';
 import * as editGifWin from '../win/editGifWin';
 import * as utils from './utils';
 import { editConfig } from '@pear-rec/server/src/config';
+import logger from './logger';
 
 const selfWindws = async () =>
   await Promise.all(
@@ -39,6 +40,12 @@ const selfWindws = async () =>
   );
 
 function initIpcMain() {
+  // 日志
+  ipcMain.on('lg:send-msg', (e, msg) => {
+    logger.info(msg);
+  });
+
+  // 主页
   ipcMain.on('ma:open-win', () => {
     mainWin.openMainWin();
   });
@@ -165,6 +172,7 @@ function initIpcMain() {
   });
   // 图片展示
   ipcMain.on('vi:open-win', (e, search) => {
+    viewImageWin.closeViewImageWin();
     viewImageWin.openViewImageWin(search);
   });
   ipcMain.on('vi:close-win', () => {

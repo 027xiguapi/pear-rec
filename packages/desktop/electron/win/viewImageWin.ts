@@ -28,10 +28,6 @@ function createViewImageWin(search?: any): BrowserWindow {
     });
   }
 
-  viewImageWin.once('ready-to-show', async () => {
-    viewImageWin?.show();
-  });
-
   return viewImageWin;
 }
 
@@ -43,7 +39,9 @@ function openViewImageWin(search?: any) {
 }
 
 function closeViewImageWin() {
-  viewImageWin?.close();
+  if (!(viewImageWin && viewImageWin.isDestroyed())) {
+    viewImageWin?.close();
+  }
   viewImageWin = null;
 }
 
