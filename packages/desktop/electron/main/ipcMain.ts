@@ -13,6 +13,7 @@ import * as settingWin from '../win/settingWin';
 import * as recordsWin from '../win/recordsWin';
 import * as pinImageWin from '../win/pinImageWin';
 import * as recorderFullScreenWin from '../win/recorderFullScreenWin';
+import * as editGifWin from '../win/editGifWin';
 import * as utils from './utils';
 import { editConfig } from '@pear-rec/server/src/config';
 
@@ -102,9 +103,9 @@ function initIpcMain() {
     recorderScreenWin.focusRecorderScreenWin();
   });
   // 录屏截图
-  ipcMain.on('cs:open-win', () => {
+  ipcMain.on('cs:open-win', (e, search) => {
     clipScreenWin.closeClipScreenWin();
-    clipScreenWin.openClipScreenWin();
+    clipScreenWin.openClipScreenWin(search);
   });
   ipcMain.on('cs:close-win', () => {
     clipScreenWin.closeClipScreenWin();
@@ -196,8 +197,16 @@ function initIpcMain() {
   ipcMain.on('ei:open-win', (e, search) => {
     editImageWin.openEditImageWin(search);
   });
+  // 动图编辑
+  ipcMain.on('eg:close-win', () => {
+    editGifWin.closeEditGifWin();
+  });
+  ipcMain.on('eg:open-win', (e, search) => {
+    editGifWin.openEditGifWin(search);
+  });
   // 视频音频展示;
   ipcMain.on('vv:open-win', (e, search) => {
+    viewVideoWin.closeViewVideoWin();
     viewVideoWin.openViewVideoWin(search);
   });
   ipcMain.on('vv:close-win', () => {

@@ -1,18 +1,34 @@
 import React, { useImperativeHandle, forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CameraOutlined, DownOutlined } from '@ant-design/icons';
-import { Card, Space, Button } from 'antd';
+import type { MenuProps } from 'antd';
+import { Card, Space, Button, Dropdown } from 'antd';
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
   useImperativeHandle(ref, () => ({}));
   const { t } = useTranslation();
 
-  function handleClipScreen() {
+  const items: MenuProps['items'] = [
+    {
+      label: '录屏',
+      key: 'video',
+    },
+    {
+      label: 'GIF',
+      key: 'gif',
+    },
+  ];
+
+  const onClick: MenuProps['onClick'] = ({ key }) => {
+    handleClipScreenClick(key);
+  };
+
+  function handleClipScreenClick(type) {
     if (window.isElectron) {
-      window.electronAPI.sendCsOpenWin();
+      window.electronAPI.sendCsOpenWin({ type });
       window.electronAPI.sendMaCloseWin();
     } else {
-      location.href = '/recorderScreen.html';
+      location.href = `/recorderScreen.html?type=${type}`;
     }
   }
 
@@ -31,9 +47,12 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
         {t('home.fullScreen')}
       </span>
       <div className="cardContent">
-        <Space>
-          <CameraOutlined className="cardIcon" onClick={handleClipScreen} />
-        </Space>
+        <Dropdown menu={{ items, onClick }}>
+          <Space>
+            <CameraOutlined className="cardIcon" onClick={() => handleClipScreenClick('video')} />
+            <DownOutlined className="cardToggle" />
+          </Space>
+        </Dropdown>
         <div className="cardTitle">{t('home.screenRecording')}</div>
       </div>
     </Card>

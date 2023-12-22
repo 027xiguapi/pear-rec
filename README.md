@@ -37,10 +37,9 @@
 
 ## Installation
 
-```
-gitee: https://gitee.com/xiguapi027/pear-rec
-github: https://github.com/027xiguapi/pear-rec
-```
+> gitee: https://gitee.com/xiguapi027/pear-rec
+>
+> github: https://github.com/027xiguapi/pear-rec
 
 ## Usage
 

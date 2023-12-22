@@ -202,6 +202,9 @@ const ScreenRecorder = (props) => {
 
   async function saveFile(blob) {
     try {
+      const paramsString = location.search;
+      const searchParams = new URLSearchParams(paramsString);
+      const type = searchParams.get('type');
       recordedChunks.current = [];
       const formData = new FormData();
       formData.append('type', 'rs');
@@ -211,8 +214,9 @@ const ScreenRecorder = (props) => {
       if (res.code == 0) {
         if (window.isElectron) {
           window.electronAPI.sendRsCloseWin();
-          window.electronAPI.sendVvCloseWin();
-          window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
+          type == 'gif'
+            ? window.electronAPI.sendEgOpenWin({ videoUrl: res.data.filePath })
+            : window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
         } else {
           Modal.confirm({
             title: '录屏已保存，是否查看？',
@@ -220,7 +224,9 @@ const ScreenRecorder = (props) => {
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
-              window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
+              window.open(
+                `/${type == 'gif' ? 'editGif' : 'viewVideo'}.html?videoUrl=${res.data.filePath}`,
+              );
             },
           });
         }

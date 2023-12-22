@@ -34,10 +34,12 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
   });
   recorderScreenWin?.setResizable(false);
   if (url) {
-    recorderScreenWin.loadURL(WEB_URL + `recorderScreen.html`);
+    recorderScreenWin.loadURL(WEB_URL + `recorderScreen.html?type=${search?.type || ''}`);
     // recorderScreenWin.webContents.openDevTools();
   } else {
-    recorderScreenWin.loadFile(recorderScreenHtml);
+    recorderScreenWin.loadFile(recorderScreenHtml, {
+      search: `?type=${search?.type || ''}`,
+    });
   }
 
   recorderScreenWin.on('move', () => {
@@ -52,12 +54,6 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
   });
 
   return recorderScreenWin;
-}
-
-async function recorderScreen(rsFilePath: string) {
-  // closeRecorderScreenWin();
-  // setHistoryVideo(rsFilePath);
-  shell.showItemInFolder(rsFilePath);
 }
 
 // 打开关闭录屏窗口

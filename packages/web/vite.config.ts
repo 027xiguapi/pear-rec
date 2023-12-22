@@ -21,7 +21,7 @@ const buildOptionsProject = {
       editImage: resolve(__dirname, 'src/pages/editImage.html'),
       viewAudio: resolve(__dirname, 'src/pages/viewAudio.html'),
       records: resolve(__dirname, 'src/pages/records.html'),
-      videoToGif: resolve(__dirname, 'src/pages/videoToGif.html'),
+      editGif: resolve(__dirname, 'src/pages/editGif.html'),
     },
   },
   outDir: resolve(__dirname, 'dist'),

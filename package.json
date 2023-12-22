@@ -14,7 +14,7 @@
     "only-build:web": "pnpm run -C packages/web build",
     "watch:web": "pnpm run -C packages/web watch",
     "project:web": "pnpm run -C packages/web build && node tools/copy-files-web2server.js",
-    "dev:server": "pnpm run -C packages/server start:dev",
+    "dev:server": "pnpm run -C packages/server dev",
     "build:server": "pnpm run -C packages/server build",
     "dev:docs": "pnpm run -C packages/docs dev",
     "build:docs": "pnpm run -C packages/docs build",

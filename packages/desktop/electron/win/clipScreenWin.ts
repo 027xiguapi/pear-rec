@@ -64,13 +64,13 @@ function showClipScreenWin() {
   clipScreenWin?.show();
 }
 
-function openClipScreenWin() {
+function openClipScreenWin(search?: any) {
   if (!clipScreenWin || clipScreenWin?.isDestroyed()) {
     clipScreenWin = createClipScreenWin();
   }
 
   clipScreenWin?.show();
-  openRecorderScreenWin();
+  openRecorderScreenWin(search);
 }
 
 function getBoundsClipScreenWin() {
