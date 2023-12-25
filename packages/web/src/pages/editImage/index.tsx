@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal } from 'antd';
 import ImageEditor from 'tui-image-editor';
+import UploadImg from '../../components/upload/UploadImg';
 import ininitApp from '../../pages/main';
 import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
@@ -168,12 +169,17 @@ const EditImage = () => {
   const api = useApi();
   const userApi = useUserApi();
   const userRef = useRef({} as any);
+  const [imgUrl, setImgUrl] = useState<string>('');
   const [instance, setInstance] = useState<any>('');
 
   useEffect(() => {
     init();
     userRef.current.id || getCurrentUser();
   }, []);
+
+  useEffect(() => {
+    imgUrl && initImageEditor();
+  }, [imgUrl]);
 
   async function getCurrentUser() {
     try {
@@ -189,10 +195,14 @@ const EditImage = () => {
   function init() {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
-    let imgUrl = searchParams.get('imgUrl');
-    if (imgUrl.substring(0, 4) != 'blob') {
-      imgUrl = `${window.baseURL}file?url=${imgUrl}`;
+    let _imgUrl = searchParams.get('imgUrl');
+    if (_imgUrl.substring(0, 4) != 'blob') {
+      _imgUrl = `${window.baseURL}file?url=${_imgUrl}`;
     }
+    setImgUrl(_imgUrl);
+  }
+
+  function initImageEditor() {
     const instance = new ImageEditor(document.querySelector('#tui-image-editor'), {
       includeUI: {
         loadImage: {
@@ -270,9 +280,18 @@ const EditImage = () => {
     ]);
   }
 
+  function handleUploadImg(files) {
+    const selectedFile = files[0];
+    const _imgUrl = window.URL.createObjectURL(selectedFile);
+    setImgUrl(_imgUrl);
+  }
+
   return (
     <div className={styles.container}>
       <div id="tui-image-editor"></div>
+      <UploadImg className="upload" handleUploadImg={handleUploadImg}>
+        上传
+      </UploadImg>
       <Button className="save" type="primary" onClick={save}>
         {t('editImage.save')}
       </Button>

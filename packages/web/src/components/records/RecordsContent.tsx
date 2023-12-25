@@ -6,6 +6,7 @@ import {
   CameraOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import { useApi } from '../../api';
 import { useRecordApi } from '../../api/record';
 import { eventEmitter } from '../../util/bus';
@@ -126,7 +127,7 @@ const RecordAudioCard = forwardRef(() => {
   }
 
   function getAvatar(record: any) {
-    if (record.fileType == 'ss' || record.fileType == 'eg') {
+    if (record.fileType == 'ss' || record.fileType == 'eg' || record.fileType == 'ei') {
       return <ScissorOutlined />;
     }
     if (record.fileType == 'rs') {
@@ -219,7 +220,12 @@ const RecordAudioCard = forwardRef(() => {
                 }
                 description={
                   <span>
-                    <span dangerouslySetInnerHTML={{ __html: record.createdAt }}></span>{' '}
+                    <span
+                      className="createdAt"
+                      dangerouslySetInnerHTML={{
+                        __html: dayjs(record.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+                      }}
+                    ></span>
                     <span className="openFolder" onClick={() => openFilePath(record.filePath)}>
                       在文件夹中显示
                     </span>
