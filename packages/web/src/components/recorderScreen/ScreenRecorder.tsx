@@ -29,25 +29,32 @@ const ScreenRecorder = (props) => {
   const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
   const isSave = useRef<boolean>(false);
 
+  const paramsString = location.search;
+  const searchParams = new URLSearchParams(paramsString);
+  const type = searchParams.get('type');
+
   useEffect(() => {
     if (window.isElectron) {
-      // initElectron();
+      initElectron();
     } else {
       initCropArea();
     }
-    user.id || getCurrentUser();
+    type == 'gif' && api.deleteFileCache('cg');
+    console.log(type);
   }, []);
 
-  async function getCurrentUser() {
-    try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        setUser(res.data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // async function getCurrentUser() {
+  //   try {
+  //     const res = (await userApi.getCurrentUser()) as any;
+  //     if (res.code == 0) {
+  //       setUser(res.data);
+  //       console.log(res);
+  //       type == 'gif' && api.deleteFileCache('cg');
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   async function initElectron() {
     const sources = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
@@ -61,40 +68,7 @@ const ScreenRecorder = (props) => {
         },
       },
     };
-    try {
-      // mediaStream.current = await navigator.mediaDevices.getUserMedia(constraints);
-      const worker = new Worker(new URL('./worker.js', import.meta.url), { name: 'Crop worker' });
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      const size = await window.electronAPI?.invokeRsGetBoundsClip();
-      const [track] = stream.getTracks();
-      // @ts-ignore
-      const processor = new MediaStreamTrackProcessor({ track });
-      const { readable } = processor;
-      // @ts-ignore
-      const generator = new MediaStreamTrackGenerator({ kind: 'video' });
-      const { writable } = generator;
-      mediaStream.current = new MediaStream([generator]);
-      videoRef.current.srcObject = new MediaStream([generator]);
-
-      worker.postMessage(
-        {
-          operation: 'crop',
-          readable,
-          writable,
-          size,
-        },
-        [readable, writable],
-      );
-      // 添加音频输入流
-      audioStream.current = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      });
-      audioStream.current
-        ?.getAudioTracks()
-        .forEach((audioTrack) => mediaStream.current?.addTrack(audioTrack));
-    } catch (err) {
-      console.log('getUserMedia', err);
-    }
+    mediaStream.current = await navigator.mediaDevices.getUserMedia(constraints);
     return mediaStream.current;
   }
 
@@ -119,9 +93,43 @@ const ScreenRecorder = (props) => {
     }
   }
 
+  async function cropStream() {
+    const worker = new Worker(new URL('./worker.js', import.meta.url), { name: 'Crop worker' });
+    const size = await window.electronAPI?.invokeRsGetBoundsClip();
+    const [track] = mediaStream.current.getTracks();
+    // @ts-ignore
+    const processor = new MediaStreamTrackProcessor({ track });
+    const { readable } = processor;
+    // @ts-ignore
+    const generator = new MediaStreamTrackGenerator({ kind: 'video' });
+    const { writable } = generator;
+    mediaStream.current = new MediaStream([generator]);
+    videoRef.current.srcObject = new MediaStream([generator]);
+
+    worker.postMessage(
+      {
+        operation: 'crop',
+        readable,
+        writable,
+        size,
+        type,
+      },
+      [readable, writable],
+    );
+
+    worker.addEventListener('message', function (message) {});
+
+    audioStream.current = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    });
+    audioStream.current
+      ?.getAudioTracks()
+      .forEach((audioTrack) => mediaStream.current?.addTrack(audioTrack));
+  }
+
   async function setMediaRecorder() {
-    const _mediaStream = window.isElectron ? await initElectron() : mediaStream.current;
-    mediaRecorder.current = new MediaRecorder(_mediaStream);
+    window.isElectron && (await cropStream());
+    mediaRecorder.current = new MediaRecorder(mediaStream.current);
     mediaRecorder.current.ondataavailable = (event) => {
       if (event.data.size > 0) {
         recordedChunks.current.push(event.data);
@@ -188,23 +196,32 @@ const ScreenRecorder = (props) => {
   }
 
   // 导出录屏文件
-  function exportRecord() {
-    if (recordedChunks.current.length > 0) {
-      const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
-      const url = URL.createObjectURL(blob);
-      recordedUrl.current = url;
-      isSave.current = false;
-      console.log('录屏地址：', url);
-      recordedChunks.current = [];
-      window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
+  async function exportRecord() {
+    if (type == 'gif') {
+      const res = (await api.getFileCache('cg')) as any;
+      if (res.code == 0) {
+        if (window.isElectron) {
+          window.electronAPI.sendRsCloseWin();
+          window.electronAPI.sendEgOpenWin({ filePath: res.data });
+        } else {
+          window.open(`/editGif.html?filePath=${res.data}`);
+        }
+      }
+    } else {
+      if (recordedChunks.current.length > 0) {
+        const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        recordedUrl.current = url;
+        isSave.current = false;
+        console.log('录屏地址：', url);
+        recordedChunks.current = [];
+        window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
+      }
     }
   }
 
   async function saveFile(blob) {
     try {
-      const paramsString = location.search;
-      const searchParams = new URLSearchParams(paramsString);
-      const type = searchParams.get('type');
       recordedChunks.current = [];
       const formData = new FormData();
       formData.append('type', 'rs');
@@ -214,9 +231,7 @@ const ScreenRecorder = (props) => {
       if (res.code == 0) {
         if (window.isElectron) {
           window.electronAPI.sendRsCloseWin();
-          type == 'gif'
-            ? window.electronAPI.sendEgOpenWin({ videoUrl: res.data.filePath })
-            : window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
+          window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
         } else {
           Modal.confirm({
             title: '录屏已保存，是否查看？',
@@ -224,9 +239,7 @@ const ScreenRecorder = (props) => {
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
-              window.open(
-                `/${type == 'gif' ? 'editGif' : 'viewVideo'}.html?videoUrl=${res.data.filePath}`,
-              );
+              window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
             },
           });
         }

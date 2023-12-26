@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.3.8
+
+perf: 录制动图优化
+
 ## 1.3.7
 
 feat: 增加日志
