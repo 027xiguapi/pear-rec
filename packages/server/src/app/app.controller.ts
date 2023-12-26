@@ -176,4 +176,33 @@ export class AppController {
     exec(`start "" "${folderPath}"`);
     return 'ok';
   }
+
+  @Get('/getVideoFrames')
+  getVideoFrames(@Query() query): any[] {
+    const filePath = query.filePath;
+    let videoFrames: any[] = [];
+    try {
+      const directoryPath = filePath;
+      const files = readdirSync(directoryPath);
+      files.forEach((file, index) => {
+        const filePath = join(directoryPath, file);
+        function isImgFile(filePath: string): boolean {
+          const ext = extname(filePath).toLowerCase();
+          return ext == '.png' || ext == '.jpg';
+        }
+        const port = process.env.PORT || 9190;
+        const protocol = `http://localhost:${port}/file?url=`;
+        if (isImgFile(filePath)) {
+          videoFrames.push({
+            url: `${protocol}${filePath}`,
+            filePath: filePath,
+            index,
+          });
+        }
+      });
+    } catch (err) {
+      console.log('getVideoFrames', err);
+    }
+    return videoFrames;
+  }
 }

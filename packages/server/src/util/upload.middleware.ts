@@ -31,6 +31,7 @@ export class UploadMiddleware implements MulterOptionsFactory {
             ra: 'webm',
             ei: 'png',
             eg: 'gif',
+            cg: 'png',
           };
           const type = req.body.type;
           const fileType = fileTypeMap[type] || 'webm';

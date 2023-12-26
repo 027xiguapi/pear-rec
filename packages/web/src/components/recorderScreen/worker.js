@@ -10,9 +10,10 @@ let x = 0;
 let y = 0;
 let width = 0;
 let height = 0;
+let type = '';
+let num = 0;
 
 function transform(frame, controller) {
-  // Cropping from an existing video frame is supported by the API in Chrome 94+.
   const newFrame = new VideoFrame(frame, {
     visibleRect: {
       x: x,
@@ -21,12 +22,40 @@ function transform(frame, controller) {
       height: height,
     },
   });
+  num++;
+  if (type == 'gif' && num % 3 == 0) {
+    saveImg(newFrame);
+  }
   controller.enqueue(newFrame);
   frame.close();
 }
 
+async function saveImg(videoFrame) {
+  const canvas = new OffscreenCanvas(videoFrame.displayWidth, videoFrame.displayHeight);
+  const context = canvas.getContext('2d');
+  context.drawImage(videoFrame, 0, 0);
+  canvas.convertToBlob({ type: 'image/jpeg' }).then((blob) => {
+    uploadFile(blob);
+  });
+}
+
+// 上传函数
+function uploadFile(blob) {
+  // 获取表单数据
+  var formData = new FormData();
+  formData.append('type', 'cg');
+  formData.append('file', blob);
+
+  fetch('http://localhost:9190/file/cache', {
+    method: 'POST',
+    body: formData,
+  });
+}
+
 onmessage = async (event) => {
   const { operation, size } = event.data;
+  type = event.data.type;
+  num = 0;
   if (operation === 'crop') {
     const { readable, writable } = event.data;
     x = size.x % 2 == 0 ? size.x + 2 : size.x + 1;

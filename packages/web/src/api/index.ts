@@ -12,6 +12,18 @@ export function useApi() {
         data: formData,
       });
     },
+    getFileCache: (type) => {
+      return request({
+        url: `/file/cache?type=${type}`,
+        method: 'get',
+      });
+    },
+    deleteFileCache: (type) => {
+      return request({
+        url: `/file/cache/delete?type=${type}`,
+        method: 'get',
+      });
+    },
     getFolder: (folderPath) => {
       return request({
         url: `/getFolder?folderPath=${folderPath}`,
@@ -30,9 +42,9 @@ export function useApi() {
         method: 'get',
       });
     },
-    getHistory: (type) => {
+    getVideoFrames: (filePath) => {
       return request({
-        url: `/getHistory?type=${type}`,
+        url: `/getVideoFrames?filePath=${filePath}`,
         method: 'get',
       });
     },

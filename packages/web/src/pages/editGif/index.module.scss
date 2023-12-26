@@ -1,18 +1,68 @@
-.videoToGif {
+.editGif {
   background: #fff;
-  max-width: 1000px;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   :global {
-    .videoRef {
+    .gifConverter {
       width: 100%;
+      padding-top: 10px;
     }
     .tool {
+      height: 100px;
       text-align: center;
-      margin-top: 10px;
+      margin: 0 auto;
+      max-width: 1000px;
       .playBtn {
         margin-right: 10px;
       }
       .convertBtn {
         margin-right: 10px;
+      }
+    }
+    .content {
+      text-align: center;
+      background-color: rgb(245 245 245);
+      height: calc(100vh - 220px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      canvas {
+        max-width: 1000px;
+      }
+    }
+    .videoFrames {
+      height: 100px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      width: 100vw;
+      overflow: auto;
+      background-color: #fff;
+      .videoFrame {
+        height: 100%;
+        position: relative;
+        img {
+          padding: 5px;
+          height: calc(100% - 15px);
+        }
+        .info {
+          position: absolute;
+          bottom: 0;
+          z-index: 1;
+          width: 100%;
+          text-align: center;
+          color: #fff;
+          text-shadow:
+            1px 1px 1px black,
+            -1px -1px 1px black,
+            1px -1px 1px black,
+            -1px 1px 1px black;
+        }
+      }
+      .current {
+        background-color: rgb(203 232 246);
       }
     }
   }

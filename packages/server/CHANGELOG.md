@@ -1,5 +1,9 @@
 # @pear-rec/server
 
+## 1.3.4
+
+perf: 录制动图优化
+
 ## 1.3.3
 
 fix: 创建设置bug
