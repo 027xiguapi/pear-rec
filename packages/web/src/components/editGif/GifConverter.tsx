@@ -36,7 +36,12 @@ export default function VideoToGifConverter({ videoFrames, user }) {
   // };
 
   useEffect(() => {
-    videoFramesRef.current.length && renderImgToCanvas(videoFramesRef.current[0]);
+    if (videoFramesRef.current.length) {
+      const img = videoFramesRef.current[0];
+      img.onload = function () {
+        renderImgToCanvas(img);
+      };
+    }
   }, [videoFrames]);
 
   const handlePlayClick = async () => {
@@ -150,7 +155,7 @@ export default function VideoToGifConverter({ videoFrames, user }) {
       const res = (await api.saveFile(formData)) as any;
       if (res.code == 0) {
         if (window.isElectron) {
-          window.electronAPI?.sendEiCloseWin();
+          window.electronAPI?.sendEgCloseWin();
           window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
         } else {
           Modal.confirm({
