@@ -59,10 +59,8 @@ export class FileController {
     const config = getConfig();
     const user = config.user;
     const folderPath = path.join(config.filePath, `${user.uuid}/${type}`);
-    console.log(type, folderPath);
     if (fs.existsSync(folderPath)) {
       fs.readdirSync(folderPath).forEach((file) => {
-        console.log(1, file);
         const filePath = path.join(folderPath, file);
         fs.unlinkSync(filePath);
       });

@@ -27,7 +27,7 @@
 
 > pear-rec(梨子 rec) 是一个跨平台的截图、录屏、录音、录像、录制(动图)gif、查看图片、查看视频、查看音频和修改图片的软件。
 >
-> pear-rec(pear rec) 是基于 react + electron + vite + viewerjs + plyr + aplayer + react-screenshots + tui-image-editor + gif.js 的一个项目。
+> pear-rec(梨子 rec) 的跨平台是基于 `electronjs`,前端是基于 `reactjs`,后台是基于 `nestjs`,数据库是基于 `sqljs`,截图、录屏、录音、录像、录制(动图)gif等功能是基于 `webrtc` 和 `webcodecs` 的一个项目。
 >
 > 更多功能和 api 可以查看[官网(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) 或 [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec)
 
@@ -44,8 +44,6 @@
 ## 源码运行&编译
 
 编译需要`nodejs`和`pnpm`环境
-
-### 测试环境
 
 ```
 nodejs: 18
@@ -110,7 +108,7 @@ pnpm run build:desktop
   - [x] 查看录音
   - [x] 下载录音
   - [ ] 编辑录音
-- [x] 录像
+- [x] 录像(WebRTC)
   - [ ] 自定义比特率
 - [x] 图片预览(viewerjs)
   - [x] 放大

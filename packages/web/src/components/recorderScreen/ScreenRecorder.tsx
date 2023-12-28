@@ -39,22 +39,20 @@ const ScreenRecorder = (props) => {
     } else {
       initCropArea();
     }
+    user.id || getCurrentUser();
     type == 'gif' && api.deleteFileCache('cg');
-    console.log(type);
   }, []);
 
-  // async function getCurrentUser() {
-  //   try {
-  //     const res = (await userApi.getCurrentUser()) as any;
-  //     if (res.code == 0) {
-  //       setUser(res.data);
-  //       console.log(res);
-  //       type == 'gif' && api.deleteFileCache('cg');
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
+  async function getCurrentUser() {
+    try {
+      const res = (await userApi.getCurrentUser()) as any;
+      if (res.code == 0) {
+        setUser(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   async function initElectron() {
     const sources = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
