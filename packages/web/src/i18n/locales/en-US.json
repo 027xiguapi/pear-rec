@@ -19,7 +19,9 @@
     "playAudio": "play audio",
     "watchVideo": "watch video",
     "history": "history",
-    "editImg": "edit image"
+    "editImg": "edit image",
+    "gif": "gif",
+    "edit": "edit"
   },
   "editImage": {
     "save": "save"

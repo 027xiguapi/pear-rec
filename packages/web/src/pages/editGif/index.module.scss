@@ -45,7 +45,9 @@
         position: relative;
         img {
           padding: 5px;
-          height: calc(100% - 15px);
+          margin: 0 5px;
+          height: calc(100% - 16px);
+          border: 1px solid #ccc;
         }
         .info {
           position: absolute;
@@ -61,7 +63,7 @@
             -1px 1px 1px black;
         }
       }
-      .current {
+      .current img {
         background-color: rgb(203 232 246);
       }
     }

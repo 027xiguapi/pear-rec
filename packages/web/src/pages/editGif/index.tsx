@@ -34,8 +34,55 @@ const EditGif = () => {
     const searchParams = new URLSearchParams(paramsString);
     let videoUrl = searchParams.get('videoUrl');
     let filePath = searchParams.get('filePath');
+    let imgUrl = searchParams.get('imgUrl');
 
-    videoUrl ? loadVideo(videoUrl) : loadVideoFrames(filePath);
+    videoUrl && loadVideo(videoUrl);
+    filePath && loadVideoFrames(filePath);
+    imgUrl && loadImg(imgUrl);
+  }
+
+  const fetchImageByteStream = async (imgUrl: string) => {
+    const response = await fetch(imgUrl);
+    return response.body!;
+  };
+
+  const createImageDecoder = async (imageByteStream: ReadableStream<Uint8Array>) => {
+    const imageDecoder = new (window as any).ImageDecoder({
+      data: imageByteStream,
+      type: 'image/gif',
+    });
+    await imageDecoder.tracks.ready;
+    await imageDecoder.completed;
+    return imageDecoder;
+  };
+
+  async function loadImg(imgUrl) {
+    const imageByteStream = await fetchImageByteStream(imgUrl);
+    const imageDecoder = await createImageDecoder(imageByteStream);
+    const { image: imageFrame } = await imageDecoder.decode({ frameIndex: 0 });
+    const frameCount = imageDecoder.tracks.selectedTrack!.frameCount;
+    const frameDuration = imageFrame.duration! / 1000;
+    let _videoFrames = [];
+
+    for (let frameIndex = 0; frameIndex < frameCount; frameIndex++) {
+      const result = await imageDecoder.decode({ frameIndex });
+      await saveImg(result.image, frameIndex);
+      result.image.close();
+    }
+    setVideoFrames(_videoFrames);
+
+    async function saveImg(videoFrame, frameIndex) {
+      const canvas = new OffscreenCanvas(videoFrame.displayWidth, videoFrame.displayHeight);
+      const context = canvas.getContext('2d');
+      context.drawImage(videoFrame, 0, 0);
+      const blob = await canvas.convertToBlob({ type: 'image/jpeg' });
+      const url = URL.createObjectURL(blob);
+      _videoFrames.push({
+        url: url,
+        filePath: frameIndex,
+        index: frameIndex,
+      });
+    }
   }
 
   function loadVideo(videoUrl) {
