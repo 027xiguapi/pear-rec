@@ -19,7 +19,9 @@
     "playAudio": "查看音频",
     "watchVideo": "查看视频",
     "history": "历史",
-    "editImg": "修改图片"
+    "editImg": "编辑图片",
+    "gif": "动图",
+    "edit": "编辑"
   },
   "editImage": {
     "save": "保存"

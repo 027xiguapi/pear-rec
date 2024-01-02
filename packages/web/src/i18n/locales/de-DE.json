@@ -14,7 +14,10 @@
     "viewImage": "Bild anzeigen",
     "playAudio": "Audio abspielen",
     "watchVideo": "Video abspielen",
-    "history": "Verlauf"
+    "history": "Verlauf",
+    "editImg": "edit image",
+    "gif": "gif",
+    "edit": "edit"
   },
   "editImage": {
     "save": "speichern"

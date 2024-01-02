@@ -8,7 +8,7 @@ import RecordAudioCard from '../../components/card/recordAudioCard';
 import ViewImageCard from '../../components/card/viewImageCard';
 import ViewVideoCard from '../../components/card/viewVideoCard';
 import ViewAudioCard from '../../components/card/viewAudioCard';
-import EditImageCard from '../../components/card/editImageCard';
+import EditGifCard from '../../components/card/editGifCard';
 import ininitApp from '../../pages/main';
 import { useUserApi } from '../../api/user';
 import styles from './index.module.scss';
@@ -107,7 +107,7 @@ const Home: React.FC = () => {
             <ViewAudioCard />
           </Col>
           <Col span={6}>
-            <EditImageCard />
+            <EditGifCard />
           </Col>
         </Row>
       </div>

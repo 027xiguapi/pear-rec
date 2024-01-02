@@ -96,8 +96,6 @@ export default function VideoToGifConverter({ videoFrames, user }) {
 
     gif.on('finished', (blob) => {
       gifBlobRef.current = blob;
-      const gifUrl = URL.createObjectURL(blob);
-      gifRef.current.src = gifUrl;
     });
 
     gif.on('progress', (progress) => {
