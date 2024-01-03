@@ -27,8 +27,21 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+      position: relative;
       canvas {
         max-width: 1000px;
+      }
+      .info {
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
+        color: #fff;
+        text-shadow:
+          1px 1px 1px black,
+          -1px -1px 1px black,
+          1px -1px 1px black,
+          -1px 1px 1px black;
       }
     }
     .videoFrames {

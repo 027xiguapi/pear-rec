@@ -17,15 +17,23 @@ function createEditGifWin(search?: any): BrowserWindow {
     },
   });
 
-  // const videoUrl = search?.videoUrl || '';
+  const videoUrl = search?.videoUrl || '';
   const filePath = search?.filePath || '';
+  const imgUrl = search?.imgUrl || '';
 
   // editGifWin.webContents.openDevTools();
   if (url) {
-    editGifWin.loadURL(WEB_URL + `editGif.html?filePath=${filePath}`);
+    editGifWin.loadURL(
+      WEB_URL +
+        `editGif.html?${filePath ? 'filePath=' + filePath : ''}${imgUrl ? 'imgUrl=' + imgUrl : ''}${
+          videoUrl ? 'videoUrl=' + videoUrl : ''
+        }`,
+    );
   } else {
     editGifWin.loadFile(editGifHtml, {
-      search: `?filePath=${filePath}`,
+      search: `?${filePath ? 'filePath=' + filePath : ''}${imgUrl ? 'imgUrl=' + imgUrl : ''}${
+        videoUrl ? 'videoUrl=' + videoUrl : ''
+      }`,
     });
   }
 

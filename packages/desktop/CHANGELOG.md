@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.3.9
+
+feat: 首页增加编辑动图
+
 ## 1.3.8
 
 perf: 录制动图优化

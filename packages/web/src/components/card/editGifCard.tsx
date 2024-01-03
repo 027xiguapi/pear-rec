@@ -10,7 +10,7 @@ const EditGifCard = forwardRef((props: any, ref: any) => {
   function handleUploadFile(event) {
     const file = event.target.files[0];
     if (window.electronAPI) {
-      window.electronAPI.sendEiOpenWin({ imgUrl: file.path });
+      window.electronAPI.sendEgOpenWin({ imgUrl: file.path });
     } else {
       const imgUrl = window.URL.createObjectURL(file);
       Modal.confirm({

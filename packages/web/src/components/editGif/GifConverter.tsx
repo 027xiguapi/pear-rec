@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import GIF from 'gif.js';
-import { Button, Modal, Progress } from 'antd';
+import { Button, Modal, Progress, FloatButton } from 'antd';
+import { ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
 import { saveAs } from 'file-saver';
 import async from 'async';
 import { useApi } from '../../api';
@@ -16,6 +17,7 @@ export default function VideoToGifConverter({ videoFrames, user }) {
   const videoFramesRef = useRef([]);
   const indexRef = useRef(0);
   const [currentImg, setCurrentImg] = useState<number>(0);
+  const [scale, setScale] = useState<number>(100);
   const delay = 100;
   // const [videoFrames, setVideoFrames] = useState([]);
 
@@ -39,7 +41,7 @@ export default function VideoToGifConverter({ videoFrames, user }) {
     if (videoFramesRef.current.length) {
       const img = videoFramesRef.current[0];
       img.onload = function () {
-        renderImgToCanvas(img);
+        setCurrentVideoFrame(0);
       };
     }
   }, [videoFrames]);
@@ -191,7 +193,27 @@ export default function VideoToGifConverter({ videoFrames, user }) {
         <Progress percent={percent} />
       </div>
       <div className="content">
-        <canvas ref={canvasRef}></canvas>
+        <canvas ref={canvasRef} style={{ transform: 'scale(' + scale / 100 + ')' }}></canvas>
+        <div className="info">
+          <div>
+            {indexRef.current + 1} / {videoFramesRef.current?.length || 0}
+          </div>
+          <div>{scale}%</div>
+        </div>
+        <FloatButton.Group shape="square" style={{ right: 24, bottom: 150 }}>
+          <FloatButton
+            icon={<ZoomInOutlined />}
+            onClick={() => {
+              setScale((scale) => scale + 2);
+            }}
+          />
+          <FloatButton
+            icon={<ZoomOutOutlined />}
+            onClick={() => {
+              setScale((scale) => scale - 2);
+            }}
+          />
+        </FloatButton.Group>
       </div>
       <div className="videoFrames">
         {videoFrames.map((videoFrame, index) => (
@@ -205,7 +227,7 @@ export default function VideoToGifConverter({ videoFrames, user }) {
               alt={videoFrame.filePath}
               ref={(el) => (videoFramesRef.current[index] = el)}
             />
-            <div className="info">{index}</div>
+            <div className="info">{index + 1}</div>
           </div>
         ))}
       </div>
