@@ -42,6 +42,9 @@ const EditGif = () => {
   }
 
   const fetchImageByteStream = async (imgUrl: string) => {
+    if (imgUrl.substring(0, 4) != 'blob') {
+      imgUrl = `${window.baseURL}file?url=${imgUrl}`;
+    }
     const response = await fetch(imgUrl);
     return response.body!;
   };
