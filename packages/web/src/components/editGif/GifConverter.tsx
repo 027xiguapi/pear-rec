@@ -1,25 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import GIF from 'gif.js';
 import { Button, Modal, Progress, FloatButton } from 'antd';
 import { ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
-import { saveAs } from 'file-saver';
-import async from 'async';
-import { useApi } from '../../api';
+import { UserContext } from '../context/UserContext';
+import { GifContext } from '../context/GifContext';
+import FileTool from './tool/File';
+import PlayTool from './tool/Play';
 
-export default function VideoToGifConverter({ videoFrames, user }) {
+export default function VideoToGifConverter() {
   const { t } = useTranslation();
-  const api = useApi();
-  const gifRef = useRef(null);
-  const gifBlobRef = useRef(null);
   const canvasRef = useRef(null);
-  const [percent, setPercent] = useState(0);
   const videoFramesRef = useRef([]);
-  const indexRef = useRef(0);
-  const [currentImg, setCurrentImg] = useState<number>(0);
+  // const indexRef = useRef(0);
+  const [currentImg, setCurrentImg] = useState<any>('');
   const [scale, setScale] = useState<number>(100);
-  const delay = 100;
-  // const [videoFrames, setVideoFrames] = useState([]);
+  const { user, setUser } = useContext(UserContext);
+  const { videoFrames, setVideoFrames, frameDuration, setFrameDuration, indexRef } =
+    useContext(GifContext);
 
   // const handleVideoDecodeClick = async () => {
   //   // const dataUri = `
@@ -40,24 +37,13 @@ export default function VideoToGifConverter({ videoFrames, user }) {
   useEffect(() => {
     if (videoFramesRef.current.length) {
       const img = videoFramesRef.current[0];
-      img.onload = function () {
-        setCurrentVideoFrame(0);
-      };
+      img
+        ? (img.onload = function () {
+            setCurrentVideoFrame(0);
+          })
+        : clearCanvas();
     }
   }, [videoFrames]);
-
-  const handlePlayClick = async () => {
-    const length = videoFramesRef.current.length;
-    let index = indexRef.current;
-    const timer = setInterval(() => {
-      setCurrentVideoFrame(index);
-      index++;
-      if (index >= length) {
-        clearInterval(timer);
-        setCurrentVideoFrame(0);
-      }
-    }, delay);
-  };
 
   function renderImgToCanvas(img) {
     const ratio = window.devicePixelRatio || 1;
@@ -73,8 +59,11 @@ export default function VideoToGifConverter({ videoFrames, user }) {
     img.scrollIntoView();
   }
 
-  async function handleConvertClick() {
-    convertToGif();
+  function clearCanvas() {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    const { width, height } = canvas;
+    context.clearRect(0, 0, width, height);
   }
 
   function handleCurrentVideoFrameClick(index) {
@@ -87,110 +76,11 @@ export default function VideoToGifConverter({ videoFrames, user }) {
     renderImgToCanvas(videoFramesRef.current[index]);
   }
 
-  const convertToGif = async () => {
-    const worker = new URL('./gif.js/gif.worker.js', import.meta.url) as any;
-
-    const gif = new GIF({
-      workers: 4,
-      quality: 10,
-      workerScript: worker,
-    });
-
-    gif.on('finished', (blob) => {
-      gifBlobRef.current = blob;
-    });
-
-    gif.on('progress', (progress) => {
-      setPercent(Math.round(progress * 100));
-    });
-
-    function loadImage(videoFrame, callback) {
-      const img = new Image();
-      fetch(videoFrame.url)
-        .then((response) => response.blob())
-        .then((blob) => {
-          const videoFrameUrl = URL.createObjectURL(blob) as any;
-          img.src = videoFrameUrl;
-        })
-        .catch((error) => {
-          return callback(new Error('Could load ' + error));
-        });
-
-      img.onload = function () {
-        return callback(null, img);
-      };
-      img.onerror = function (error) {
-        return callback(new Error('Could load ' + error));
-      };
-
-      return img;
-    }
-
-    async.map(videoFrames, loadImage, function (error, images) {
-      if (error != null) {
-        throw error;
-      }
-      for (let j = 0; j < images.length; j++) {
-        let image = images[j];
-        gif.addFrame(image, {
-          delay: delay,
-          copy: true,
-        });
-      }
-      return gif.render();
-    });
-  };
-
-  async function handleSaveClick() {
-    const blob = gifBlobRef.current;
-    if (blob == null) {
-      Modal.error({ title: '提示', content: '先保存再下载' });
-      return false;
-    }
-    try {
-      const formData = new FormData();
-      formData.append('type', 'eg');
-      formData.append('userId', user.id);
-      formData.append('file', blob);
-      const res = (await api.saveFile(formData)) as any;
-      if (res.code == 0) {
-        if (window.isElectron) {
-          window.electronAPI?.sendEgCloseWin();
-          window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
-        } else {
-          Modal.confirm({
-            title: '图片已保存，是否查看？',
-            content: `${res.data.filePath}`,
-            okText: t('modal.ok'),
-            cancelText: t('modal.cancel'),
-            onOk() {
-              window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
-              console.log('OK');
-            },
-            onCancel() {
-              console.log('Cancel');
-            },
-          });
-        }
-      }
-    } catch (err) {
-      saveAs(blob, `pear-rec_${+new Date()}.gif`);
-    }
-  }
-
   return (
     <div className="gifConverter">
       <div className="tool">
-        <Button className="playBtn" onClick={handlePlayClick} type="primary" danger>
-          播放
-        </Button>
-        <Button className="convertBtn" onClick={handleConvertClick} type="primary">
-          保存
-        </Button>
-        <Button className="saveBtn" disabled={percent != 100} onClick={handleSaveClick}>
-          下载
-        </Button>
-        <Progress percent={percent} />
+        <FileTool />
+        <PlayTool setCurrentVideoFrame={setCurrentVideoFrame} />
       </div>
       <div className="content">
         <canvas ref={canvasRef} style={{ transform: 'scale(' + scale / 100 + ')' }}></canvas>

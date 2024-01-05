@@ -27,7 +27,7 @@ export class AppService {
     return this.recordsService.create(record);
   }
 
-  // async cacheFile(file: Express.Multer.File, fileDto: CreateFileDto): Promise<Record> {
-  //   return '';
-  // }
+  async cacheFile(file: Express.Multer.File, fileDto: CreateFileDto): Promise<string> {
+    return file.path;
+  }
 }

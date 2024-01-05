@@ -1,0 +1,39 @@
+.play {
+  width: 300px;
+  border-right: 1px solid #ccc;
+  :global {
+    .playList {
+      width: 100%;
+      display: flex;
+      .playBtn {
+        width: 20%;
+        height: 70px;
+        text-align: center;
+        padding-top: 10px;
+        cursor: pointer;
+        .playIcon {
+          font-size: 32px;
+          color: rgb(151 189 176);
+        }
+        .playBtnTitle {
+          font-size: 14px;
+          margin-top: 5px;
+          color: #888;
+        }
+        .pauseIcon {
+          color: rgb(64 126 183);
+        }
+      }
+      .playBtn:hover {
+        background-color: rgb(225 233 244);
+      }
+    }
+    .subTitle {
+      width: 100%;
+      text-align: center;
+      color: rgb(191 191 191);
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+}

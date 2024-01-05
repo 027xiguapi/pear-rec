@@ -18,6 +18,16 @@ export function useApi() {
         method: 'get',
       });
     },
+    uploadFileCache: (formData) => {
+      return request({
+        url: `/file/cache`,
+        method: 'post',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        data: formData,
+      });
+    },
     deleteFileCache: (type) => {
       return request({
         url: `/file/cache/delete?type=${type}`,
