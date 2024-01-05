@@ -13,6 +13,7 @@ import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
 import Timer from '@pear-rec/timer';
 import useTimer from '@pear-rec/timer/src/useTimer';
+import { Local } from '@/util/storage';
 
 const ScreenRecorder = (props) => {
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ const ScreenRecorder = (props) => {
   const paramsString = location.search;
   const searchParams = new URLSearchParams(paramsString);
   const type = searchParams.get('type');
+  const worker = new Worker(new URL('./worker.js', import.meta.url), { name: 'Crop worker' });
 
   useEffect(() => {
     if (window.isElectron) {
@@ -92,7 +94,6 @@ const ScreenRecorder = (props) => {
   }
 
   async function cropStream() {
-    const worker = new Worker(new URL('./worker.js', import.meta.url), { name: 'Crop worker' });
     const size = await window.electronAPI?.invokeRsGetBoundsClip();
     const [track] = mediaStream.current.getTracks();
     // @ts-ignore
@@ -111,11 +112,15 @@ const ScreenRecorder = (props) => {
         writable,
         size,
         type,
+        status: 'start',
       },
       [readable, writable],
     );
 
-    worker.addEventListener('message', function (message) {});
+    worker.addEventListener('message', function (message) {
+      Local.set('videoFrames', message.data);
+      worker.terminate();
+    });
 
     audioStream.current = await navigator.mediaDevices.getUserMedia({
       audio: true,
@@ -143,6 +148,9 @@ const ScreenRecorder = (props) => {
     mediaRecorder.current.onstop = (event) => {
       exportRecord();
       timer.reset();
+      worker.postMessage({
+        status: 'stop',
+      });
     };
 
     mediaRecorder.current.onpause = (event) => {

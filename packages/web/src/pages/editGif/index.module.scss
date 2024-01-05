@@ -6,19 +6,12 @@
   :global {
     .gifConverter {
       width: 100%;
-      padding-top: 10px;
     }
     .tool {
       height: 100px;
-      text-align: center;
-      margin: 0 auto;
-      max-width: 1000px;
-      .playBtn {
-        margin-right: 10px;
-      }
-      .convertBtn {
-        margin-right: 10px;
-      }
+      width: 100%;
+      display: flex;
+      background-color: rgb(250 250 250);
     }
     .content {
       text-align: center;
@@ -33,6 +26,7 @@
         max-width: 1000px;
       }
       .info {
+        text-align: left;
         position: absolute;
         bottom: 5px;
         left: 10px;

@@ -41,7 +41,7 @@ export class FileController {
     @UploadedFile() file: Express.Multer.File,
     @Body() createFileDto: CreateFileDto,
   ): Promise<string> {
-    return 'ok';
+    return this.appService.cacheFile(file, createFileDto);
   }
 
   @Get('/cache')

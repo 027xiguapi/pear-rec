@@ -1,0 +1,44 @@
+.file {
+  width: 240px;
+  border-right: 1px solid #ccc;
+  :global {
+    .fileList {
+      width: 100%;
+      display: flex;
+      .fileBtn {
+        width: 33.3%;
+        height: 70px;
+        text-align: center;
+        padding-top: 10px;
+        cursor: pointer;
+        .fileIcon {
+          font-size: 32px;
+        }
+        .fileBtnTitle {
+          font-size: 14px;
+          margin-top: 5px;
+          color: #888;
+        }
+        .saveIcon {
+          color: rgb(177 143 193);
+        }
+        .openIcon {
+          color: rgb(235 191 124);
+        }
+        .closeIcon {
+          color: #666;
+        }
+      }
+      .fileBtn:hover {
+        background-color: rgb(225 233 244);
+      }
+    }
+    .subTitle {
+      width: 100%;
+      text-align: center;
+      color: rgb(191 191 191);
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+}

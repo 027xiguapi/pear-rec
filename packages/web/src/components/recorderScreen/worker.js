@@ -12,6 +12,7 @@ let width = 0;
 let height = 0;
 let type = '';
 let num = 0;
+let videoFrames = [];
 
 function transform(frame, controller) {
   const newFrame = new VideoFrame(frame, {
@@ -39,30 +40,54 @@ async function saveImg(videoFrame) {
   });
 }
 
-// 上传函数
-function uploadFile(blob) {
-  // 获取表单数据
-  var formData = new FormData();
+async function uploadFile(blob) {
+  let formData = new FormData();
   formData.append('type', 'cg');
   formData.append('file', blob);
 
-  fetch('http://localhost:9190/file/cache', {
+  const rsp = await fetch('http://localhost:9190/file/cache', {
     method: 'POST',
     body: formData,
   });
+  const res = await rsp.json();
+  if (res.code == 0) {
+    videoFrames.push({
+      url: `http://localhost:9190/file?url=${res.data}`,
+      filePath: res.data,
+      index: num / 3,
+      duration: 100,
+    });
+  }
 }
 
 onmessage = async (event) => {
-  const { operation, size } = event.data;
+  const { operation, size, status } = event.data;
   type = event.data.type;
   num = 0;
-  if (operation === 'crop') {
+  if (operation === 'crop' && status == 'start') {
     const { readable, writable } = event.data;
-    x = size.x % 2 == 0 ? size.x + 2 : size.x + 1;
-    y = size.y % 2 == 0 ? size.y + 2 : size.y + 1;
-    width = size.width % 2 == 0 ? size.width - 4 : size.width - 3;
-    height = size.height % 2 == 0 ? size.height - 4 : size.height - 3;
+    x = size.x;
+    y = size.y;
+    width = size.width;
+    height = size.height;
+    if (x < 0) {
+      width = width + x;
+      x = 0;
+    } else {
+      x = x % 2 == 0 ? x + 2 : x + 1;
+    }
+    if (y < 0) {
+      height = height + y;
+      y = 0;
+    } else {
+      y = y % 2 == 0 ? y + 2 : y + 1;
+    }
+    width = width % 2 == 0 ? width - 4 : width - 3;
+    height = height % 2 == 0 ? height - 4 : height - 3;
+
     readable.pipeThrough(new TransformStream({ transform })).pipeTo(writable);
+  } else if (status == 'stop') {
+    self.postMessage([...videoFrames]);
   } else {
     console.error('Unknown operation', operation);
   }
