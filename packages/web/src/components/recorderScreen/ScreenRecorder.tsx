@@ -42,7 +42,10 @@ const ScreenRecorder = (props) => {
       initCropArea();
     }
     user.id || getCurrentUser();
-    type == 'gif' && api.deleteFileCache('cg');
+    if (type == 'gif') {
+      api.deleteFileCache('cg');
+      Local.remove('videoFrames');
+    }
   }, []);
 
   async function getCurrentUser() {

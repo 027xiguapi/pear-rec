@@ -1,8 +1,43 @@
 .home {
   overflow: hidden;
   border-radius: 8px;
+  // position: relative;
   :global {
+    .wavesurfe {
+      position: absolute;
+      top: 55px;
+      left: 0;
+      align-items: center;
+      background-color: rgb(118, 218, 255);
+      overflow: hidden;
+      height: calc(100% - 55px);
+      width: 100%;
+      &:before:local,
+      &:after:local {
+        content: '';
+        position: absolute;
+        left: 50%;
+        min-width: 300vw;
+        min-height: 300vw;
+        background-color: #fff;
+        animation-name: rotate;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+      &:before {
+        bottom: 15vh;
+        border-radius: 45%;
+        animation-duration: 10s;
+      }
+      &:after {
+        bottom: 12vh;
+        opacity: 0.5;
+        border-radius: 47%;
+        animation-duration: 10s;
+      }
+    }
     .container {
+      position: relative;
       overflow: hidden;
       padding: 10px;
       height: calc(100% - 55px);
@@ -66,7 +101,9 @@
   width: 660px;
   height: 335px;
   margin-top: 30px;
-  box-shadow: rgb(190, 200, 228) 3px 3px 6px 0px, rgb(255, 255, 255) -3px -3px 6px 0px;
+  box-shadow:
+    rgb(190, 200, 228) 3px 3px 6px 0px,
+    rgb(255, 255, 255) -3px -3px 6px 0px;
 }
 
 .electron {
@@ -74,4 +111,16 @@
   height: 100vh;
   margin: 0;
   box-shadow: unset;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, 0) rotateZ(0deg);
+  }
+  50% {
+    transform: translate(-50%, -2%) rotateZ(180deg);
+  }
+  100% {
+    transform: translate(-50%, 0%) rotateZ(360deg);
+  }
 }

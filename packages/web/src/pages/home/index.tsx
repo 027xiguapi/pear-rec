@@ -82,6 +82,7 @@ const Home: React.FC = () => {
   return (
     <div className={`${styles.home} ${window.isElectron ? styles.electron : styles.web}`}>
       <div className="container">
+        <div className="wavesurfe"></div>
         <Row className="cardRow" justify="center" gutter={16}>
           <Col span={6}>
             <CutScreenCard ref={cscRef} />
@@ -98,6 +99,9 @@ const Home: React.FC = () => {
         </Row>
         <Row className="cardRow" justify="center" gutter={16}>
           <Col span={6}>
+            <EditGifCard />
+          </Col>
+          <Col span={6}>
             <ViewImageCard />
           </Col>
           <Col span={6}>
@@ -105,9 +109,6 @@ const Home: React.FC = () => {
           </Col>
           <Col span={6}>
             <ViewAudioCard />
-          </Col>
-          <Col span={6}>
-            <EditGifCard />
           </Col>
         </Row>
       </div>
