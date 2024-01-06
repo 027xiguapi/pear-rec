@@ -12,10 +12,12 @@
       width: 100%;
       display: flex;
       background-color: rgb(250 250 250);
+      border-bottom: 1px solid #ccc;
     }
     .content {
       text-align: center;
-      background-color: rgb(245 245 245);
+      background-image: repeating-linear-gradient(transparent 0 8px, rgb(245 245 245) 0 16px),
+        repeating-linear-gradient(90deg, transparent 0 8px, rgb(245 245 245) 0 16px);
       height: calc(100vh - 220px);
       display: flex;
       justify-content: center;

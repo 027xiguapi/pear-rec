@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@icon-park/react": "^1.4.2",
     "@pear-rec/recorder": "workspace:^",
     "@pear-rec/screenshot": "workspace:^",
     "@pear-rec/timer": "workspace:^",

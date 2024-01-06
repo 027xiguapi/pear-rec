@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import ininitApp from '../../pages/main';
 import { useUserApi } from '../../api/user';
@@ -7,6 +7,11 @@ import { Local } from '../../util/storage';
 import GifConverter from '../../components/editGif/GifConverter';
 import { UserContext } from '../../components/context/UserContext';
 import { GifContext } from '../../components/context/GifContext';
+import {
+  HistoryContext,
+  historyInitialState,
+  historyReducer,
+} from '../../components/context/HistoryContext';
 import styles from './index.module.scss';
 
 const paramsString = location.search;
@@ -19,8 +24,9 @@ const EditGif = () => {
   const [filePath, setFilePath] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [user, setUser] = useState(Local.get('user') || ({} as any));
+  const [load, setLoad] = useState(0);
   const [videoFrames, setVideoFrames] = useState([]);
-  const [frameDuration, setFrameDuration] = useState(100);
+  const [historyState, historyDispatch] = useReducer(historyReducer, historyInitialState);
   const videoFramesRef = useRef([]);
   const indexRef = useRef(0);
 
@@ -101,6 +107,7 @@ const EditGif = () => {
           index: frameIndex,
           duration: frameDuration,
         });
+        setLoad(Math.round(((frameIndex + 1) / frameCount) * 100));
         frameIndex + 1 >= frameCount && setVideoFrames(_videoFrames);
       }
     }
@@ -154,22 +161,24 @@ const EditGif = () => {
         setUser,
       }}
     >
-      <GifContext.Provider
-        value={{
-          videoFrames,
-          setVideoFrames,
-          frameDuration,
-          setFrameDuration,
-          videoFramesRef,
-          indexRef,
-          setFilePath,
-          setImgUrl,
-        }}
-      >
-        <div className={`${styles.editGif} ${window.isElectron ? styles.electron : styles.web}`}>
-          <GifConverter />
-        </div>
-      </GifContext.Provider>
+      <HistoryContext.Provider value={{ historyState, historyDispatch }}>
+        <GifContext.Provider
+          value={{
+            videoFrames,
+            setVideoFrames,
+            videoFramesRef,
+            indexRef,
+            setFilePath,
+            setImgUrl,
+            load,
+            setLoad,
+          }}
+        >
+          <div className={`${styles.editGif} ${window.isElectron ? styles.electron : styles.web}`}>
+            <GifConverter />
+          </div>
+        </GifContext.Provider>
+      </HistoryContext.Provider>
     </UserContext.Provider>
   );
 };

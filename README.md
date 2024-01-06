@@ -76,6 +76,9 @@ pnpm run clear
 
 Features that have been ticked are the latest in the development process but may not have been released in the latest version
 
+- [x] gif(gif.js)
+  - [x] record
+  - [x] edit
 - [x] Screenshot(react-screenshots)
   - [x] Frame crop
   - [x] Resizable frame position

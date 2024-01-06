@@ -79,6 +79,9 @@ pnpm run clear
 
 已经勾选的功能是开发过程最新功能，但可能还没发布在最新版本
 
+- [x] 动图(gif.js)
+  - [x] 录制
+  - [x] 编辑
 - [x] 截屏(react-screenshots)
   - [x] 框选裁切
   - [x] 框选大小位置可调整
@@ -128,7 +131,6 @@ pnpm run clear
 - [x] 图片编辑(tui-image-editor)
 - [x] 视频预览(plyr)
 - [x] 音频预览(aplayer)
-- [x] 动图(gif)编辑(gif.js)
 - [x] 基本设置
   - [x] 用户 uuid
   - [x] 保存地址

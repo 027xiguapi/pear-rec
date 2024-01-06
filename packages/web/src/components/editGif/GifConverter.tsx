@@ -6,6 +6,8 @@ import { UserContext } from '../context/UserContext';
 import { GifContext } from '../context/GifContext';
 import FileTool from './tool/File';
 import PlayTool from './tool/Play';
+import FrameTool from './tool/Frame';
+import HistoryTool from './tool/History';
 
 export default function VideoToGifConverter() {
   const { t } = useTranslation();
@@ -15,8 +17,7 @@ export default function VideoToGifConverter() {
   const [currentImg, setCurrentImg] = useState<any>('');
   const [scale, setScale] = useState<number>(100);
   const { user, setUser } = useContext(UserContext);
-  const { videoFrames, setVideoFrames, frameDuration, setFrameDuration, indexRef } =
-    useContext(GifContext);
+  const { videoFrames, setVideoFrames, load, setLoad, indexRef } = useContext(GifContext);
 
   // const handleVideoDecodeClick = async () => {
   //   // const dataUri = `
@@ -81,6 +82,8 @@ export default function VideoToGifConverter() {
       <div className="tool">
         <FileTool />
         <PlayTool setCurrentVideoFrame={setCurrentVideoFrame} />
+        <FrameTool />
+        <HistoryTool />
       </div>
       <div className="content">
         <canvas ref={canvasRef} style={{ transform: 'scale(' + scale / 100 + ')' }}></canvas>
@@ -106,20 +109,24 @@ export default function VideoToGifConverter() {
         </FloatButton.Group>
       </div>
       <div className="videoFrames">
-        {videoFrames.map((videoFrame, index) => (
-          <div
-            className={`${'videoFrame ' + (index == indexRef.current ? 'current' : '')}`}
-            key={index}
-            onClick={(e) => handleCurrentVideoFrameClick(index)}
-          >
-            <img
-              src={videoFrame.url}
-              alt={videoFrame.filePath}
-              ref={(el) => (videoFramesRef.current[index] = el)}
-            />
-            <div className="info">{index + 1}</div>
-          </div>
-        ))}
+        {videoFrames.length ? (
+          videoFrames.map((videoFrame, index) => (
+            <div
+              className={`${'videoFrame ' + (index == indexRef.current ? 'current' : '')}`}
+              key={index}
+              onClick={(e) => handleCurrentVideoFrameClick(index)}
+            >
+              <img
+                src={videoFrame.url}
+                alt={videoFrame.filePath}
+                ref={(el) => (videoFramesRef.current[index] = el)}
+              />
+              <div className="info">{index + 1}</div>
+            </div>
+          ))
+        ) : (
+          <Progress size="small" percent={load} />
+        )}
       </div>
     </div>
   );

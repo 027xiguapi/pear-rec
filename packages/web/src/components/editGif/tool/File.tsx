@@ -16,8 +16,7 @@ const File = () => {
   const fileRef = useRef(null);
   const [percent, setPercent] = useState(0);
   const { user, setUser } = useContext(UserContext);
-  const { videoFrames, setVideoFrames, frameDuration, setFrameDuration, setFilePath, setImgUrl } =
-    useContext(GifContext);
+  const { videoFrames, setVideoFrames, setImgUrl } = useContext(GifContext);
 
   async function handleConvert() {
     const worker = new URL('../gif.js/gif.worker.js', import.meta.url) as any;
@@ -29,6 +28,7 @@ const File = () => {
     });
 
     gif.on('finished', (blob) => {
+      setPercent(0);
       handleDownloadFile(blob);
     });
 
@@ -65,7 +65,7 @@ const File = () => {
       for (let j = 0; j < images.length; j++) {
         let image = images[j];
         gif.addFrame(image, {
-          delay: frameDuration,
+          delay: videoFrames[j].duration,
           copy: true,
         });
       }
@@ -141,10 +141,6 @@ const File = () => {
   return (
     <div className={`${styles.file}`}>
       <div className="fileList">
-        <div className="fileBtn">
-          <SaveOutlined className="fileIcon saveIcon" onClick={handleSaveClick} />
-          <div className="fileBtnTitle">保存</div>
-        </div>
         <div className="fileBtn" onClick={() => fileRef.current.click()}>
           <FileGifOutlined className="fileIcon openIcon" />
           <div className="fileBtnTitle">打开文件</div>
@@ -155,6 +151,11 @@ const File = () => {
             className="fileRef hide"
             onChange={handleUploadImg}
           />
+        </div>
+        <div className="fileBtn">
+          <SaveOutlined className="fileIcon saveIcon" onClick={handleSaveClick} />
+          <div className="fileBtnTitle">保存</div>
+          {percent ? <Progress size="small" percent={percent} showInfo={false} /> : ''}
         </div>
         <div className="fileBtn" onClick={handleCloseClick}>
           <CloseOutlined className="fileIcon closeIcon" />

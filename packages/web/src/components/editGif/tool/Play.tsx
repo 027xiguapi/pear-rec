@@ -1,6 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApi } from '../../../api';
 import {
   FastBackwardOutlined,
   FastForwardOutlined,
@@ -14,7 +13,7 @@ import styles from './play.module.scss';
 
 const Play = (props) => {
   const { t } = useTranslation();
-  const { videoFrames, setVideoFrames, frameDuration, setFrameDuration, indexRef } =
+  const { videoFrames, setVideoFrames, setFrameDuration, indexRef } =
     useContext(GifContext);
   const [isPlay, setIsPlay] = useState(false);
   const timerRef = useRef<any>('');
@@ -23,14 +22,20 @@ const Play = (props) => {
     if (isPlay) {
       const length = videoFrames.length;
       let index = indexRef.current;
-      timerRef.current = setInterval(() => {
-        props.setCurrentVideoFrame(index);
-        index++;
-        if (index >= length) {
-          clearInterval(timerRef.current);
-          props.setCurrentVideoFrame(0);
-        }
-      }, frameDuration);
+      let duration = 0;
+      for (let i = 0; i < length; i++) {
+        let videoFrame = videoFrames[i];
+        duration += videoFrame.duration;
+        timerRef.current = setTimeout(() => {
+          props.setCurrentVideoFrame(index);
+          index++;
+          if (index >= length - 1) {
+            clearTimeout(timerRef.current);
+            setIsPlay(false);
+            props.setCurrentVideoFrame(0);
+          }
+        }, duration);
+      }
     } else {
       clearInterval(timerRef.current);
     }

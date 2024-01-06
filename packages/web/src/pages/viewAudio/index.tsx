@@ -5,21 +5,7 @@ import { useApi } from "../../api";
 import "aplayer/dist/APlayer.min.css";
 import styles from "./index.module.scss";
 
-const defaultAudio = [
-	{
-		name: "卡农",
-		artist: "dylanf",
-		url: `./audio/canon.m4a`,
-		cover: "./imgs/canon.jpg",
-		// cover: "./imgs/music.png",
-	},
-	{
-		name: "rain",
-		artist: "rain",
-		url: `./audio/rain.mp3`,
-		cover: "./imgs/rain.gif",
-	},
-];
+const defaultAudio = [];
 
 const ViewAudio = () => {
 	const api = useApi();
