@@ -9,7 +9,7 @@ import { useUserApi } from "../../api/user";
 import "plyr/dist/plyr.css";
 import styles from "./index.module.scss";
 
-const defaultVideo = "/video/chrome.webm";
+const defaultVideo = "";
 const ViewVideo = () => {
 	const { t } = useTranslation();
 	const api = useApi();

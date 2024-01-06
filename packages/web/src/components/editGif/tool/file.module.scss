@@ -1,5 +1,5 @@
 .file {
-  width: 240px;
+  width: 180px;
   border-right: 1px solid #ccc;
   :global {
     .fileList {
@@ -12,7 +12,7 @@
         padding-top: 10px;
         cursor: pointer;
         .fileIcon {
-          font-size: 32px;
+          font-size: 30px;
         }
         .fileBtnTitle {
           font-size: 14px;

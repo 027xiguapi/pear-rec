@@ -196,17 +196,17 @@ const EditImage = () => {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
     let _imgUrl = searchParams.get('imgUrl');
-    if (_imgUrl.substring(0, 4) != 'blob') {
+    if (_imgUrl && _imgUrl.substring(0, 4) != 'blob') {
       _imgUrl = `${window.baseURL}file?url=${_imgUrl}`;
     }
-    setImgUrl(_imgUrl);
+    setImgUrl(_imgUrl || defaultImg);
   }
 
   function initImageEditor() {
     const instance = new ImageEditor(document.querySelector('#tui-image-editor'), {
       includeUI: {
         loadImage: {
-          path: imgUrl || defaultImg,
+          path: imgUrl,
           name: 'image',
         },
         initMenu: 'draw', // 默认打开的菜单项

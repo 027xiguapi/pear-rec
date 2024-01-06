@@ -1,0 +1,32 @@
+.history {
+  width: 180px;
+  border-right: 1px solid #ccc;
+  :global {
+    .historyList {
+      width: 100%;
+      display: flex;
+      .historyBtn {
+        width: 33.3%;
+        height: 70px;
+        text-align: center;
+        padding-top: 10px;
+        cursor: pointer;
+        .historyBtnTitle {
+          font-size: 14px;
+          margin-top: 5px;
+          color: #888;
+        }
+      }
+      .historyBtn:hover {
+        background-color: rgb(225 233 244);
+      }
+    }
+    .subTitle {
+      width: 100%;
+      text-align: center;
+      color: rgb(191 191 191);
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+}

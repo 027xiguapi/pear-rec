@@ -43,6 +43,9 @@
       .cardRow {
         margin-bottom: 10px;
         text-align: center;
+        .ant-card {
+          background: rgba(255, 255, 255, .9);
+        }
       }
     }
     .extra {
