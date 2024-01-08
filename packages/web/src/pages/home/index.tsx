@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Col, Row } from 'antd';
 import HomeFooter from '../../components/home/HomeFooter';
 import CutScreenCard from '../../components/card/shotScreenCard';
@@ -20,9 +20,6 @@ const Home: React.FC = () => {
   const rvcRef = useRef(null);
   const racRef = useRef(null);
   const [user, setUser] = useState({} as any);
-  const [videoinputDevices, setVideoinputDevices] = useState([]); // 视频输入 (摄像头)
-  const [audioinputDevices, setAudioinputDevices] = useState([]); // 音频输入 (麦克风)
-  const [audiooutputDevices, setAudiooutputDevices] = useState([]); // 音频输出 (扬声器)
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeydown);
@@ -82,7 +79,7 @@ const Home: React.FC = () => {
   return (
     <div className={`${styles.home} ${window.isElectron ? styles.electron : styles.web}`}>
       <div className="container">
-        <div className="wavesurfe"></div>
+        <div className="wavesurfer"></div>
         <Row className="cardRow" justify="center" gutter={16}>
           <Col span={6}>
             <CutScreenCard ref={cscRef} />

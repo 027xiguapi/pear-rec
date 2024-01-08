@@ -17,21 +17,8 @@ const HomeFooter = () => {
 
   return (
     <div className="homeFooter">
-      <Button
-        type="text"
-        size="middle"
-        className="icon"
-        icon={<SettingOutlined />}
-        title={t('nav.setting')}
-        onClick={handleOpenSettingWin}
-      />
-      <Button
-        type="text"
-        className="icon"
-        icon={<HistoryOutlined />}
-        title={t('nav.record')}
-        onClick={handleOpenRecordWin}
-      />
+      <SettingOutlined className="icon" title={t('nav.setting')} onClick={handleOpenSettingWin} />
+      <HistoryOutlined className="icon" title={t('nav.record')} onClick={handleOpenRecordWin} />
       <UpdateElectron />
     </div>
   );

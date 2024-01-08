@@ -134,7 +134,7 @@ table {
 }
 
 .blink {
-  color: red;
+  color: red !important;
   animation: blink 1s linear infinite;
 }
 

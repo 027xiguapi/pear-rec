@@ -20,10 +20,9 @@ const Update = () => {
     onOk?: () => void;
   }>({
     onCancel: () => setModalOpen(false),
-    // onOk: () => ipcRenderer.invoke('start-download'),
   });
 
-  const checkUpdate = async () => {
+  const checkUpdate = async (isOpenModel) => {
     setChecking(true);
     /**
      * @type {import('electron-updater').UpdateCheckResult | null | { message: string, error: Error }}
@@ -32,7 +31,7 @@ const Update = () => {
     const result = await window.electronAPI?.invokeEuCheckUpdate();
     setProgressInfo({ percent: 0 });
     setChecking(false);
-    setModalOpen(true);
+    isOpenModel && setModalOpen(true);
     if (result?.error) {
       setUpdateAvailable(false);
       setUpdateError(result?.error);
@@ -50,7 +49,6 @@ const Update = () => {
           ...state,
           cancelText: 'Cancel',
           okText: 'Update',
-          // onOk: () => ipcRenderer.invoke('start-download'),
           onOk: () => window.electronAPI?.invokeEuStartDownload(),
         }));
         setUpdateAvailable(true);
@@ -80,11 +78,11 @@ const Update = () => {
       cancelText: 'Later',
       okText: 'Install now',
       onOk: () => window.electronAPI?.invokeEuQuitAndInstall(),
-      // onOk: () => ipcRenderer.invoke('quit-and-install'),
     }));
   }, []);
 
   useEffect(() => {
+    checkUpdate(false);
     // Get version information and whether to update
     window.electronAPI?.handleEuUpdateCanAvailable(onUpdateCanAvailable);
     window.electronAPI?.handleEuUpdateeError(onUpdateError);
@@ -97,17 +95,6 @@ const Update = () => {
       window.electronAPI?.offEuDownloadProgress(onDownloadProgress);
       window.electronAPI?.offEuUpdateDownloaded(onUpdateDownloaded);
     };
-    // ipcRenderer.on('update-can-available', onUpdateCanAvailable);
-    // ipcRenderer.on('update-error', onUpdateError);
-    // ipcRenderer.on('download-progress', onDownloadProgress);
-    // ipcRenderer.on('update-downloaded', onUpdateDownloaded);
-
-    // return () => {
-    //   ipcRenderer.off('update-can-available', onUpdateCanAvailable);
-    //   ipcRenderer.off('update-error', onUpdateError);
-    //   ipcRenderer.off('download-progress', onDownloadProgress);
-    //   ipcRenderer.off('update-downloaded', onUpdateDownloaded);
-    // };
   }, []);
 
   return (
@@ -144,12 +131,11 @@ const Update = () => {
           )}
         </div>
       </Modal>
-      <Button
-        type="text"
-        className="icon"
+      <SyncOutlined
+        title="update"
+        className={`${updateAvailable ? 'red blink' : ''} icon`}
         disabled={checking}
-        icon={<SyncOutlined />}
-        onClick={checkUpdate}
+        onClick={() => checkUpdate(true)}
       />
     </>
   );
