@@ -27,9 +27,9 @@ function createRecorderAudioWin(): BrowserWindow {
     },
   });
 
+  // recorderAudioWin.webContents.openDevTools();
   if (url) {
     recorderAudioWin.loadURL(WEB_URL + 'recorderAudio.html');
-    // recorderAudioWin.webContents.openDevTools();
   } else {
     recorderAudioWin.loadFile(recorderAudioHtml);
   }
