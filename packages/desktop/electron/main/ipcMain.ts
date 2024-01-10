@@ -1,4 +1,4 @@
-import { app, BrowserWindow, webContents, ipcMain, desktopCapturer, dialog, shell } from 'electron';
+import { app, BrowserWindow, webContents, ipcMain, desktopCapturer, dialog, shell, screen } from 'electron';
 import * as mainWin from '../win/mainWin';
 import * as shotScreenWin from '../win/shotScreenWin';
 import * as recorderScreenWin from '../win/recorderScreenWin';
@@ -134,6 +134,7 @@ function initIpcMain() {
   ipcMain.handle('cs:get-bounds', () => clipScreenWin.getBoundsClipScreenWin());
   // 截图
   ipcMain.handle('ss:get-shot-screen-img', async () => {
+    const { id } = screen.getPrimaryDisplay();
     const { width, height } = utils.getScreenSize();
     const sources = [
       ...(await desktopCapturer.getSources({
@@ -144,7 +145,9 @@ function initIpcMain() {
         },
       })),
     ];
-    const source = sources.filter((e: any) => e.id == 'screen:0:0')[0];
+
+    let source = sources.filter((e: any) => parseInt(e.display_id, 10) == id)[0];
+    source || (source = sources[0])
     const img = source.thumbnail.toDataURL();
     return img;
   });

@@ -39,20 +39,28 @@ github: https://github.com/027xiguapi/pear-rec
 Bevor Sie dieses Repository klonen und ausführen, müssen Sie [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/download/) (mit [npm](https://www.npmjs.com/)) und [pnpm](https://pnpm.io/) auf Ihrem Computer installiert haben. Kommandozeilenaufrufe:
 
 ```shell
-# Repository klonen
+# Clone this repository
 git clone https://github.com/027xiguapi/pear-rec.git
-# In das Repository wechseln
+# Go into the repository
 cd pear-rec
-# Abhängigkeiten installieren
+# Install dependencies
 pnpm install
-# Electron neu bauen
-pnpm run rebuild:desktop
-# Web Version ausführen
+# Run the web
 pnpm run dev:web
-# Web Version bauen
+# Run the server
+pnpm run dev:server
+# Run the desktop
+pnpm run dev:desktop
+# Run the web
+pnpm run start:web
+# Run the desktop
+pnpm run start:desktop
+# Build the web
 pnpm run build:web
-# Desktop Version bauen
+# Build the desktop
 pnpm run build:desktop
+# Clear node_modules
+pnpm run clear
 ```
 
 ## Internationalization(I18n)
