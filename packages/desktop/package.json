@@ -19,7 +19,8 @@
     "pree2e": "vite build --mode=test",
     "e2e": "playwright test",
     "release": "electron-builder -p always",
-    "server": "node dist-electron/server/main"
+    "server": "node dist-electron/server/main",
+    "clear": "rimraf node_modules"
   },
   "dependencies": {
     "electron-updater": "^6.1.1"

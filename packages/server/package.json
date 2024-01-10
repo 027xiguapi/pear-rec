@@ -8,7 +8,8 @@
     "start": "nest start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main"
+    "start:prod": "node dist/main",
+    "clear": "rimraf node_modules"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

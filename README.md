@@ -68,6 +68,8 @@ pnpm run start:desktop
 pnpm run build:web
 # Build the desktop
 pnpm run build:desktop
+# Clear node_modules
+pnpm run clear
 ```
 
 ## Functions

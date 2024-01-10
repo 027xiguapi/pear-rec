@@ -42,7 +42,7 @@ module.exports = {
           '@nestjs/websockets/socket-module',
           'cache-manager',
           'class-validator',
-          'class-transformer'
+          'class-transformer',
         ];
         if (!lazyImports.includes(resource)) {
           return false;
@@ -59,9 +59,11 @@ module.exports = {
     }),
     new ForkTsCheckerWebpackPlugin(),
     new CopyPlugin({
-      patterns: [{
-         from: './node_modules/sql.js/dist/sql-wasm.wasm'
-     }]
-  }),
+      patterns: [
+        {
+          from: '../../node_modules/sql.js/dist/sql-wasm.wasm',
+        },
+      ],
+    }),
   ],
 };

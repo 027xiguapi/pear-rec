@@ -71,6 +71,8 @@ pnpm run start:web
 pnpm run start:desktop
 # 编译软件
 pnpm run build:desktop
+# 清除 node_modules
+pnpm run clear
 ```
 
 ## 功能

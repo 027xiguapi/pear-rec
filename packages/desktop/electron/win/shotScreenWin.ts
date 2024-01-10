@@ -1,7 +1,6 @@
 import {
   app,
   BrowserWindow,
-  shell,
   dialog,
   DownloadItem,
   WebContents,
@@ -45,29 +44,6 @@ function createShotScreenWin(): BrowserWindow {
   }
   shotScreenWin.maximize();
   shotScreenWin.setFullScreen(true);
-
-  shotScreenWin?.webContents.session.on(
-    'will-download',
-    async (e: any, item: DownloadItem, webContents: WebContents) => {
-      const url = item.getURL();
-      // if (downloadSet.has(url)) {
-      //   const fileName = item.getFilename();
-      //   const filePath = (await getFilePath()) as string;
-      //   const ssFilePath = join(savePath || `${filePath}/ss`, `${fileName}`);
-      //   item.setSavePath(ssFilePath);
-      //   item.once('done', (event: any, state: any) => {
-      //     if (state === 'completed') {
-      //       copyImg(ssFilePath);
-      //       setHistoryImg(ssFilePath);
-      //       setTimeout(() => {
-      //         closeShotScreenWin();
-      //         openViewImageWin({ imgUrl: ssFilePath });
-      //       }, 1000 * 0.5);
-      //     }
-      //   });
-      // }
-    },
-  );
 
   return shotScreenWin;
 }

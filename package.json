@@ -29,6 +29,7 @@
     "dev:screenshot": "pnpm run -C packages/screenshot dev",
     "build:screenshot": "pnpm run -C packages/screenshot build",
     "watch:screenshot": "pnpm run -C packages/screenshot watch",
+    "clear": "concurrently -s \"pnpm run -C packages/web clear\" \"pnpm run -C packages/server clear\" \"pnpm run -C packages/desktop clear\"",
     "copy": "node tools/copy-web-files.js",
     "changeset": "changeset",
     "vp": "changeset version",
