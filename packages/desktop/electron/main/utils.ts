@@ -1,7 +1,7 @@
 import { screen } from 'electron';
 import * as fs from 'node:fs';
 import path from 'node:path';
-import { PEAR_FILES } from './contract';
+import { PEAR_FILES_PATH } from './contract';
 
 function getScreenSize() {
   const { size, scaleFactor } = screen.getPrimaryDisplay();
@@ -16,7 +16,7 @@ function downloadFile(fileInfo: any) {
   fileName || (fileName = Number(new Date()));
   const url = base64String.split(',')[1]; // 移除前缀，获取base64数据部分
   const buffer = Buffer.from(url, 'base64'); // 将base64数据转化为buffer
-  const imagePath = path.join(PEAR_FILES, `/ss/${fileName}.${fileType}`); // 下载路径
+  const imagePath = path.join(PEAR_FILES_PATH, `/ss/${fileName}.${fileType}`); // 下载路径
 
   const directory = path.dirname(imagePath); // 获取文件目录
   if (!fs.existsSync(directory)) {
@@ -31,7 +31,7 @@ function saveFile(fileInfo: any) {
   fileName || (fileName = Number(new Date()));
   const url = base64String.split(',')[1]; // 移除前缀，获取base64数据部分
   const buffer = Buffer.from(url, 'base64'); // 将base64数据转化为buffer
-  const filePath = path.join(PEAR_FILES, `/ss/${fileName}.${fileType}`); // 下载路径
+  const filePath = path.join(PEAR_FILES_PATH, `/ss/${fileName}.${fileType}`); // 下载路径
 
   const directory = path.dirname(filePath); // 获取文件目录
   if (!fs.existsSync(directory)) {
@@ -132,11 +132,11 @@ function readDirectoryImg(filePath: string) {
 }
 
 export {
-  getScreenSize,
   downloadFile,
-  saveFile,
-  getImgsByImgUrl,
-  readDirectoryVideo,
-  readDirectoryImg,
   getAudiosByAudioUrl,
+  getImgsByImgUrl,
+  getScreenSize,
+  readDirectoryImg,
+  readDirectoryVideo,
+  saveFile,
 };

@@ -30,6 +30,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.json'],
+    symlinks: true,
   },
   plugins: [
     // 需要进行忽略的插件
@@ -61,7 +62,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: '../../node_modules/sql.js/dist/sql-wasm.wasm',
+          from: './node_modules/sql.js/dist/sql-wasm.wasm',
         },
       ],
     }),

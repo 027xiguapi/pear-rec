@@ -1,5 +1,5 @@
 const fs = require('fs-extra');
-const { rimraf, rimrafSync } = require('rimraf');
+const { rm } = require('node:fs');
 
 const copyFiles = async () => {
   try {
@@ -13,15 +13,10 @@ const copyFiles = async () => {
 function deleteFolderFiles() {
   const folderPath = './packages/desktop/dist';
 
-  rimraf
-    .rimraf(folderPath)
-    .then(() => {
-      console.log('Server files delete successfully');
-      copyFiles();
-    })
-    .catch((err) => {
-      console.error('deleteFolderFiles', err);
-    });
+  rm(folderPath, () => {
+    console.log('Server files delete successfully');
+    copyFiles();
+  });
 }
 
 deleteFolderFiles();

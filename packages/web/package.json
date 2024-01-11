@@ -11,6 +11,7 @@
     "clear": "rimraf node_modules"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@pear-rec/recorder": "workspace:^",
     "@pear-rec/screenshot": "workspace:^",
     "@pear-rec/timer": "workspace:^",
