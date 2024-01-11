@@ -4,8 +4,7 @@
 {
   appId: 'com.electron.pear-rec',
   productName: 'pear-rec',
-  copyright: 'Copyright © 2023 ${author}',
-  // asar: false,
+  copyright: 'Copyright © 2024 ${author}',
   asar: true,
   directories: {
     output: 'release/${version}',

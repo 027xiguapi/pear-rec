@@ -1,14 +1,15 @@
-import { app, BrowserWindow, shell, utilityProcess } from 'electron';
+import { getConfig, initConfig } from '@pear-rec/server/src/config';
+import { BrowserWindow, app } from 'electron';
 import { release } from 'node:os';
 import * as mainWin from '../win/mainWin';
-import { initTray } from './tray';
-import { update } from './update';
-import { registerFileProtocol } from './protocol';
+import { isWin } from './contract';
 import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
-import { initConfig, getConfig } from '@pear-rec/server/src/config';
-import { initServerProcess, quitServerProcess } from './serverProcess';
 import './ipcMain';
 import './logger';
+import { registerFileProtocol } from './protocol';
+import { initServerProcess, quitServerProcess } from './serverProcess';
+import { initTray } from './tray';
+import { update } from './update';
 
 initServerProcess();
 initConfig();
@@ -30,7 +31,7 @@ initConfig();
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
 
 // Set application name for Windows 10+ notifications
-if (process.platform === 'win32') app.setAppUserModelId(app.getName());
+if (isWin) app.setAppUserModelId(app.getName());
 
 app.commandLine.appendSwitch('in-process-gpu');
 
