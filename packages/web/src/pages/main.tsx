@@ -11,4 +11,6 @@ export default function initApp(App) {
   const root = createRoot(container);
   initI18n();
   root.render(<App />);
+
+  postMessage({ payload: 'removeLoading' }, '*');
 }

@@ -1,11 +1,11 @@
-import { app, BrowserWindow, dialog, shell, screen } from 'electron';
-import { join, dirname } from 'node:path';
-import { ICON, preload, url, WEB_URL, DIST } from '../main/contract';
+import { BrowserWindow } from 'electron';
+import { join } from 'node:path';
+import { DIST, ICON, WEB_URL, preload, url } from '../main/contract';
 import {
+  hideRecorderScreenWin,
   openRecorderScreenWin,
   setBoundsRecorderScreenWin,
   showRecorderScreenWin,
-  hideRecorderScreenWin,
 } from './recorderScreenWin';
 
 const clipScreenHtml = join(DIST, './clipScreen.html');
@@ -110,16 +110,16 @@ function setBoundsClipScreenWin(bounds: any) {
 }
 
 export {
-  showClipScreenWin,
   closeClipScreenWin,
-  openClipScreenWin,
-  hideClipScreenWin,
   getBoundsClipScreenWin,
+  hideClipScreenWin,
+  minimizeClipScreenWin,
+  openClipScreenWin,
   setAlwaysOnTopClipScreenWin,
+  setBoundsClipScreenWin,
   setIgnoreMouseEventsClipScreenWin,
+  setIsPlayClipScreenWin,
   setMovableClipScreenWin,
   setResizableClipScreenWin,
-  setIsPlayClipScreenWin,
-  minimizeClipScreenWin,
-  setBoundsClipScreenWin,
+  showClipScreenWin,
 };
