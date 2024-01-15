@@ -1,6 +1,6 @@
-import { app, screen, BrowserWindow, shell, ipcMain } from 'electron';
+import { BrowserWindow, app, shell } from 'electron';
 import { join } from 'node:path';
-import { ICON, preload, url, WEB_URL } from '../main/contract';
+import { ICON, WEB_URL, preload, url } from '../main/contract';
 
 const indexHtml = join(process.env.DIST, 'index.html');
 let mainWin: BrowserWindow | null = null;
@@ -112,11 +112,11 @@ function sendEuUpdateCanAvailable(arg, update) {
 }
 
 export {
-  createMainWin,
   closeMainWin,
-  openMainWin,
-  hideMainWin,
+  createMainWin,
   focusMainWin,
+  hideMainWin,
   minimizeMainWin,
+  openMainWin,
   sendEuUpdateCanAvailable,
 };
