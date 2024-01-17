@@ -1,13 +1,13 @@
 .viewImgs {
-	width: 100vw;
-	height: 100vh;
-	overflow: hidden;
-	:global {
-		.viewImg {
-			display: none;
-		}
-		.inputRef {
-			display: none;
-		}
-	}
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  :global {
+    .viewImg {
+      display: none;
+    }
+    .inputRef {
+      display: none;
+    }
+  }
 }

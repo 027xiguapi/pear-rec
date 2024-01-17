@@ -1,10 +1,10 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import { FileAdditionOne, FileFailedOne, ToLeft, ToRight } from '@icon-park/react';
+import { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApi } from '../../../api';
-import { FileAdditionOne, FileFailedOne, ToLeft, ToRight } from '@icon-park/react';
 import { GifContext } from '../../context/GifContext';
-import { UserContext } from '../../context/UserContext';
 import { HistoryContext } from '../../context/HistoryContext';
+import { UserContext } from '../../context/UserContext';
 import styles from './frame.module.scss';
 
 const Frame = (props) => {

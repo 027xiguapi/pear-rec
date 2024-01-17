@@ -1,7 +1,7 @@
-import { BrowserWindow, dialog, shell, DownloadItem, WebContents } from 'electron';
-import { join, dirname } from 'node:path';
-import { ICON, preload, url, DIST, WEB_URL } from '../main/contract';
-import { getImgsByImgUrl, readDirectoryImg } from '../main/utils';
+import { BrowserWindow } from 'electron';
+import { join } from 'node:path';
+import { DIST, ICON, WEB_URL, preload, url } from '../main/contract';
+import { getImgsByImgUrl } from '../main/utils';
 
 const viewImageHtml = join(DIST, './viewImage.html');
 let viewImageWin: BrowserWindow | null = null;
@@ -10,6 +10,7 @@ function createViewImageWin(search?: any): BrowserWindow {
   viewImageWin = new BrowserWindow({
     title: 'pear-rec 图片预览',
     icon: ICON,
+    frame: false,
     autoHideMenuBar: true, // 自动隐藏菜单栏
     webPreferences: {
       preload,
@@ -81,14 +82,14 @@ async function getImgs(imgUrl: any) {
 }
 
 export {
-  createViewImageWin,
-  openViewImageWin,
   closeViewImageWin,
-  hideViewImageWin,
-  minimizeViewImageWin,
-  maximizeViewImageWin,
-  unmaximizeViewImageWin,
-  getIsAlwaysOnTopViewImageWin,
-  setIsAlwaysOnTopViewImageWin,
+  createViewImageWin,
   getImgs,
+  getIsAlwaysOnTopViewImageWin,
+  hideViewImageWin,
+  maximizeViewImageWin,
+  minimizeViewImageWin,
+  openViewImageWin,
+  setIsAlwaysOnTopViewImageWin,
+  unmaximizeViewImageWin,
 };

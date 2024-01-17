@@ -1,21 +1,19 @@
-import { useEffect, useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Modal, Upload } from 'antd';
-import Viewer from 'viewerjs';
-import QrScanner from 'qr-scanner';
-import { InboxOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
 import type { UploadProps } from 'antd/es/upload/interface';
-import { isURL } from '../../util/validate';
-import { urlToBlob } from '../../util/file';
-import { searchImg } from '../../util/searchImg';
-import ininitApp from '../../pages/main';
+import QrScanner from 'qr-scanner';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Viewer from 'viewerjs';
+import 'viewerjs/dist/viewer.css';
 import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
-import 'viewerjs/dist/viewer.css';
+import Header from '../../components/common/header';
+import ininitApp from '../../pages/main';
+import { urlToBlob } from '../../util/file';
+import { searchImg } from '../../util/searchImg';
+import { isURL } from '../../util/validate';
 import styles from './index.module.scss';
 
-const defaultImg = './imgs/th.webp';
-const { Dragger } = Upload;
 const ViewImage = () => {
   const { t } = useTranslation();
   const api = useApi();
@@ -25,7 +23,8 @@ const ViewImage = () => {
   const inputRef = useRef(null);
   const [user, setUser] = useState<any>({});
   const [imgs, setImgs] = useState([]);
-  const [isFull, setIsFull] = useState(false);
+  const [isScaleY, setIsScaleY] = useState(false);
+  const [isScaleX, setIsScaleX] = useState(false);
 
   useEffect(() => {
     window.isOffline || user.id || getCurrentUser();
@@ -56,86 +55,17 @@ const ViewImage = () => {
   function initViewer() {
     const imgList = document.getElementById('viewImgs') as any;
     const viewer = new Viewer(imgList, {
-      // 0: 不显示
-      // 1：显示
-      // 2：width>768px
-      // 3: width>992px
-      // 4: width>1200px
-      inline: true,
-      initialViewIndex: initialViewIndexRef.current,
-      className: 'viewImgs',
-      toolbar: {
-        alwaysOnTopWin: handleToggleAlwaysOnTopWin,
-        file: () => {
-          inputRef.current.click();
-        },
-        scan: async () => {
-          try {
-            const imgUrl = imgs[initialViewIndexRef.current]?.url;
-            const result = await QrScanner.scanImage(imgUrl);
-            Modal.confirm({
-              title: '扫码结果',
-              content: result,
-              okText: t('modal.ok'),
-              cancelText: t('modal.cancel'),
-              onOk() {
-                if (isURL(result)) {
-                  window.electronAPI
-                    ? window.electronAPI.sendSsOpenExternal(result)
-                    : window.open(result);
-                }
-              },
-              onCancel() {
-                console.log('Cancel');
-              },
-            });
-          } catch (error) {
-            console.error('scan Error:', error);
-          }
-        },
-        search: async () => {
-          const imgUrl = imgs[initialViewIndexRef.current]?.url;
-          const blob = await urlToBlob(imgUrl);
-          const tabUrl = await searchImg(blob, user.isProxy);
-          if (window.electronAPI) {
-            tabUrl && window.electronAPI.sendSsOpenExternal(tabUrl);
-            window.electronAPI.sendSsCloseWin();
-          } else {
-            tabUrl && window.open(tabUrl);
-          }
-        },
-        zoomIn: 1,
-        zoomOut: 1,
-        oneToOne: 1,
-        reset: 1,
-        prev: 1,
-        next: 1,
-        rotateLeft: 1,
-        rotateRight: 1,
-        flipHorizontal: 1,
-        flipVertical: 1,
-        // download: () => {
-        // 	handleDownload(viewer);
-        // },
-        print: () => {
-          window.print();
-        },
-        edit: () => {
-          const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
-          if (window.electronAPI) {
-            window.electronAPI.sendViCloseWin();
-            window.electronAPI.sendEiOpenWin({ imgUrl });
-          } else {
-            viewer.destroy();
-            window.open(`/editImage.html?imgUrl=${imgUrl}`);
-          }
-        },
-      },
+      backdrop: false,
+      button: false,
+      className: 'viewer',
+      container: '#viewer',
+      toolbar: 0,
       viewed: () => {
         initialViewIndexRef.current = viewer.index;
       },
     }) as any;
     viewerRef.current = viewer;
+    viewer.view(initialViewIndexRef.current);
   }
 
   const props: UploadProps = {
@@ -151,37 +81,20 @@ const ViewImage = () => {
     },
   };
 
-  function handleDownload(viewer) {
-    if (window.electronAPI) {
-      window.electronAPI.sendViDownloadImg({
-        url: viewer.image.src,
-        name: viewer.image.alt,
-      });
-    } else {
-      const a = document.createElement('a');
+  // function handleFullScreen() {
+  //   const element = document.querySelector('#root');
+  //   if (element.requestFullscreen) {
+  //     element.requestFullscreen();
+  //     setIsFull(true);
+  //   }
+  // }
 
-      a.href = viewer.image.src;
-      a.download = viewer.image.alt;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-  }
-
-  function handleFullScreen() {
-    const element = document.querySelector('#root');
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-      setIsFull(true);
-    }
-  }
-
-  function handleExitFullscreen() {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-      setIsFull(false);
-    }
-  }
+  // function handleExitFullscreen() {
+  //   if (document.exitFullscreen) {
+  //     document.exitFullscreen();
+  //     setIsFull(false);
+  //   }
+  // }
 
   function handleDrop() {
     document.addEventListener('drop', (e) => {
@@ -203,16 +116,6 @@ const ViewImage = () => {
     });
   }
 
-  async function handleToggleAlwaysOnTopWin() {
-    const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
-    if (window.isElectron) {
-      window.electronAPI.sendViCloseWin();
-      window.electronAPI.sendPiOpenWin({ imgUrl });
-    } else {
-      window.open(`/pinImage.html?imgUrl=${imgUrl}`);
-    }
-  }
-
   async function initImgs() {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
@@ -229,8 +132,6 @@ const ViewImage = () => {
           setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
         }
       }
-    } else {
-      setImgs([{ url: defaultImg, filePath: defaultImg, index: 0 }]);
     }
   }
 
@@ -242,21 +143,157 @@ const ViewImage = () => {
     initialViewIndexRef.current = imgs.length;
   }
 
+  function handleMinimizeWin() {
+    window.electronAPI.sendViMinimizeWin();
+  }
+
+  function handleCloseWin() {
+    window.electronAPI.sendViCloseWin();
+  }
+
+  function handleToggleMaximizeWin(isMaximize) {
+    isMaximize ? window.electronAPI.sendViUnmaximizeWin() : window.electronAPI.sendViMaximizeWin();
+  }
+
+  function handleAlwaysOnTopWin() {
+    const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
+    if (window.isElectron) {
+      window.electronAPI.sendViCloseWin();
+      window.electronAPI.sendPiOpenWin({ imgUrl });
+    } else {
+      window.open(`/pinImage.html?imgUrl=${imgUrl}`);
+    }
+  }
+
+  function handleOpenFile() {
+    const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
+    if (window.isElectron) {
+      window.electronAPI.sendViOpenFile(imgUrl);
+    }
+  }
+
+  function handleUploadFile() {
+    inputRef.current.click();
+  }
+
+  async function handleScan() {
+    try {
+      const imgUrl = imgs[initialViewIndexRef.current]?.url;
+      const result = await QrScanner.scanImage(imgUrl);
+      Modal.confirm({
+        title: '扫码结果',
+        content: result,
+        okText: t('modal.ok'),
+        cancelText: t('modal.cancel'),
+        onOk() {
+          if (isURL(result)) {
+            window.electronAPI
+              ? window.electronAPI.sendSsOpenExternal(result)
+              : window.open(result);
+          }
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
+    } catch (error) {
+      console.error('scan Error:', error);
+    }
+  }
+
+  async function handleSearch() {
+    const imgUrl = imgs[initialViewIndexRef.current]?.url;
+    const blob = await urlToBlob(imgUrl);
+    const tabUrl = await searchImg(blob, user.isProxy);
+    if (window.electronAPI) {
+      tabUrl && window.electronAPI.sendSsOpenExternal(tabUrl);
+      window.electronAPI.sendSsCloseWin();
+    } else {
+      tabUrl && window.open(tabUrl);
+    }
+  }
+
+  function handleZoomIn() {
+    viewerRef.current.zoom(0.1);
+  }
+
+  function handleZoomOut() {
+    viewerRef.current.zoom(-0.1);
+  }
+
+  function handleOneToOne() {
+    viewerRef.current.zoomTo(1);
+  }
+
+  function handleReset() {
+    viewerRef.current.reset();
+  }
+
+  function handlePrev() {
+    viewerRef.current.prev();
+  }
+
+  function handleNext() {
+    viewerRef.current.next();
+  }
+
+  function handleRotateLeft() {
+    viewerRef.current.rotate(-90);
+  }
+
+  function handleRotateRight() {
+    viewerRef.current.rotate(90);
+  }
+
+  function handleFlipHorizontal() {
+    viewerRef.current.scaleX(isScaleX ? 1 : -1);
+    setIsScaleX(!isScaleX);
+  }
+
+  function handleFlipVertical() {
+    viewerRef.current.scaleY(isScaleY ? 1 : -1);
+    setIsScaleY(!isScaleY);
+  }
+
+  function handleEdit() {
+    const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
+    if (window.electronAPI) {
+      window.electronAPI.sendEiOpenWin({ imgUrl });
+    } else {
+      viewerRef.current.destroy();
+      window.open(`/editImage.html?imgUrl=${imgUrl}`);
+    }
+  }
+
   return (
-    <div className={styles.viewImgs} id="viewImgs">
-      {imgs.length ? (
-        imgs.map((img, key) => {
+    <div className={styles.viewImgs}>
+      <Header
+        onMinimizeWin={handleMinimizeWin}
+        onToggleMaximizeWin={handleToggleMaximizeWin}
+        onCloseWin={handleCloseWin}
+        onAlwaysOnTopWin={handleAlwaysOnTopWin}
+        onOpenFile={handleOpenFile}
+        onUploadFile={handleUploadFile}
+        onScan={handleScan}
+        onSearch={handleSearch}
+        onZoomIn={handleZoomIn}
+        onZoomOut={handleZoomOut}
+        onOneToOne={handleOneToOne}
+        onReset={handleReset}
+        onPrev={handlePrev}
+        onNext={handleNext}
+        onRotateLeft={handleRotateLeft}
+        onRotateRight={handleRotateRight}
+        onFlipHorizontal={handleFlipHorizontal}
+        onFlipVertical={handleFlipVertical}
+        onEdit={handleEdit}
+      />
+      <div id="viewImgs">
+        {imgs.map((img, key) => {
           return <img className="viewImg" src={img.url} key={key} />;
-        })
-      ) : (
-        <Dragger {...props} className="viewImageUpload">
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined rev={undefined} />
-          </p>
-          <p className="ant-upload-text">{t('viewImage.uploadText')}</p>
-          <p className="ant-upload-hint">{t('viewImage.uploadHint')}</p>
-        </Dragger>
-      )}
+        })}
+      </div>
+      <div id="viewer"></div>
       <input
         accept="image/png,image/jpeg,.webp"
         type="file"

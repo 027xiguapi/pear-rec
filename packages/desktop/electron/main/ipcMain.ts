@@ -1,22 +1,31 @@
-import { app, BrowserWindow, webContents, ipcMain, desktopCapturer, dialog, shell, screen } from 'electron';
-import * as mainWin from '../win/mainWin';
-import * as shotScreenWin from '../win/shotScreenWin';
-import * as recorderScreenWin from '../win/recorderScreenWin';
-import * as clipScreenWin from '../win/clipScreenWin';
-import * as recorderAudioWin from '../win/recorderAudioWin';
-import * as recorderVideoWin from '../win/recorderVideoWin';
-import * as viewImageWin from '../win/viewImageWin';
-import * as editImageWin from '../win/editImageWin';
-import * as viewVideoWin from '../win/viewVideoWin';
-import * as viewAudioWin from '../win/viewAudioWin';
-import * as settingWin from '../win/settingWin';
-import * as recordsWin from '../win/recordsWin';
-import * as pinImageWin from '../win/pinImageWin';
-import * as recorderFullScreenWin from '../win/recorderFullScreenWin';
-import * as editGifWin from '../win/editGifWin';
-import * as utils from './utils';
 import { editConfig } from '@pear-rec/server/src/config';
+import {
+  BrowserWindow,
+  app,
+  desktopCapturer,
+  dialog,
+  ipcMain,
+  screen,
+  shell,
+  webContents,
+} from 'electron';
+import * as clipScreenWin from '../win/clipScreenWin';
+import * as editGifWin from '../win/editGifWin';
+import * as editImageWin from '../win/editImageWin';
+import * as mainWin from '../win/mainWin';
+import * as pinImageWin from '../win/pinImageWin';
+import * as recorderAudioWin from '../win/recorderAudioWin';
+import * as recorderFullScreenWin from '../win/recorderFullScreenWin';
+import * as recorderScreenWin from '../win/recorderScreenWin';
+import * as recorderVideoWin from '../win/recorderVideoWin';
+import * as recordsWin from '../win/recordsWin';
+import * as settingWin from '../win/settingWin';
+import * as shotScreenWin from '../win/shotScreenWin';
+import * as viewAudioWin from '../win/viewAudioWin';
+import * as viewImageWin from '../win/viewImageWin';
+import * as viewVideoWin from '../win/viewVideoWin';
 import logger from './logger';
+import * as utils from './utils';
 
 const selfWindws = async () =>
   await Promise.all(
@@ -147,7 +156,7 @@ function initIpcMain() {
     ];
 
     let source = sources.filter((e: any) => parseInt(e.display_id, 10) == id)[0];
-    source || (source = sources[0])
+    source || (source = sources[0]);
     const img = source.thumbnail.toDataURL();
     return img;
   });
@@ -192,6 +201,9 @@ function initIpcMain() {
   });
   ipcMain.on('vi:unmaximize-win', () => {
     viewImageWin.unmaximizeViewImageWin();
+  });
+  ipcMain.on('vi:open-file', (e, imgUrl) => {
+    shell.openExternal(imgUrl);
   });
   ipcMain.handle('vi:set-always-on-top', () => {
     const isAlwaysOnTop = viewImageWin.getIsAlwaysOnTopViewImageWin();

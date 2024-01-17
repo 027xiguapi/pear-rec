@@ -1,11 +1,10 @@
+import { BorderOutlined, CloseOutlined, MinusOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Dropdown } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { MenuProps } from 'antd';
-import ininitApp from '../../pages/main';
-import { Dropdown, theme } from 'antd';
-import { MinusOutlined, BorderOutlined, CloseOutlined } from '@ant-design/icons';
-import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
+import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 const defaultImg = './imgs/th.webp';
 
@@ -36,7 +35,29 @@ const PinImage: React.FC = () => {
   useEffect(() => {
     init();
     userRef.current.id || getCurrentUser();
+    handleWheel();
   }, []);
+
+  function handleWheel() {
+    const image = document.getElementById('image');
+    let scale = 1;
+    document.addEventListener(
+      'wheel',
+      (event) => {
+        console.log(event, image.style);
+        let delta = event.deltaY || event.detail;
+        if (delta > 0) {
+          scale *= 0.9;
+        } else {
+          scale *= 1.1;
+        }
+
+        image.style.transform = 'scale(' + scale + ')';
+        event.preventDefault();
+      },
+      { passive: false },
+    );
+  }
 
   async function getCurrentUser() {
     try {
@@ -60,7 +81,6 @@ const PinImage: React.FC = () => {
     fetch(_imgUrl)
       .then((response) => response.blob()) // 将获取到的图片转为 Blob
       .then((blob) => {
-        console.log(blob);
         setImgUrl(`url(${URL.createObjectURL(blob)})`);
       });
   }
@@ -78,6 +98,7 @@ const PinImage: React.FC = () => {
   return (
     <Dropdown menu={{ items, onClick }} trigger={['contextMenu']}>
       <div
+        id="image"
         className={styles.pinImage}
         style={{
           backgroundImage: imgUrl,
@@ -88,4 +109,3 @@ const PinImage: React.FC = () => {
 };
 
 ininitApp(PinImage);
-export default PinImage;
