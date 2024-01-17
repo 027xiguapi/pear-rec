@@ -1,6 +1,6 @@
-import { app, BrowserWindow, shell } from 'electron';
+import { BrowserWindow } from 'electron';
 import { join } from 'node:path';
-import { ICON, preload, url, DIST, WEB_URL } from '../main/contract';
+import { DIST, ICON, preload, url, WEB_URL } from '../main/contract';
 
 const pinImageHtml = join(DIST, './pinImage.html');
 let pinImageWin: BrowserWindow | null = null;
@@ -63,11 +63,11 @@ function maximizePinImageWin() {
 }
 
 export {
-  createPinImageWin,
   closePinImageWin,
+  createPinImageWin,
+  hidePinImageWin,
+  maximizePinImageWin,
+  minimizePinImageWin,
   openPinImageWin,
   showPinImageWin,
-  hidePinImageWin,
-  minimizePinImageWin,
-  maximizePinImageWin,
 };
