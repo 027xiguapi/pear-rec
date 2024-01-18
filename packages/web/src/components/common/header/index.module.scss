@@ -29,13 +29,17 @@
     .center {
       flex: auto;
       text-align: center;
-      // -webkit-app-region: drag;
+      -webkit-app-region: drag;
       .icon {
         vertical-align: bottom;
+        -webkit-app-region: no-drag;
       }
     }
     .right {
       width: 100px;
+      .icon {
+        -webkit-app-region: no-drag;
+      }
     }
   }
 }

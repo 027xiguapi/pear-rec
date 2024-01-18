@@ -111,6 +111,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendPiCloseWin: () => ipcRenderer.send('pi:close-win'),
   sendPiMinimizeWin: () => ipcRenderer.send('pi:minimize-win'),
   sendPiMaximizeWin: () => ipcRenderer.send('pi:maximize-win'),
+  sendPiUnmaximizeWin: () => ipcRenderer.send('pi:unmaximize-win'),
 
   // rfs 全屏录屏
   sendRfsOpenWin: () => ipcRenderer.send('rfs:open-win'),

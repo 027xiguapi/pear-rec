@@ -1,22 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import useTimer from '@pear-rec/timer/src/useTimer';
-import { useTranslation } from 'react-i18next';
-import { CameraOutlined } from '@ant-design/icons';
-import {
-  BsMic,
-  BsMicMute,
-  BsPlayFill,
-  BsPause,
-  BsFillStopFill,
-  BsRecordCircle,
-} from 'react-icons/bs';
-import { SettingOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Modal, message } from 'antd';
+import { CloseOutlined, SettingOutlined } from '@ant-design/icons';
 import Timer from '@pear-rec/timer';
-import ininitApp from '../../pages/main';
+import '@pear-rec/timer/src/Timer/index.module.scss';
+import useTimer from '@pear-rec/timer/src/useTimer';
+import { Button, message } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BsFillStopFill, BsPause, BsPlayFill, BsRecordCircle } from 'react-icons/bs';
 import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
-import '@pear-rec/timer/src/Timer/index.module.scss';
+import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
 const RecorderScreen = () => {
@@ -173,7 +165,7 @@ const RecorderScreen = () => {
 
   async function startRecordingElectron() {
     const sources = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
-    const source = sources.filter((e: any) => e.id == 'screen:0:0')[0];
+    const source = sources.filter((e: any) => e.id == 'screen:0:0')[0] || sources[0];
     const constraints: any = {
       audio: false,
       video: {

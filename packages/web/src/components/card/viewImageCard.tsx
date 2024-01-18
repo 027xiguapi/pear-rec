@@ -1,15 +1,12 @@
-import React, { useImperativeHandle, forwardRef, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { PictureOutlined, DownOutlined } from '@ant-design/icons';
+import { DownOutlined, PictureOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Space, Card, Dropdown, Modal } from 'antd';
+import { Card, Dropdown, Modal, Space } from 'antd';
+import { forwardRef, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ViewImageCard = forwardRef((props: any, ref: any) => {
-  useImperativeHandle(ref, () => ({
-    // handleViewImage,
-  }));
-
   const { t } = useTranslation();
+  const pinRef = useRef(null);
   const fileRef = useRef(null);
   const imgRef = useRef(null);
   const directoryRef = useRef(null);
@@ -20,7 +17,9 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
   // }
 
   const onClick: MenuProps['onClick'] = ({ key }) => {
-    if (key == 'file') {
+    if (key == 'pin') {
+      pinRef.current.click();
+    } else if (key == 'file') {
       fileRef.current.click();
     } else {
       directoryRef.current.click();
@@ -28,6 +27,10 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
   };
 
   const items: MenuProps['items'] = [
+    {
+      label: '钉图',
+      key: 'pin',
+    },
     {
       label: '打开图片',
       key: 'file',
@@ -85,6 +88,25 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
     event.target.value = '';
   }
 
+  function handlePinImg(event) {
+    const file = event.target.files[0];
+    if (window.electronAPI) {
+      window.electronAPI.sendPiOpenWin({ imgUrl: file.path });
+    } else {
+      const imgUrl = window.URL.createObjectURL(file);
+      Modal.confirm({
+        title: '提示',
+        content: `是否钉图${file.name}`,
+        okText: t('modal.ok'),
+        cancelText: t('modal.cancel'),
+        onOk() {
+          window.open(`/pinImage.html?imgUrl=${encodeURIComponent(imgUrl)}`);
+        },
+      });
+    }
+    event.target.value = '';
+  }
+
   return (
     <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
       <span className="extra" onClick={() => imgRef.current.click()}>
@@ -99,6 +121,13 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
         </Dropdown>
         <div className="cardTitle">{t('home.viewImage')}</div>
       </div>
+      <input
+        type="file"
+        ref={pinRef}
+        accept="image/png,image/jpeg,.webp"
+        className="fileRef"
+        onChange={handlePinImg}
+      />
       <input
         type="file"
         ref={fileRef}
