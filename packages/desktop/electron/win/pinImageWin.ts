@@ -62,6 +62,10 @@ function maximizePinImageWin() {
   pinImageWin?.maximize();
 }
 
+function unmaximizePinImageWin() {
+  pinImageWin?.unmaximize();
+}
+
 export {
   closePinImageWin,
   createPinImageWin,
@@ -70,4 +74,5 @@ export {
   minimizePinImageWin,
   openPinImageWin,
   showPinImageWin,
+  unmaximizePinImageWin,
 };

@@ -4,9 +4,9 @@ import { Dropdown } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserApi } from '../../api/user';
+import Header from '../../components/common/header';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
-const defaultImg = './imgs/th.webp';
 
 const items: MenuProps['items'] = [
   {
@@ -31,33 +31,24 @@ const PinImage: React.FC = () => {
   const userApi = useUserApi();
   const userRef = useRef({} as any);
   const [imgUrl, setImgUrl] = useState<any>('');
+  const [scale, setScale] = useState<any>(1);
+  const [rotate, setRotate] = useState<any>(0);
 
   useEffect(() => {
     init();
     userRef.current.id || getCurrentUser();
-    handleWheel();
   }, []);
 
-  function handleWheel() {
+  useEffect(() => {
+    console.log(1, scale);
     const image = document.getElementById('image');
-    let scale = 1;
-    document.addEventListener(
-      'wheel',
-      (event) => {
-        console.log(event, image.style);
-        let delta = event.deltaY || event.detail;
-        if (delta > 0) {
-          scale *= 0.9;
-        } else {
-          scale *= 1.1;
-        }
+    image.style.transform = 'scale(' + scale + ')';
+  }, [scale]);
 
-        image.style.transform = 'scale(' + scale + ')';
-        event.preventDefault();
-      },
-      { passive: false },
-    );
-  }
+  useEffect(() => {
+    const image = document.getElementById('image');
+    image.style.transform = 'rotate(' + rotate + 'deg)';
+  }, [rotate]);
 
   async function getCurrentUser() {
     try {
@@ -73,8 +64,8 @@ const PinImage: React.FC = () => {
   async function init() {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
-    let _imgUrl = searchParams.get('imgUrl') || defaultImg;
-    if (_imgUrl.substring(0, 4) != 'blob') {
+    let _imgUrl = searchParams.get('imgUrl');
+    if (_imgUrl && _imgUrl.substring(0, 4) != 'blob') {
       _imgUrl = `${window.baseURL}file?url=${_imgUrl}`;
     }
 
@@ -95,15 +86,64 @@ const PinImage: React.FC = () => {
     }
   };
 
+  function handleMinimizeWin() {
+    window.electronAPI.sendPiMinimizeWin();
+  }
+
+  function handleCloseWin() {
+    window.electronAPI.sendPiCloseWin();
+  }
+
+  function handleUnmaximizeWin() {
+    window.electronAPI.sendPiUnmaximizeWin();
+  }
+
+  function handleMaximizeWin() {
+    window.electronAPI.sendPiMaximizeWin();
+  }
+
+  function handleToggleMaximizeWin(isMaximize) {
+    isMaximize ? handleUnmaximizeWin() : handleMaximizeWin();
+  }
+
+  function handleZoomIn() {
+    setScale((scale) => scale * 1.1);
+  }
+
+  function handleZoomOut() {
+    setScale((scale) => scale * 0.9);
+  }
+
+  function handleOneToOne() {
+    setScale(1);
+  }
+
+  function handleRotateLeft() {
+    setRotate((rotate) => rotate - 90);
+  }
+
   return (
     <Dropdown menu={{ items, onClick }} trigger={['contextMenu']}>
-      <div
-        id="image"
-        className={styles.pinImage}
-        style={{
-          backgroundImage: imgUrl,
-        }}
-      ></div>
+      <div className={styles.pinImage}>
+        <Header
+          className="header"
+          type="pin"
+          onMinimizeWin={handleMinimizeWin}
+          onToggleMaximizeWin={handleToggleMaximizeWin}
+          onCloseWin={handleCloseWin}
+          onZoomIn={handleZoomIn}
+          onZoomOut={handleZoomOut}
+          onOneToOne={handleOneToOne}
+          onRotateLeft={handleRotateLeft}
+        />
+        <div
+          className="img"
+          id="image"
+          style={{
+            backgroundImage: imgUrl,
+          }}
+        ></div>
+      </div>
     </Dropdown>
   );
 };

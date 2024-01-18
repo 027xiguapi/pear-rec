@@ -1,19 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { BsRecordCircle } from 'react-icons/bs';
-import { CameraOutlined } from '@ant-design/icons';
-import { SettingOutlined } from '@ant-design/icons';
-import { Button, Modal, message } from 'antd';
-import PlayRecorder from './PlayRecorder';
-import PauseRecorder from './PauseRecorder';
-import MuteRecorder from './MuteRecorder';
-import StopRecorder from './StopRecorder';
-import { saveAs } from 'file-saver';
-import { useApi } from '../../api';
-import { useUserApi } from '../../api/user';
+import { Local } from '@/util/storage';
+import { CameraOutlined, SettingOutlined } from '@ant-design/icons';
 import Timer from '@pear-rec/timer';
 import useTimer from '@pear-rec/timer/src/useTimer';
-import { Local } from '@/util/storage';
+import { Button, Modal, message } from 'antd';
+import { saveAs } from 'file-saver';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BsRecordCircle } from 'react-icons/bs';
+import { useApi } from '../../api';
+import { useUserApi } from '../../api/user';
+import PauseRecorder from './PauseRecorder';
+import PlayRecorder from './PlayRecorder';
+import StopRecorder from './StopRecorder';
 
 const ScreenRecorder = (props) => {
   const { t } = useTranslation();
@@ -61,7 +59,7 @@ const ScreenRecorder = (props) => {
 
   async function initElectron() {
     const sources = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
-    const source = sources.filter((e: any) => e.id == 'screen:0:0')[0];
+    const source = sources.filter((e: any) => e.id == 'screen:0:0')[0] || sources[0];
     const constraints: any = {
       audio: false,
       video: {

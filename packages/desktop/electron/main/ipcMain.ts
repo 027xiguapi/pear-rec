@@ -346,10 +346,13 @@ function initIpcMain() {
     pinImageWin.closePinImageWin();
   });
   ipcMain.on('pi:minimize-win', () => {
-    pinImageWin.maximizePinImageWin();
+    pinImageWin.minimizePinImageWin();
   });
   ipcMain.on('pi:maximize-win', () => {
     pinImageWin.maximizePinImageWin();
+  });
+  ipcMain.on('pi:unmaximize-win', () => {
+    pinImageWin.unmaximizePinImageWin();
   });
 
   // 录全屏
