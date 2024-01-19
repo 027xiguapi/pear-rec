@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ininitApp from '../../pages/main';
-import { useUserApi } from '../../api/user';
 import { useApi } from '../../api/index';
-import { Local } from '../../util/storage';
-import GifConverter from '../../components/editGif/GifConverter';
-import { UserContext } from '../../components/context/UserContext';
-import { GifContext } from '../../components/context/GifContext';
+import { useUserApi } from '../../api/user';
+import { GifContext, gifInitialState, gifReducer } from '../../components/context/GifContext';
 import {
   HistoryContext,
   historyInitialState,
   historyReducer,
 } from '../../components/context/HistoryContext';
+import { UserContext } from '../../components/context/UserContext';
+import GifConverter from '../../components/editGif/GifConverter';
+import ininitApp from '../../pages/main';
+import { Local } from '../../util/storage';
 import styles from './index.module.scss';
 
 const paramsString = location.search;
@@ -20,15 +20,9 @@ const EditGif = () => {
   const userApi = useUserApi();
   const api = useApi();
   const { t } = useTranslation();
-  const [videoUrl, setVideoUrl] = useState('');
-  const [filePath, setFilePath] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
   const [user, setUser] = useState(Local.get('user') || ({} as any));
-  const [load, setLoad] = useState(0);
-  const [videoFrames, setVideoFrames] = useState([]);
   const [historyState, historyDispatch] = useReducer(historyReducer, historyInitialState);
-  const videoFramesRef = useRef([]);
-  const indexRef = useRef(0);
+  const [gifState, gifDispatch] = useReducer(gifReducer, gifInitialState);
 
   useEffect(() => {
     window.isOffline || getCurrentUser();
@@ -36,16 +30,16 @@ const EditGif = () => {
   }, []);
 
   useEffect(() => {
-    filePath && loadFilePath();
-  }, [filePath]);
+    gifState.filePath && loadFilePath();
+  }, [gifState.filePath]);
 
   useEffect(() => {
-    videoUrl && loadVideo();
-  }, [videoUrl]);
+    gifState.videoUrl && loadVideo();
+  }, [gifState.videoUrl]);
 
   useEffect(() => {
-    imgUrl && loadImg();
-  }, [imgUrl]);
+    gifState.imgUrl && loadImg();
+  }, [gifState.imgUrl]);
 
   async function getCurrentUser() {
     const res = (await userApi.getCurrentUser()) as any;
@@ -61,13 +55,13 @@ const EditGif = () => {
     let _filePath = searchParams.get('filePath');
     let _imgUrl = searchParams.get('imgUrl');
 
-    _videoUrl && setVideoUrl(_videoUrl);
-    _filePath && setFilePath(_filePath);
-    _imgUrl && setImgUrl(_imgUrl);
+    _videoUrl && gifDispatch({ type: 'setVideoUrl', videoUrl: _videoUrl });
+    _imgUrl && gifDispatch({ type: 'setImgUrl', imgUrl: _imgUrl });
+    _filePath && gifDispatch({ type: 'setFilePath', filePath: _filePath });
   }
 
   async function loadFilePath() {
-    loadVideoFrames();
+    gifDispatch({ type: 'setVideoFrames', videoFrames: Local.get('videoFrames') });
   }
 
   async function fetchImageByteStream(imgUrl: string) {
@@ -91,7 +85,7 @@ const EditGif = () => {
   async function loadImg() {
     const res = (await api.deleteFileCache('cg')) as any;
     if (res.code == 0) {
-      const imageByteStream = await fetchImageByteStream(imgUrl);
+      const imageByteStream = await fetchImageByteStream(gifState.imgUrl);
       const imageDecoder = await createImageDecoder(imageByteStream);
       const frameCount = imageDecoder.tracks.selectedTrack!.frameCount;
       let _videoFrames = [];
@@ -107,8 +101,9 @@ const EditGif = () => {
           index: frameIndex,
           duration: frameDuration,
         });
-        setLoad(Math.round(((frameIndex + 1) / frameCount) * 100));
-        frameIndex + 1 >= frameCount && setVideoFrames(_videoFrames);
+        gifDispatch({ type: 'setLoad', load: Math.round(((frameIndex + 1) / frameCount) * 100) });
+        frameIndex + 1 >= frameCount &&
+          gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
       }
     }
   }
@@ -134,9 +129,9 @@ const EditGif = () => {
   }
 
   function loadVideo() {
-    let _videoUrl = videoUrl;
-    if (videoUrl && videoUrl.substring(0, 4) != 'blob') {
-      _videoUrl = `${window.baseURL}file?url=${videoUrl}`;
+    let _videoUrl = gifState.videoUrl;
+    if (_videoUrl && _videoUrl.substring(0, 4) != 'blob') {
+      _videoUrl = `${window.baseURL}file?url=${gifState.videoUrl}`;
     }
     fetch(_videoUrl)
       .then((response) => response.blob())
@@ -149,11 +144,6 @@ const EditGif = () => {
       });
   }
 
-  async function loadVideoFrames() {
-    const _videoFrames = Local.get('videoFrames');
-    setVideoFrames(_videoFrames);
-  }
-
   return (
     <UserContext.Provider
       value={{
@@ -162,18 +152,7 @@ const EditGif = () => {
       }}
     >
       <HistoryContext.Provider value={{ historyState, historyDispatch }}>
-        <GifContext.Provider
-          value={{
-            videoFrames,
-            setVideoFrames,
-            videoFramesRef,
-            indexRef,
-            setFilePath,
-            setImgUrl,
-            load,
-            setLoad,
-          }}
-        >
+        <GifContext.Provider value={{ gifState, gifDispatch }}>
           <div className={`${styles.editGif} ${window.isElectron ? styles.electron : styles.web}`}>
             <GifConverter />
           </div>

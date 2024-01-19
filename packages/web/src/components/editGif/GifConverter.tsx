@@ -1,23 +1,21 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Button, Modal, Progress, FloatButton } from 'antd';
 import { ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
-import { UserContext } from '../context/UserContext';
+import { FloatButton, Progress } from 'antd';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GifContext } from '../context/GifContext';
+import { UserContext } from '../context/UserContext';
 import FileTool from './tool/File';
-import PlayTool from './tool/Play';
 import FrameTool from './tool/Frame';
 import HistoryTool from './tool/History';
+import PlayTool from './tool/Play';
 
 export default function VideoToGifConverter() {
   const { t } = useTranslation();
   const canvasRef = useRef(null);
   const videoFramesRef = useRef([]);
-  // const indexRef = useRef(0);
-  const [currentImg, setCurrentImg] = useState<any>('');
   const [scale, setScale] = useState<number>(100);
   const { user, setUser } = useContext(UserContext);
-  const { videoFrames, setVideoFrames, load, setLoad, indexRef } = useContext(GifContext);
+  const { gifState, gifDispatch } = useContext(GifContext);
 
   // const handleVideoDecodeClick = async () => {
   //   // const dataUri = `
@@ -44,7 +42,7 @@ export default function VideoToGifConverter() {
           })
         : clearCanvas();
     }
-  }, [videoFrames]);
+  }, [gifState.videoFrames]);
 
   function renderImgToCanvas(img) {
     const ratio = window.devicePixelRatio || 1;
@@ -72,9 +70,8 @@ export default function VideoToGifConverter() {
   }
 
   function setCurrentVideoFrame(index) {
-    indexRef.current = index;
-    setCurrentImg(videoFramesRef.current[index]);
-    renderImgToCanvas(videoFramesRef.current[index]);
+    gifDispatch({ type: 'setIndex', index });
+    videoFramesRef.current[index] && renderImgToCanvas(videoFramesRef.current[index]);
   }
 
   return (
@@ -89,7 +86,7 @@ export default function VideoToGifConverter() {
         <canvas ref={canvasRef} style={{ transform: 'scale(' + scale / 100 + ')' }}></canvas>
         <div className="info">
           <div>
-            {indexRef.current + 1} / {videoFramesRef.current?.length || 0}
+            {gifState.index + 1} / {gifState.videoFrames?.length || 0}{' '}
           </div>
           <div>{scale}%</div>
         </div>
@@ -109,10 +106,10 @@ export default function VideoToGifConverter() {
         </FloatButton.Group>
       </div>
       <div className="videoFrames">
-        {videoFrames.length ? (
-          videoFrames.map((videoFrame, index) => (
+        {gifState.videoFrames.length ? (
+          gifState.videoFrames.map((videoFrame, index) => (
             <div
-              className={`${'videoFrame ' + (index == indexRef.current ? 'current' : '')}`}
+              className={`${'videoFrame ' + (index == gifState.index ? 'current' : '')}`}
               key={index}
               onClick={(e) => handleCurrentVideoFrameClick(index)}
             >
@@ -121,11 +118,14 @@ export default function VideoToGifConverter() {
                 alt={videoFrame.filePath}
                 ref={(el) => (videoFramesRef.current[index] = el)}
               />
-              <div className="info">{index + 1}</div>
+              <div className="info">
+                <div className="index">{index + 1}</div>
+                <div className="duration">{videoFrame.duration}ms</div>
+              </div>
             </div>
           ))
         ) : (
-          <Progress size="small" percent={load} />
+          <Progress size="small" percent={gifState.load} />
         )}
       </div>
     </div>

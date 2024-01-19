@@ -1,30 +1,29 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
+  CaretRightOutlined,
   FastBackwardOutlined,
   FastForwardOutlined,
-  StepForwardOutlined,
-  StepBackwardOutlined,
-  CaretRightOutlined,
   PauseOutlined,
+  StepBackwardOutlined,
+  StepForwardOutlined,
 } from '@ant-design/icons';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../../components/context/GifContext';
 import styles from './play.module.scss';
 
 const Play = (props) => {
   const { t } = useTranslation();
-  const { videoFrames, setVideoFrames, setFrameDuration, indexRef } =
-    useContext(GifContext);
+  const { gifState, gifDispatch } = useContext(GifContext);
   const [isPlay, setIsPlay] = useState(false);
   const timerRef = useRef<any>('');
 
   useEffect(() => {
     if (isPlay) {
-      const length = videoFrames.length;
-      let index = indexRef.current;
+      const length = gifState.videoFrames.length;
+      let index = gifState.index;
       let duration = 0;
-      for (let i = 0; i < length; i++) {
-        let videoFrame = videoFrames[i];
+      for (let i = gifState.index; i < length; i++) {
+        let videoFrame = gifState.videoFrames[i];
         duration += videoFrame.duration;
         timerRef.current = setTimeout(() => {
           props.setCurrentVideoFrame(index);
@@ -58,9 +57,7 @@ const Play = (props) => {
         </div>
         <div
           className="playBtn"
-          onClick={() =>
-            props.setCurrentVideoFrame(indexRef.current < 1 ? 0 : indexRef.current - 1)
-          }
+          onClick={() => props.setCurrentVideoFrame(gifState.index < 1 ? 0 : gifState.index - 1)}
         >
           <StepBackwardOutlined className="playIcon" />
           <div className="playBtnTitle">上一帧</div>
@@ -80,16 +77,19 @@ const Play = (props) => {
           className="playBtn"
           onClick={() =>
             props.setCurrentVideoFrame(
-              indexRef.current >= videoFrames.length - 1
-                ? videoFrames.length - 1
-                : indexRef.current + 1,
+              gifState.index >= gifState.videoFrames.length - 1
+                ? gifState.videoFrames.length - 1
+                : gifState.index + 1,
             )
           }
         >
           <StepForwardOutlined className="playIcon" />
           <div className="playBtnTitle">下一帧</div>
         </div>
-        <div className="playBtn" onClick={() => props.setCurrentVideoFrame(videoFrames.length - 1)}>
+        <div
+          className="playBtn"
+          onClick={() => props.setCurrentVideoFrame(gifState.videoFrames.length - 1)}
+        >
           <FastForwardOutlined className="playIcon" />
           <div className="playBtnTitle">尾帧</div>
         </div>

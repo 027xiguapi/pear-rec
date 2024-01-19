@@ -1,74 +1,72 @@
 .editGif {
-  background: #fff;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  background: #fff;
   :global {
     .gifConverter {
       width: 100%;
     }
     .tool {
-      height: 100px;
-      width: 100%;
       display: flex;
+      width: 100%;
+      height: 100px;
       background-color: rgb(250 250 250);
       border-bottom: 1px solid #ccc;
     }
     .content {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 220px);
+      overflow: hidden;
       text-align: center;
       background-image: repeating-linear-gradient(transparent 0 8px, rgb(245 245 245) 0 16px),
         repeating-linear-gradient(90deg, transparent 0 8px, rgb(245 245 245) 0 16px);
-      height: calc(100vh - 220px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
       canvas {
         max-width: 1000px;
       }
       .info {
-        text-align: left;
         position: absolute;
         bottom: 5px;
         left: 10px;
         color: #fff;
-        text-shadow:
-          1px 1px 1px black,
-          -1px -1px 1px black,
-          1px -1px 1px black,
-          -1px 1px 1px black;
+        font-size: 14px;
+        text-align: left;
+        text-shadow: 1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black;
       }
     }
     .videoFrames {
-      height: 100px;
       position: absolute;
       bottom: 0;
       left: 0;
       display: flex;
       width: 100vw;
+      height: 100px;
       overflow: auto;
       background-color: #fff;
       .videoFrame {
-        height: 100%;
         position: relative;
+        height: 100%;
         img {
-          padding: 5px;
-          margin: 0 5px;
           height: calc(100% - 16px);
+          margin: 0 5px;
+          padding: 5px;
           border: 1px solid #ccc;
         }
         .info {
           position: absolute;
           bottom: 0;
           z-index: 1;
-          width: 100%;
-          text-align: center;
+          display: flex;
+          justify-content: space-between;
+          width: calc(100% - 30px);
+          margin: 0 10px;
           color: #fff;
-          text-shadow:
-            1px 1px 1px black,
-            -1px -1px 1px black,
-            1px -1px 1px black,
+          font-size: 14px;
+          text-align: center;
+          text-shadow: 1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black,
             -1px 1px 1px black;
         }
       }
