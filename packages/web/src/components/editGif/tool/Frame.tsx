@@ -12,23 +12,23 @@ const Frame = (props) => {
   const api = useApi();
   const inputRef = useRef(null);
   const { user, setUser } = useContext(UserContext);
-  const { historyState, historyReducer } = useContext(HistoryContext);
-  const { videoFrames, setVideoFrames, indexRef } = useContext(GifContext);
+  const { historyState, historyDispatch } = useContext(HistoryContext);
+  const { gifState, gifDispatch } = useContext(GifContext);
 
   useEffect(() => {}, []);
 
   function handleDeleteFrame() {
-    let index = indexRef.current;
-    setVideoFrames((prevVideoFrames) => {
-      let videoFrame = '';
-      let newVideoFrames = prevVideoFrames.filter((_videoFrame, i) => {
-        i == index && (videoFrame = _videoFrame);
-        return i !== index;
-      });
-      newVideoFrames.length <= indexRef.current && (indexRef.current = newVideoFrames.length - 1);
-      historyReducer({ type: 'increment', data: { curd: 'delete', index, videoFrame } });
-      return newVideoFrames;
+    let index = gifState.index;
+    let prevVideoFrames = gifState.videoFrames;
+    let videoFrame = '';
+    let newVideoFrames = prevVideoFrames.filter((_videoFrame, i) => {
+      i == index && (videoFrame = _videoFrame);
+      return i !== index;
     });
+    historyDispatch({ type: 'increment', data: { curd: 'delete', index, videoFrame } });
+    gifDispatch({ type: 'setVideoFrames', videoFrames: newVideoFrames });
+    newVideoFrames.length <= index &&
+      gifDispatch({ type: 'setIndex', index: newVideoFrames.length - 1 });
   }
 
   async function uploadFileCache(event) {
@@ -46,48 +46,42 @@ const Frame = (props) => {
   }
 
   function handleInsertFrame(filePath) {
-    let index = indexRef.current;
+    let index = gifState.index;
     let newVideoFrame = {
       url: `${window.baseURL}file?url=${filePath}`,
       filePath: filePath,
       index: index + 1,
       duration: 100,
     };
-    setVideoFrames((prevVideoFrames) => {
-      const newVideoFrames = [...prevVideoFrames];
-      newVideoFrames.splice(index, 0, newVideoFrame);
-      historyReducer({
-        type: 'increment',
-        data: { curd: 'insert', index, videoFrame: newVideoFrame },
-      });
-      return newVideoFrames;
-    });
-  }
-
-  function handleDeleteNextFrame() {
-    let index = indexRef.current;
-    let videoFrames = null;
-    let newVideoFrames = null;
-    setVideoFrames((prevVideoFrames) => {
-      newVideoFrames = [...prevVideoFrames];
-      videoFrames = newVideoFrames.splice(0, index + 1);
-      return videoFrames;
-    });
-    historyReducer({
+    let prevVideoFrames = gifState.videoFrames;
+    const newVideoFrames = [...prevVideoFrames];
+    newVideoFrames.splice(index, 0, newVideoFrame);
+    gifDispatch({ type: 'setVideoFrames', videoFrames: newVideoFrames });
+    historyDispatch({
       type: 'increment',
-      data: { curd: 'deleteList', index, videoFrames: newVideoFrames },
+      data: { curd: 'insert', index, videoFrame: newVideoFrame },
     });
   }
 
-  function handleDeletePrevFrame() {
-    let index = indexRef.current;
-    let videoFrames = null;
-    setVideoFrames((prevVideoFrames) => {
-      const newVideoFrames = [...prevVideoFrames];
-      videoFrames = newVideoFrames.splice(0, index);
-      return newVideoFrames;
+  function handleDeleteNextFrames() {
+    let index = gifState.index;
+    let prevVideoFrames = gifState.videoFrames;
+    let newVideoFrames = [...prevVideoFrames];
+    let videoFrames = newVideoFrames.splice(0, index + 1);
+    gifDispatch({ type: 'setVideoFrames', videoFrames: videoFrames });
+    historyDispatch({
+      type: 'increment',
+      data: { curd: 'deleteNextList', index, videoFrames: newVideoFrames },
     });
-    historyReducer({ type: 'increment', data: { curd: 'deleteList', index, videoFrames } });
+  }
+
+  function handleDeletePrevFrames() {
+    let index = gifState.index;
+    let prevVideoFrames = gifState.videoFrames;
+    const newVideoFrames = [...prevVideoFrames];
+    let videoFrames = newVideoFrames.splice(0, index);
+    gifDispatch({ type: 'setVideoFrames', videoFrames: newVideoFrames });
+    historyDispatch({ type: 'increment', data: { curd: 'deletePrevList', index, videoFrames } });
   }
 
   return (
@@ -108,11 +102,11 @@ const Frame = (props) => {
             onChange={uploadFileCache}
           />
         </div>
-        <div className="frameBtn" onClick={handleDeletePrevFrame}>
+        <div className="frameBtn" onClick={handleDeletePrevFrames}>
           <ToLeft className="frameIcon" theme="outline" size="27" fill="#749EC4" />
           <div className="frameBtnTitle">删除之前所有</div>
         </div>
-        <div className="frameBtn" onClick={handleDeleteNextFrame}>
+        <div className="frameBtn" onClick={handleDeleteNextFrames}>
           <ToRight className="frameIcon" theme="outline" size="27" fill="#749EC4" />
           <div className="frameBtnTitle">删除之后所有</div>
         </div>

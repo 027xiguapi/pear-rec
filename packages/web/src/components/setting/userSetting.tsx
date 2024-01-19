@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { Button, Modal } from 'antd';
 import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettingApi } from '../../api/setting';
 import { Local } from '../../util/storage';
@@ -48,6 +48,7 @@ const UserSetting = (props) => {
         <img alt="logo" src={logo} />
       </div>
       <div className="info">
+        <p>版本：1.3.10</p>
         <p>{uuid}</p>
         <p>{formatTime(createdTime)}</p>
         <Button type="primary" className="resetBtn" danger onClick={handleResetClick}>

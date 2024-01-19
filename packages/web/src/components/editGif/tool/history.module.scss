@@ -3,30 +3,34 @@
   border-right: 1px solid #ccc;
   :global {
     .historyList {
-      width: 100%;
       display: flex;
+      width: 100%;
       .historyBtn {
         width: 33.3%;
         height: 70px;
-        text-align: center;
         padding-top: 10px;
+        text-align: center;
         cursor: pointer;
         .historyBtnTitle {
-          font-size: 14px;
           margin-top: 5px;
           color: #888;
+          font-size: 14px;
         }
       }
       .historyBtn:hover {
         background-color: rgb(225 233 244);
       }
+      .disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+      }
     }
     .subTitle {
       width: 100%;
-      text-align: center;
       color: rgb(191 191 191);
       font-size: 14px;
       line-height: 20px;
+      text-align: center;
     }
   }
 }
