@@ -40,7 +40,6 @@ const PinImage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(1, scale);
     const image = document.getElementById('image');
     image.style.transform = 'scale(' + scale + ')';
   }, [scale]);

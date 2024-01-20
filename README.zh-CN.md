@@ -17,19 +17,19 @@
 
 [中文](README.zh-CN.md) | [English](README.md) | [Deutsch](README.de-DE.md)
 
-## 架构
-
-<center>
-  <img src="https://027xiguapi.github.io/pear-rec/imgs/1700442414996.jpg" />
-</center>
-
 ## 简介
 
 > pear-rec(梨子 rec) 是一个跨平台的截图、录屏、录音、录像、录制(动图)gif、查看图片、查看视频、查看音频和修改图片的软件。
 >
+> 更多功能和 api 可以查看[官网(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) 或 [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec)
+
+## 架构
+
 > pear-rec(梨子 rec) 的跨平台是基于 `electronjs`,前端是基于 `reactjs`,后台是基于 `nestjs`,数据库是基于 `sqljs`,截图、录屏、录音、录像、录制(动图)gif等功能是基于 `webrtc` 和 `webcodecs` 的一个项目。
 >
-> 更多功能和 api 可以查看[官网(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) 或 [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec)
+<center>
+  <img src="https://027xiguapi.github.io/pear-rec/imgs/1700442414996.jpg" />
+</center>
 
 ## 例子
 
@@ -76,6 +76,9 @@ pnpm run clear
 ```
 
 ## 功能
+<center>
+  <img src="https://027xiguapi.github.io/pear-rec/assets/home.f67a1aa8.jpg" />
+</center>
 
 已经勾选的功能是开发过程最新功能，但可能还没发布在最新版本
 

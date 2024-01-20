@@ -6,6 +6,7 @@ import { Button, message } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsFillStopFill, BsPause, BsPlayFill, BsRecordCircle } from 'react-icons/bs';
+import { CameraOne } from '@icon-park/react';
 import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
 import ininitApp from '../../pages/main';
@@ -224,16 +225,27 @@ const RecorderScreen = () => {
     window.electronAPI?.sendRfsCloseWin();
   }
 
+  function handleOpenPinVideoWin() {
+    window.electronAPI?.sendPvOpenWin();
+  }
+
   return (
     <div className={styles.recorderFullScreen}>
       <div className={'recordTool ' + `${isRecording ? 'recording' : ''}`}>
         <BsRecordCircle className={'recordIcon ' + `${isRecording && !isPause ? 'blink' : ''}`} />
-        <Button
+        {/* <Button
           type="text"
           icon={<SettingOutlined />}
           className="toolbarIcon settingBtn"
           title={t('nav.setting')}
           onClick={handleOpenSettingWin}
+        ></Button> */}
+        <Button
+          type="text"
+          icon={<CameraOne theme="outline" size="22" fill="#333" strokeWidth={3}/>}
+          className="toolbarIcon cameraBtn"
+          title={t('nav.camera')}
+          onClick={handleOpenPinVideoWin}
         ></Button>
         <Button
           type="text"
