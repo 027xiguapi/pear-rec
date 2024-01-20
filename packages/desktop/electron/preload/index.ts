@@ -83,7 +83,6 @@ function useLoading() {
 }
 
 // ----------------------------------------------------------------------
-location.pathname != '/shotScreen.html' && console.log(window, location);
 const { appendLoading, removeLoading } = useLoading();
 location.pathname != '/shotScreen.html' &&
   location.pathname != '/clipScreen.html' &&

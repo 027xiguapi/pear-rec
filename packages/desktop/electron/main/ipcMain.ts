@@ -14,6 +14,7 @@ import * as editGifWin from '../win/editGifWin';
 import * as editImageWin from '../win/editImageWin';
 import * as mainWin from '../win/mainWin';
 import * as pinImageWin from '../win/pinImageWin';
+import * as pinVideoWin from '../win/pinVideoWin';
 import * as recorderAudioWin from '../win/recorderAudioWin';
 import * as recorderFullScreenWin from '../win/recorderFullScreenWin';
 import * as recorderScreenWin from '../win/recorderScreenWin';
@@ -353,6 +354,23 @@ function initIpcMain() {
   });
   ipcMain.on('pi:unmaximize-win', () => {
     pinImageWin.unmaximizePinImageWin();
+  });
+
+  // 钉图
+  ipcMain.on('pv:open-win', (e, search) => {
+    pinVideoWin.openPinVideoWin(search);
+  });
+  ipcMain.on('pv:close-win', () => {
+    pinVideoWin.closePinVideoWin();
+  });
+  ipcMain.on('pv:minimize-win', () => {
+    pinVideoWin.minimizePinVideoWin();
+  });
+  ipcMain.on('pv:maximize-win', () => {
+    pinVideoWin.maximizePinVideoWin();
+  });
+  ipcMain.on('pv:unmaximize-win', () => {
+    pinVideoWin.unmaximizePinVideoWin();
   });
 
   // 录全屏

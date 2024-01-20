@@ -113,6 +113,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendPiMaximizeWin: () => ipcRenderer.send('pi:maximize-win'),
   sendPiUnmaximizeWin: () => ipcRenderer.send('pi:unmaximize-win'),
 
+  //pi 钉视频
+  sendPvOpenWin: (search?: any) => ipcRenderer.send('pv:open-win', search),
+  sendPvCloseWin: () => ipcRenderer.send('pv:close-win'),
+  sendPvMinimizeWin: () => ipcRenderer.send('pv:minimize-win'),
+  sendPvMaximizeWin: () => ipcRenderer.send('pv:maximize-win'),
+  sendPvUnmaximizeWin: () => ipcRenderer.send('pv:unmaximize-win'),
+
   // rfs 全屏录屏
   sendRfsOpenWin: () => ipcRenderer.send('rfs:open-win'),
   sendRfsCloseWin: () => ipcRenderer.send('rfs:close-win'),
