@@ -18,6 +18,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/serve-static": "^4.0.0",
     "@nestjs/typeorm": "^10.0.1",
+    "@pear-rec/server": "file:",
     "dayjs": "^1.11.10",
     "http-proxy-middleware": "^2.0.6",
     "https-proxy-agent": "^7.0.2",

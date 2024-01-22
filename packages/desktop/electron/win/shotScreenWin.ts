@@ -1,14 +1,6 @@
-import {
-  app,
-  BrowserWindow,
-  dialog,
-  DownloadItem,
-  WebContents,
-  clipboard,
-  nativeImage,
-} from 'electron';
+import { BrowserWindow, clipboard, dialog, nativeImage } from 'electron';
 import { join } from 'node:path';
-import { ICON, preload, url, DIST, WEB_URL } from '../main/contract';
+import { DIST, ICON, WEB_URL, preload, url } from '../main/contract';
 
 const shotScreenHtml = join(DIST, './shotScreen.html');
 let shotScreenWin: BrowserWindow | null = null;
@@ -99,19 +91,19 @@ async function showOpenDialogShotScreenWin() {
 }
 
 function copyImg(filePath: string) {
-  const image = nativeImage.createFromPath(filePath);
+  const image = nativeImage.createFromDataURL(filePath);
   clipboard.writeImage(image);
 }
 
 export {
-  createShotScreenWin,
   closeShotScreenWin,
+  copyImg,
+  createShotScreenWin,
+  downloadURLShotScreenWin,
+  hideShotScreenWin,
+  maximizeShotScreenWin,
+  minimizeShotScreenWin,
   openShotScreenWin,
   showShotScreenWin,
-  hideShotScreenWin,
-  minimizeShotScreenWin,
-  maximizeShotScreenWin,
   unmaximizeShotScreenWin,
-  downloadURLShotScreenWin,
-  copyImg,
 };

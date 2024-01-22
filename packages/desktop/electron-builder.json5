@@ -16,7 +16,7 @@
     target: ['dmg', 'zip'],
   },
   linux: {
-    icon: 'build/icons/png/1024x1024.png',
+    icon: 'build/icons/png',
     target: ['AppImage'],
     artifactName: '${productName}-Linux-${version}.${ext}',
   },

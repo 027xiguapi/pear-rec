@@ -1,6 +1,7 @@
-import { BrowserWindow, dialog, shell, DownloadItem, WebContents } from 'electron';
-import { join, dirname } from 'node:path';
-import { ICON, DIST, preload, url, WEB_URL } from '../main/contract';
+import { BrowserWindow, dialog, nativeImage } from 'electron';
+import { writeFile } from 'node:fs';
+import { join } from 'node:path';
+import { DIST, ICON, WEB_URL, preload, url } from '../main/contract';
 
 const editImageHtml = join(DIST, './editImage.html');
 let editImageWin: BrowserWindow | null = null;
@@ -46,4 +47,22 @@ function closeEditImageWin() {
   editImageWin?.close();
 }
 
-export { createEditImageWin, openEditImageWin, closeEditImageWin };
+async function downloadImg(imgUrl: any) {
+  let defaultPath = `pear-rec_${+new Date()}.png`;
+  let res = await dialog.showSaveDialog({
+    defaultPath: defaultPath,
+    filters: [{ name: 'Images', extensions: ['png', 'jpg', 'gif'] }],
+  });
+  if (!res.canceled) {
+    const imgData = nativeImage.createFromDataURL(imgUrl).toPNG();
+    writeFile(res.filePath, imgData, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(`${defaultPath}:图片保存成功`);
+      }
+    });
+  }
+}
+
+export { closeEditImageWin, createEditImageWin, downloadImg, openEditImageWin };
