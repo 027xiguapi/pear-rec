@@ -1,4 +1,5 @@
-import { CloseOutlined, SettingOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
+import { CameraOne } from '@icon-park/react';
 import Timer from '@pear-rec/timer';
 import '@pear-rec/timer/src/Timer/index.module.scss';
 import useTimer from '@pear-rec/timer/src/useTimer';
@@ -6,7 +7,6 @@ import { Button, message } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsFillStopFill, BsPause, BsPlayFill, BsRecordCircle } from 'react-icons/bs';
-import { CameraOne } from '@icon-park/react';
 import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
 import ininitApp from '../../pages/main';
@@ -18,6 +18,7 @@ const RecorderScreen = () => {
   const userApi = useUserApi();
   const videoRef = useRef<HTMLVideoElement>();
   const mediaStream = useRef<MediaStream>();
+  const audioStream = useRef<MediaStream>(); // 声音流
   const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
   const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
   const audioTrack = useRef<any>(); // 音频轨道对象
@@ -176,28 +177,26 @@ const RecorderScreen = () => {
         },
       },
     };
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        mediaStream.current = stream;
-        mediaRecorder.current = new MediaRecorder(stream);
-        mediaRecorder.current.addEventListener('dataavailable', (e) => {
-          if (e.data.size > 0) {
-            recordedChunks.current.push(e.data);
-          }
-        });
-        mediaRecorder.current.addEventListener('stop', () => {
-          exportRecording();
-        });
-        mediaRecorder.current.start();
-        setIsRecording(true);
-        timer.start();
-        console.log('开始录像...');
-      })
-      .catch((error) => {
-        console.error('无法获取媒体权限：', error);
-      });
-    return constraints;
+    mediaStream.current = await navigator.mediaDevices.getUserMedia(constraints);
+    audioStream.current = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    });
+    audioStream.current
+      ?.getAudioTracks()
+      .forEach((audioTrack) => mediaStream.current?.addTrack(audioTrack));
+    mediaRecorder.current = new MediaRecorder(mediaStream.current);
+    mediaRecorder.current.addEventListener('dataavailable', (e) => {
+      if (e.data.size > 0) {
+        recordedChunks.current.push(e.data);
+      }
+    });
+    mediaRecorder.current.addEventListener('stop', () => {
+      exportRecording();
+    });
+    mediaRecorder.current.start();
+    setIsRecording(true);
+    timer.start();
+    console.log('开始录像...');
   }
 
   function handleOpenSettingWin() {
@@ -242,7 +241,7 @@ const RecorderScreen = () => {
         ></Button> */}
         <Button
           type="text"
-          icon={<CameraOne theme="outline" size="22" fill="#333" strokeWidth={3}/>}
+          icon={<CameraOne theme="outline" size="22" fill="#333" strokeWidth={3} />}
           className="toolbarIcon cameraBtn"
           title={t('nav.camera')}
           onClick={handleOpenPinVideoWin}
