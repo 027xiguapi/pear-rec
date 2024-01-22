@@ -206,7 +206,7 @@ const ViewImage = () => {
     const imgUrl = imgs[initialViewIndexRef.current]?.url;
     const blob = await urlToBlob(imgUrl);
     const tabUrl = await searchImg(blob, user.isProxy);
-    if (window.electronAPI) {
+    if (window.isElectron) {
       tabUrl && window.electronAPI.sendSsOpenExternal(tabUrl);
       window.electronAPI.sendSsCloseWin();
     } else {
@@ -258,7 +258,7 @@ const ViewImage = () => {
 
   function handleEdit() {
     const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
-    if (window.electronAPI) {
+    if (window.isElectron) {
       window.electronAPI.sendEiOpenWin({ imgUrl });
     } else {
       viewerRef.current.destroy();
@@ -268,7 +268,7 @@ const ViewImage = () => {
 
   function handleDownload() {
     const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
-    if (window.electronAPI) {
+    if (window.isElectron) {
       window.electronAPI.sendViDownloadImg(imgUrl);
     } else {
       saveAs(imgUrl, `pear-rec_${+new Date()}.png`);

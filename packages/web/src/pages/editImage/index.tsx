@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { Button } from 'antd';
+import { saveAs } from 'file-saver';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Modal } from 'antd';
+import 'tui-color-picker/dist/tui-color-picker.css';
 import ImageEditor from 'tui-image-editor';
-import UploadImg from '../../components/upload/UploadImg';
-import ininitApp from '../../pages/main';
+import 'tui-image-editor/dist/tui-image-editor.css';
 import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
-import { saveAs } from 'file-saver';
-import 'tui-image-editor/dist/tui-image-editor.css';
-import 'tui-color-picker/dist/tui-color-picker.css';
+import UploadImg from '../../components/upload/UploadImg';
+import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
 const defaultImg = './imgs/th.webp';
@@ -238,35 +238,36 @@ const EditImage = () => {
   }
 
   async function saveFile(blob) {
-    try {
-      const formData = new FormData();
-      formData.append('type', 'ei');
-      formData.append('userId', userRef.current.id);
-      formData.append('file', blob);
-      const res = (await api.saveFile(formData)) as any;
-      if (res.code == 0) {
-        if (window.isElectron) {
-          window.electronAPI?.sendEiCloseWin();
-          window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
-        } else {
-          Modal.confirm({
-            title: '图片已保存，是否查看？',
-            content: `${res.data.filePath}`,
-            okText: t('modal.ok'),
-            cancelText: t('modal.cancel'),
-            onOk() {
-              window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
-              console.log('OK');
-            },
-            onCancel() {
-              console.log('Cancel');
-            },
-          });
-        }
-      }
-    } catch (err) {
-      saveAs(blob, `pear-rec_${+new Date()}.png`);
-    }
+    saveAs(blob, `pear-rec_${+new Date()}.png`);
+    // try {
+    //   const formData = new FormData();
+    //   formData.append('type', 'ei');
+    //   formData.append('userId', userRef.current.id);
+    //   formData.append('file', blob);
+    //   const res = (await api.saveFile(formData)) as any;
+    //   if (res.code == 0) {
+    //     if (window.isElectron) {
+    //       window.electronAPI?.sendEiCloseWin();
+    //       window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
+    //     } else {
+    //       Modal.confirm({
+    //         title: '图片已保存，是否查看？',
+    //         content: `${res.data.filePath}`,
+    //         okText: t('modal.ok'),
+    //         cancelText: t('modal.cancel'),
+    //         onOk() {
+    //           window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
+    //           console.log('OK');
+    //         },
+    //         onCancel() {
+    //           console.log('Cancel');
+    //         },
+    //       });
+    //     }
+    //   }
+    // } catch (err) {
+    //   saveAs(blob, `pear-rec_${+new Date()}.png`);
+    // }
   }
 
   async function copyImg(url: string) {

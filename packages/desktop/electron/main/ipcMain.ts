@@ -225,6 +225,10 @@ function initIpcMain() {
   ipcMain.on('ei:open-win', (e, search) => {
     editImageWin.openEditImageWin(search);
   });
+  ipcMain.on('ei:download-img', (e, imgUrl) => {
+    editImageWin.downloadImg(imgUrl);
+  });
+
   // 动图编辑
   ipcMain.on('eg:close-win', () => {
     editGifWin.closeEditGifWin();

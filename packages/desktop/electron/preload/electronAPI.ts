@@ -80,6 +80,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //eiWin
   sendEiCloseWin: () => ipcRenderer.send('ei:close-win'),
   sendEiOpenWin: (search?: string) => ipcRenderer.send('ei:open-win', search),
+  sendEiDownloadImg: (imgUrl?: string) => ipcRenderer.send('ei:download-img', imgUrl),
 
   //egWin
   sendEgCloseWin: () => ipcRenderer.send('eg:close-win'),
