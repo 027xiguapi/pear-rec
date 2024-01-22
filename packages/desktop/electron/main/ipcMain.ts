@@ -214,6 +214,10 @@ function initIpcMain() {
     const imgs = await viewImageWin.getImgs(img);
     return imgs;
   });
+  ipcMain.on('vi:download-img', async (e, imgUrl) => {
+    viewImageWin.downloadImg(imgUrl);
+  });
+
   // 图片编辑
   ipcMain.on('ei:close-win', () => {
     editImageWin.closeEditImageWin();

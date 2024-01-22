@@ -2,6 +2,7 @@ import {
   BlockOutlined,
   BorderOutlined,
   CloseOutlined,
+  DownloadOutlined,
   EditOutlined,
   FolderOpenOutlined,
   LeftOutlined,
@@ -80,6 +81,13 @@ const Header = (props) => {
         </div>
       ) : (
         <div className="center">
+          <Button
+            className="download icon"
+            type="text"
+            icon={<DownloadOutlined />}
+            title={t('nav.download')}
+            onClick={() => props.onDownload()}
+          />
           <Button
             className="alwaysOnTopWin icon"
             type="text"

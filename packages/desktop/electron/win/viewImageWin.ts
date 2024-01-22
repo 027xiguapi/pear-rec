@@ -1,4 +1,5 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, dialog } from 'electron';
+import { readFile, writeFile } from 'node:fs';
 import { join } from 'node:path';
 import { DIST, ICON, WEB_URL, preload, url } from '../main/contract';
 import { getImgsByImgUrl } from '../main/utils';
@@ -81,9 +82,34 @@ async function getImgs(imgUrl: any) {
   return imgs;
 }
 
+async function downloadImg(imgUrl: any) {
+  let defaultPath = `pear-rec_${+new Date()}.png`;
+  let res = await dialog.showSaveDialog({
+    defaultPath: defaultPath,
+    filters: [{ name: 'Images', extensions: ['png', 'jpg', 'gif'] }],
+  });
+  if (!res.canceled) {
+    readFile(imgUrl, (err, imgData) => {
+      if (err) {
+        console.error(err);
+      } else {
+        writeFile(res.filePath, imgData, (err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log(`${defaultPath}:图片保存成功`);
+          }
+        });
+      }
+    });
+  }
+  return imgUrl;
+}
+
 export {
   closeViewImageWin,
   createViewImageWin,
+  downloadImg,
   getImgs,
   getIsAlwaysOnTopViewImageWin,
   hideViewImageWin,

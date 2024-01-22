@@ -1,5 +1,6 @@
 import { Modal } from 'antd';
 import type { UploadProps } from 'antd/es/upload/interface';
+import { saveAs } from 'file-saver';
 import QrScanner from 'qr-scanner';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -265,6 +266,15 @@ const ViewImage = () => {
     }
   }
 
+  function handleDownload() {
+    const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
+    if (window.electronAPI) {
+      window.electronAPI.sendViDownloadImg(imgUrl);
+    } else {
+      saveAs(imgUrl, `pear-rec_${+new Date()}.png`);
+    }
+  }
+
   return (
     <div className={styles.viewImgs}>
       <Header
@@ -287,6 +297,7 @@ const ViewImage = () => {
         onFlipHorizontal={handleFlipHorizontal}
         onFlipVertical={handleFlipVertical}
         onEdit={handleEdit}
+        onDownload={handleDownload}
       />
       <div id="viewImgs">
         {imgs.map((img, key) => {
