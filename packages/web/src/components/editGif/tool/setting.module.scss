@@ -1,24 +1,41 @@
-.file {
+.setting {
   width: 240px;
   border-right: 1px solid #ccc;
   :global {
-    .fileList {
+    .settingList {
       display: flex;
       width: 100%;
-      .fileBtn {
+      .settingBtn {
         width: 25%;
         height: 70px;
         padding-top: 10px;
         text-align: center;
         cursor: pointer;
-        .fileBtnTitle {
+        .settingDurationInput {
+          width: 90%;
+          margin-left: 5px;
+          padding: 0 2px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+        .settingBtnTitle {
           margin-top: 5px;
           color: #888;
           font-size: 14px;
         }
       }
-      .fileBtn:hover {
+      .settingBtn:hover {
         background-color: rgb(225 233 244);
+      }
+      .durationBtn {
+        width: 50%;
+        .durationTool {
+          display: flex;
+          .durationIcon {
+            margin-right: 3px;
+            vertical-align: bottom;
+          }
+        }
       }
     }
     .subTitle {

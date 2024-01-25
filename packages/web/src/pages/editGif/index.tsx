@@ -128,20 +128,51 @@ const EditGif = () => {
     }
   }
 
+  // function loadVideo() {
+  //   let _videoUrl = gifState.videoUrl;
+  //   if (_videoUrl && _videoUrl.substring(0, 4) != 'blob') {
+  //     _videoUrl = `${window.baseURL}file?url=${gifState.videoUrl}`;
+  //   }
+  //   fetch(_videoUrl)
+  //     .then((response) => response.blob())
+  //     .then((blob) => {
+  //       const _recordedUrl = URL.createObjectURL(blob);
+  //       // setRecordedUrl(_recordedUrl);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Failed to download and play video:', error);
+  //     });
+  // }
+
   function loadVideo() {
     let _videoUrl = gifState.videoUrl;
     if (_videoUrl && _videoUrl.substring(0, 4) != 'blob') {
       _videoUrl = `${window.baseURL}file?url=${gifState.videoUrl}`;
     }
-    fetch(_videoUrl)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const _recordedUrl = URL.createObjectURL(blob);
-        // setRecordedUrl(_recordedUrl);
-      })
-      .catch((error) => {
-        console.error('Failed to download and play video:', error);
-      });
+    const duration = 100;
+    const rendererName = '2d';
+    const canvas = (document.querySelector('#canvas') as any).transferControlToOffscreen?.();
+    const worker = new Worker(
+      new URL('../../components/editGif/video-decode-display/worker.js', import.meta.url),
+    );
+    function setStatus(message) {
+      let _videoFrames = [];
+
+      message.data['imgs'] &&
+        message.data['imgs'].map((_videoFrame, index) => {
+          _videoFrames.push({
+            url: _videoFrame,
+            filePath: _videoFrame,
+            index: index,
+            duration: duration,
+          });
+        });
+
+      gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
+    }
+    worker.addEventListener('message', setStatus);
+
+    worker.postMessage({ dataUri: _videoUrl, rendererName, canvas, duration }, [canvas]);
   }
 
   return (
@@ -155,6 +186,7 @@ const EditGif = () => {
         <GifContext.Provider value={{ gifState, gifDispatch }}>
           <div className={`${styles.editGif} ${window.isElectron ? styles.electron : styles.web}`}>
             <GifConverter />
+            <canvas id="canvas" className="hide"></canvas>
           </div>
         </GifContext.Provider>
       </HistoryContext.Provider>

@@ -7,7 +7,10 @@ import { UserContext } from '../context/UserContext';
 import FileTool from './tool/File';
 import FrameTool from './tool/Frame';
 import HistoryTool from './tool/History';
+import MoveTool from './tool/Move';
 import PlayTool from './tool/Play';
+import SettingTool from './tool/Setting';
+import SpliceTool from './tool/Splice';
 
 export default function VideoToGifConverter() {
   const { t } = useTranslation();
@@ -35,10 +38,10 @@ export default function VideoToGifConverter() {
 
   useEffect(() => {
     if (videoFramesRef.current.length) {
-      const img = videoFramesRef.current[0];
+      const img = videoFramesRef.current[gifState.index];
       img
         ? (img.onload = function () {
-            setCurrentVideoFrame(0);
+            setCurrentVideoFrame(gifState.index);
           })
         : clearCanvas();
     }
@@ -66,11 +69,11 @@ export default function VideoToGifConverter() {
   }
 
   function handleCurrentVideoFrameClick(index) {
+    gifDispatch({ type: 'setIndex', index });
     setCurrentVideoFrame(index);
   }
 
   function setCurrentVideoFrame(index) {
-    gifDispatch({ type: 'setIndex', index });
     videoFramesRef.current[index] && renderImgToCanvas(videoFramesRef.current[index]);
   }
 
@@ -80,7 +83,10 @@ export default function VideoToGifConverter() {
         <FileTool />
         <PlayTool setCurrentVideoFrame={setCurrentVideoFrame} />
         <FrameTool />
+        <MoveTool />
         <HistoryTool />
+        <SettingTool />
+        <SpliceTool />
       </div>
       <div className="content">
         <canvas ref={canvasRef} style={{ transform: 'scale(' + scale / 100 + ')' }}></canvas>

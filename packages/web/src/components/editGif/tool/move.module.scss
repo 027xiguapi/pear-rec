@@ -1,23 +1,23 @@
-.file {
+.move {
   width: 240px;
   border-right: 1px solid #ccc;
   :global {
-    .fileList {
+    .moveList {
       display: flex;
       width: 100%;
-      .fileBtn {
+      .moveBtn {
         width: 25%;
         height: 70px;
         padding-top: 10px;
         text-align: center;
         cursor: pointer;
-        .fileBtnTitle {
+        .moveBtnTitle {
           margin-top: 5px;
           color: #888;
           font-size: 14px;
         }
       }
-      .fileBtn:hover {
+      .moveBtn:hover {
         background-color: rgb(225 233 244);
       }
     }

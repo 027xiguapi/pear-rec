@@ -1,23 +1,30 @@
-.file {
-  width: 240px;
+.splice {
+  width: 120px;
   border-right: 1px solid #ccc;
   :global {
-    .fileList {
+    .spliceList {
       display: flex;
       width: 100%;
-      .fileBtn {
-        width: 25%;
+      .spliceBtn {
+        width: 50%;
         height: 70px;
         padding-top: 10px;
         text-align: center;
         cursor: pointer;
-        .fileBtnTitle {
+        .spliceDurationInput {
+          width: 90%;
+          margin-left: 5px;
+          padding: 0 2px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+        .spliceBtnTitle {
           margin-top: 5px;
           color: #888;
           font-size: 14px;
         }
       }
-      .fileBtn:hover {
+      .spliceBtn:hover {
         background-color: rgb(225 233 244);
       }
     }

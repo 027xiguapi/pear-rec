@@ -1,22 +1,23 @@
-import React, { useState, useContext, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import GIF from 'gif.js';
-import { saveAs } from 'file-saver';
+import { Close, FileGif, Save, VideoFile } from '@icon-park/react';
+import { Modal, Progress } from 'antd';
 import async from 'async';
+import { saveAs } from 'file-saver';
+import GIF from 'gif.js';
+import { useContext, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useApi } from '../../../api';
-import { Button, Modal, Progress, FloatButton } from 'antd';
-import { DownloadOutlined, FileGifOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
-import { UserContext } from '../../context/UserContext';
 import { GifContext } from '../../../components/context/GifContext';
+import { UserContext } from '../../context/UserContext';
 import styles from './file.module.scss';
 
 const File = () => {
   const { t } = useTranslation();
   const api = useApi();
   const fileRef = useRef(null);
+  const videoRef = useRef(null);
   const [percent, setPercent] = useState(0);
   const { user, setUser } = useContext(UserContext);
-  const { videoFrames, setVideoFrames, setImgUrl } = useContext(GifContext);
+  const { gifState, gifDispatch } = useContext(GifContext);
 
   async function handleConvert() {
     const worker = new URL('../gif.js/gif.worker.js', import.meta.url) as any;
@@ -58,14 +59,14 @@ const File = () => {
       return img;
     }
 
-    async.map(videoFrames, loadImage, function (error, images) {
+    async.map(gifState.videoFrames, loadImage, function (error, images) {
       if (error != null) {
         throw error;
       }
       for (let j = 0; j < images.length; j++) {
         let image = images[j];
         gif.addFrame(image, {
-          delay: videoFrames[j].duration,
+          delay: gifState.videoFrames[j].duration,
           copy: true,
         });
       }
@@ -112,10 +113,10 @@ const File = () => {
   function handleUploadImg(event) {
     const file = event.target.files[0];
     if (window.electronAPI) {
-      setImgUrl(file.path);
+      gifDispatch({ type: 'setImgUrl', imgUrl: file.path });
     } else {
       const imgUrl = window.URL.createObjectURL(file);
-      setImgUrl(imgUrl);
+      gifDispatch({ type: 'setImgUrl', imgUrl: imgUrl });
     }
     event.target.value = '';
   }
@@ -129,7 +130,7 @@ const File = () => {
         console.log('OK');
         const res = (await api.deleteFileCache('cg')) as any;
         if (res.code == 0) {
-          setVideoFrames([]);
+          gifDispatch({ type: 'setVideoFrames', videoFrames: [] });
         }
       },
       onCancel() {
@@ -138,12 +139,23 @@ const File = () => {
     });
   }
 
+  function handleUploadVideo(event) {
+    const file = event.target.files[0];
+    if (window.electronAPI) {
+      gifDispatch({ type: 'setVideoUrl', videoUrl: file.path });
+    } else {
+      const videoUrl = window.URL.createObjectURL(file);
+      gifDispatch({ type: 'setVideoUrl', videoUrl: videoUrl });
+    }
+    event.target.value = '';
+  }
+
   return (
     <div className={`${styles.file}`}>
       <div className="fileList">
         <div className="fileBtn" onClick={() => fileRef.current.click()}>
-          <FileGifOutlined className="fileIcon openIcon" />
-          <div className="fileBtnTitle">打开文件</div>
+          <FileGif theme="outline" size="27" fill="#749EC4" />
+          <div className="fileBtnTitle">打开动图</div>
           <input
             type="file"
             ref={fileRef}
@@ -152,13 +164,29 @@ const File = () => {
             onChange={handleUploadImg}
           />
         </div>
-        <div className="fileBtn">
-          <SaveOutlined className="fileIcon saveIcon" onClick={handleSaveClick} />
-          <div className="fileBtnTitle">保存</div>
+        <div className="fileBtn" onClick={() => videoRef.current.click()}>
+          <VideoFile
+            className="fileIcon openIcon"
+            theme="outline"
+            size="27"
+            fill="rgb(177 143 193)"
+          />
+          <div className="fileBtnTitle">打开视频</div>
+          <input
+            type="file"
+            ref={videoRef}
+            accept=".mp4"
+            className="videoRef hide"
+            onChange={handleUploadVideo}
+          />
+        </div>
+        <div className="fileBtn" onClick={handleSaveClick}>
+          <Save className="fileIcon saveIcon" theme="outline" size="27" fill="rgb(235 191 124)" />
+          <div className="fileBtnTitle">保存GIF</div>
           {percent ? <Progress size="small" percent={percent} showInfo={false} /> : ''}
         </div>
         <div className="fileBtn" onClick={handleCloseClick}>
-          <CloseOutlined className="fileIcon closeIcon" />
+          <Close className="fileIcon closeIcon" theme="outline" size="27" fill="#666" />
           <div className="fileBtnTitle">放弃项目</div>
         </div>
       </div>
