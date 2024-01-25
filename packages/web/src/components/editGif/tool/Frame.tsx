@@ -84,6 +84,10 @@ const Frame = (props) => {
     historyDispatch({ type: 'increment', data: { curd: 'deletePrevList', index, videoFrames } });
   }
 
+  function handleMovePrevFrame() {}
+
+  function handleMoveNextFrame() {}
+
   return (
     <div className={`${styles.frame}`}>
       <div className="frameList">

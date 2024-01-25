@@ -3,18 +3,18 @@
   border-right: 1px solid #ccc;
   :global {
     .frameList {
-      width: 100%;
       display: flex;
+      width: 100%;
       .frameBtn {
         width: 25%;
         height: 70px;
-        text-align: center;
         padding-top: 10px;
+        text-align: center;
         cursor: pointer;
         .frameBtnTitle {
-          font-size: 14px;
           margin-top: 5px;
           color: #888;
+          font-size: 14px;
         }
       }
       .frameBtn:hover {
@@ -23,10 +23,10 @@
     }
     .subTitle {
       width: 100%;
-      text-align: center;
       color: rgb(191 191 191);
       font-size: 14px;
       line-height: 20px;
+      text-align: center;
     }
   }
 }
