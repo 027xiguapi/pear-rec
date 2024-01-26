@@ -6,29 +6,44 @@ import { useApi } from '../../../api';
 import { GifContext } from '../../context/GifContext';
 import { HistoryContext } from '../../context/HistoryContext';
 import { UserContext } from '../../context/UserContext';
-import SpliceImg from '../spliceImg/Index';
+import SpliceImg from '../../spliceImg';
 import styles from './splice.module.scss';
 
-const Setting = (props) => {
+const Splice = (props) => {
   const { t } = useTranslation();
   const api = useApi();
   const { user, setUser } = useContext(UserContext);
   const { historyState, historyDispatch } = useContext(HistoryContext);
   const { gifState, gifDispatch } = useContext(GifContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVertical, setIsVertical] = useState(true);
 
   function handleVerticalSpliceFrames() {
-    const newVideoFrames = [...gifState.videoFrames];
-    const videoFrame = newVideoFrames[gifState.index];
+    // const newVideoFrames = [...gifState.videoFrames];
+    // const videoFrame = newVideoFrames[gifState.index];
     setIsModalOpen(true);
-    console.log(videoFrame);
+    setIsVertical(true);
+    // console.log(videoFrame);
   }
 
   function handleHorizontalSpliceFrames() {
     const newVideoFrames = [...gifState.videoFrames];
     const videoFrame = newVideoFrames[gifState.index];
     setIsModalOpen(true);
+    setIsVertical(false);
     console.log(videoFrame);
+  }
+
+  function handleSave(blob) {
+    let url = URL.createObjectURL(blob);
+    let currentVideoFrame = gifState.videoFrames[gifState.index];
+    let newVideoFrame = {
+      ...currentVideoFrame,
+      url: url,
+    };
+    const newVideoFrames = [...gifState.videoFrames];
+    newVideoFrames.splice(gifState.index, 1, newVideoFrame);
+    gifDispatch({ type: 'setVideoFrames', videoFrames: newVideoFrames });
   }
 
   return (
@@ -52,10 +67,10 @@ const Setting = (props) => {
         onCancel={() => setIsModalOpen(false)}
         footer={[]}
       >
-        <SpliceImg />
+        <SpliceImg onSave={handleSave} isVertical={isVertical} />
       </Modal>
     </div>
   );
 };
 
-export default Setting;
+export default Splice;

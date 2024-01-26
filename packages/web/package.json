@@ -1,7 +1,7 @@
 {
   "name": "@pear-rec/web",
   "private": true,
-  "version": "1.3.20",
+  "version": "1.3.21",
   "scripts": {
     "dev": "vite",
     "build": "rimraf dist && tsc && vite build",
@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@icon-park/react": "^1.4.2",
     "@pear-rec/recorder": "workspace:^",
     "@pear-rec/screenshot": "workspace:^",
@@ -25,6 +28,7 @@
     "gif.js": "^0.2.0",
     "i18next": "^23.4.6",
     "js-cookie": "^3.0.5",
+    "konva": "^9.3.1",
     "plyr": "^3.7.8",
     "qr-scanner": "^1.4.2",
     "re-resizable": "^6.9.11",
@@ -32,8 +36,10 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^13.2.1",
     "react-icons": "^4.8.0",
+    "react-konva": "^18.2.10",
     "sass": "^1.69.5",
     "tui-image-editor": "^3.15.3",
+    "use-image": "^1.1.1",
     "viewerjs": "^1.11.3",
     "wavesurfer.js": "^7.6.2"
   },

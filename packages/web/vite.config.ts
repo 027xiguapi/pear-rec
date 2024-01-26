@@ -1,7 +1,7 @@
-import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import { resolve, join } from 'path';
+import { join, resolve } from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 const buildOptionsProject = {
@@ -22,6 +22,7 @@ const buildOptionsProject = {
       viewAudio: resolve(__dirname, 'src/pages/viewAudio.html'),
       records: resolve(__dirname, 'src/pages/records.html'),
       editGif: resolve(__dirname, 'src/pages/editGif.html'),
+      spliceImage: resolve(__dirname, 'src/pages/spliceImage.html'),
     },
   },
   outDir: resolve(__dirname, 'dist'),
