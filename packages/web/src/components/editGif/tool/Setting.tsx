@@ -43,12 +43,6 @@ const Setting = (props) => {
     saveAs(videoFrame.url, `pear-rec_${+new Date()}.png`);
   }
 
-  // function handleEditFrame() {
-  // const newVideoFrames = [...gifState.videoFrames];
-  // const videoFrame = newVideoFrames[gifState.index];
-  // console.log(videoFrame);
-  // }
-
   function handleEditFrame(blob) {
     let url = URL.createObjectURL(blob);
     let currentVideoFrame = gifState.videoFrames[gifState.index];

@@ -1,9 +1,6 @@
-.pinImage {
+.spliceImage {
   width: 100%;
-  height: calc(100vh - 2px);
-  overflow: hidden;
-  border: 1px dashed rgba(250, 250, 250, 0.1);
-  -webkit-app-region: drag;
+  height: 100vh;
   :global {
     .header {
       opacity: 0;

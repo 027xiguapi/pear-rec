@@ -6,7 +6,7 @@ import { HistoryContext } from '../../context/HistoryContext';
 import { UserContext } from '../../context/UserContext';
 import styles from './move.module.scss';
 
-const Frame = (props) => {
+const Move = (props) => {
   const { t } = useTranslation();
   const { user, setUser } = useContext(UserContext);
   const { historyState, historyDispatch } = useContext(HistoryContext);
@@ -80,4 +80,4 @@ const Frame = (props) => {
   );
 };
 
-export default Frame;
+export default Move;
