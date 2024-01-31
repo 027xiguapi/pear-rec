@@ -44,7 +44,7 @@ const DraggableUploadListItem = ({ originNode, file }: DraggableUploadListItemPr
   );
 };
 
-const ImgList: React.FC = () => {
+const UploadImg: React.FC = () => {
   const { fileList, setFileList } = useContext(ImgListContext);
 
   const sensor = useSensor(PointerSensor, {
@@ -61,7 +61,7 @@ const ImgList: React.FC = () => {
     }
   };
 
-  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+  const onChange: UploadProps['onChange'] = ({ fileList: newFileList, file, event }) => {
     setFileList(newFileList);
   };
 
@@ -88,4 +88,4 @@ const ImgList: React.FC = () => {
   );
 };
 
-export default ImgList;
+export default UploadImg;

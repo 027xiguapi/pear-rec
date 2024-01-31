@@ -86,6 +86,7 @@ const Setting = (props) => {
         width={'90%'}
         style={{ top: 10 }}
         open={isModalOpen}
+        destroyOnClose
         // onOk={() => setIsModalOpen(false)}
         onCancel={() => setIsModalOpen(false)}
         footer={[]}
