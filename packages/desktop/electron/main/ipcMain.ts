@@ -22,6 +22,7 @@ import * as recorderVideoWin from '../win/recorderVideoWin';
 import * as recordsWin from '../win/recordsWin';
 import * as settingWin from '../win/settingWin';
 import * as shotScreenWin from '../win/shotScreenWin';
+import * as spliceImageWin from '../win/spliceImageWin';
 import * as viewAudioWin from '../win/viewAudioWin';
 import * as viewImageWin from '../win/viewImageWin';
 import * as viewVideoWin from '../win/viewVideoWin';
@@ -227,6 +228,14 @@ function initIpcMain() {
   });
   ipcMain.on('ei:download-img', (e, imgUrl) => {
     editImageWin.downloadImg(imgUrl);
+  });
+
+  // 图片拼接
+  ipcMain.on('si:close-win', () => {
+    spliceImageWin.closeSpliceImageWin();
+  });
+  ipcMain.on('si:open-win', () => {
+    spliceImageWin.openSpliceImageWin();
   });
 
   // 动图编辑

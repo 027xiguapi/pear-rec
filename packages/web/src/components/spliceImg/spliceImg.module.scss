@@ -3,9 +3,6 @@
   height: 100vh;
   :global {
     .sider {
-      // width: 315px;
-      // min-width: 315px;
-      // max-width: 315px;
       height: 100%;
       padding: 10px;
       text-align: 'center';
@@ -21,6 +18,13 @@
       overflow: auto;
       .tool {
         margin-bottom: 10px;
+        .toolRow {
+          margin-bottom: 5px;
+        }
+        .toolLabel {
+          display: inline-block;
+          margin-top: 15px;
+        }
       }
       .canvas {
         overflow: auto;

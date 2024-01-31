@@ -1,6 +1,6 @@
 import { AlignHorizontally, AlignVertically } from '@icon-park/react';
 import { Modal } from 'antd';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApi } from '../../../api';
 import { GifContext } from '../../context/GifContext';
@@ -15,23 +15,40 @@ const Splice = (props) => {
   const { user, setUser } = useContext(UserContext);
   const { historyState, historyDispatch } = useContext(HistoryContext);
   const { gifState, gifDispatch } = useContext(GifContext);
+  const fileListRef = useRef([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVertical, setIsVertical] = useState(true);
 
   function handleVerticalSpliceFrames() {
-    // const newVideoFrames = [...gifState.videoFrames];
-    // const videoFrame = newVideoFrames[gifState.index];
-    setIsModalOpen(true);
+    const newVideoFrames = [...gifState.videoFrames];
+    const videoFrame = newVideoFrames[gifState.index];
     setIsVertical(true);
-    // console.log(videoFrame);
+    const _fileList = [
+      {
+        uid: videoFrame.index + '-' + new Date(),
+        name: videoFrame.index + '.png',
+        url: videoFrame.url,
+        thumbUrl: videoFrame.url,
+      },
+    ];
+    fileListRef.current = _fileList;
+    setIsModalOpen(true);
   }
 
   function handleHorizontalSpliceFrames() {
     const newVideoFrames = [...gifState.videoFrames];
     const videoFrame = newVideoFrames[gifState.index];
-    setIsModalOpen(true);
     setIsVertical(false);
-    console.log(videoFrame);
+    const _fileList = [
+      {
+        uid: videoFrame.index + '-' + new Date(),
+        name: videoFrame.index + '.png',
+        url: videoFrame.url,
+        thumbUrl: videoFrame.url,
+      },
+    ];
+    fileListRef.current = _fileList;
+    setIsModalOpen(true);
   }
 
   function handleSave(blob) {
@@ -61,13 +78,15 @@ const Splice = (props) => {
       <div className="subTitle">拼接</div>
       <Modal
         title="拼接图片"
-        style={{ top: 20 }}
+        width={'90%'}
+        style={{ top: 10 }}
         open={isModalOpen}
+        destroyOnClose
         // onOk={() => setIsModalOpen(false)}
         onCancel={() => setIsModalOpen(false)}
         footer={[]}
       >
-        <SpliceImg onSave={handleSave} isVertical={isVertical} />
+        <SpliceImg onSave={handleSave} isVertical={isVertical} fileList={fileListRef.current} />
       </Modal>
     </div>
   );

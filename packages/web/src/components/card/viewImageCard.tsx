@@ -11,13 +11,14 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
   const imgRef = useRef(null);
   const directoryRef = useRef(null);
 
-  // function handleViewImage(e: any) {
-  //   window.electronAPI ? window.electronAPI.sendViOpenWin() : (location.href = '/viewImage.html');
-  //   e.stopPropagation();
-  // }
-
   const onClick: MenuProps['onClick'] = ({ key }) => {
-    if (key == 'pin') {
+    if (key == 'edit') {
+      imgRef.current.click();
+    } else if (key == 'splice') {
+      if (window.isElectron) {
+        window.electronAPI.sendSiOpenWin();
+      }
+    } else if (key == 'pin') {
       pinRef.current.click();
     } else if (key == 'file') {
       fileRef.current.click();
@@ -28,10 +29,6 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 
   const items: MenuProps['items'] = [
     {
-      label: '钉图',
-      key: 'pin',
-    },
-    {
       label: '打开图片',
       key: 'file',
     },
@@ -39,6 +36,19 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
       label: '打开文件夹',
       key: 'directory',
       disabled: !window.electronAPI,
+    },
+    {
+      label: '钉图',
+      key: 'pin',
+      disabled: !window.electronAPI,
+    },
+    {
+      label: '编辑图片',
+      key: 'edit',
+    },
+    {
+      label: '拼接图片',
+      key: 'splice',
     },
   ];
 
@@ -63,7 +73,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 
   function handleUploadImg(event) {
     const file = event.target.files[0];
-    if (window.electronAPI) {
+    if (window.isElectron) {
       window.electronAPI.sendEiOpenWin({ imgUrl: file.path });
     } else {
       const imgUrl = window.URL.createObjectURL(file);
@@ -82,7 +92,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 
   function handleUploadDirectory(event) {
     const file = event.target.files[0];
-    if (window.electronAPI) {
+    if (window.isElectron) {
       window.electronAPI.sendViOpenWin({ imgUrl: file.path });
     }
     event.target.value = '';
@@ -90,19 +100,8 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 
   function handlePinImg(event) {
     const file = event.target.files[0];
-    if (window.electronAPI) {
+    if (window.isElectron) {
       window.electronAPI.sendPiOpenWin({ imgUrl: file.path });
-    } else {
-      const imgUrl = window.URL.createObjectURL(file);
-      Modal.confirm({
-        title: '提示',
-        content: `是否钉图${file.name}`,
-        okText: t('modal.ok'),
-        cancelText: t('modal.cancel'),
-        onOk() {
-          window.open(`/pinImage.html?imgUrl=${encodeURIComponent(imgUrl)}`);
-        },
-      });
     }
     event.target.value = '';
   }
