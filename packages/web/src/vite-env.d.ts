@@ -8,6 +8,7 @@ declare global {
     isElectron: boolean;
     isOffline: boolean;
     baseURL: string;
+    showSaveFilePicker: any;
   }
 }
 

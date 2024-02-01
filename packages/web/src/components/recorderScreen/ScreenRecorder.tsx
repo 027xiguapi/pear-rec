@@ -2,6 +2,8 @@ import { Local } from '@/util/storage';
 import { CameraOutlined, SettingOutlined } from '@ant-design/icons';
 import Timer from '@pear-rec/timer';
 import useTimer from '@pear-rec/timer/src/useTimer';
+import { mp4StreamToOPFSFile } from '@webav/av-cliper';
+import { AVRecorder } from '@webav/av-recorder';
 import { Button, Modal, message } from 'antd';
 import { saveAs } from 'file-saver';
 import { useEffect, useRef, useState } from 'react';
@@ -22,7 +24,8 @@ const ScreenRecorder = (props) => {
   const videoRef = useRef<HTMLVideoElement>();
   const mediaStream = useRef<MediaStream>(); // 视频流
   const audioStream = useRef<MediaStream>(); // 声音流
-  const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
+  const mediaRecorder = useRef<AVRecorder | null>(); // 媒体录制器对象
+  const outputStream = useRef<any>();
   const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
   const recordedUrl = useRef<string>(''); // 存储录制的音频数据
   const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
@@ -44,7 +47,19 @@ const ScreenRecorder = (props) => {
       api.deleteFileCache('cg');
       Local.remove('videoFrames');
     }
+    return () => {
+      mediaRecorder.current?.stop();
+    };
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (outputStream.current == null) return;
+      const opfsFile = await mp4StreamToOPFSFile(outputStream.current);
+      saveAs(opfsFile, `pear-rec_${+new Date()}.mp4`);
+      isSave.current = false;
+    })();
+  }, [outputStream.current]);
 
   async function getCurrentUser() {
     try {
@@ -133,34 +148,8 @@ const ScreenRecorder = (props) => {
 
   async function setMediaRecorder() {
     window.isElectron && (await cropStream());
-    mediaRecorder.current = new MediaRecorder(mediaStream.current);
-    mediaRecorder.current.ondataavailable = (event) => {
-      if (event.data.size > 0) {
-        recordedChunks.current.push(event.data);
-      }
-    };
-
-    mediaRecorder.current.onstart = (event) => {
-      timer.start();
-      setIsRecording(true);
-      props.setIsRecording && props.setIsRecording(true);
-    };
-
-    mediaRecorder.current.onstop = (event) => {
-      exportRecord();
-      timer.reset();
-      worker.postMessage({
-        status: 'stop',
-      });
-    };
-
-    mediaRecorder.current.onpause = (event) => {
-      timer.pause();
-    };
-
-    mediaRecorder.current.onresume = (event) => {
-      timer.resume();
-    };
+    const recodeMS = mediaStream.current.clone();
+    mediaRecorder.current = new AVRecorder(recodeMS);
   }
 
   function handleOpenSettingWin() {
@@ -181,25 +170,36 @@ const ScreenRecorder = (props) => {
   // 开始录制
   async function handleStartRecord() {
     await setMediaRecorder();
-    mediaRecorder.current.start();
+    await mediaRecorder.current.start();
+    outputStream.current = mediaRecorder.current.outputStream;
+
+    setIsRecording(true);
+    props.setIsRecording && props.setIsRecording(true);
+    timer.start();
   }
 
   // 暂停录制
   function handlePauseRecord() {
     mediaRecorder.current.pause();
+    timer.pause();
   }
 
   // 恢复录制
   function handleResumeRecord() {
     mediaRecorder.current.resume();
+    timer.resume();
   }
 
   // 停止录制，并将录制的音频数据导出为 Blob 对象
-  function handleStopRecord() {
+  async function handleStopRecord() {
     isSave.current = true;
+    timer.reset();
     if (isRecording) {
-      mediaRecorder.current.stop();
+      await mediaRecorder.current.stop();
     }
+    worker.postMessage({
+      status: 'stop',
+    });
   }
 
   // 导出录屏文件
