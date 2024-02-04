@@ -43,10 +43,10 @@ const ScreenRecorder = (props) => {
       initCropArea();
     }
     user.id || getCurrentUser();
-    if (type == 'gif') {
-      api.deleteFileCache('cg');
-      Local.remove('videoFrames');
-    }
+    // if (type == 'gif') {
+    //   api.deleteFileCache('cg');
+    //   Local.remove('videoFrames');
+    // }
     return () => {
       mediaRecorder.current?.stop();
     };
@@ -56,7 +56,7 @@ const ScreenRecorder = (props) => {
     (async () => {
       if (outputStream.current == null) return;
       const opfsFile = await mp4StreamToOPFSFile(outputStream.current);
-      saveAs(opfsFile, `pear-rec_${+new Date()}.mp4`);
+      window.isOffline ? saveAs(opfsFile, `pear-rec_${+new Date()}.mp4`) : saveFile(opfsFile);
       isSave.current = false;
     })();
   }, [outputStream.current]);
@@ -127,7 +127,6 @@ const ScreenRecorder = (props) => {
         readable,
         writable,
         size,
-        type,
         status: 'start',
       },
       [readable, writable],
@@ -203,29 +202,29 @@ const ScreenRecorder = (props) => {
   }
 
   // 导出录屏文件
-  async function exportRecord() {
-    if (type == 'gif') {
-      const res = (await api.getFileCache('cg')) as any;
-      if (res.code == 0) {
-        if (window.isElectron) {
-          window.electronAPI.sendRsCloseWin();
-          window.electronAPI.sendEgOpenWin({ filePath: res.data });
-        } else {
-          window.open(`/editGif.html?filePath=${res.data}`);
-        }
-      }
-    } else {
-      if (recordedChunks.current.length > 0) {
-        const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
-        const url = URL.createObjectURL(blob);
-        recordedUrl.current = url;
-        isSave.current = false;
-        console.log('录屏地址：', url);
-        recordedChunks.current = [];
-        window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
-      }
-    }
-  }
+  // async function exportRecord() {
+  //   if (type == 'gif') {
+  //     const res = (await api.getFileCache('cg')) as any;
+  //     if (res.code == 0) {
+  //       if (window.isElectron) {
+  //         window.electronAPI.sendRsCloseWin();
+  //         window.electronAPI.sendEgOpenWin({ filePath: res.data });
+  //       } else {
+  //         window.open(`/editGif.html?filePath=${res.data}`);
+  //       }
+  //     }
+  //   } else {
+  //     if (recordedChunks.current.length > 0) {
+  //       const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
+  //       const url = URL.createObjectURL(blob);
+  //       recordedUrl.current = url;
+  //       isSave.current = false;
+  //       console.log('录屏地址：', url);
+  //       recordedChunks.current = [];
+  //       window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
+  //     }
+  //   }
+  // }
 
   async function saveFile(blob) {
     try {
@@ -238,7 +237,9 @@ const ScreenRecorder = (props) => {
       if (res.code == 0) {
         if (window.isElectron) {
           window.electronAPI.sendRsCloseWin();
-          window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
+          type == 'gif'
+            ? window.electronAPI.sendEgOpenWin({ videoUrl: res.data.filePath })
+            : window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
         } else {
           Modal.confirm({
             title: '录屏已保存，是否查看？',
@@ -246,7 +247,9 @@ const ScreenRecorder = (props) => {
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
-              window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
+              type == 'gif'
+                ? window.open(`/editGif.html?videoUrl=${res.data.filePath}`)
+                : window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
             },
           });
         }

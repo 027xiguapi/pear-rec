@@ -10,7 +10,6 @@ let x = 0;
 let y = 0;
 let width = 0;
 let height = 0;
-let type = '';
 let num = 0;
 let videoFrames = [];
 
@@ -24,45 +23,12 @@ function transform(frame, controller) {
     },
   });
   num++;
-  if (type == 'gif' && num % 3 == 0) {
-    saveImg(newFrame);
-  }
   controller.enqueue(newFrame);
   frame.close();
 }
 
-async function saveImg(videoFrame) {
-  const canvas = new OffscreenCanvas(videoFrame.displayWidth, videoFrame.displayHeight);
-  const context = canvas.getContext('2d');
-  context.drawImage(videoFrame, 0, 0);
-  canvas.convertToBlob({ type: 'image/jpeg' }).then((blob) => {
-    uploadFile(blob);
-  });
-}
-
-async function uploadFile(blob) {
-  let formData = new FormData();
-  formData.append('type', 'cg');
-  formData.append('file', blob);
-
-  const rsp = await fetch('http://localhost:9190/file/cache', {
-    method: 'POST',
-    body: formData,
-  });
-  const res = await rsp.json();
-  if (res.code == 0) {
-    videoFrames.push({
-      url: `http://localhost:9190/file?url=${res.data}`,
-      filePath: res.data,
-      index: num / 3,
-      duration: 100,
-    });
-  }
-}
-
 onmessage = async (event) => {
   const { operation, size, status } = event.data;
-  type = event.data.type;
   num = 0;
   if (operation === 'crop' && status == 'start') {
     const { readable, writable } = event.data;

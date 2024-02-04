@@ -30,10 +30,6 @@ const EditGif = () => {
   }, []);
 
   useEffect(() => {
-    gifState.filePath && loadFilePath();
-  }, [gifState.filePath]);
-
-  useEffect(() => {
     gifState.videoUrl && loadVideo();
   }, [gifState.videoUrl]);
 
@@ -52,16 +48,10 @@ const EditGif = () => {
 
   async function init() {
     let _videoUrl = searchParams.get('videoUrl');
-    let _filePath = searchParams.get('filePath');
     let _imgUrl = searchParams.get('imgUrl');
 
     _videoUrl && gifDispatch({ type: 'setVideoUrl', videoUrl: _videoUrl });
     _imgUrl && gifDispatch({ type: 'setImgUrl', imgUrl: _imgUrl });
-    _filePath && gifDispatch({ type: 'setFilePath', filePath: _filePath });
-  }
-
-  async function loadFilePath() {
-    gifDispatch({ type: 'setVideoFrames', videoFrames: Local.get('videoFrames') });
   }
 
   async function fetchImageByteStream(imgUrl: string) {
@@ -128,22 +118,6 @@ const EditGif = () => {
     }
   }
 
-  // function loadVideo() {
-  //   let _videoUrl = gifState.videoUrl;
-  //   if (_videoUrl && _videoUrl.substring(0, 4) != 'blob') {
-  //     _videoUrl = `${window.baseURL}file?url=${gifState.videoUrl}`;
-  //   }
-  //   fetch(_videoUrl)
-  //     .then((response) => response.blob())
-  //     .then((blob) => {
-  //       const _recordedUrl = URL.createObjectURL(blob);
-  //       // setRecordedUrl(_recordedUrl);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Failed to download and play video:', error);
-  //     });
-  // }
-
   function loadVideo() {
     let _videoUrl = gifState.videoUrl;
     if (_videoUrl && _videoUrl.substring(0, 4) != 'blob') {
@@ -158,13 +132,13 @@ const EditGif = () => {
     function setStatus(message) {
       let _videoFrames = [];
 
-      message.data['imgs'] &&
-        message.data['imgs'].map((_videoFrame, index) => {
+      message.data['imgs'] instanceof Array &&
+        message.data['imgs']?.map((_videoFrame, index) => {
           _videoFrames.push({
-            url: _videoFrame,
-            filePath: _videoFrame,
-            index: index,
-            duration: duration,
+            url: _videoFrame.url,
+            filePath: _videoFrame.url,
+            index: _videoFrame.index,
+            duration: (_videoFrame.duration / 1000).toFixed(0),
           });
         });
 
