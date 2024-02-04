@@ -3,7 +3,6 @@ import { createContext } from 'react';
 export const gifInitialState: any = {
   imgUrl: '',
   videoUrl: '',
-  filePath: '',
   videoFrames: [],
   index: 0,
   load: 0,
@@ -21,9 +20,6 @@ export function gifReducer(state, action) {
     }
     case 'setVideoUrl': {
       return { ...state, videoUrl: action.videoUrl };
-    }
-    case 'setFilePath': {
-      return { ...state, filePath: action.filePath };
     }
     case 'setIndex': {
       return { ...state, index: action.index };

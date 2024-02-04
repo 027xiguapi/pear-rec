@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const fileTypeMap = {
       ss: 'png',
-      rs: 'webm',
+      rs: 'mp4',
       ra: 'webm',
       ei: 'png',
     };

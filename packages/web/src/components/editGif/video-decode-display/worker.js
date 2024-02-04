@@ -39,11 +39,8 @@ function renderFrame(frame) {
 }
 
 async function renderAnimationFrame() {
-  let isSetImg = frameCount % times == 0;
-  renderer.draw(pendingFrame, isSetImg);
-  if (isSetImg) {
-    setStatus('imgs', renderer.getImgs());
-  }
+  renderer.draw(pendingFrame);
+  setStatus('imgs', renderer.getImgs());
   pendingFrame = null;
 }
 
@@ -82,6 +79,7 @@ function start({ dataUri, rendererName, canvas, duration }) {
       renderFrame(frame);
     },
     error(e) {
+      console.log('decoder error', e);
       setStatus('decode', e);
     },
   });

@@ -1,8 +1,8 @@
-import React, { useImperativeHandle, forwardRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { CameraOutlined, DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Card, Space, Button, Dropdown } from 'antd';
+import { Card, Dropdown, Space } from 'antd';
+import { forwardRef, useImperativeHandle } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const RecordScreenCard = forwardRef((props: any, ref: any) => {
   useImperativeHandle(ref, () => ({}));
@@ -10,17 +10,25 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
 
   const items: MenuProps['items'] = [
     {
-      label: '录屏',
+      label: '区域录屏',
       key: 'video',
     },
     {
-      label: 'GIF',
+      label: '录动图(GIF)',
       key: 'gif',
+    },
+    {
+      label: '录全屏',
+      key: 'full',
     },
   ];
 
   const onClick: MenuProps['onClick'] = ({ key }) => {
-    handleClipScreenClick(key);
+    if (key == 'full') {
+      handleFullScreenClick();
+    } else {
+      handleClipScreenClick(key);
+    }
   };
 
   function handleClipScreenClick(type) {

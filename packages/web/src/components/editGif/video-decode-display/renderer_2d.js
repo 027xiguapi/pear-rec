@@ -9,16 +9,16 @@ class Canvas2DRenderer {
     this.imgs = [];
   }
 
-  async draw(frame, isSetImg) {
+  async draw(frame) {
     this.#canvas.width = frame.displayWidth;
     this.#canvas.height = frame.displayHeight;
     this.#ctx.drawImage(frame, 0, 0, frame.displayWidth, frame.displayHeight);
     frame.close();
-    if (isSetImg) {
-      await this.#canvas.convertToBlob({ type: 'image/jpeg' }).then((blob) => {
-        this.imgs.push(URL.createObjectURL(blob));
-      });
-    }
+    await this.#canvas.convertToBlob({ type: 'image/jpeg' }).then((blob) => {
+      let url = URL.createObjectURL(blob);
+      let duration = frame.duration;
+      this.imgs.push({ index: this.imgs.length, url, duration });
+    });
   }
 
   getImgs() {
