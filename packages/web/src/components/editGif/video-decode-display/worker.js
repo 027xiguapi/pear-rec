@@ -22,7 +22,6 @@ let renderer = null;
 let pendingFrame = null;
 let startTime = null;
 let frameCount = 0;
-let times = 3;
 
 function renderFrame(frame) {
   if (!pendingFrame) {
@@ -68,7 +67,6 @@ function start({ dataUri, rendererName, canvas, duration }) {
       // Update statistics.
       if (startTime == null) {
         startTime = performance.now();
-        times = Math.round(duration / (frame.duration / 1000));
       } else {
         const elapsed = (performance.now() - startTime) / 1000;
         const fps = ++frameCount / elapsed;

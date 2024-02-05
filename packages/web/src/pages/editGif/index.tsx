@@ -132,7 +132,9 @@ const EditGif = () => {
     function setStatus(message) {
       let _videoFrames = [];
 
-      message.data['imgs'] instanceof Array &&
+      message.data['fetch'] && gifDispatch({ type: 'setLoad', load: 20 });
+
+      if (message.data['imgs'] instanceof Array) {
         message.data['imgs']?.map((_videoFrame, index) => {
           _videoFrames.push({
             url: _videoFrame.url,
@@ -142,7 +144,9 @@ const EditGif = () => {
           });
         });
 
-      gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
+        gifDispatch({ type: 'setLoad', load: 100 });
+        gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
+      }
     }
     worker.addEventListener('message', setStatus);
 

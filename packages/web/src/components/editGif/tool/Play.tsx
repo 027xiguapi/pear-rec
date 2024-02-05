@@ -15,30 +15,34 @@ const Play = (props) => {
   const { t } = useTranslation();
   const { gifState, gifDispatch } = useContext(GifContext);
   const [isPlay, setIsPlay] = useState(false);
-  const timerRef = useRef<any>('');
+  const timerRefs = useRef<any>([]);
 
   useEffect(() => {
     if (isPlay) {
-      const length = gifState.videoFrames.length;
-      let index = gifState.index;
-      let duration = 0;
-      for (let i = gifState.index; i < length; i++) {
-        let videoFrame = gifState.videoFrames[i];
-        duration += videoFrame.duration;
-        timerRef.current = setTimeout(() => {
-          props.setCurrentVideoFrame(index);
-          index++;
-          if (index >= length - 1) {
-            clearTimeout(timerRef.current);
-            setIsPlay(false);
-            props.setCurrentVideoFrame(0);
-          }
-        }, duration);
-      }
+      renderVideoFrame(gifState.index);
     } else {
-      clearInterval(timerRef.current);
+      timerRefs.current.map((timer) => {
+        clearTimeout(timer);
+      });
     }
   }, [isPlay]);
+
+  async function renderVideoFrame(index) {
+    const length = gifState.videoFrames.length;
+    if (index + 1 >= length) {
+      setIsPlay(false);
+      props.setCurrentVideoFrame(0);
+    } else {
+      const videoFrame = gifState.videoFrames[index];
+      const duration = videoFrame.duration;
+      const timer = setTimeout(() => {
+        props.setCurrentVideoFrame(index);
+        renderVideoFrame(index + 1);
+      }, duration);
+
+      timerRefs.current.push(timer);
+    }
+  }
 
   function handlePlayClick() {
     setIsPlay(true);
