@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/x-icon" href="/imgs/logo/favicon.ico" />
+    <title>pear-rec | 画布</title>
+	  <link rel="stylesheet" href="./canvas/style.css">
+		<script src="/js/mp4-muxer.js" defer></script>
+		<script src="./canvas/script.js" defer></script>
+    <script>
+      postMessage({ payload: 'removeLoading' }, '*');
+    </script>
+	</head>
+	<body>
+		<main>
+			<h1>开始画画吧!</h1>
+			<!-- <h2>The live canvas state and your microphone input will be recorded<br>and muxed into an MP4 file.</h2> -->
+			<div id="controls">
+				<button id="start-recording">开始录制</button>
+				<button id="end-recording" style="display: none;">停止录制</button>
+			</div>
+			<canvas width="900" height="480"></canvas>
+			<p id="recording-status"></p>
+		</main>
+	</body>
+</html>

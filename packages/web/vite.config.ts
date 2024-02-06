@@ -23,6 +23,7 @@ const buildOptionsProject = {
       records: resolve(__dirname, 'src/pages/records.html'),
       editGif: resolve(__dirname, 'src/pages/editGif.html'),
       spliceImage: resolve(__dirname, 'src/pages/spliceImage.html'),
+      canvas: resolve(__dirname, 'src/pages/canvas.html'),
     },
   },
   outDir: resolve(__dirname, 'dist'),
