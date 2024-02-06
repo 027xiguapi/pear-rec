@@ -1,143 +1,56 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Button, Modal, message } from 'antd';
-import { CameraOutlined } from '@ant-design/icons';
-import {
-  BsRecordCircle,
-  BsMic,
-  BsMicMute,
-  BsPlayFill,
-  BsPause,
-  BsFillStopFill,
-} from 'react-icons/bs';
-import ininitApp from '../../pages/main';
+import { AVCanvas, AudioSprite, ImgSprite, TextSprite, VideoSprite } from '@webav/av-canvas';
+import { AVRecorder } from '@webav/av-recorder';
+import { mp4StreamToOPFSFile } from '@webav/av-cliper';
+import { Button, Card, Divider, Modal, message, Flex } from 'antd';
+import React, { useEffect, useState, useRef } from 'react';
+import { saveAs } from 'file-saver';
 import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
-import { saveAs } from 'file-saver';
-import Timer from '@pear-rec/timer';
-import useTimer from '@pear-rec/timer/src/useTimer';
-import '@pear-rec/timer/src/Timer/index.module.scss';
-import styles from './index.module.scss';
+import { useTranslation } from 'react-i18next';
+import initApp from '../main';
 
-const RecorderVideo = () => {
+let avCvs: AVCanvas | null = null;
+let recorder: AVRecorder | null = null;
+
+function initCvs(attchEl: HTMLDivElement | null) {
+  if (attchEl == null) return;
+  avCvs = new AVCanvas(attchEl, {
+    bgColor: '#333',
+    resolution: {
+      width: 1920,
+      height: 1080,
+    },
+  });
+}
+
+export default function UI() {
   const { t } = useTranslation();
   const api = useApi();
   const userApi = useUserApi();
-  const userRef = useRef({} as any);
-  const previewVideo = useRef<HTMLVideoElement>();
-  const mediaStream = useRef<MediaStream>();
-  const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
-  const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
-  const audioTrack = useRef<any>(); // 音频轨道对象
-  const [isPause, setIsPause] = useState(false); // 标记是否暂停
-  const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
-  const [isMute, setIsMute] = useState(false); // 标记是否静音
-  const isSave = useRef<boolean>(false);
-  const timer = useTimer();
+  const [user, setUser] = useState({} as any);
+  const outputStream = useRef<any>();
+  const [stateText, setStateText] = useState('');
 
   useEffect(() => {
-    window.isOffline || userRef.current.id || getCurrentUser();
+    user.id || getCurrentUser();
+    return () => {
+      avCvs?.destroy();
+    };
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (outputStream.current == null) return;
+      const opfsFile = await mp4StreamToOPFSFile(outputStream.current);
+      window.isOffline ? saveAs(opfsFile, `pear-rec_${+new Date()}.mp4`) : saveFile(opfsFile);
+    })();
+  }, [outputStream.current]);
+
   async function getCurrentUser() {
-    try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        userRef.current = res.data;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  function startRecording() {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        previewVideo.current!.srcObject = stream;
-        mediaStream.current = stream;
-        audioTrack.current = stream.getAudioTracks()[0];
-        audioTrack.current.enabled = true; // 开启音频轨道
-        mediaRecorder.current = new MediaRecorder(stream);
-        mediaRecorder.current.addEventListener('dataavailable', (e) => {
-          if (e.data.size > 0) {
-            recordedChunks.current.push(e.data);
-          }
-        });
-        mediaRecorder.current.addEventListener('stop', () => {
-          isSave.current && exportRecording();
-        });
-        mediaRecorder.current.start();
-        setIsRecording(true);
-        timer.start();
-        console.log('开始录像...');
-      })
-      .catch((error) => {
-        console.error('无法获取媒体权限：', error);
-      });
-  }
-
-  // 静音录制
-  function muteRecording() {
-    if (audioTrack.current) {
-      audioTrack.current.enabled = false; // 关闭音频轨道
-      setIsMute(true);
-      console.log('录像已静音');
-    }
-  }
-
-  // 取消静音
-  function unmuteRecording() {
-    if (audioTrack.current) {
-      audioTrack.current.enabled = true; // 开启音频轨道
-      setIsMute(false);
-      console.log('取消静音');
-    }
-  }
-
-  // 暂停录制
-  function pauseRecording() {
-    if (!isPause && mediaRecorder.current.state === 'recording') {
-      mediaRecorder.current.pause();
-      setIsPause(true);
-      timer.pause();
-      console.log('录像已暂停');
-    }
-  }
-
-  // 恢复录制
-  function resumeRecording() {
-    if (isPause && mediaRecorder.current.state === 'paused') {
-      mediaRecorder.current.resume();
-      setIsPause(false);
-      timer.resume();
-      console.log('恢复录像...');
-    }
-  }
-
-  // 停止录制，并将录制的音频数据导出为 Blob 对象
-  function stopRecording() {
-    if (isRecording) {
-      mediaRecorder.current.stop();
-      mediaStream.current?.getTracks().forEach((track) => track.stop());
-      setIsRecording(false);
-      timer.reset();
-      recordedChunks.current = [];
-      console.log('录像完成！');
-    }
-  }
-  // 导出录制的音频文件
-  function saveRecording() {
-    stopRecording();
-    isSave.current = true;
-  }
-
-  // 导出录制的音频文件
-  function exportRecording() {
-    if (recordedChunks.current.length > 0) {
-      const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
-      const url = URL.createObjectURL(blob);
-      window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
+    const res = (await userApi.getCurrentUser()) as any;
+    if (res.code == 0) {
+      const user = res.data;
+      setUser(user);
     }
   }
 
@@ -145,25 +58,21 @@ const RecorderVideo = () => {
     try {
       const formData = new FormData();
       formData.append('type', 'rv');
-      formData.append('userId', userRef.current.id);
+      formData.append('userId', user.id);
       formData.append('file', blob);
       const res = (await api.saveFile(formData)) as any;
       if (res.code == 0) {
         if (window.isElectron) {
-          window.electronAPI?.sendRvCloseWin();
-          window.electronAPI?.sendVvOpenWin({ videoUrl: res.data.filePath });
+          window.electronAPI.sendRvCloseWin();
+          window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
         } else {
           Modal.confirm({
-            title: '录像已保存，是否查看？',
+            title: '录屏已保存，是否查看？',
             content: `${res.data.filePath}`,
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
               window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
-              console.log('OK');
-            },
-            onCancel() {
-              console.log('Cancel');
             },
           });
         }
@@ -173,79 +82,131 @@ const RecorderVideo = () => {
     }
   }
 
-  function handleShotScreen() {
-    window.electronAPI?.sendRvShotScreen();
-  }
-
-  function handleToggleMute() {
-    isMute ? unmuteRecording() : muteRecording();
+  async function start() {
+    if (avCvs == null) return;
+    recorder = new AVRecorder(avCvs.captureStream(), {
+      width: 1920,
+      height: 1080,
+      bitrate: 5e6,
+      audioCodec: 'aac',
+    });
+    await recorder.start();
+    outputStream.current = recorder.outputStream;
+    setStateText('录制中...');
   }
 
   return (
-    <div className={styles.recorderVideo}>
-      { isRecording ? <></> : <div className="tip">点击下面按钮开始录像</div> }
-        <video className={isRecording ? "content" : "hide"} ref={previewVideo} playsInline autoPlay />
-      <div className="footer">
-        <BsRecordCircle className={'recordIcon ' + `${isRecording ? 'blink' : ''}`} />
-        <CameraOutlined
-          rev={undefined}
-          className={'recordIcon shotScreenBtn'}
-          onClick={handleShotScreen}
-        />
-        <div className="drgan"></div>
-        <Timer
-          seconds={timer.seconds}
-          minutes={timer.minutes}
-          hours={timer.hours}
-          className="timer"
-        />
-        <div className="recorderTools">
-          {!isSave ? (
-            <Button type="text" loading>
-              {t('recorderVideo.saving')}...
-            </Button>
-          ) : isRecording ? (
-            <>
-              <Button
-                type="text"
-                icon={<BsPause />}
-                className="toolbarIcon pauseBtn"
-                title={t('recorderVideo.pause')}
-                onClick={pauseRecording}
-              />
-              <Button
-                className={`toolbarIcon toggleMuteBtn ${isMute ? '' : 'muted'}`}
-                type="text"
-                onClick={handleToggleMute}
-                icon={isMute ? <BsMicMute /> : <BsMic />}
-                title={isMute ? t('recorderVideo.unmute') : t('recorderVideo.mute')}
-              />
-              <Button
-                type="text"
-                icon={<BsFillStopFill />}
-                className="toolbarIcon stopBtn"
-                title={t('recorderVideo.save')}
-                onClick={saveRecording}
-              />
-            </>
-          ) : (
-            <>
-              <span className="toolbarTitle">{t('recorderVideo.play')}</span>
-              <Button
-                type="text"
-                icon={<BsPlayFill />}
-                className="toolbarIcon playBtn"
-                title={t('recorderVideo.play')}
-                onClick={startRecording}
-              ></Button>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+    <Card>
+      <Flex gap="small" wrap="wrap">
+        添加素材：
+        <Button
+          onClick={async () => {
+            if (avCvs == null) return;
+            const mediaStream = await navigator.mediaDevices.getUserMedia({
+              video: true,
+              audio: true,
+            });
+            const vs = new VideoSprite('userMedia', mediaStream, {
+              audioCtx: avCvs.spriteManager.audioCtx,
+            });
+            await avCvs.spriteManager.addSprite(vs);
+          }}
+        >
+          摄像 & 麦克风
+        </Button>
+        <Button
+          onClick={async () => {
+            if (avCvs == null) return;
+            const mediaStream = await navigator.mediaDevices.getDisplayMedia({
+              video: true,
+              audio: true,
+            });
+            const vs = new VideoSprite('display', mediaStream, {
+              audioCtx: avCvs.spriteManager.audioCtx,
+            });
+            await avCvs.spriteManager.addSprite(vs);
+          }}
+        >
+          屏幕
+        </Button>
+        <Button
+          onClick={async () => {
+            if (avCvs == null) return;
+            const is = new ImgSprite(
+              'img',
+              await loadFile({ 'image/*': ['.png', '.gif', '.jpeg', '.jpg'] }),
+            );
+            await avCvs.spriteManager.addSprite(is);
+          }}
+        >
+          图片
+        </Button>
+        <Button
+          onClick={async () => {
+            if (avCvs == null) return;
+            const vs = new VideoSprite('video', await loadFile({ 'video/*': ['.webm', '.mp4'] }), {
+              audioCtx: avCvs.spriteManager.audioCtx,
+            });
+            await avCvs.spriteManager.addSprite(vs);
+          }}
+        >
+          视频
+        </Button>
+        <Button
+          onClick={async () => {
+            if (avCvs == null) return;
+            const as = new AudioSprite(
+              'audio',
+              await loadFile({ 'audio/*': ['.mp3', '.wav', '.ogg'] }),
+              { audioCtx: avCvs.spriteManager.audioCtx },
+            );
+            await avCvs.spriteManager.addSprite(as);
+          }}
+        >
+          音频
+        </Button>
+        <Button
+          onClick={async () => {
+            if (avCvs == null) return;
+            const fs = new TextSprite('text', '示例文字');
+            await avCvs.spriteManager.addSprite(fs);
+          }}
+        >
+          文字
+        </Button>
+      </Flex>
+      <Divider />
+      <Flex gap="small" wrap="wrap">
+        <Button
+          onClick={async () => {
+            await start();
+          }}
+        >
+          开始录制
+        </Button>
+        <Button
+          onClick={async () => {
+            await recorder?.stop();
+            setStateText('视频已保存');
+          }}
+        >
+          停止录制
+        </Button>
+        <span style={{ marginLeft: 16, color: '#666' }}>{stateText}</span>
+      </Flex>
+      <div
+        ref={initCvs}
+        style={{ width: 900, height: 500, position: 'relative', marginTop: 20 }}
+      ></div>
+    </Card>
   );
-};
+}
 
-ininitApp(RecorderVideo);
+async function loadFile(accept: Record<string, string[]>) {
+  const [fileHandle] = await (window as any).showOpenFilePicker({
+    types: [{ accept }],
+  });
+  return await fileHandle.getFile();
+}
 
-export default RecorderVideo;
+initApp(UI);

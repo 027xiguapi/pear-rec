@@ -10,8 +10,8 @@ function createRecorderVideoWin(): BrowserWindow {
   recorderVideoWin = new BrowserWindow({
     title: 'pear-rec 录像',
     icon: ICON,
-    // width: 800, // 宽度(px), 默认值为 800
-    // height: 600, // 高度(px), 默认值为 600
+    height: 768,
+    width: 1024,
     autoHideMenuBar: true, // 自动隐藏菜单栏
     // useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
     // movable: false, // 是否可移动
