@@ -17,7 +17,8 @@
     "history": "Verlauf",
     "editImg": "edit image",
     "gif": "gif",
-    "edit": "edit"
+    "edit": "edit",
+    "canvas": "canvas"
   },
   "editImage": {
     "save": "speichern"

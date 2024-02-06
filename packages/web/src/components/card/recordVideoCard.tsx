@@ -11,9 +11,18 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
   const [isRecordVideo, setIsRecordVideo] = useState(true);
 
   function handleRecorderVideo() {
-    window.electronAPI
+    window.isElectron
       ? window.electronAPI.sendRvOpenWin()
       : (location.href = '/recorderVideo.html');
+  }
+
+  function handleCanvasClick(e) {
+    window.isElectron
+    ? window.electronAPI.sendCaOpenWin()
+    : (location.href = '/canvas.html');
+
+    e.preventDefault();
+		e.stopPropagation();
   }
 
   return (
@@ -21,10 +30,12 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
       hoverable
       bordered={false}
       style={{ maxWidth: 300, minWidth: 140, height: 130 }}
-      onClick={handleRecorderVideo}
     >
+      <span className="extra" onClick={handleCanvasClick}>
+        {t('home.canvas')}
+      </span>
       <div className="cardContent">
-        <VideoCameraOutlined />
+        <VideoCameraOutlined onClick={handleRecorderVideo}/>
         <div className="cardTitle">{t('home.videoRecording')}</div>
       </div>
     </Card>

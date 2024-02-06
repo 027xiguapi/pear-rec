@@ -26,6 +26,7 @@ import * as spliceImageWin from '../win/spliceImageWin';
 import * as viewAudioWin from '../win/viewAudioWin';
 import * as viewImageWin from '../win/viewImageWin';
 import * as viewVideoWin from '../win/viewVideoWin';
+import * as canvasWin from '../win/canvasWin';
 import logger from './logger';
 import * as utils from './utils';
 
@@ -245,6 +246,15 @@ function initIpcMain() {
   ipcMain.on('eg:open-win', (e, search) => {
     editGifWin.openEditGifWin(search);
   });
+
+  // 画画
+  ipcMain.on('ca:close-win', () => {
+    canvasWin.closeCanvasWin();
+  });
+  ipcMain.on('ca:open-win', () => {
+    canvasWin.openCanvasWin();
+  });
+
   // 视频音频展示;
   ipcMain.on('vv:open-win', (e, search) => {
     viewVideoWin.closeViewVideoWin();
