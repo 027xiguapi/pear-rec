@@ -43,10 +43,6 @@ const ScreenRecorder = (props) => {
       initCropArea();
     }
     user.id || getCurrentUser();
-    // if (type == 'gif') {
-    //   api.deleteFileCache('cg');
-    //   Local.remove('videoFrames');
-    // }
     return () => {
       mediaRecorder.current?.stop();
     };
@@ -148,7 +144,9 @@ const ScreenRecorder = (props) => {
   async function setMediaRecorder() {
     window.isElectron && (await cropStream());
     const recodeMS = mediaStream.current.clone();
-    mediaRecorder.current = new AVRecorder(recodeMS);
+    const size = window.isElectron ? await window.electronAPI?.invokeRsGetBoundsClip() : props.size;
+    console.log(size)
+    mediaRecorder.current = new AVRecorder(recodeMS, { width: size.width, height: size.height});
   }
 
   function handleOpenSettingWin() {
