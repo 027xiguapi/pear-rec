@@ -2,7 +2,7 @@ import * as jsonfile from 'jsonfile';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { v5 as uuidv5 } from 'uuid';
-import { PEAR_FILES_PATH, DB_PATH, CONFIG_FILE_PATH, DEFAULT_CONFIG_FILE_PATH } from '../contract';
+import { PEAR_FILES_PATH, DB_PATH, CONFIG_FILE_PATH, DEFAULT_CONFIG_FILE_PATH } from '../constant';
 
 export function initConfig() {
   if (!fs.existsSync(PEAR_FILES_PATH)) {

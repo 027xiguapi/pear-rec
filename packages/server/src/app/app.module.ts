@@ -8,7 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/entity/user.entity';
 import { Record } from '../records/entity/record.entity';
 import { Setting } from '../settings/entity/setting.entity';
-import { DB_PATH } from '../contract';
+import { DB_PATH } from '../constant';
 import { AppController } from './app.controller';
 import { FileController } from './file.controller';
 import { AppService } from './app.service';

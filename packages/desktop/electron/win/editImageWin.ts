@@ -1,7 +1,7 @@
 import { BrowserWindow, dialog, nativeImage } from 'electron';
 import { writeFile } from 'node:fs';
 import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/contract';
+import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
 
 const editImageHtml = join(DIST, './editImage.html');
 let editImageWin: BrowserWindow | null = null;

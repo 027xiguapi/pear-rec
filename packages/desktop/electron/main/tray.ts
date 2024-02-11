@@ -1,5 +1,5 @@
 import { Menu, Tray, app, shell } from 'electron';
-import { ICON } from './contract';
+import { ICON } from './constant';
 import { openMainWin } from '../win/mainWin';
 import { openShotScreenWin } from '../win/shotScreenWin';
 import { openClipScreenWin } from '../win/clipScreenWin';

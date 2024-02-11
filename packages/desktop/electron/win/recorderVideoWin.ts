@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell } from 'electron';
 import { join, dirname } from 'node:path';
-import { ICON, preload, url, DIST, PUBLIC, WEB_URL } from '../main/contract';
+import { ICON, preload, url, DIST, PUBLIC, WEB_URL } from '../main/constant';
 
 const recorderVideoHtml = join(DIST, './recorderVideo.html');
 let recorderVideoWin: BrowserWindow | null = null;

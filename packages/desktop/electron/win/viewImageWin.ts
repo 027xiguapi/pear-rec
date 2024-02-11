@@ -1,7 +1,7 @@
 import { BrowserWindow, dialog } from 'electron';
 import { readFile, writeFile } from 'node:fs';
 import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/contract';
+import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
 import { getImgsByImgUrl } from '../main/utils';
 
 const viewImageHtml = join(DIST, './viewImage.html');

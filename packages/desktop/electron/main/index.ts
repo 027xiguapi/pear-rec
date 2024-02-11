@@ -2,7 +2,7 @@ import { getConfig, initConfig } from '@pear-rec/server/src/config';
 import { BrowserWindow, app } from 'electron';
 import { release } from 'node:os';
 import * as mainWin from '../win/mainWin';
-import { isWin } from './contract';
+import { isWin } from './constant';
 import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
 import './ipcMain';
 import './logger';

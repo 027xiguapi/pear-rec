@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
 import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/contract';
+import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
 
 const editGifHtml = join(DIST, './editGif.html');
 let editGifWin: BrowserWindow | null = null;

@@ -1,5 +1,5 @@
 import { type UtilityProcess, utilityProcess } from 'electron';
-import { url, serverPath } from './contract';
+import { url, serverPath } from './constant';
 import logger from './logger';
 
 let serverProcess: null | UtilityProcess = null;
