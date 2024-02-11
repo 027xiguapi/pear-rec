@@ -7,7 +7,7 @@ import { exec } from 'child_process';
 // import { RecordsService } from '../records/records.service';
 // import { UsersService } from '../users/users.service';
 // import { SettingsService } from '../settings/settings.service';
-// import { PEAR_FILES_PATH } from '../contract';
+// import { PEAR_FILES_PATH } from '../constant';
 
 // const usersService = new UsersService();
 

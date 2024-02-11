@@ -2,7 +2,7 @@
 import { app } from 'electron';
 import log from 'electron-log';
 import path from 'node:path';
-import { LOG_PATH } from './contract';
+import { LOG_PATH } from './constant';
 
 // 关闭控制台打印
 log.transports.console.level = false;

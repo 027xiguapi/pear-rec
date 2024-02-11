@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell, screen, Rectangle } from 'electron';
 import { join, basename, dirname } from 'node:path';
-import { preload, url, DIST, ICON, WEB_URL, DIST_ELECTRON } from '../main/contract';
+import { preload, url, DIST, ICON, WEB_URL, DIST_ELECTRON } from '../main/constant';
 import {
   closeClipScreenWin,
   getBoundsClipScreenWin,

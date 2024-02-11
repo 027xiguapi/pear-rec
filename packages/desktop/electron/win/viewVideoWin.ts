@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
 import { join } from 'node:path';
-import { ICON, preload, url, DIST, WEB_URL } from '../main/contract';
+import { ICON, preload, url, DIST, WEB_URL } from '../main/constant';
 import { readDirectoryVideo } from '../main/utils';
 
 const viewVideoHtml = join(DIST, './viewVideo.html');

@@ -1,6 +1,6 @@
 import { BrowserWindow, app, shell } from 'electron';
 import { join } from 'node:path';
-import { ICON, WEB_URL, preload, url } from '../main/contract';
+import { ICON, WEB_URL, preload, url } from '../main/constant';
 
 const indexHtml = join(process.env.DIST, 'index.html');
 let mainWin: BrowserWindow | null = null;

@@ -1,6 +1,6 @@
 import { BrowserWindow, clipboard, dialog, nativeImage } from 'electron';
 import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/contract';
+import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
 
 const shotScreenHtml = join(DIST, './shotScreen.html');
 let shotScreenWin: BrowserWindow | null = null;

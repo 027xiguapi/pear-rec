@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
 import { join } from 'node:path';
-import { DIST, ICON, preload, url, WEB_URL } from '../main/contract';
+import { DIST, ICON, preload, url, WEB_URL } from '../main/constant';
 
 const pinVideoHtml = join(DIST, './pinVideo.html');
 let pinVideoWin: BrowserWindow | null = null;

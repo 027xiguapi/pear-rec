@@ -1,7 +1,7 @@
 import { screen } from 'electron';
 import * as fs from 'node:fs';
 import path from 'node:path';
-import { PEAR_FILES_PATH } from './contract';
+import { PEAR_FILES_PATH } from './constant';
 
 function getScreenSize() {
   const { size, scaleFactor } = screen.getPrimaryDisplay();

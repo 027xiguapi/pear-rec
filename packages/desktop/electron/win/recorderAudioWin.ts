@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, shell } from 'electron';
 import { join, dirname } from 'node:path';
-import { ICON, preload, url, DIST, WEB_URL } from '../main/contract';
+import { ICON, preload, url, DIST, WEB_URL } from '../main/constant';
 
 const recorderAudioHtml = join(DIST, './recorderAudio.html');
 let recorderAudioWin: BrowserWindow | null = null;
