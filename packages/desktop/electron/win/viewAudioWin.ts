@@ -1,16 +1,14 @@
 import { BrowserWindow } from 'electron';
-import { join } from 'node:path';
-import { ICON, preload, url, DIST, WEB_URL } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 import { getAudiosByAudioUrl } from '../main/utils';
 
-const viewAudioHtml = join(DIST, './viewAudio.html');
 let viewAudioWin: BrowserWindow | null = null;
 
 function createViewAudioWin(search?: any): BrowserWindow {
   viewAudioWin = new BrowserWindow({
-    title: 'pear-rec 视频预览',
+    title: 'pear-rec 音频',
     icon: ICON,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
+    autoHideMenuBar: WIN_CONFIG.viewAudio.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -21,7 +19,7 @@ function createViewAudioWin(search?: any): BrowserWindow {
     // Open devTool if the app is not packaged
     // viewAudioWin.webContents.openDevTools();
   } else {
-    viewAudioWin.loadFile(viewAudioHtml, {
+    viewAudioWin.loadFile(WIN_CONFIG.viewAudio.html, {
       search: `?audioUrl=${search?.audioUrl || ''}`,
     });
   }
@@ -52,4 +50,4 @@ async function getAudios(audioUrl?: any) {
   return audios;
 }
 
-export { createViewAudioWin, openViewAudioWin, closeViewAudioWin, getAudios };
+export { closeViewAudioWin, createViewAudioWin, getAudios, openViewAudioWin };

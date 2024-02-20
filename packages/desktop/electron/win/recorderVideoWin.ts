@@ -1,8 +1,6 @@
-import { app, BrowserWindow, dialog, shell } from 'electron';
-import { join, dirname } from 'node:path';
-import { ICON, preload, url, DIST, PUBLIC, WEB_URL } from '../main/constant';
+import { BrowserWindow } from 'electron';
+import { ICON, preload, url, WEB_URL, WIN_CONFIG } from '../main/constant';
 
-const recorderVideoHtml = join(DIST, './recorderVideo.html');
 let recorderVideoWin: BrowserWindow | null = null;
 let downloadSet: Set<string> = new Set();
 
@@ -10,19 +8,9 @@ function createRecorderVideoWin(): BrowserWindow {
   recorderVideoWin = new BrowserWindow({
     title: 'pear-rec 录像',
     icon: ICON,
-    height: 768,
-    width: 1024,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
-    // useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
-    // movable: false, // 是否可移动
-    // frame: false, // 无边框窗口
-    // resizable: false, // 窗口大小是否可调整
-    // hasShadow: false, // 窗口是否有阴影
-    // transparent: true, // 使窗口透明
-    // fullscreenable: false, // 窗口是否可以进入全屏状态
-    // fullscreen: false, // 窗口是否全屏
-    // simpleFullscreen: false, // 在 macOS 上使用 pre-Lion 全屏
-    // alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
+    height: WIN_CONFIG.recorderAudio.height,
+    width: WIN_CONFIG.recorderAudio.width,
+    autoHideMenuBar: WIN_CONFIG.recorderAudio.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -32,7 +20,7 @@ function createRecorderVideoWin(): BrowserWindow {
     recorderVideoWin.loadURL(WEB_URL + 'recorderVideo.html');
     // recorderVideoWin.webContents.openDevTools();
   } else {
-    recorderVideoWin.loadFile(recorderVideoHtml);
+    recorderVideoWin.loadFile(WIN_CONFIG.recorderAudio.html);
   }
 
   recorderVideoWin?.webContents.session.on(
@@ -81,8 +69,8 @@ function downloadURLRecorderVideoWin(downloadUrl: string) {
 }
 
 export {
-  createRecorderVideoWin,
   closeRecorderVideoWin,
-  openRecorderVideoWin,
+  createRecorderVideoWin,
   downloadURLRecorderVideoWin,
+  openRecorderVideoWin,
 };

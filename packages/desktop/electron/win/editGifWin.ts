@@ -1,17 +1,15 @@
 import { BrowserWindow } from 'electron';
-import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 
-const editGifHtml = join(DIST, './editGif.html');
 let editGifWin: BrowserWindow | null = null;
 
 function createEditGifWin(search?: any): BrowserWindow {
   editGifWin = new BrowserWindow({
     title: 'pear-rec 动图编辑',
     icon: ICON,
-    height: 768,
-    width: 1024,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
+    height: WIN_CONFIG.editGif.height,
+    width: WIN_CONFIG.editGif.width,
+    autoHideMenuBar: WIN_CONFIG.editGif.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -30,7 +28,7 @@ function createEditGifWin(search?: any): BrowserWindow {
         }`,
     );
   } else {
-    editGifWin.loadFile(editGifHtml, {
+    editGifWin.loadFile(WIN_CONFIG.editGif.html, {
       search: `?${filePath ? 'filePath=' + filePath : ''}${imgUrl ? 'imgUrl=' + imgUrl : ''}${
         videoUrl ? 'videoUrl=' + videoUrl : ''
       }`,

@@ -1,29 +1,25 @@
 import { BrowserWindow } from 'electron';
-import { join } from 'node:path';
-import { ICON, preload, url, DIST, WEB_URL } from '../main/constant';
-import { readDirectoryVideo } from '../main/utils';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 
-const viewVideoHtml = join(DIST, './viewVideo.html');
 let viewVideoWin: BrowserWindow | null = null;
 
 function createViewVideoWin(search?: any): BrowserWindow {
   viewVideoWin = new BrowserWindow({
-    title: 'pear-rec 视频预览',
+    title: 'pear-rec 视频',
     icon: ICON,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
+    autoHideMenuBar: WIN_CONFIG.viewVideo.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
   });
 
   const videoUrl = search?.videoUrl || '';
-
+  // Open devTool if the app is not packaged
+  // viewVideoWin.webContents.openDevTools();
   if (url) {
     viewVideoWin.loadURL(WEB_URL + `viewVideo.html?videoUrl=${videoUrl}`);
-    // Open devTool if the app is not packaged
-    // viewVideoWin.webContents.openDevTools();
   } else {
-    viewVideoWin.loadFile(viewVideoHtml, {
+    viewVideoWin.loadFile(WIN_CONFIG.viewVideo.html, {
       search: `?videoUrl=${videoUrl}`,
     });
   }
@@ -81,13 +77,13 @@ async function sendHistoryVideo() {
 }
 
 export {
-  createViewVideoWin,
-  openViewVideoWin,
   closeViewVideoWin,
+  createViewVideoWin,
   hideViewVideoWin,
-  minimizeViewVideoWin,
   maximizeViewVideoWin,
-  unmaximizeViewVideoWin,
-  setAlwaysOnTopViewVideoWin,
+  minimizeViewVideoWin,
+  openViewVideoWin,
   sendHistoryVideo,
+  setAlwaysOnTopViewVideoWin,
+  unmaximizeViewVideoWin,
 };

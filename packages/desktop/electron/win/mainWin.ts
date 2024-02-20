@@ -1,31 +1,17 @@
 import { BrowserWindow, app, shell } from 'electron';
-import { join } from 'node:path';
-import { ICON, WEB_URL, preload, url } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 
-const indexHtml = join(process.env.DIST, 'index.html');
 let mainWin: BrowserWindow | null = null;
 
 const createMainWin = (): BrowserWindow => {
   mainWin = new BrowserWindow({
     title: 'pear-rec',
     icon: ICON,
-    width: 660, // 宽度(px)
-    height: 375, // 高度(px)
-    // maxWidth: 660,
-    // maxHeight: 375,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
-    maximizable: false,
-    // closable: false,
-    // frame: false,
-    // show: false,
-    // alwaysOnTop: !dev, // 为了方便调试，调试模式就不居上了
-    // fullscreenable: true,
-    // transparent: true,
-    resizable: false, // gnome下为false时无法全屏
-    // skipTaskbar: true,
-    // movable: false,
-    // enableLargerThanScreen: true, // mac
-    // hasShadow: false,
+    width: WIN_CONFIG.main.width, // 宽度(px)
+    height: WIN_CONFIG.main.height, // 高度(px)
+    autoHideMenuBar: WIN_CONFIG.main.autoHideMenuBar, // 自动隐藏菜单栏
+    maximizable: WIN_CONFIG.main.maximizable,
+    resizable: WIN_CONFIG.main.resizable, // gnome下为false时无法全屏
     webPreferences: {
       preload,
     },
@@ -34,7 +20,7 @@ const createMainWin = (): BrowserWindow => {
   if (url) {
     mainWin.loadURL(WEB_URL + 'index.html');
   } else {
-    mainWin.loadFile(indexHtml);
+    mainWin.loadFile(WIN_CONFIG.main.html);
   }
   // mainWin.webContents.openDevTools();
 

@@ -1,16 +1,14 @@
-import { app, BrowserWindow, shell } from 'electron';
-import { join } from 'node:path';
-import { ICON, preload, url, DIST, WEB_URL } from '../main/constant';
+import { BrowserWindow } from 'electron';
+import { ICON, preload, url, WEB_URL, WIN_CONFIG } from '../main/constant';
 
-const recordsHtml = join(DIST, './records.html');
 let recordsWin: BrowserWindow | null = null;
 
 function createRecordsWin(): BrowserWindow {
   recordsWin = new BrowserWindow({
     title: 'pear-rec 记录',
     icon: ICON,
-    width: 1000,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
+    width: WIN_CONFIG.records.width,
+    autoHideMenuBar: WIN_CONFIG.records.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -20,7 +18,7 @@ function createRecordsWin(): BrowserWindow {
   if (url) {
     recordsWin.loadURL(WEB_URL + 'records.html');
   } else {
-    recordsWin.loadFile(recordsHtml);
+    recordsWin.loadFile(WIN_CONFIG.records.html);
   }
 
   return recordsWin;
@@ -47,4 +45,4 @@ function hideRecordsWin() {
   recordsWin?.hide();
 }
 
-export { createRecordsWin, closeRecordsWin, openRecordsWin, showRecordsWin, hideRecordsWin };
+export { closeRecordsWin, createRecordsWin, hideRecordsWin, openRecordsWin, showRecordsWin };

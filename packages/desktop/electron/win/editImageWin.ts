@@ -1,18 +1,16 @@
 import { BrowserWindow, dialog, nativeImage } from 'electron';
 import { writeFile } from 'node:fs';
-import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 
-const editImageHtml = join(DIST, './editImage.html');
 let editImageWin: BrowserWindow | null = null;
 
 function createEditImageWin(search?: any): BrowserWindow {
   editImageWin = new BrowserWindow({
     title: 'pear-rec 图片编辑',
     icon: ICON,
-    height: 768,
-    width: 1024,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
+    height: WIN_CONFIG.editImage.height,
+    width: WIN_CONFIG.editImage.width,
+    autoHideMenuBar: WIN_CONFIG.editImage.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -24,7 +22,7 @@ function createEditImageWin(search?: any): BrowserWindow {
   if (url) {
     editImageWin.loadURL(WEB_URL + `editImage.html?imgUrl=${imgUrl}`);
   } else {
-    editImageWin.loadFile(editImageHtml, {
+    editImageWin.loadFile(WIN_CONFIG.editImage.html, {
       search: `?imgUrl=${imgUrl}`,
     });
   }

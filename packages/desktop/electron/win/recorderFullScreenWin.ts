@@ -1,24 +1,22 @@
-import { app, BrowserWindow, dialog, shell, screen, Rectangle } from 'electron';
-import { join, basename, dirname } from 'node:path';
-import { preload, url, DIST, ICON, WEB_URL, DIST_ELECTRON } from '../main/constant';
+import { BrowserWindow } from 'electron';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 
-const recorderFullScreenHtml = join(DIST, './recorderFullScreen.html');
 let recorderFullScreenWin: BrowserWindow | null = null;
 
 function createRecorderFullScreenWin(): BrowserWindow {
   recorderFullScreenWin = new BrowserWindow({
     title: 'pear-rec 录屏',
     icon: ICON,
-    height: 40,
-    width: 365,
-    center: true,
-    transparent: true, // 使窗口透明
-    autoHideMenuBar: true, // 自动隐藏菜单栏
-    frame: false, // 无边框窗口
-    hasShadow: false, // 窗口是否有阴影
-    fullscreenable: false, // 窗口是否可以进入全屏状态
-    alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
-    skipTaskbar: true,
+    height: WIN_CONFIG.recorderFullScreen.height,
+    width: WIN_CONFIG.recorderFullScreen.width,
+    center: WIN_CONFIG.recorderFullScreen.center,
+    transparent: WIN_CONFIG.recorderFullScreen.transparent, // 使窗口透明
+    autoHideMenuBar: WIN_CONFIG.recorderFullScreen.autoHideMenuBar, // 自动隐藏菜单栏
+    frame: WIN_CONFIG.recorderFullScreen.frame, // 无边框窗口
+    hasShadow: WIN_CONFIG.recorderFullScreen.hasShadow, // 窗口是否有阴影
+    fullscreenable: WIN_CONFIG.recorderFullScreen.fullscreenable, // 窗口是否可以进入全屏状态
+    alwaysOnTop: WIN_CONFIG.recorderFullScreen.alwaysOnTop, // 窗口是否永远在别的窗口的上面
+    skipTaskbar: WIN_CONFIG.recorderFullScreen.skipTaskbar,
     webPreferences: {
       preload,
     },
@@ -28,7 +26,7 @@ function createRecorderFullScreenWin(): BrowserWindow {
   if (url) {
     recorderFullScreenWin.loadURL(WEB_URL + `recorderFullScreen.html`);
   } else {
-    recorderFullScreenWin.loadFile(recorderFullScreenHtml);
+    recorderFullScreenWin.loadFile(WIN_CONFIG.recorderFullScreen.html);
   }
   // recorderFullScreenWin.webContents.openDevTools();
 
@@ -68,12 +66,12 @@ function setAlwaysOnTopRecorderFullScreenWin(isAlwaysOnTop: boolean) {
 }
 
 export {
-  createRecorderFullScreenWin,
   closeRecorderFullScreenWin,
-  openRecorderFullScreenWin,
+  createRecorderFullScreenWin,
   hideRecorderFullScreenWin,
-  showRecorderFullScreenWin,
   minimizeRecorderFullScreenWin,
-  setMovableRecorderFullScreenWin,
+  openRecorderFullScreenWin,
   setAlwaysOnTopRecorderFullScreenWin,
+  setMovableRecorderFullScreenWin,
+  showRecorderFullScreenWin,
 };

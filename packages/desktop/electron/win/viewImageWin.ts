@@ -1,18 +1,16 @@
 import { BrowserWindow, dialog } from 'electron';
 import { readFile, writeFile } from 'node:fs';
-import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 import { getImgsByImgUrl } from '../main/utils';
 
-const viewImageHtml = join(DIST, './viewImage.html');
 let viewImageWin: BrowserWindow | null = null;
 
 function createViewImageWin(search?: any): BrowserWindow {
   viewImageWin = new BrowserWindow({
-    title: 'pear-rec 图片预览',
+    title: 'pear-rec 图片',
     icon: ICON,
-    frame: false,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
+    frame: WIN_CONFIG.viewImage.frame,
+    autoHideMenuBar: WIN_CONFIG.viewImage.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -25,7 +23,7 @@ function createViewImageWin(search?: any): BrowserWindow {
     // Open devTool if the app is not packaged
     // viewImageWin.webContents.openDevTools();
   } else {
-    viewImageWin.loadFile(viewImageHtml, {
+    viewImageWin.loadFile(WIN_CONFIG.viewImage.html, {
       search: `?imgUrl=${imgUrl}`,
     });
   }

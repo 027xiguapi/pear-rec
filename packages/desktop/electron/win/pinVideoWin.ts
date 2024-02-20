@@ -1,22 +1,20 @@
 import { BrowserWindow } from 'electron';
-import { join } from 'node:path';
-import { DIST, ICON, preload, url, WEB_URL } from '../main/constant';
+import { ICON, preload, url, WEB_URL, WIN_CONFIG } from '../main/constant';
 
-const pinVideoHtml = join(DIST, './pinVideo.html');
 let pinVideoWin: BrowserWindow | null = null;
 
 function createPinVideoWin(search?: any): BrowserWindow {
   pinVideoWin = new BrowserWindow({
     title: 'pear-rec 视频',
     icon: ICON,
-    height: 450,
-    width: 600,
-    frame: false, // 无边框窗口
-    resizable: true, // 窗口大小是否可调整
-    transparent: true, // 使窗口透明
-    fullscreenable: false, // 窗口是否可以进入全屏状态
-    alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
-    autoHideMenuBar: true, // 自动隐藏菜单栏
+    height: WIN_CONFIG.pinVideo.height,
+    width: WIN_CONFIG.pinVideo.width,
+    frame: WIN_CONFIG.pinVideo.frame, // 无边框窗口
+    resizable: WIN_CONFIG.pinVideo.resizable, // 窗口大小是否可调整
+    transparent: WIN_CONFIG.pinVideo.transparent, // 使窗口透明
+    fullscreenable: WIN_CONFIG.pinVideo.fullscreenable, // 窗口是否可以进入全屏状态
+    alwaysOnTop: WIN_CONFIG.pinVideo.alwaysOnTop, // 窗口是否永远在别的窗口的上面
+    autoHideMenuBar: WIN_CONFIG.pinVideo.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -26,7 +24,7 @@ function createPinVideoWin(search?: any): BrowserWindow {
   if (url) {
     pinVideoWin.loadURL(WEB_URL + `pinVideo.html`);
   } else {
-    pinVideoWin.loadFile(pinVideoHtml);
+    pinVideoWin.loadFile(WIN_CONFIG.pinVideo.html);
   }
 
   return pinVideoWin;

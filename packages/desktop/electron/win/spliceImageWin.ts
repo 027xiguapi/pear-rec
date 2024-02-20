@@ -1,17 +1,15 @@
 import { BrowserWindow } from 'electron';
-import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 
-const spliceImageHtml = join(DIST, './spliceImage.html');
 let spliceImageWin: BrowserWindow | null = null;
 
 function createSpliceImageWin(): BrowserWindow {
   spliceImageWin = new BrowserWindow({
     title: 'pear-rec 拼接图片',
     icon: ICON,
-    height: 768,
-    width: 1024,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
+    height: WIN_CONFIG.spliceImage.height,
+    width: WIN_CONFIG.spliceImage.width,
+    autoHideMenuBar: WIN_CONFIG.spliceImage.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -21,7 +19,7 @@ function createSpliceImageWin(): BrowserWindow {
   if (url) {
     spliceImageWin.loadURL(WEB_URL + `spliceImage.html`);
   } else {
-    spliceImageWin.loadFile(spliceImageHtml);
+    spliceImageWin.loadFile(WIN_CONFIG.spliceImage.html);
   }
 
   spliceImageWin.once('ready-to-show', async () => {
