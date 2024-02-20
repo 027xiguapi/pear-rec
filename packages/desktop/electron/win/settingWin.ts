@@ -1,17 +1,15 @@
-import { app, BrowserWindow, shell } from 'electron';
-import { join } from 'node:path';
-import { ICON, preload, url, DIST, WEB_URL } from '../main/constant';
+import { BrowserWindow } from 'electron';
+import { ICON, preload, url, WEB_URL, WIN_CONFIG } from '../main/constant';
 
-const settingHtml = join(DIST, './setting.html');
 let settingWin: BrowserWindow | null = null;
 
 function createSettingWin(): BrowserWindow {
   settingWin = new BrowserWindow({
     title: 'pear-rec 设置',
     icon: ICON,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
-    width: 600, // 宽度(px)
-    height: 380, // 高度(px)
+    autoHideMenuBar: WIN_CONFIG.setting.autoHideMenuBar, // 自动隐藏菜单栏
+    width: WIN_CONFIG.setting.width, // 宽度(px)
+    height: WIN_CONFIG.setting.height, // 高度(px)
     webPreferences: {
       preload,
     },
@@ -21,7 +19,7 @@ function createSettingWin(): BrowserWindow {
   if (url) {
     settingWin.loadURL(WEB_URL + 'setting.html');
   } else {
-    settingWin.loadFile(settingHtml);
+    settingWin.loadFile(WIN_CONFIG.setting.html);
   }
 
   return settingWin;
@@ -48,4 +46,4 @@ function hideSettingWin() {
   settingWin?.hide();
 }
 
-export { createSettingWin, closeSettingWin, openSettingWin, showSettingWin, hideSettingWin };
+export { closeSettingWin, createSettingWin, hideSettingWin, openSettingWin, showSettingWin };

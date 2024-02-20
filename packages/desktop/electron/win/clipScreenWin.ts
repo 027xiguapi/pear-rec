@@ -1,6 +1,5 @@
 import { BrowserWindow } from 'electron';
-import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 import {
   hideRecorderScreenWin,
   openRecorderScreenWin,
@@ -8,20 +7,18 @@ import {
   showRecorderScreenWin,
 } from './recorderScreenWin';
 
-const clipScreenHtml = join(DIST, './clipScreen.html');
 let clipScreenWin: BrowserWindow | null = null;
 
 function createClipScreenWin(): BrowserWindow {
   clipScreenWin = new BrowserWindow({
-    title: 'pear-rec_clipScreenWin',
+    title: 'pear-rec',
     icon: ICON,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
-    frame: false, // 无边框窗口
-    resizable: true, // 窗口大小是否可调整
-    transparent: true, // 使窗口透明
-    fullscreenable: false, // 窗口是否可以进入全屏状态
-    alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
-    // skipTaskbar: true,
+    autoHideMenuBar: WIN_CONFIG.clipScreen.autoHideMenuBar, // 自动隐藏菜单栏
+    frame: WIN_CONFIG.clipScreen.frame, // 无边框窗口
+    resizable: WIN_CONFIG.clipScreen.resizable, // 窗口大小是否可调整
+    transparent: WIN_CONFIG.clipScreen.transparent, // 使窗口透明
+    fullscreenable: WIN_CONFIG.clipScreen.fullscreenable, // 窗口是否可以进入全屏状态
+    alwaysOnTop: WIN_CONFIG.clipScreen.alwaysOnTop, // 窗口是否永远在别的窗口的上面
     webPreferences: {
       preload,
     },
@@ -31,7 +28,7 @@ function createClipScreenWin(): BrowserWindow {
     clipScreenWin.loadURL(WEB_URL + 'clipScreen.html');
     // clipScreenWin.webContents.openDevTools();
   } else {
-    clipScreenWin.loadFile(clipScreenHtml);
+    clipScreenWin.loadFile(WIN_CONFIG.clipScreen.html);
   }
 
   clipScreenWin.on('resize', () => {

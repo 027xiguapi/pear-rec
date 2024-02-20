@@ -1,13 +1,11 @@
-import { app, BrowserWindow, dialog, shell, screen, Rectangle } from 'electron';
-import { join, basename, dirname } from 'node:path';
-import { preload, url, DIST, ICON, WEB_URL, DIST_ELECTRON } from '../main/constant';
+import { BrowserWindow, Rectangle, screen } from 'electron';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 import {
   closeClipScreenWin,
   getBoundsClipScreenWin,
   setBoundsClipScreenWin,
 } from './clipScreenWin';
 
-const recorderScreenHtml = join(DIST, './recorderScreen.html');
 let recorderScreenWin: BrowserWindow | null = null;
 
 function createRecorderScreenWin(search?: any): BrowserWindow {
@@ -21,13 +19,14 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
     x: recorderScreenWinX,
     y: recorderScreenWinY,
     width: width,
-    height: 34,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
-    frame: false, // 无边框窗口
-    hasShadow: false, // 窗口是否有阴影
-    fullscreenable: false, // 窗口是否可以进入全屏状态
-    alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
-    skipTaskbar: true,
+    height: WIN_CONFIG.recorderScreen.height,
+    autoHideMenuBar: WIN_CONFIG.recorderScreen.autoHideMenuBar, // 自动隐藏菜单栏
+    frame: WIN_CONFIG.recorderScreen.frame, // 无边框窗口
+    hasShadow: WIN_CONFIG.recorderScreen.hasShadow, // 窗口是否有阴影
+    fullscreenable: WIN_CONFIG.recorderScreen.fullscreenable, // 窗口是否可以进入全屏状态
+    alwaysOnTop: WIN_CONFIG.recorderScreen.alwaysOnTop, // 窗口是否永远在别的窗口的上面
+    skipTaskbar: WIN_CONFIG.recorderScreen.skipTaskbar,
+    resizable: WIN_CONFIG.recorderScreen.resizable,
     webPreferences: {
       preload,
     },
@@ -37,7 +36,7 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
     recorderScreenWin.loadURL(WEB_URL + `recorderScreen.html?type=${search?.type || ''}`);
     // recorderScreenWin.webContents.openDevTools();
   } else {
-    recorderScreenWin.loadFile(recorderScreenHtml, {
+    recorderScreenWin.loadFile(WIN_CONFIG.recorderScreen.html, {
       search: `?type=${search?.type || ''}`,
     });
   }
@@ -134,20 +133,20 @@ function setIgnoreMouseEventsRecorderScreenWin(event: any, ignore: boolean, opti
 }
 
 export {
-  createRecorderScreenWin,
   closeRecorderScreenWin,
-  openRecorderScreenWin,
-  hideRecorderScreenWin,
-  showRecorderScreenWin,
-  minimizeRecorderScreenWin,
-  setSizeRecorderScreenWin,
-  setIgnoreMouseEventsRecorderScreenWin,
+  createRecorderScreenWin,
+  focusRecorderScreenWin,
   getBoundsRecorderScreenWin,
+  getCursorScreenPointRecorderScreenWin,
+  hideRecorderScreenWin,
+  isFocusedRecorderScreenWin,
+  minimizeRecorderScreenWin,
+  openRecorderScreenWin,
+  setAlwaysOnTopRecorderScreenWin,
+  setBoundsRecorderScreenWin,
+  setIgnoreMouseEventsRecorderScreenWin,
   setMovableRecorderScreenWin,
   setResizableRecorderScreenWin,
-  setAlwaysOnTopRecorderScreenWin,
-  getCursorScreenPointRecorderScreenWin,
-  isFocusedRecorderScreenWin,
-  focusRecorderScreenWin,
-  setBoundsRecorderScreenWin,
+  setSizeRecorderScreenWin,
+  showRecorderScreenWin,
 };

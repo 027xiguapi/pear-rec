@@ -1,8 +1,6 @@
 import { BrowserWindow, clipboard, dialog, nativeImage } from 'electron';
-import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 
-const shotScreenHtml = join(DIST, './shotScreen.html');
 let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = '';
 let downloadSet: Set<string> = new Set();
@@ -11,17 +9,17 @@ function createShotScreenWin(): BrowserWindow {
   shotScreenWin = new BrowserWindow({
     title: 'pear-rec 截屏',
     icon: ICON,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
-    useContentSize: true, // width 和 height 将设置为 web 页面的尺寸
-    movable: false, // 是否可移动
-    frame: false, // 无边框窗口
-    resizable: false, // 窗口大小是否可调整
-    hasShadow: false, // 窗口是否有阴影
-    transparent: true, // 使窗口透明
-    fullscreenable: true, // 窗口是否可以进入全屏状态
-    fullscreen: true, // 窗口是否全屏
-    simpleFullscreen: true, // 在 macOS 上使用 pre-Lion 全屏
-    alwaysOnTop: true,
+    autoHideMenuBar: WIN_CONFIG.shotScreen.autoHideMenuBar, // 自动隐藏菜单栏
+    useContentSize: WIN_CONFIG.shotScreen.useContentSize, // width 和 height 将设置为 web 页面的尺寸
+    movable: WIN_CONFIG.shotScreen.movable, // 是否可移动
+    frame: WIN_CONFIG.shotScreen.frame, // 无边框窗口
+    resizable: WIN_CONFIG.shotScreen.resizable, // 窗口大小是否可调整
+    hasShadow: WIN_CONFIG.shotScreen.hasShadow, // 窗口是否有阴影
+    transparent: WIN_CONFIG.shotScreen.transparent, // 使窗口透明
+    fullscreenable: WIN_CONFIG.shotScreen.fullscreenable, // 窗口是否可以进入全屏状态
+    fullscreen: WIN_CONFIG.shotScreen.fullscreen, // 窗口是否全屏
+    simpleFullscreen: WIN_CONFIG.shotScreen.simpleFullscreen, // 在 macOS 上使用 pre-Lion 全屏
+    alwaysOnTop: WIN_CONFIG.shotScreen.alwaysOnTop,
     webPreferences: {
       preload,
     },
@@ -32,7 +30,7 @@ function createShotScreenWin(): BrowserWindow {
   if (url) {
     shotScreenWin.loadURL(WEB_URL + 'shotScreen.html');
   } else {
-    shotScreenWin.loadFile(shotScreenHtml);
+    shotScreenWin.loadFile(WIN_CONFIG.shotScreen.html);
   }
   shotScreenWin.maximize();
   shotScreenWin.setFullScreen(true);

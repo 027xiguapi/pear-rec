@@ -1,17 +1,15 @@
 import { BrowserWindow } from 'electron';
-import { join } from 'node:path';
-import { DIST, ICON, WEB_URL, preload, url } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 
-const canvasHtml = join(DIST, './canvas.html');
 let canvasWin: BrowserWindow | null = null;
 
 function createCanvasWin(): BrowserWindow {
   canvasWin = new BrowserWindow({
     title: 'pear-rec 画布',
     icon: ICON,
-    height: 768,
-    width: 1024,
-    autoHideMenuBar: true, // 自动隐藏菜单栏
+    height: WIN_CONFIG.canvas.height,
+    width: WIN_CONFIG.canvas.width,
+    autoHideMenuBar: WIN_CONFIG.canvas.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -21,7 +19,7 @@ function createCanvasWin(): BrowserWindow {
   if (url) {
     canvasWin.loadURL(WEB_URL + `canvas.html`);
   } else {
-    canvasWin.loadFile(canvasHtml);
+    canvasWin.loadFile(WIN_CONFIG.canvas.html);
   }
 
   canvasWin.once('ready-to-show', async () => {
