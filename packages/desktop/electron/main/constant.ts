@@ -91,8 +91,8 @@ export const WIN_CONFIG = {
   },
   recorderAudio: {
     html: path.join(process.env.DIST, 'recorderAudio.html'),
-    width: 960, // 宽度(px), 默认值为 800
-    height: 660, // 高度(px), 默认值为 600
+    height: 768,
+    width: 1024,
     autoHideMenuBar: true, // 自动隐藏菜单栏
   },
   recorderFullScreen: {
@@ -107,6 +107,7 @@ export const WIN_CONFIG = {
     fullscreenable: false, // 窗口是否可以进入全屏状态
     alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
     skipTaskbar: true,
+    resizable: false,
   },
   recorderScreen: {
     html: path.join(process.env.DIST, 'recorderScreen.html'),

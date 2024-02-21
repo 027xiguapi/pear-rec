@@ -18,7 +18,7 @@ const RecorderScreen = () => {
   const userApi = useUserApi();
   const videoRef = useRef<HTMLVideoElement>();
   const mediaStream = useRef<MediaStream>();
-  const audioStream = useRef<MediaStream>(); // 声音流
+  const micStream = useRef<MediaStream>(); // 声音流
   const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
   const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
   const audioTrack = useRef<any>(); // 音频轨道对象
@@ -169,7 +169,11 @@ const RecorderScreen = () => {
     const sources = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
     const source = sources.filter((e: any) => e.id == 'screen:0:0')[0] || sources[0];
     const constraints: any = {
-      audio: false,
+      audio: {
+        mandatory: {
+          chromeMediaSource: 'desktop',
+        },
+      },
       video: {
         mandatory: {
           chromeMediaSource: 'desktop',
@@ -178,13 +182,24 @@ const RecorderScreen = () => {
       },
     };
     mediaStream.current = await navigator.mediaDevices.getUserMedia(constraints);
-    audioStream.current = await navigator.mediaDevices.getUserMedia({
+    // 使用Web Audio API来捕获系统声音和麦克风声音，将它们合并到同一个MediaStream中。
+    const audioCtx = new window.AudioContext();
+    const systemSoundSource = audioCtx.createMediaStreamSource(mediaStream.current);
+    const systemSoundDestination = audioCtx.createMediaStreamDestination();
+    systemSoundSource.connect(systemSoundDestination);
+
+    micStream.current = await navigator.mediaDevices.getUserMedia({
       audio: true,
     });
-    audioStream.current
-      ?.getAudioTracks()
-      .forEach((audioTrack) => mediaStream.current?.addTrack(audioTrack));
-    mediaRecorder.current = new MediaRecorder(mediaStream.current);
+    const micSoundSource = audioCtx.createMediaStreamSource(micStream.current);
+    micSoundSource.connect(systemSoundDestination);
+    // 合并音频流与视频流
+    const combinedSource = new MediaStream([
+      ...mediaStream.current.getVideoTracks(),
+      ...systemSoundDestination.stream.getAudioTracks(),
+    ]);
+
+    mediaRecorder.current = new MediaRecorder(combinedSource);
     mediaRecorder.current.addEventListener('dataavailable', (e) => {
       if (e.data.size > 0) {
         recordedChunks.current.push(e.data);

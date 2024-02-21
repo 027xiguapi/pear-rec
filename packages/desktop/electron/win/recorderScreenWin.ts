@@ -32,9 +32,9 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
     },
   });
   recorderScreenWin?.setResizable(false);
+  // recorderScreenWin.webContents.openDevTools();
   if (url) {
     recorderScreenWin.loadURL(WEB_URL + `recorderScreen.html?type=${search?.type || ''}`);
-    // recorderScreenWin.webContents.openDevTools();
   } else {
     recorderScreenWin.loadFile(WIN_CONFIG.recorderScreen.html, {
       search: `?type=${search?.type || ''}`,
