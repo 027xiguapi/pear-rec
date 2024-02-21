@@ -17,12 +17,12 @@ function createRecorderFullScreenWin(): BrowserWindow {
     fullscreenable: WIN_CONFIG.recorderFullScreen.fullscreenable, // 窗口是否可以进入全屏状态
     alwaysOnTop: WIN_CONFIG.recorderFullScreen.alwaysOnTop, // 窗口是否永远在别的窗口的上面
     skipTaskbar: WIN_CONFIG.recorderFullScreen.skipTaskbar,
+    resizable: WIN_CONFIG.recorderFullScreen.resizable,
     webPreferences: {
       preload,
     },
   });
   recorderFullScreenWin?.setBounds({ y: 0 });
-  recorderFullScreenWin?.setResizable(false);
   if (url) {
     recorderFullScreenWin.loadURL(WEB_URL + `recorderFullScreen.html`);
   } else {

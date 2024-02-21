@@ -1,4 +1,3 @@
-import { Local } from '@/util/storage';
 import { CameraOutlined, SettingOutlined } from '@ant-design/icons';
 import Timer from '@pear-rec/timer';
 import useTimer from '@pear-rec/timer/src/useTimer';
@@ -22,8 +21,9 @@ const ScreenRecorder = (props) => {
   const [user, setUser] = useState({} as any);
   const timer = useTimer();
   const videoRef = useRef<HTMLVideoElement>();
-  const mediaStream = useRef<MediaStream>(); // 视频流
-  const audioStream = useRef<MediaStream>(); // 声音流
+  const mediaStream = useRef<MediaStream>(); // 视频和系统声音流
+  const micStream = useRef<MediaStream>(); // 麦克风声音流
+  const combinedStream = useRef<MediaStream>(); // 合并流
   const mediaRecorder = useRef<AVRecorder | null>(); // 媒体录制器对象
   const outputStream = useRef<any>();
   const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
@@ -72,7 +72,11 @@ const ScreenRecorder = (props) => {
     const sources = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
     const source = sources.filter((e: any) => e.id == 'screen:0:0')[0] || sources[0];
     const constraints: any = {
-      audio: false,
+      audio: {
+        mandatory: {
+          chromeMediaSource: 'desktop',
+        },
+      },
       video: {
         mandatory: {
           chromeMediaSource: 'desktop',
@@ -93,10 +97,10 @@ const ScreenRecorder = (props) => {
       } as any);
       const [videoTrack] = mediaStream.current.getVideoTracks();
       await (videoTrack as any).cropTo(cropTarget);
-      audioStream.current = await navigator.mediaDevices.getUserMedia({
+      micStream.current = await navigator.mediaDevices.getUserMedia({
         audio: true,
       });
-      audioStream.current
+      micStream.current
         ?.getAudioTracks()
         .forEach((audioTrack) => mediaStream.current?.addTrack(audioTrack));
       videoRef.current.srcObject = mediaStream.current;
@@ -107,15 +111,15 @@ const ScreenRecorder = (props) => {
 
   async function cropStream() {
     const size = await window.electronAPI?.invokeRsGetBoundsClip();
-    const [track] = mediaStream.current.getTracks();
+    const [track] = mediaStream.current.getVideoTracks();
     // @ts-ignore
     const processor = new MediaStreamTrackProcessor({ track });
     const { readable } = processor;
     // @ts-ignore
     const generator = new MediaStreamTrackGenerator({ kind: 'video' });
     const { writable } = generator;
-    mediaStream.current = new MediaStream([generator]);
-    videoRef.current.srcObject = new MediaStream([generator]);
+    const videoStream = new MediaStream([generator]);
+    videoRef.current.srcObject = videoStream;
 
     worker.postMessage(
       {
@@ -129,24 +133,31 @@ const ScreenRecorder = (props) => {
     );
 
     worker.addEventListener('message', function (message) {
-      Local.set('videoFrames', message.data);
       worker.terminate();
     });
 
-    audioStream.current = await navigator.mediaDevices.getUserMedia({
+    micStream.current = await navigator.mediaDevices.getUserMedia({
       audio: true,
     });
-    audioStream.current
-      ?.getAudioTracks()
-      .forEach((audioTrack) => mediaStream.current?.addTrack(audioTrack));
+    // 使用Web Audio API来捕获系统声音和麦克风声音，将它们合并到同一个MediaStream中。
+    const audioCtx = new window.AudioContext();
+    const systemSoundSource = audioCtx.createMediaStreamSource(mediaStream.current);
+    const systemSoundDestination = audioCtx.createMediaStreamDestination();
+    systemSoundSource.connect(systemSoundDestination);
+    const micSoundSource = audioCtx.createMediaStreamSource(micStream.current);
+    micSoundSource.connect(systemSoundDestination);
+    // 合并音频流与视频流
+    combinedStream.current = new MediaStream([
+      ...videoStream.getVideoTracks(),
+      ...systemSoundDestination.stream.getAudioTracks(),
+    ]);
   }
 
   async function setMediaRecorder() {
     window.isElectron && (await cropStream());
-    const recodeMS = mediaStream.current.clone();
+    const recodeMS = combinedStream.current.clone();
     const size = window.isElectron ? await window.electronAPI?.invokeRsGetBoundsClip() : props.size;
-    console.log(size)
-    mediaRecorder.current = new AVRecorder(recodeMS, { width: size.width, height: size.height});
+    mediaRecorder.current = new AVRecorder(recodeMS, { width: size.width, height: size.height });
   }
 
   function handleOpenSettingWin() {

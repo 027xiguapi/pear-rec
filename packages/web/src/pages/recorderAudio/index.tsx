@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Space, Card, Button, Modal } from 'antd';
-import { useTranslation } from 'react-i18next';
 import { CloseOutlined } from '@ant-design/icons';
-import WaveSurferPlayer from '../../components/recorderAudio/WaveSurferPlayer';
-import AudioRecorder from '../../components/recorderAudio/AudioRecorder';
+import { Button, Card, Modal, Space } from 'antd';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Hover from 'wavesurfer.js/plugins/hover';
 import Timeline from 'wavesurfer.js/plugins/timeline';
-import ininitApp from '../../pages/main';
 import { useUserApi } from '../../api/user';
+import AudioRecorder from '../../components/recorderAudio/AudioRecorder';
+import WaveSurferPlayer from '../../components/recorderAudio/WaveSurferPlayer';
+import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
 const RecordAudio = () => {
