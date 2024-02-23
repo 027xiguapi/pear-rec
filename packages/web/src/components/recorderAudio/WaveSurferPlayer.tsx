@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Button, Checkbox, Col, Divider, Modal, Row, Slider, Space, message } from 'antd';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Space, Divider, Slider, Row, Col, Checkbox, Modal, message } from 'antd';
 import WaveSurfer from 'wavesurfer.js';
-import { saveAs } from 'file-saver';
 import { useApi } from '../../api';
+import { db } from '../../db';
 
 const useWavesurfer = (containerRef, options) => {
   const [wavesurfer, setWavesurfer] = useState(null);
@@ -50,28 +50,36 @@ const WaveSurferPlayer = (props) => {
     const data = await fetch(url);
     const blob = await data.blob();
 
-    window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
+    // window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
+    // window.isElectron ? saveFile(blob) : saveAs(url, `pear-rec_${+new Date()}.webm`);
+    saveFile(blob);
   }, [wavesurfer]);
 
   async function saveFile(blob) {
     try {
-      const formData = new FormData();
-      formData.append('type', 'ra');
-      formData.append('userId', props.user.id);
-      formData.append('file', blob);
-      const res = (await api.saveFile(formData)) as any;
-      if (res.code == 0) {
+      const record = {
+        fileName: `pear-rec_${+new Date()}.webm`,
+        fileData: blob,
+        fileType: 'ra',
+        userId: props.user.id,
+        createdAt: new Date(),
+        createdBy: props.user.id,
+        updatedAt: new Date(),
+        updatedBy: props.user.id,
+      };
+      const recordId = await db.records.add(record);
+      if (recordId) {
         if (window.isElectron) {
           window.electronAPI.sendRaCloseWin();
-          window.electronAPI.sendVaOpenWin({ audioUrl: res.data.filePath });
+          window.electronAPI.sendVaOpenWin({ recordId: recordId });
         } else {
           Modal.confirm({
             title: '音频已保存，是否查看？',
-            content: `${res.data.filePath}`,
+            content: `${record.fileName}`,
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
-              window.open(`/viewAudio.html?audioUrl=${res.data.filePath}`);
+              window.open(`/viewAudio.html?recordId=${recordId}`);
             },
           });
         }

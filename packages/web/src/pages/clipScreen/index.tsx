@@ -1,14 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { CloseOutlined, MinusOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, InputNumber } from 'antd';
-import {
-  PushpinOutlined,
-  MinusOutlined,
-  BorderOutlined,
-  BlockOutlined,
-  CloseOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 

@@ -1,42 +1,41 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { Button, Modal, message, Space } from 'antd';
-import { useTranslation } from 'react-i18next';
 import Screenshots, { Bounds } from '@pear-rec/screenshot';
-import UploadImg from '../../components/upload/UploadImg';
+import '@pear-rec/screenshot/src/Screenshots/screenshots.scss';
+import { Button, Modal, Space, message } from 'antd';
 import { saveAs } from 'file-saver';
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import UploadImg from '../../components/upload/UploadImg';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
-import { useUserApi } from '../../api/user';
 import { searchImg } from '../../util/searchImg';
 import { isURL } from '../../util/validate';
-import { useApi } from '../../api';
-import '@pear-rec/screenshot/src/Screenshots/screenshots.scss';
 import styles from './index.module.scss';
 
 const defaultImg = '/imgs/th.webp';
 function ShotScreen() {
   const { t } = useTranslation();
-  const api = useApi();
-  const userApi = useUserApi();
-  const userRef = useRef({} as any);
+  const [user, setUser] = useState<any>({});
   const [screenShotImg, setScreenShotImg] = useState('');
 
   useEffect(() => {
     init();
+    user.id || getCurrentUser();
   }, []);
 
   async function getCurrentUser() {
     try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        userRef.current = res.data;
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
       }
+      setUser(user);
     } catch (err) {
       console.log(err);
     }
   }
 
   async function init() {
-    window.isOffline || userRef.current.id || getCurrentUser();
     if (window.electronAPI) {
       const img = await window.electronAPI?.invokeSsGetShotScreenImg();
       setScreenShotImg(img || defaultImg);
@@ -68,10 +67,13 @@ function ShotScreen() {
       });
   }
 
-  const onSave = useCallback((blob: Blob, bounds: Bounds) => {
-    const url = URL.createObjectURL(blob);
-    saveAs(url, url.split(`${location.origin}/`)[1] + '.png');
-  }, []);
+  const onSave = useCallback(
+    (blob: Blob, bounds: Bounds) => {
+      const url = URL.createObjectURL(blob);
+      saveAs(url, `pear-rec_${+new Date()}.png`);
+    },
+    [user],
+  );
 
   const onCancel = useCallback(() => {
     if (window.isElectron) {
@@ -80,66 +82,83 @@ function ShotScreen() {
     } else {
       location.href = `/index.html`;
     }
-  }, []);
+  }, [user]);
 
-  const onScan = useCallback((result) => {
-    Modal.confirm({
-      title: '扫码结果',
-      content: result,
-      okText: t('modal.ok'),
-      cancelText: t('modal.cancel'),
-      onOk() {
-        if (isURL(result)) {
-          window.electronAPI ? window.electronAPI.sendSsOpenExternal(result) : window.open(result);
-        }
-      },
-      onCancel() {
-        console.log('Cancel');
-      },
-    });
-  }, []);
+  const onScan = useCallback(
+    (result) => {
+      Modal.confirm({
+        title: '扫码结果',
+        content: result,
+        okText: t('modal.ok'),
+        cancelText: t('modal.cancel'),
+        onOk() {
+          if (isURL(result)) {
+            window.electronAPI
+              ? window.electronAPI.sendSsOpenExternal(result)
+              : window.open(result);
+          }
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
+    },
+    [user],
+  );
 
-  const onSearch = useCallback(async (blob) => {
-    const tabUrl = await searchImg(blob, userRef.current.isProxy);
-    if (window.electronAPI) {
-      tabUrl && window.electronAPI.sendSsOpenExternal(tabUrl);
-      window.electronAPI.sendSsCloseWin();
-    } else {
-      tabUrl && window.open(tabUrl);
-    }
-  }, []);
+  const onSearch = useCallback(
+    async (blob) => {
+      const tabUrl = await searchImg(blob, user.isProxy);
+      if (window.electronAPI) {
+        tabUrl && window.electronAPI.sendSsOpenExternal(tabUrl);
+        window.electronAPI.sendSsCloseWin();
+      } else {
+        tabUrl && window.open(tabUrl);
+      }
+    },
+    [user],
+  );
 
-  const onOk = useCallback((blob: Blob, bounds: Bounds) => {
-    const url = URL.createObjectURL(blob);
-    window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.png`) : saveFile(blob);
-  }, []);
+  const onOk = useCallback(
+    (blob: Blob, bounds: Bounds) => {
+      saveFile(blob);
+    },
+    [user],
+  );
 
   async function saveFile(blob, isPin?) {
     try {
-      const formData = new FormData();
-      formData.append('type', 'ss');
-      formData.append('userId', userRef.current.id);
-      formData.append('file', blob);
-      const res = (await api.saveFile(formData)) as any;
-      if (res.code == 0) {
-        copyImg(window.isElectron ? res.data.filePath : blob);
+      const record = {
+        fileName: `pear-rec_${+new Date()}.png`,
+        fileData: blob,
+        fileType: 'ss',
+        userId: user.id,
+        createdAt: new Date(),
+        createdBy: user.id,
+        updatedAt: new Date(),
+        updatedBy: user.id,
+      };
+      const recordId = await db.records.add(record);
+      if (recordId) {
+        // copyImg(window.isElectron ? res.data.filePath : blob);
+        copyImg(blob);
         if (window.isElectron) {
           window.electronAPI?.sendSsCloseWin();
           isPin
             ? window.electronAPI?.sendPiOpenWin({
-                imgUrl: res.data.filePath,
+                recordId: recordId,
               })
-            : window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
+            : window.electronAPI?.sendViOpenWin({ recordId: recordId });
         } else {
           Modal.confirm({
             title: '图片已保存，是否查看？',
-            content: res.data.filePath,
+            content: record.fileName,
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
               location.href = isPin
-                ? `/pinImage.html?imgUrl=${res.data.filePath}`
-                : `/viewImage.html?imgUrl=${res.data.filePath}`;
+                ? `/pinImage.html?recordId=${recordId}`
+                : `/viewImage.html?recordId=${recordId}`;
             },
           });
         }

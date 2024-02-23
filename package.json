@@ -54,7 +54,9 @@
     "viewerjs",
     "tui-image-editor",
     "react-screenshots",
-    "react-timer-hook"
+    "react-timer-hook",
+    "webav",
+    "gif.js"
   ],
   "author": "027xiguapi",
   "homepage": "https://027xiguapi.github.io/pear-rec",

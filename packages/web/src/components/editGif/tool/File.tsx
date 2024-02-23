@@ -37,17 +37,12 @@ const File = () => {
       setPercent(Math.round(progress * 100));
     });
 
-    function loadImage(videoFrame, callback) {
+    async function loadImage(videoFrame, callback) {
       const img = new Image();
-      fetch(videoFrame.url)
-        .then((response) => response.blob())
-        .then((blob) => {
-          const videoFrameUrl = URL.createObjectURL(blob) as any;
-          img.src = videoFrameUrl;
-        })
-        .catch((error) => {
-          return callback(new Error('Could load ' + error));
-        });
+      const data = await fetch(videoFrame.url);
+      const blob = await data.blob();
+      const videoFrameUrl = URL.createObjectURL(blob);
+      img.src = videoFrameUrl;
 
       img.onload = function () {
         return callback(null, img);

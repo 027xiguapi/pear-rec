@@ -9,6 +9,7 @@ import 'viewerjs/dist/viewer.css';
 import { useApi } from '../../api';
 import { useUserApi } from '../../api/user';
 import Header from '../../components/common/header';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
 import { urlToBlob } from '../../util/file';
 import { searchImg } from '../../util/searchImg';
@@ -28,7 +29,7 @@ const ViewImage = () => {
   const [isScaleX, setIsScaleX] = useState(false);
 
   useEffect(() => {
-    window.isOffline || user.id || getCurrentUser();
+    user.id || getCurrentUser();
     handleDrop();
     initImgs();
     return destroyViewer;
@@ -40,10 +41,12 @@ const ViewImage = () => {
 
   async function getCurrentUser() {
     try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        setUser(res.data);
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
       }
+      setUser(user);
     } catch (err) {
       console.log(err);
     }
@@ -120,7 +123,8 @@ const ViewImage = () => {
   async function initImgs() {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
-    const imgUrl = searchParams.get('imgUrl') || user.historyImg;
+    const imgUrl = searchParams.get('imgUrl');
+    const recordId = searchParams.get('recordId');
     if (imgUrl) {
       if (imgUrl.substring(0, 4) == 'blob') {
         setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
@@ -134,13 +138,23 @@ const ViewImage = () => {
         }
       }
     }
+    if (recordId) {
+      let record = await db.records.where({ id: Number(recordId) }).first();
+      setImgs([
+        {
+          url: URL.createObjectURL(record.fileData),
+          filePath: URL.createObjectURL(record.fileData),
+          index: 0,
+        },
+      ]);
+    }
   }
 
   function handleImgUpload(event) {
     const selectedFile = event.target.files[0];
     const url = window.URL.createObjectURL(selectedFile);
     viewerRef.current?.destroy();
-    setImgs([...imgs, { url: url, index: imgs.length }]);
+    setImgs([...imgs, { url: url, filePath: url, index: imgs.length }]);
     initialViewIndexRef.current = imgs.length;
   }
 

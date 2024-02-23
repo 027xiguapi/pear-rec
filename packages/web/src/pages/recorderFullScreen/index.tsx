@@ -8,14 +8,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsFillStopFill, BsPause, BsPlayFill, BsRecordCircle } from 'react-icons/bs';
 import { useApi } from '../../api';
-import { useUserApi } from '../../api/user';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
 const RecorderScreen = () => {
   const { t } = useTranslation();
   const api = useApi();
-  const userApi = useUserApi();
   const videoRef = useRef<HTMLVideoElement>();
   const mediaStream = useRef<MediaStream>();
   const micStream = useRef<MediaStream>(); // 声音流
@@ -27,7 +26,7 @@ const RecorderScreen = () => {
   const [isMute, setIsMute] = useState(false); // 标记是否静音
   const [isSave, setIsSave] = useState(false); // 标记是否正在保存
   const timer = useTimer();
-  const [user, setUser] = useState({} as any);
+  const [user, setUser] = useState<any>({});
 
   useEffect(() => {
     user.id || getCurrentUser();
@@ -35,10 +34,12 @@ const RecorderScreen = () => {
 
   async function getCurrentUser() {
     try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        setUser(res.data);
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
       }
+      setUser(user);
     } catch (err) {
       console.log(err);
     }

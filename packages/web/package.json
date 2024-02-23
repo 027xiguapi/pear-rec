@@ -1,7 +1,7 @@
 {
   "name": "@pear-rec/web",
   "private": true,
-  "version": "1.3.24",
+  "version": "1.4.0",
   "scripts": {
     "dev": "vite",
     "build": "rimraf dist && tsc && vite build",
@@ -26,6 +26,8 @@
     "aplayer": "^1.10.1",
     "axios": "^1.5.0",
     "dayjs": "^1.11.7",
+    "dexie": "^3.2.5",
+    "dexie-react-hooks": "^1.1.7",
     "eventemitter3": "^5.0.1",
     "file-saver": "^2.0.5",
     "gif.js": "^0.2.0",

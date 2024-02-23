@@ -196,7 +196,7 @@ const Header = (props) => {
         </div>
       )}
 
-      <div className="right">
+      <div className={`right ${window.isElectron ? 'show' : 'hide'}`}>
         <Button
           className="minimize icon"
           type="text"

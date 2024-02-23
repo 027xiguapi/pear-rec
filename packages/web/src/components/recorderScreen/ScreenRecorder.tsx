@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsRecordCircle } from 'react-icons/bs';
 import { useApi } from '../../api';
-import { useUserApi } from '../../api/user';
+import { db, defaultUser } from '../../db';
 import PauseRecorder from './PauseRecorder';
 import PlayRecorder from './PlayRecorder';
 import StopRecorder from './StopRecorder';
@@ -17,7 +17,6 @@ import StopRecorder from './StopRecorder';
 const ScreenRecorder = (props) => {
   const { t } = useTranslation();
   const api = useApi();
-  const userApi = useUserApi();
   const [user, setUser] = useState({} as any);
   const timer = useTimer();
   const videoRef = useRef<HTMLVideoElement>();
@@ -59,10 +58,12 @@ const ScreenRecorder = (props) => {
 
   async function getCurrentUser() {
     try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        setUser(res.data);
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
       }
+      setUser(user);
     } catch (err) {
       console.log(err);
     }

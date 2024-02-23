@@ -10,8 +10,8 @@ import {
 } from '../../components/context/HistoryContext';
 import { UserContext } from '../../components/context/UserContext';
 import GifConverter from '../../components/editGif/GifConverter';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
-import { Local } from '../../util/storage';
 import styles from './index.module.scss';
 
 const paramsString = location.search;
@@ -20,12 +20,12 @@ const EditGif = () => {
   const userApi = useUserApi();
   const api = useApi();
   const { t } = useTranslation();
-  const [user, setUser] = useState(Local.get('user') || ({} as any));
+  const [user, setUser] = useState<any>({});
   const [historyState, historyDispatch] = useReducer(historyReducer, historyInitialState);
   const [gifState, gifDispatch] = useReducer(gifReducer, gifInitialState);
 
   useEffect(() => {
-    window.isOffline || getCurrentUser();
+    user.id || getCurrentUser();
     init();
   }, []);
 
@@ -38,11 +38,15 @@ const EditGif = () => {
   }, [gifState.imgUrl]);
 
   async function getCurrentUser() {
-    const res = (await userApi.getCurrentUser()) as any;
-    if (res.code == 0) {
-      const user = res.data;
+    try {
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
+      }
       setUser(user);
-      Local.set('user', user);
+    } catch (err) {
+      console.log(err);
     }
   }
 

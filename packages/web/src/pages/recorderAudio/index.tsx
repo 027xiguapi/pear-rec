@@ -4,28 +4,29 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Hover from 'wavesurfer.js/plugins/hover';
 import Timeline from 'wavesurfer.js/plugins/timeline';
-import { useUserApi } from '../../api/user';
 import AudioRecorder from '../../components/recorderAudio/AudioRecorder';
 import WaveSurferPlayer from '../../components/recorderAudio/WaveSurferPlayer';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
 const RecordAudio = () => {
   const { t } = useTranslation();
-  const userApi = useUserApi();
   const [user, setUser] = useState({} as any);
   const [audios, setAudios] = useState([]);
 
   useEffect(() => {
-    window.isOffline || user.id || getCurrentUser();
+    user.id || getCurrentUser();
   }, []);
 
   async function getCurrentUser() {
     try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        setUser(res.data);
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
       }
+      setUser(user);
     } catch (err) {
       console.log(err);
     }

@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import { Layout } from 'antd';
-import RecordsHeader from '../../components/records/RecordsHeader';
+import React, { useEffect, useState } from 'react';
 import RecordsContent from '../../components/records/RecordsContent';
+import RecordsHeader from '../../components/records/RecordsHeader';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
-import { useUserApi } from '../../api/user';
-import { useSettingApi } from '../../api/setting';
 import { Local } from '../../util/storage';
 import styles from './index.module.scss';
 
 const Record: React.FC = () => {
-  const userApi = useUserApi();
-  const settingApi = useSettingApi();
   const [user, setUser] = useState(Local.get('user') || ({} as any));
   const [setting, setSetting] = useState({} as any);
 
@@ -18,24 +15,28 @@ const Record: React.FC = () => {
     if (user.id) {
       getSetting(user.id);
     } else {
-      window.isOffline || getCurrentUser();
+      getCurrentUser();
     }
   }, [user]);
 
   async function getCurrentUser() {
-    const res = (await userApi.getCurrentUser()) as any;
-    if (res.code == 0) {
-      const user = res.data;
+    try {
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
+      }
       setUser(user);
-      Local.set('user', user);
+    } catch (err) {
+      console.log(err);
     }
   }
 
   async function getSetting(userId) {
-    const res = (await settingApi.getSetting(userId)) as any;
-    if (res.code == 0) {
-      setSetting(res.data || {});
-    }
+    // const res = (await settingApi.getSetting(userId)) as any;
+    // if (res.code == 0) {
+    //   setSetting(res.data || {});
+    // }
   }
 
   return (

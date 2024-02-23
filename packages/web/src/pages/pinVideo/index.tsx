@@ -1,10 +1,11 @@
 import { BorderOutlined, CloseOutlined, MinusOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserApi } from '../../api/user';
 // import Header from '../../components/common/header';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../main';
 import styles from './index.module.scss';
 
@@ -29,22 +30,24 @@ const items: MenuProps['items'] = [
 const PinImage: React.FC = () => {
   const { t } = useTranslation();
   const userApi = useUserApi();
-  const userRef = useRef({} as any);
+  const [user, setUser] = useState<any>({});
   const [imgUrl, setImgUrl] = useState<any>('');
   const [scale, setScale] = useState<any>(1);
   const [rotate, setRotate] = useState<any>(0);
 
   useEffect(() => {
     init();
-    userRef.current.id || getCurrentUser();
+    user.id || getCurrentUser();
   }, []);
 
   async function getCurrentUser() {
     try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        userRef.current = res.data;
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
       }
+      setUser(user);
     } catch (err) {
       console.log(err);
     }
@@ -53,13 +56,13 @@ const PinImage: React.FC = () => {
   async function init() {
     const constraints = {
       audio: false,
-      video: true
+      video: true,
     };
     try {
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       handleSuccess(stream);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
@@ -77,8 +80,6 @@ const PinImage: React.FC = () => {
       window.electronAPI.sendPiMaximizeWin();
     }
   };
-
-
 
   return (
     <Dropdown menu={{ items, onClick }} trigger={['contextMenu']}>
