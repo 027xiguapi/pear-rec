@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import Timer from '@pear-rec/timer';
-import { Radio, Card, Divider, Switch, Space, Select } from 'antd';
 import useTimer from '@pear-rec/timer/src/useTimer';
-import UploadAudio from '../upload/UploadAudio';
-import WaveSurfer from 'wavesurfer.js';
-import RecordPlugin from './plugins/record';
+import { Card, Divider, Radio, Select, Space, Switch } from 'antd';
 import dayjs from 'dayjs';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import WaveSurfer from 'wavesurfer.js';
+import UploadAudio from '../upload/UploadAudio';
+import RecordPlugin from './plugins/record';
 
 const AudioRecorder = (props) => {
   const { t } = useTranslation();

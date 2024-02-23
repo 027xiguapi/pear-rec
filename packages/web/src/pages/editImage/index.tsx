@@ -1,28 +1,29 @@
 import { saveAs } from 'file-saver';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useUserApi } from '../../api/user';
 import EditImg from '../../components/editImg';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
 const EditImage = () => {
   const { t } = useTranslation();
-  const userApi = useUserApi();
-  const userRef = useRef({} as any);
+  const [user, setUser] = useState({} as any);
   const [imgUrl, setImgUrl] = useState<string>('');
 
   useEffect(() => {
     init();
-    userRef.current.id || getCurrentUser();
+    user.id || getCurrentUser();
   }, []);
 
   async function getCurrentUser() {
     try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        userRef.current = res.data;
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
       }
+      setUser(user);
     } catch (err) {
       console.log(err);
     }

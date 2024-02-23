@@ -1,10 +1,11 @@
 import { BorderOutlined, CloseOutlined, MinusOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserApi } from '../../api/user';
 import Header from '../../components/common/header';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
@@ -29,14 +30,14 @@ const items: MenuProps['items'] = [
 const PinImage: React.FC = () => {
   const { t } = useTranslation();
   const userApi = useUserApi();
-  const userRef = useRef({} as any);
+  const [user, setUser] = useState<any>({});
   const [imgUrl, setImgUrl] = useState<any>('');
   const [scale, setScale] = useState<any>(1);
   const [rotate, setRotate] = useState<any>(0);
 
   useEffect(() => {
     init();
-    userRef.current.id || getCurrentUser();
+    user.id || getCurrentUser();
   }, []);
 
   useEffect(() => {
@@ -51,10 +52,12 @@ const PinImage: React.FC = () => {
 
   async function getCurrentUser() {
     try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        userRef.current = res.data;
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
       }
+      setUser(user);
     } catch (err) {
       console.log(err);
     }
@@ -64,15 +67,18 @@ const PinImage: React.FC = () => {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
     let _imgUrl = searchParams.get('imgUrl');
+    let recordId = searchParams.get('recordId');
     if (_imgUrl && _imgUrl.substring(0, 4) != 'blob') {
       _imgUrl = `${window.baseURL}file?url=${_imgUrl}`;
     }
-
-    fetch(_imgUrl)
-      .then((response) => response.blob()) // 将获取到的图片转为 Blob
-      .then((blob) => {
-        setImgUrl(`url(${URL.createObjectURL(blob)})`);
-      });
+    if (recordId) {
+      let record = await db.records.where({ id: Number(recordId) }).first();
+      setImgUrl(`url(${URL.createObjectURL(record.fileData)})`);
+    } else {
+      const data = await fetch(_imgUrl);
+      const blob = await data.blob();
+      setImgUrl(`url(${URL.createObjectURL(blob)})`);
+    }
   }
 
   const onClick: MenuProps['onClick'] = ({ key }) => {

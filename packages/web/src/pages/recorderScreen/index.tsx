@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import ininitApp from '../../pages/main';
-import SelectMedia from '../../components/recorderScreen/SelectMedia';
+import '@pear-rec/timer/src/Timer/index.module.scss';
+import { useRef, useState } from 'react';
 import CropRecorder from '../../components/recorderScreen/CropRecorder';
 import ScreenRecorder from '../../components/recorderScreen/ScreenRecorder';
-import '@pear-rec/timer/src/Timer/index.module.scss';
+import SelectMedia from '../../components/recorderScreen/SelectMedia';
+import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
 const RecorderScreen = () => {

@@ -1,30 +1,29 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Col, Row } from 'antd';
-import HomeFooter from '../../components/home/HomeFooter';
-import CutScreenCard from '../../components/card/shotScreenCard';
-import RecordVideoCard from '../../components/card/recordVideoCard';
-import RecordScreenCard from '../../components/card/recordScreenCard';
+import React, { useEffect, useRef, useState } from 'react';
+import EditGifCard from '../../components/card/editGifCard';
 import RecordAudioCard from '../../components/card/recordAudioCard';
+import RecordScreenCard from '../../components/card/recordScreenCard';
+import RecordVideoCard from '../../components/card/recordVideoCard';
+import CutScreenCard from '../../components/card/shotScreenCard';
+import ViewAudioCard from '../../components/card/viewAudioCard';
 import ViewImageCard from '../../components/card/viewImageCard';
 import ViewVideoCard from '../../components/card/viewVideoCard';
-import ViewAudioCard from '../../components/card/viewAudioCard';
-import EditGifCard from '../../components/card/editGifCard';
+import HomeFooter from '../../components/home/HomeFooter';
+import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
-import { useUserApi } from '../../api/user';
 import styles from './index.module.scss';
 
 const Home: React.FC = () => {
-  const userApi = useUserApi();
   const cscRef = useRef(null);
   const rscRef = useRef(null);
   const rvcRef = useRef(null);
   const racRef = useRef(null);
-  const [user, setUser] = useState({} as any);
+  const [user, setUser] = useState<any>({});
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeydown);
     getDevices();
-    window.isOffline || user.id || getCurrentUser();
+    user.id || getCurrentUser();
   }, []);
 
   function handleKeydown(event: any) {
@@ -35,10 +34,12 @@ const Home: React.FC = () => {
 
   async function getCurrentUser() {
     try {
-      const res = (await userApi.getCurrentUser()) as any;
-      if (res.code == 0) {
-        setUser(res.data);
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
       }
+      setUser(user);
     } catch (err) {
       console.log(err);
     }

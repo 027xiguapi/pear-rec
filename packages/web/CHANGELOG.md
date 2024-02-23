@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.4.0
+
+feat: 使用 indexedDB 作为数据存储
+
 ## 1.3.24
 
 feat: 画布
