@@ -1,7 +1,7 @@
 {
   "name": "pear-rec",
   "version": "1.1.0",
-  "description": "pear-rec is a cross platform screenshot, screen recording, audio recording, and video recording software.",
+  "description": " pear-rec is a cross platform software with screenshot, screen recording, audio recording and video recording.",
   "scripts": {
     "start:desktop": "concurrently --names \"SERVER,WEB,DESKTOP\" -c \"red,blue,auto\" \"npm run dev:server\" \"wait-on tcp:9190 && npm run dev:web\" \"wait-on tcp:9191 && pnpm run dev:desktop\"",
     "dev:desktop": "pnpm run -C packages/desktop dev",

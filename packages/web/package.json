@@ -1,7 +1,7 @@
 {
   "name": "@pear-rec/web",
   "private": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "scripts": {
     "dev": "vite",
     "build": "rimraf dist && tsc && vite build",
@@ -57,7 +57,8 @@
     "rimraf": "^5.0.1",
     "rollup-plugin-visualizer": "^5.9.2",
     "typescript": "^5.2.2",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "vite-plugin-pwa": "^0.19.0"
   },
   "files": [
     "es",

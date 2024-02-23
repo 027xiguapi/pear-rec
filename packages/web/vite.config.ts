@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react-swc';
 import { join, resolve } from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 const buildOptionsProject = {
@@ -72,8 +73,51 @@ export default ({ mode }) => {
     server: {
       // open: true,
       port: 9191,
+      host: '0.0.0.0',
     },
-    plugins: [react(), visualizer() as any],
+    plugins: [
+      react(),
+      visualizer() as any,
+      VitePWA({
+        injectRegister: 'auto',
+        registerType: 'autoUpdate',
+        devOptions: {
+          enabled: true,
+        },
+        manifest: {
+          name: 'pear-rec',
+          short_name: 'pear-rec',
+          description:
+            'pear-rec is a software with screenshot, screen recording, audio recording and video recording.',
+          theme_color: '#fff',
+          start_url: './',
+          display: 'standalone',
+          background_color: '#fff',
+          icons: [
+            {
+              src: '/imgs/icons/png/512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any',
+            },
+            {
+              src: '/imgs/icons/png/512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any',
+            },
+          ],
+          screenshots: [
+            {
+              src: '/img/screenshot1.jpg',
+              type: 'image/jpg',
+              sizes: '944x656',
+              form_factor: 'narrow',
+            },
+          ],
+        },
+      }),
+    ],
     // build: mode == "lib" ? buildOptionsLib : buildOptionsProject,
     build: buildOptionsProject,
   });
