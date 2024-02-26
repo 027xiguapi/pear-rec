@@ -120,8 +120,8 @@ export default function VideoToGifConverter() {
               onClick={(e) => handleCurrentVideoFrameClick(index)}
             >
               <img
-                src={videoFrame.url}
-                alt={videoFrame.filePath}
+                src={URL.createObjectURL(videoFrame.fileData)}
+                alt={videoFrame.fileName}
                 ref={(el) => (videoFramesRef.current[index] = el)}
               />
               <div className="info">

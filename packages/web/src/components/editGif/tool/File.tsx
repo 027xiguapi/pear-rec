@@ -130,10 +130,8 @@ const File = () => {
       cancelText: t('modal.cancel'),
       async onOk() {
         console.log('OK');
-        const res = (await api.deleteFileCache('cg')) as any;
-        if (res.code == 0) {
-          gifDispatch({ type: 'setVideoFrames', videoFrames: [] });
-        }
+        await db.caches.where('fileType').equals('cg').delete();
+        gifDispatch({ type: 'setVideoFrames', videoFrames: [] });
       },
       onCancel() {
         console.log('Cancel');
