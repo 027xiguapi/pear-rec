@@ -12,8 +12,8 @@ import styles from './index.module.scss';
 
 const Setting = () => {
   const { t } = useTranslation();
-  const [setting, setSetting] = useState({} as any);
-  const [user, setUser] = useState(Local.get('user') || ({} as any));
+  const [setting, setSetting] = useState<any>({});
+  const [user, setUser] = useState<any>({});
 
   useEffect(() => {
     if (user.id) {

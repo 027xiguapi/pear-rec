@@ -1,13 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { Form, Input } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { Switch, Form, Input } from 'antd';
-import { useSettingApi } from '../../api/setting';
 
 const ShortcutSetting = (props) => {
-  const settingApi = useSettingApi();
   const { t, i18n } = useTranslation();
   const [form] = Form.useForm();
-  const { user, setting } = props;
 
   return (
     <div className="shortcutSetting">

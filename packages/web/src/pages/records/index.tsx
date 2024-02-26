@@ -2,14 +2,13 @@ import { Layout } from 'antd';
 import React, { useEffect, useState } from 'react';
 import RecordsContent from '../../components/records/RecordsContent';
 import RecordsHeader from '../../components/records/RecordsHeader';
-import { db, defaultUser } from '../../db';
+import { db, defaultSetting, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
-import { Local } from '../../util/storage';
 import styles from './index.module.scss';
 
 const Record: React.FC = () => {
-  const [user, setUser] = useState(Local.get('user') || ({} as any));
-  const [setting, setSetting] = useState({} as any);
+  const [user, setUser] = useState<any>({});
+  const [setting, setSetting] = useState<any>({});
 
   useEffect(() => {
     if (user.id) {
@@ -33,10 +32,16 @@ const Record: React.FC = () => {
   }
 
   async function getSetting(userId) {
-    // const res = (await settingApi.getSetting(userId)) as any;
-    // if (res.code == 0) {
-    //   setSetting(res.data || {});
-    // }
+    try {
+      let setting = await db.settings.where({ userId }).first();
+      if (!setting) {
+        setting = { userId, createdBy: userId, updatedBy: userId, ...defaultSetting };
+        await db.settings.add(setting);
+      }
+      setSetting(setting);
+    } catch (err) {
+      console.log('getSetting', err);
+    }
   }
 
   return (
