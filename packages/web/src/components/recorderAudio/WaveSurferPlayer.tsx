@@ -2,7 +2,6 @@ import { Button, Checkbox, Col, Divider, Modal, Row, Slider, Space, message } fr
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import WaveSurfer from 'wavesurfer.js';
-import { useApi } from '../../api';
 import { db } from '../../db';
 
 const useWavesurfer = (containerRef, options) => {
@@ -32,7 +31,6 @@ const useWavesurfer = (containerRef, options) => {
 
 const WaveSurferPlayer = (props) => {
   const { t } = useTranslation();
-  const api = useApi();
   const containerRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);

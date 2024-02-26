@@ -3,7 +3,6 @@ import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useUserApi } from '../../api/user';
 // import Header from '../../components/common/header';
 import { db, defaultUser } from '../../db';
 import ininitApp from '../main';
@@ -29,7 +28,6 @@ const items: MenuProps['items'] = [
 
 const PinImage: React.FC = () => {
   const { t } = useTranslation();
-  const userApi = useUserApi();
   const [user, setUser] = useState<any>({});
   const [imgUrl, setImgUrl] = useState<any>('');
   const [scale, setScale] = useState<any>(1);

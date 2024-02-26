@@ -60,23 +60,29 @@ export default function UI() {
 
   async function saveFile(blob) {
     try {
-      const formData = new FormData();
-      formData.append('type', 'rv');
-      formData.append('userId', user.id);
-      formData.append('file', blob);
-      const res = (await api.saveFile(formData)) as any;
-      if (res.code == 0) {
+      const record = {
+        fileName: `pear-rec_${+new Date()}.webm`,
+        fileData: blob,
+        fileType: 'rs',
+        userId: user.id,
+        createdAt: new Date(),
+        createdBy: user.id,
+        updatedAt: new Date(),
+        updatedBy: user.id,
+      };
+      const recordId = await db.records.add(record);
+      if (recordId) {
         if (window.isElectron) {
           window.electronAPI.sendRvCloseWin();
-          window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
+          window.electronAPI.sendVvOpenWin({ recordId: recordId });
         } else {
           Modal.confirm({
             title: '录屏已保存，是否查看？',
-            content: `${res.data.filePath}`,
+            content: `${record.fileName}`,
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
-              window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
+              window.open(`/viewVideo.html?recordId=${recordId}`);
             },
           });
         }
