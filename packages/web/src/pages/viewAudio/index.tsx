@@ -33,14 +33,10 @@ const ViewAudio = () => {
     const recordId = searchParams.get('recordId');
     let audio = [];
     if (audioUrl) {
-      audio = [{ url: audioUrl, cover: './imgs/music.png' }];
-      try {
-        const res = (await api.getAudios(audioUrl)) as any;
-        if (res.code == 0) {
-          audio = res.data;
-        }
-      } catch (err) {
-        console.log(err);
+      if (audioUrl.substring(0, 4) == 'blob') {
+        audio = [{ url: audioUrl, cover: './imgs/music.png' }];
+      } else {
+        audio = [{ url: 'pearrec://' + audioUrl, cover: './imgs/music.png' }];
       }
     }
     if (recordId) {

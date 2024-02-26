@@ -14,13 +14,22 @@ function createViewAudioWin(search?: any): BrowserWindow {
     },
   });
 
+  const audioUrl = search?.audioUrl || '';
+  const recordId = search?.recordId || '';
   if (url) {
-    viewAudioWin.loadURL(WEB_URL + `viewAudio.html?audioUrl=${search?.audioUrl || ''}`);
+    viewAudioWin.loadURL(
+      WEB_URL +
+        `viewAudio.html?${audioUrl ? 'audioUrl=' + audioUrl : ''}${
+          recordId ? 'recordId=' + recordId : ''
+        }`,
+    );
     // Open devTool if the app is not packaged
     // viewAudioWin.webContents.openDevTools();
   } else {
     viewAudioWin.loadFile(WIN_CONFIG.viewAudio.html, {
-      search: `?audioUrl=${search?.audioUrl || ''}`,
+      search: `?audioUrl=${audioUrl ? 'audioUrl=' + audioUrl : ''}${
+        recordId ? 'recordId=' + recordId : ''
+      }`,
     });
   }
 

@@ -51,20 +51,17 @@ const ViewVideo = () => {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
     const videoUrl = searchParams.get('videoUrl');
+    const recordId = searchParams.get('recordId');
+
     if (videoUrl) {
       if (videoUrl.substring(0, 4) == 'blob') {
         setSource(videoUrl);
       } else {
-        const res = (await api.getVideos(videoUrl)) as any;
-        if (res.code == 0) {
-          setVideos(res.data.videos);
-          setVideoIndex(res.data.currentIndex);
-          res.data.videos[res.data.currentIndex] &&
-            setSource(res.data.videos[res.data.currentIndex].url);
-        } else {
-          setSource(defaultVideo);
-        }
+        setSource(`pearrec:///${videoUrl}`);
       }
+    } else if (recordId) {
+      let record = await db.records.where({ id: Number(recordId) }).first();
+      setSource(URL.createObjectURL(record.fileData));
     }
   }
 
@@ -72,14 +69,6 @@ const ViewVideo = () => {
     setSource(videos[index].url);
     setVideoIndex(index);
   }
-
-  // function formatVideoUrl(videoUrl: any) {
-  // 	if (videoUrl?.search(/^blob:/) == 0) {
-  // 		return videoUrl;
-  // 	}
-  // 	videoUrl = videoUrl && videoUrl.replace(/\\/g, "/");
-  // 	return videoUrl && `pearrec:///${videoUrl}`;
-  // }
 
   function handleDrop() {
     document.addEventListener('drop', (e) => {

@@ -19,12 +19,18 @@ function createPinImageWin(search?: any): BrowserWindow {
   });
 
   const imgUrl = search?.imgUrl || '';
+  const recordId = search?.recordId || '';
   // pinImageWin.webContents.openDevTools();
   if (url) {
-    pinImageWin.loadURL(WEB_URL + `pinImage.html?imgUrl=${imgUrl}`);
+    pinImageWin.loadURL(
+      WEB_URL +
+        `pinImage.html?${imgUrl ? 'imgUrl=' + imgUrl : ''}${
+          recordId ? 'recordId=' + recordId : ''
+        }`,
+    );
   } else {
     pinImageWin.loadFile(WIN_CONFIG.pinImage.html, {
-      search: `?imgUrl=${imgUrl}`,
+      search: `?${imgUrl ? 'imgUrl=' + imgUrl : ''}${recordId ? 'recordId=' + recordId : ''}`,
     });
   }
 

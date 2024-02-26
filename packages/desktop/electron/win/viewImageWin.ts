@@ -17,14 +17,19 @@ function createViewImageWin(search?: any): BrowserWindow {
   });
 
   const imgUrl = search?.imgUrl || '';
-
+  const recordId = search?.recordId || '';
+  // viewImageWin.webContents.openDevTools();
   if (url) {
-    viewImageWin.loadURL(WEB_URL + `viewImage.html?imgUrl=${imgUrl}`);
+    viewImageWin.loadURL(
+      WEB_URL +
+        `viewImage.html?${imgUrl ? 'imgUrl=' + imgUrl : ''}${
+          recordId ? 'recordId=' + recordId : ''
+        }`,
+    );
     // Open devTool if the app is not packaged
-    // viewImageWin.webContents.openDevTools();
   } else {
     viewImageWin.loadFile(WIN_CONFIG.viewImage.html, {
-      search: `?imgUrl=${imgUrl}`,
+      search: `?${imgUrl ? 'imgUrl=' + imgUrl : ''}${recordId ? 'recordId=' + recordId : ''}`,
     });
   }
 
