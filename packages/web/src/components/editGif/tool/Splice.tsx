@@ -2,7 +2,6 @@ import { AlignHorizontally, AlignVertically } from '@icon-park/react';
 import { Modal } from 'antd';
 import { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApi } from '../../../api';
 import { GifContext } from '../../context/GifContext';
 import { HistoryContext } from '../../context/HistoryContext';
 import { UserContext } from '../../context/UserContext';
@@ -11,7 +10,6 @@ import styles from './splice.module.scss';
 
 const Splice = (props) => {
   const { t } = useTranslation();
-  const api = useApi();
   const { user, setUser } = useContext(UserContext);
   const { historyState, historyDispatch } = useContext(HistoryContext);
   const { gifState, gifDispatch } = useContext(GifContext);

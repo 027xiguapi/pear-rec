@@ -146,16 +146,20 @@ const RecorderScreen = () => {
 
   async function saveFile(blob) {
     try {
-      recordedChunks.current = [];
-      setIsSave(false);
-      const formData = new FormData();
-      formData.append('type', 'rs');
-      formData.append('userUuid', user.uuid);
-      formData.append('file', blob);
-      const res = (await api.saveFile(formData)) as any;
-      if (res.code == 0) {
+      const record = {
+        fileName: `pear-rec_${+new Date()}.webm`,
+        fileData: blob,
+        fileType: 'rs',
+        userId: user.id,
+        createdAt: new Date(),
+        createdBy: user.id,
+        updatedAt: new Date(),
+        updatedBy: user.id,
+      };
+      const recordId = await db.records.add(record);
+      if (recordId) {
         window.electronAPI?.sendRfsCloseWin();
-        window.electronAPI?.sendVvOpenWin({ videoUrl: res.data.filePath });
+        window.electronAPI?.sendVvOpenWin({ recordId: recordId });
       }
     } catch (err) {
       message.error('保存失败');

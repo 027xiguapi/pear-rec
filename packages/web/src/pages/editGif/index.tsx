@@ -1,7 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApi } from '../../api/index';
-import { useUserApi } from '../../api/user';
 import { GifContext, gifInitialState, gifReducer } from '../../components/context/GifContext';
 import {
   HistoryContext,
@@ -17,7 +16,6 @@ import styles from './index.module.scss';
 const paramsString = location.search;
 const searchParams = new URLSearchParams(paramsString);
 const EditGif = () => {
-  const userApi = useUserApi();
   const api = useApi();
   const { t } = useTranslation();
   const [user, setUser] = useState<any>({});

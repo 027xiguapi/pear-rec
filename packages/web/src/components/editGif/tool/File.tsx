@@ -7,6 +7,7 @@ import { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApi } from '../../../api';
 import { GifContext } from '../../../components/context/GifContext';
+import { db } from '../../../db';
 import { UserContext } from '../../context/UserContext';
 import styles from './file.module.scss';
 
@@ -75,23 +76,29 @@ const File = () => {
 
   async function handleDownloadFile(blob) {
     try {
-      const formData = new FormData();
-      formData.append('type', 'eg');
-      formData.append('userId', user.id);
-      formData.append('file', blob);
-      const res = (await api.saveFile(formData)) as any;
-      if (res.code == 0) {
+      const record = {
+        fileName: `pear-rec_${+new Date()}.webm`,
+        fileData: blob,
+        fileType: 'eg',
+        userId: user.id,
+        createdAt: new Date(),
+        createdBy: user.id,
+        updatedAt: new Date(),
+        updatedBy: user.id,
+      };
+      const recordId = await db.records.add(record);
+      if (recordId) {
         if (window.isElectron) {
           window.electronAPI?.sendEgCloseWin();
-          window.electronAPI?.sendViOpenWin({ imgUrl: res.data.filePath });
+          window.electronAPI?.sendViOpenWin({ recordId: recordId });
         } else {
           Modal.confirm({
             title: '图片已保存，是否查看？',
-            content: `${res.data.filePath}`,
+            content: `${record.fileName}`,
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
-              window.open(`/viewImage.html?imgUrl=${res.data.filePath}`);
+              window.open(`/viewImage.html?recordId=${recordId}`);
               console.log('OK');
             },
             onCancel() {

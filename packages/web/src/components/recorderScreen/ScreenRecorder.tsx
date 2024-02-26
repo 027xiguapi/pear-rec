@@ -8,7 +8,6 @@ import { saveAs } from 'file-saver';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsRecordCircle } from 'react-icons/bs';
-import { useApi } from '../../api';
 import { db, defaultUser } from '../../db';
 import PauseRecorder from './PauseRecorder';
 import PlayRecorder from './PlayRecorder';
@@ -16,7 +15,6 @@ import StopRecorder from './StopRecorder';
 
 const ScreenRecorder = (props) => {
   const { t } = useTranslation();
-  const api = useApi();
   const [user, setUser] = useState({} as any);
   const timer = useTimer();
   const videoRef = useRef<HTMLVideoElement>();
@@ -211,55 +209,35 @@ const ScreenRecorder = (props) => {
     });
   }
 
-  // 导出录屏文件
-  // async function exportRecord() {
-  //   if (type == 'gif') {
-  //     const res = (await api.getFileCache('cg')) as any;
-  //     if (res.code == 0) {
-  //       if (window.isElectron) {
-  //         window.electronAPI.sendRsCloseWin();
-  //         window.electronAPI.sendEgOpenWin({ filePath: res.data });
-  //       } else {
-  //         window.open(`/editGif.html?filePath=${res.data}`);
-  //       }
-  //     }
-  //   } else {
-  //     if (recordedChunks.current.length > 0) {
-  //       const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
-  //       const url = URL.createObjectURL(blob);
-  //       recordedUrl.current = url;
-  //       isSave.current = false;
-  //       console.log('录屏地址：', url);
-  //       recordedChunks.current = [];
-  //       window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
-  //     }
-  //   }
-  // }
-
   async function saveFile(blob) {
     try {
-      recordedChunks.current = [];
-      const formData = new FormData();
-      formData.append('type', 'rs');
-      formData.append('userId', user.id);
-      formData.append('file', blob);
-      const res = (await api.saveFile(formData)) as any;
-      if (res.code == 0) {
+      const record = {
+        fileName: `pear-rec_${+new Date()}.webm`,
+        fileData: blob,
+        fileType: 'rs',
+        userId: props.user.id,
+        createdAt: new Date(),
+        createdBy: props.user.id,
+        updatedAt: new Date(),
+        updatedBy: props.user.id,
+      };
+      const recordId = await db.records.add(record);
+      if (recordId) {
         if (window.isElectron) {
           window.electronAPI.sendRsCloseWin();
           type == 'gif'
-            ? window.electronAPI.sendEgOpenWin({ videoUrl: res.data.filePath })
-            : window.electronAPI.sendVvOpenWin({ videoUrl: res.data.filePath });
+            ? window.electronAPI.sendEgOpenWin({ recordId: recordId })
+            : window.electronAPI.sendVvOpenWin({ recordId: recordId });
         } else {
           Modal.confirm({
             title: '录屏已保存，是否查看？',
-            content: `${res.data.filePath}`,
+            content: `${record.fileName}`,
             okText: t('modal.ok'),
             cancelText: t('modal.cancel'),
             onOk() {
               type == 'gif'
-                ? window.open(`/editGif.html?videoUrl=${res.data.filePath}`)
-                : window.open(`/viewVideo.html?videoUrl=${res.data.filePath}`);
+                ? window.open(`/editGif.html?recordId=${recordId}`)
+                : window.open(`/viewVideo.html?recordId=${recordId}`);
             },
           });
         }
