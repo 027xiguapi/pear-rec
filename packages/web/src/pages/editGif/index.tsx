@@ -1,6 +1,5 @@
 import { useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApi } from '../../api/index';
 import { GifContext, gifInitialState, gifReducer } from '../../components/context/GifContext';
 import {
   HistoryContext,
@@ -16,7 +15,6 @@ import styles from './index.module.scss';
 const paramsString = location.search;
 const searchParams = new URLSearchParams(paramsString);
 const EditGif = () => {
-  const api = useApi();
   const { t } = useTranslation();
   const [user, setUser] = useState<any>({});
   const [historyState, historyDispatch] = useReducer(historyReducer, historyInitialState);
@@ -75,49 +73,43 @@ const EditGif = () => {
   }
 
   async function loadImg() {
-    const res = (await api.deleteFileCache('cg')) as any;
-    if (res.code == 0) {
-      const imageByteStream = await fetchImageByteStream(gifState.imgUrl);
-      const imageDecoder = await createImageDecoder(imageByteStream);
-      const frameCount = imageDecoder.tracks.selectedTrack!.frameCount;
-      let _videoFrames = [];
-      for (let frameIndex = 0; frameIndex < frameCount; frameIndex++) {
-        const { image: imageFrame } = await imageDecoder.decode({ frameIndex });
-        const frameDuration = imageFrame.duration! / 1000;
-        const filePath = await saveImg(imageFrame, frameIndex);
-
-        imageFrame.close();
-        _videoFrames.push({
-          url: `${window.baseURL}file?url=${filePath}`,
-          filePath: filePath,
-          index: frameIndex,
-          duration: frameDuration,
-        });
-        gifDispatch({ type: 'setLoad', load: Math.round(((frameIndex + 1) / frameCount) * 100) });
-        frameIndex + 1 >= frameCount &&
-          gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
-      }
+    await db.caches.where('fileType').equals('cg').delete();
+    const imageByteStream = await fetchImageByteStream(gifState.imgUrl);
+    const imageDecoder = await createImageDecoder(imageByteStream);
+    const frameCount = imageDecoder.tracks.selectedTrack!.frameCount;
+    for (let frameIndex = 0; frameIndex < frameCount; frameIndex++) {
+      const { image: imageFrame } = await imageDecoder.decode({ frameIndex });
+      const frameDuration = imageFrame.duration! / 1000;
+      await saveImg(imageFrame, frameIndex);
+      imageFrame.close();
+      gifDispatch({ type: 'setLoad', load: Math.round(((frameIndex + 1) / frameCount) * 100) });
     }
+    let _videoFrames = await db.caches.where('fileType').equals('cg').toArray();
+    gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
   }
 
   async function saveImg(videoFrame, frameIndex) {
+    const frameDuration = videoFrame.duration! / 1000;
     const canvas = new OffscreenCanvas(videoFrame.displayWidth, videoFrame.displayHeight);
     const context = canvas.getContext('2d');
     context.drawImage(videoFrame, 0, 0);
-    const blob = await canvas.convertToBlob({ type: 'image/jpeg' });
-    return await uploadFileCache(blob);
+    const blob = await canvas.convertToBlob({ type: 'image/png' });
+    await uploadFileCache(blob, frameDuration);
   }
 
-  async function uploadFileCache(blob) {
-    let formData = new FormData();
-    formData.append('type', 'cg');
-    formData.append('file', blob);
-    formData.append('userId', user.id);
-
-    const res = (await api.uploadFileCache(formData)) as any;
-    if (res.code == 0) {
-      return res.data;
-    }
+  async function uploadFileCache(blob, frameDuration) {
+    const cache = {
+      fileName: `pear-rec_${+new Date()}.png`,
+      fileData: blob,
+      fileType: 'cg',
+      frameDuration: frameDuration,
+      userId: user.id,
+      createdAt: new Date(),
+      createdBy: user.id,
+      updatedAt: new Date(),
+      updatedBy: user.id,
+    };
+    await db.caches.add(cache);
   }
 
   function loadVideo() {
@@ -139,8 +131,9 @@ const EditGif = () => {
       if (message.data['imgs'] instanceof Array) {
         message.data['imgs']?.map((_videoFrame, index) => {
           _videoFrames.push({
-            url: _videoFrame.url,
-            filePath: _videoFrame.url,
+            url: `${window.baseURL}file?url=${_videoFrame.fileData}`,
+            fileData: _videoFrame.fileData,
+            fileName: _videoFrame.fileName,
             index: _videoFrame.index,
             duration: (_videoFrame.duration / 1000).toFixed(0),
           });

@@ -1,7 +1,7 @@
 import { FileAdditionOne, FileFailedOne, ToLeft, ToRight } from '@icon-park/react';
 import { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApi } from '../../../api';
+import { db } from '../../../db';
 import { GifContext } from '../../context/GifContext';
 import { HistoryContext } from '../../context/HistoryContext';
 import { UserContext } from '../../context/UserContext';
@@ -9,7 +9,6 @@ import styles from './frame.module.scss';
 
 const Frame = (props) => {
   const { t } = useTranslation();
-  const api = useApi();
   const inputRef = useRef(null);
   const { user, setUser } = useContext(UserContext);
   const { historyState, historyDispatch } = useContext(HistoryContext);
@@ -33,16 +32,18 @@ const Frame = (props) => {
 
   async function uploadFileCache(event) {
     const file = event.target.files[0];
-    let formData = new FormData();
-    formData.append('type', 'cg');
-    formData.append('file', file);
-    formData.append('userId', user.id);
-
-    const res = (await api.uploadFileCache(formData)) as any;
-    if (res.code == 0) {
-      handleInsertFrame(res.data);
-      event.target.value = '';
-    }
+    const cache = {
+      fileName: `pear-rec_${+new Date()}.png`,
+      fileData: file,
+      fileType: 'cg',
+      userId: user.id,
+      createdAt: new Date(),
+      createdBy: user.id,
+      updatedAt: new Date(),
+      updatedBy: user.id,
+    };
+    const cacheId = await db.caches.add(cache);
+    return cache.fileData;
   }
 
   function handleInsertFrame(filePath) {
