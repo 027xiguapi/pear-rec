@@ -12,6 +12,8 @@ export interface Setting {
 
   openAtLogin: boolean;
 
+  openServer: boolean;
+
   serverPath: string;
 
   userId: number;
@@ -31,6 +33,7 @@ export const defaultSetting = {
   language: 'zh',
   filePath: '',
   openAtLogin: false,
+  openServer: false,
   serverPath: 'http://localhost:9190/',
   createdAt: new Date(),
   updatedAt: new Date(),

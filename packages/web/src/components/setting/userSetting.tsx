@@ -2,11 +2,10 @@ import { Button, Modal } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSettingApi } from '../../api/setting';
+import { db, defaultSetting } from '../../db';
 import { Local } from '../../util/storage';
 
 const logo = './imgs/icons/png/512x512.png';
-const settingApi = useSettingApi();
 
 const UserSetting = (props) => {
   const { t, i18n } = useTranslation();
@@ -33,10 +32,11 @@ const UserSetting = (props) => {
       content: `是否重置设置？`,
       okText: t('modal.ok'),
       cancelText: t('modal.cancel'),
-      onOk() {
+      async onOk() {
         Local.set('i18n', 'zh');
         i18n.changeLanguage('zh');
-        setting.id && settingApi.resetSetting(setting.id);
+        let _setting = { ...setting, ...defaultSetting };
+        setting.id && (await db.settings.put(_setting));
         window.electronAPI?.sendSeSetLanguage('zh');
       },
     });

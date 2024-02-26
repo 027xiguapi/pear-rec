@@ -1,19 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { Button, Form, Input, Switch } from 'antd';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Switch, Form, Input } from 'antd';
-import { useSettingApi } from '../../api/setting';
-import { Local } from '../../util/storage';
+import { db } from '../../db';
 
 const { TextArea } = Input;
 const BasicSetting = (props) => {
-  const settingApi = useSettingApi();
   const { t, i18n } = useTranslation();
-  const [server, setServer] = useState(
-    Local.get('server') || {
-      openServer: false,
-      serverPath: 'http://localhost:9190/',
-    },
-  );
   const [form] = Form.useForm();
   const { user, setting } = props;
 
@@ -23,35 +15,26 @@ const BasicSetting = (props) => {
 
   function init() {
     getServerPath();
-    getOpenAtLogin();
+    getOpenServer();
   }
 
   async function handleSetServerPath(e) {
     const serverPath = e.target.value;
-    settingApi.editSetting(setting.id, { serverPath: serverPath });
-    setServer({ openServer: server.openServer, serverPath: serverPath });
-    Local.set('server', {
-      openServer: server.openServer,
-      serverPath: serverPath,
-    });
+    db.settings.update(setting.id, { serverPath: serverPath });
   }
 
   async function getServerPath() {
-    const serverPath = setting.serverPath || server.serverPath || 'http://localhost:9190/';
+    const serverPath = setting.serverPath || 'http://localhost:9190/';
     form.setFieldValue('serverPath', serverPath);
   }
 
   function handleSetOpenServer(isOpen: boolean) {
-    setServer({ openServer: isOpen, serverPath: server.serverPath });
-    Local.set('server', {
-      openServer: isOpen,
-      serverPath: server.serverPath,
-    });
+    db.settings.update(setting.id, { openServer: isOpen });
   }
 
-  async function getOpenAtLogin() {
-    const openServer = server.openServer || false;
-    form.setFieldValue('openServer', openServer);
+  async function getOpenServer() {
+    const openAtLogin = setting.openAtLogin || false;
+    form.setFieldValue('openAtLogin', openAtLogin);
   }
 
   function handleTipClick() {
@@ -79,7 +62,7 @@ const BasicSetting = (props) => {
       </Form>
 
       <p className="tip" onClick={handleTipClick}>
-        {t('setting.address')}: https://github.com/027xiguapi/pear-rec
+        {t('setting.address')}:<Button type="link">https://github.com/027xiguapi/pear-rec</Button>
       </p>
     </div>
   );

@@ -14,6 +14,7 @@ lib
 dist-electron
 release
 *.local
+dev-dist
 
 stats.html
 

@@ -3,7 +3,6 @@ import type { MenuProps } from 'antd';
 import { Avatar, Button, Dropdown, Input, Layout, Row } from 'antd';
 import React, { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApi } from '../../api';
 import { eventEmitter } from '../../util/bus';
 
 const logo = './imgs/icons/png/512x512.png';
@@ -11,8 +10,6 @@ const { Header } = Layout;
 
 const RecordsHeader = forwardRef((props: any, ref: any) => {
   const { t } = useTranslation();
-  const api = useApi();
-  const { setting } = props;
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     eventEmitter.emit('searchRecord', e.target.value);
@@ -23,19 +20,19 @@ const RecordsHeader = forwardRef((props: any, ref: any) => {
       key: '1',
       label: '全部清除',
     },
-    {
-      key: '2',
-      label: '打开下载文件夹',
-    },
+    // {
+    //   key: '2',
+    //   label: '打开下载文件夹',
+    // },
   ];
 
   const handleMenuClick: MenuProps['onClick'] = async (e) => {
     if (e.key === '1') {
       eventEmitter.emit('deleteAllRecord');
     }
-    if (e.key === '2') {
-      api.getFolder(setting.filePath);
-    }
+    // if (e.key === '2') {
+    //   api.getFolder(setting.filePath);
+    // }
   };
 
   function handleLogoClick() {

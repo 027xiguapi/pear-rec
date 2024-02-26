@@ -1,19 +1,17 @@
-import React, { useState, useEffect, forwardRef } from 'react';
-import { Layout, Button, List, Skeleton, Avatar } from 'antd';
 import {
-  ScissorOutlined,
   AudioOutlined,
   CameraOutlined,
+  PictureOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
+import { Avatar, Button, Layout, List, Skeleton } from 'antd';
 import dayjs from 'dayjs';
-import { useApi } from '../../api';
-import { useRecordApi } from '../../api/record';
+import { saveAs } from 'file-saver';
+import { forwardRef, useEffect, useState } from 'react';
+import { db } from '../../db';
 import { eventEmitter } from '../../util/bus';
 
 const { Content } = Layout;
-const recordApi = useRecordApi();
-const api = useApi();
 
 const RecordAudioCard = forwardRef(() => {
   const [initLoading, setInitLoading] = useState(true);
@@ -56,13 +54,11 @@ const RecordAudioCard = forwardRef(() => {
     data.map((item) => {
       ids.push(item.id);
     });
-    const res = (await recordApi.deleteListRecord(ids)) as any;
-    if (res.code == 0) {
-      const newData = [];
-      setData(newData);
-      setList(newData);
-      window.dispatchEvent(new Event('resize'));
-    }
+    await db.records.bulkDelete(ids);
+    const newData = [];
+    setData(newData);
+    setList(newData);
+    window.dispatchEvent(new Event('resize'));
     setIsDelete(false);
   }
 
@@ -71,13 +67,17 @@ const RecordAudioCard = forwardRef(() => {
   }
 
   async function getRecords() {
-    const res = (await recordApi.getRecords({ pageSize, pageNumber })) as any;
-    if (res.code == 0) {
+    let records = await db.records
+      .orderBy('id')
+      .offset((pageNumber - 1) * pageSize)
+      .limit(pageSize)
+      .toArray();
+    if (records.length >= 0) {
       setInitLoading(false);
-      setData(res.data);
-      setList(res.data);
+      setData(records);
+      setList(records);
       setPageNumber(pageNumber + 1);
-      setIsMore(res.data.length < pageSize ? false : true);
+      setIsMore(records.length < pageSize ? false : true);
     }
   }
 
@@ -85,16 +85,26 @@ const RecordAudioCard = forwardRef(() => {
     setLoading(true);
     setList(
       data.concat(
-        [...new Array(10)].map(() => ({ loading: true, filePath: '----', createdAt: '----' })),
+        [...new Array(10)].map(() => ({
+          loading: true,
+          fileName: '----',
+          filePath: '----',
+          createdAt: '----',
+        })),
       ),
     );
-    const res = (await recordApi.getRecords({ pageSize, pageNumber })) as any;
-    if (res.code == 0) {
-      const newData = data.concat(res.data);
+    let records = await db.records
+      .orderBy('id')
+      .offset((pageNumber - 1) * pageSize)
+      .limit(pageSize)
+      .toArray();
+
+    if (records.length >= 0) {
+      const newData = data.concat(records);
       setData(newData);
       setList(newData);
       setLoading(false);
-      setIsMore(res.data.length < pageSize ? false : true);
+      setIsMore(records.length < pageSize ? false : true);
       window.dispatchEvent(new Event('resize'));
     }
   }
@@ -128,7 +138,7 @@ const RecordAudioCard = forwardRef(() => {
 
   function getAvatar(record: any) {
     if (record.fileType == 'ss' || record.fileType == 'eg' || record.fileType == 'ei') {
-      return <ScissorOutlined />;
+      return <PictureOutlined />;
     }
     if (record.fileType == 'rs') {
       return <CameraOutlined />;
@@ -144,39 +154,37 @@ const RecordAudioCard = forwardRef(() => {
   function handleOpenFilePath(record: any) {
     if (record.fileType == 'ss') {
       window.electronAPI
-        ? window.electronAPI?.sendViOpenWin({ imgUrl: record.filePath })
-        : window.open(`/viewImage.html?imgUrl=${record.filePath}`);
+        ? window.electronAPI?.sendViOpenWin({ recordId: record.id })
+        : window.open(`/viewImage.html?recordId=${record.id}`);
     }
     if (record.fileType == 'rs') {
       window.electronAPI
-        ? window.electronAPI.sendVvOpenWin({ videoUrl: record.filePath })
-        : window.open(`/viewVideo.html?videoUrl=${record.filePath}`);
+        ? window.electronAPI.sendVvOpenWin({ recordId: record.id })
+        : window.open(`/viewVideo.html?recordId=${record.id}`);
     }
     if (record.fileType == 'rv') {
       window.electronAPI
-        ? window.electronAPI.sendVvOpenWin({ videoUrl: record.filePath })
-        : window.open(`/viewVideo.html?videoUrl=${record.filePath}`);
+        ? window.electronAPI.sendVvOpenWin({ recordId: record.id })
+        : window.open(`/viewVideo.html?recordId=${record.id}`);
     }
     if (record.fileType == 'ra') {
       window.electronAPI
-        ? window.electronAPI.sendVaOpenWin({ audioUrl: record.filePath })
-        : window.open(`/viewAudio.html?audioUrl=${record.filePath}`);
+        ? window.electronAPI.sendVaOpenWin({ recordId: record.id })
+        : window.open(`/viewAudio.html?recordId=${record.id}`);
     }
   }
 
   async function handleDeleteRecord(record: any, index) {
-    const res = (await recordApi.deleteRecord(record.id)) as any;
-    if (res.code == 0) {
-      const newData = [...data];
-      newData.splice(index, 1);
-      setData(newData);
-      setList(newData);
-      window.dispatchEvent(new Event('resize'));
-    }
+    await db.records.delete(record.id);
+    const newData = [...data];
+    newData.splice(index, 1);
+    setData(newData);
+    setList(newData);
+    window.dispatchEvent(new Event('resize'));
   }
 
-  function openFilePath(filePath) {
-    api.openFilePath(filePath);
+  function handleDownloadRecord(record) {
+    saveAs(record.fileData, record.fileName);
   }
 
   const loadMore =
@@ -207,6 +215,9 @@ const RecordAudioCard = forwardRef(() => {
               <a key="list-loadmore-delete" onClick={() => handleDeleteRecord(record, index)}>
                 删除
               </a>,
+              <a key="list-loadmore-download" onClick={() => handleDownloadRecord(record)}>
+                下载
+              </a>,
             ]}
           >
             <Skeleton avatar title={false} loading={record.loading} active>
@@ -215,7 +226,7 @@ const RecordAudioCard = forwardRef(() => {
                 title={
                   <a
                     onClick={() => handleOpenFilePath(record)}
-                    dangerouslySetInnerHTML={{ __html: record.filePath }}
+                    dangerouslySetInnerHTML={{ __html: record.filePath || record.fileName }}
                   ></a>
                 }
                 description={
@@ -226,9 +237,9 @@ const RecordAudioCard = forwardRef(() => {
                         __html: dayjs(record.createdAt).format('YYYY-MM-DD HH:mm:ss'),
                       }}
                     ></span>
-                    <span className="openFolder" onClick={() => openFilePath(record.filePath)}>
+                    {/* <span className="openFolder" onClick={() => openFilePath(record)}>
                       在文件夹中显示
-                    </span>
+                    </span> */}
                   </span>
                 }
               />

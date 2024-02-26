@@ -1,15 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Switch, Form, Input, Select, Button } from 'antd';
 import { FolderOpenOutlined } from '@ant-design/icons';
-import { useApi } from '../../api';
-import { useSettingApi } from '../../api/setting';
+import { Button, Form, Input, Select, Switch } from 'antd';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { db } from '../../db';
 import { Local } from '../../util/storage';
 
 const { TextArea } = Input;
 const BasicSetting = (props) => {
-  const api = useApi();
-  const settingApi = useSettingApi();
   const { t, i18n } = useTranslation();
   const [form] = Form.useForm();
   const { user, setting } = props;
@@ -27,11 +24,11 @@ const BasicSetting = (props) => {
   async function handleSetFilePath() {
     const filePath = await window.electronAPI?.invokeSeSetFilePath(setting.filePath);
     filePath && form.setFieldValue('filePath', filePath);
-    settingApi.editSetting(setting.id, { filePath: filePath || '' });
+    db.settings.update(setting.id, { filePath: filePath || '' });
   }
 
   function handleOpenFilePath() {
-    setting.filePath && api.getFolder(form.getFieldValue('filePath'));
+    // setting.filePath && api.getFolder(form.getFieldValue('filePath'));
   }
 
   async function getFilePath() {
@@ -45,7 +42,7 @@ const BasicSetting = (props) => {
   }
 
   function handleSetOpenAtLogin(isOpen: boolean) {
-    settingApi.editSetting(setting.id, { openAtLogin: isOpen });
+    db.settings.update(setting.id, { openAtLogin: isOpen });
   }
 
   async function getOpenAtLogin() {
@@ -56,7 +53,7 @@ const BasicSetting = (props) => {
   function handleChangeLanguage(lng: string) {
     Local.set('i18n', lng);
     i18n.changeLanguage(lng);
-    settingApi.editSetting(setting.id, { language: lng });
+    db.settings.update(setting.id, { language: lng });
     window.electronAPI?.sendSeSetLanguage(lng);
   }
 
