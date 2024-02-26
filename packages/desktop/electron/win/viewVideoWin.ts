@@ -14,13 +14,19 @@ function createViewVideoWin(search?: any): BrowserWindow {
   });
 
   const videoUrl = search?.videoUrl || '';
+  const recordId = search?.recordId || '';
   // Open devTool if the app is not packaged
   // viewVideoWin.webContents.openDevTools();
   if (url) {
-    viewVideoWin.loadURL(WEB_URL + `viewVideo.html?videoUrl=${videoUrl}`);
+    viewVideoWin.loadURL(
+      WEB_URL +
+        `viewVideo.html?${videoUrl ? 'videoUrl=' + videoUrl : ''}${
+          recordId ? 'recordId=' + recordId : ''
+        }`,
+    );
   } else {
     viewVideoWin.loadFile(WIN_CONFIG.viewVideo.html, {
-      search: `?videoUrl=${videoUrl}`,
+      search: `?${videoUrl ? 'videoUrl=' + videoUrl : ''}${recordId ? 'recordId=' + recordId : ''}`,
     });
   }
 

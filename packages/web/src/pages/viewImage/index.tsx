@@ -127,13 +127,7 @@ const ViewImage = () => {
       if (imgUrl.substring(0, 4) == 'blob') {
         setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
       } else {
-        const res = (await api.getImgs(imgUrl)) as any;
-        if (res.code == 0) {
-          setImgs(res.data.imgs);
-          initialViewIndexRef.current = res.data.currentIndex;
-        } else {
-          setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
-        }
+        setImgs([{ url: 'pearrec://' + imgUrl, filePath: 'pearrec://' + imgUrl, index: 0 }]);
       }
     }
     if (recordId) {
