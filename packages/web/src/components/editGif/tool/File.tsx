@@ -5,7 +5,6 @@ import { saveAs } from 'file-saver';
 import GIF from 'gif.js';
 import { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApi } from '../../../api';
 import { GifContext } from '../../../components/context/GifContext';
 import { db } from '../../../db';
 import { UserContext } from '../../context/UserContext';
@@ -13,7 +12,6 @@ import styles from './file.module.scss';
 
 const File = () => {
   const { t } = useTranslation();
-  const api = useApi();
   const fileRef = useRef(null);
   const videoRef = useRef(null);
   const [percent, setPercent] = useState(0);

@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Viewer from 'viewerjs';
 import 'viewerjs/dist/viewer.css';
-import { useApi } from '../../api';
 import Header from '../../components/common/header';
 import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
@@ -17,7 +16,6 @@ import styles from './index.module.scss';
 
 const ViewImage = () => {
   const { t } = useTranslation();
-  const api = useApi();
   const viewerRef = useRef<any>();
   const initialViewIndexRef = useRef<any>(0);
   const inputRef = useRef(null);

@@ -4,16 +4,13 @@ import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApi } from '../../api';
 import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
 import { Local } from '../../util/storage';
 import styles from './index.module.scss';
 
-const defaultVideo = '';
 const ViewVideo = () => {
   const { t } = useTranslation();
-  const api = useApi();
   let refPlayer = useRef<Plyr>();
   const inputRef = useRef(null);
   const [user, setUser] = useState(Local.get('user') || ({} as any));

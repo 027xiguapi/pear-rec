@@ -37,12 +37,13 @@ const Frame = (props) => {
       fileData: file,
       fileType: 'cg',
       userId: user.id,
+      frameDuration: 100,
       createdAt: new Date(),
       createdBy: user.id,
       updatedAt: new Date(),
       updatedBy: user.id,
     };
-    const cacheId = await db.caches.add(cache);
+    await db.caches.add(cache);
     return cache.fileData;
   }
 

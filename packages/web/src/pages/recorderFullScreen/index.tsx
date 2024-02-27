@@ -7,14 +7,12 @@ import { Button, message } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsFillStopFill, BsPause, BsPlayFill, BsRecordCircle } from 'react-icons/bs';
-import { useApi } from '../../api';
 import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
 const RecorderScreen = () => {
   const { t } = useTranslation();
-  const api = useApi();
   const videoRef = useRef<HTMLVideoElement>();
   const mediaStream = useRef<MediaStream>();
   const micStream = useRef<MediaStream>(); // 声音流

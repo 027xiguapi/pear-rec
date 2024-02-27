@@ -30,24 +30,7 @@ const AudioRecorder = (props) => {
 
     const record = wavesurfer.registerPlugin(RecordPlugin.create({ mimeType }) as any);
 
-    record.getEnumerateDevices().then((deviceInfos) => {
-      let _audioInputOptions = [
-        {
-          value: '',
-          label: '全部',
-        },
-      ];
-      for (let i = 0; i < deviceInfos.length; i++) {
-        const deviceInfo = deviceInfos[i];
-        if (deviceInfo.kind == 'audioinput') {
-          _audioInputOptions.push({
-            value: deviceInfo.deviceId,
-            label: deviceInfo.label || `microphone ${_audioInputOptions.length + 1}`,
-          });
-        }
-      }
-      audioInputOptions.current = _audioInputOptions;
-    });
+    getEnumerateDevices(record);
 
     const mimeTypes = record.getSupportedMimeTypes();
     let _mimeTypesOptions = [];
@@ -97,6 +80,38 @@ const AudioRecorder = (props) => {
     });
     setRecord(record);
   }, [micRef]);
+
+  function getEnumerateDevices(record) {
+    record.getEnumerateDevices().then((deviceInfos) => {
+      if (deviceInfos.length <= 2) {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+          location.reload();
+        });
+        return;
+      }
+      let _audioInputOptions = [
+        {
+          value: '',
+          label: '麦克风',
+        },
+        {
+          value: 'desktop',
+          label: '系统',
+        },
+      ];
+      for (let i = 0; i < deviceInfos.length; i++) {
+        const deviceInfo = deviceInfos[i];
+        if (deviceInfo.kind == 'audioinput') {
+          deviceInfo.deviceId &&
+            _audioInputOptions.push({
+              value: deviceInfo.deviceId,
+              label: deviceInfo.label || `microphone ${_audioInputOptions.length + 1}`,
+            });
+        }
+      }
+      audioInputOptions.current = _audioInputOptions;
+    });
+  }
 
   function startRecord() {
     record.startRecording(deviceId);
@@ -148,6 +163,7 @@ const AudioRecorder = (props) => {
 
   function handleChangeSource(value) {
     setDeviceId(value);
+    record.stopMic();
     isOpenMic && record.startMic(value);
   }
 
@@ -158,8 +174,6 @@ const AudioRecorder = (props) => {
   return (
     <Card title="设置">
       <Space>
-        麦克风
-        <Switch checkedChildren="开启" unCheckedChildren="关闭" onChange={changeMic} />
         音源
         <Select
           defaultValue=""
@@ -167,6 +181,8 @@ const AudioRecorder = (props) => {
           onChange={handleChangeSource}
           options={audioInputOptions.current}
         />
+        开关
+        <Switch checkedChildren="开启" unCheckedChildren="关闭" onChange={changeMic} />
         格式
         <Select
           defaultValue="audio/webm"
