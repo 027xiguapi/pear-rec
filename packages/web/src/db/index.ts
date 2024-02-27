@@ -12,7 +12,7 @@ export class MySubClassedDexie extends Dexie {
 
   constructor() {
     super('pear-rec:database');
-    this.version(1).stores({
+    this.version(1.1).stores({
       users: '++id, uuid, userName, userType, createdAt, createdBy, updatedAt, updatedBy',
       records:
         '++id, filePath, fileData, fileType, fileName, mark, userId, createdAt, createdBy, updatedAt, updatedBy',

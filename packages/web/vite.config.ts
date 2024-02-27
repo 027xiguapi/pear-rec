@@ -90,7 +90,7 @@ export default ({ mode }) => {
           description:
             'pear-rec is a software with screenshot, screen recording, audio recording and video recording.',
           theme_color: '#fff',
-          start_url: './',
+          start_url: './home.html',
           display: 'standalone',
           background_color: '#fff',
           icons: [
@@ -109,12 +109,15 @@ export default ({ mode }) => {
           ],
           screenshots: [
             {
-              src: '/img/screenshot1.jpg',
+              src: '/imgs/screenshot1.jpg',
               type: 'image/jpg',
               sizes: '944x656',
               form_factor: 'narrow',
             },
           ],
+        },
+        workbox: {
+          ignoreURLParametersMatching: [/.*/],
         },
       }),
     ],
