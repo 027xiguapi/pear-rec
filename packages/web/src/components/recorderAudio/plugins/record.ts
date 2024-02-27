@@ -78,8 +78,22 @@ class RecordPlugin extends BasePlugin<RecordPluginEvents, RecordPluginOptions> {
   public async startMic(deviceId?: string): Promise<MediaStream> {
     let stream: MediaStream;
     try {
-      const constraints = { audio: deviceId ? { deviceId: { exact: deviceId } } : true };
-      stream = await navigator.mediaDevices.getUserMedia(constraints);
+      const constraints =
+        deviceId == 'desktop'
+          ? {
+              audio: {
+                mandatory: {
+                  chromeMediaSource: 'desktop',
+                },
+              },
+              video: {
+                mandatory: {
+                  chromeMediaSource: 'desktop',
+                },
+              },
+            }
+          : { audio: deviceId ? { deviceId: { exact: deviceId } } : true };
+      stream = await navigator.mediaDevices.getUserMedia(constraints as any);
     } catch (err) {
       throw new Error('Error accessing the microphone: ' + (err as Error).message);
     }
@@ -102,14 +116,12 @@ class RecordPlugin extends BasePlugin<RecordPluginEvents, RecordPluginOptions> {
 
   /** Start recording audio from the microphone */
   public async startRecording(deviceId?: string) {
-    const stream = this.stream || (await this.startMic(deviceId));
-
-    const mediaRecorder =
-      this.mediaRecorder ||
-      new MediaRecorder(stream, {
-        mimeType: this.options.mimeType || findSupportedMimeType(),
-        audioBitsPerSecond: this.options.audioBitsPerSecond,
-      });
+    const stream = deviceId ? await this.startMic(deviceId) : this.stream;
+    const [audioTrack] = stream.getAudioTracks();
+    const mediaRecorder = new MediaRecorder(new MediaStream([audioTrack]), {
+      mimeType: this.options.mimeType || findSupportedMimeType(),
+      audioBitsPerSecond: this.options.audioBitsPerSecond,
+    });
     this.mediaRecorder = mediaRecorder;
     this.stopRecording();
 

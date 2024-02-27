@@ -5,7 +5,6 @@ import { Button, Card, Divider, Flex, Modal, message } from 'antd';
 import { saveAs } from 'file-saver';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApi } from '../../api';
 import { db, defaultUser } from '../../db';
 import initApp from '../main';
 
@@ -25,7 +24,6 @@ function initCvs(attchEl: HTMLDivElement | null) {
 
 export default function UI() {
   const { t } = useTranslation();
-  const api = useApi();
   const [user, setUser] = useState({} as any);
   const outputStream = useRef<any>();
   const [stateText, setStateText] = useState('');

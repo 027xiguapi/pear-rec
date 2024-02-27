@@ -1,13 +1,11 @@
 import APlayer from 'aplayer';
 import 'aplayer/dist/APlayer.min.css';
 import { useEffect, useRef, useState } from 'react';
-import { useApi } from '../../api';
 import { db } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
 const ViewAudio = () => {
-  const api = useApi();
   let refPlayer = useRef<any>();
   const [audio, setAudio] = useState<any>([]);
 
