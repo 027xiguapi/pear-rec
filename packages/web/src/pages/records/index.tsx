@@ -1,4 +1,5 @@
-import { Layout } from 'antd';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Layout, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import RecordsContent from '../../components/records/RecordsContent';
 import RecordsHeader from '../../components/records/RecordsHeader';
@@ -28,6 +29,22 @@ const Record: React.FC = () => {
       setUser(user);
     } catch (err) {
       console.log(err);
+      Modal.confirm({
+        title: '数据库错误，是否重置数据库?',
+        icon: <ExclamationCircleFilled />,
+        content: err.message,
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        async onOk() {
+          console.log('OK');
+          await db.delete();
+          location.reload();
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
   }
 

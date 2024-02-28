@@ -1,3 +1,4 @@
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { AVCanvas, AudioSprite, ImgSprite, TextSprite, VideoSprite } from '@webav/av-canvas';
 import { mp4StreamToOPFSFile } from '@webav/av-cliper';
 import { AVRecorder } from '@webav/av-recorder';
@@ -53,6 +54,22 @@ export default function UI() {
       setUser(user);
     } catch (err) {
       console.log(err);
+      Modal.confirm({
+        title: '数据库错误，是否重置数据库?',
+        icon: <ExclamationCircleFilled />,
+        content: err.message,
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        async onOk() {
+          console.log('OK');
+          await db.delete();
+          location.reload();
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
   }
 

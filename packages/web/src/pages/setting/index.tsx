@@ -1,4 +1,5 @@
-import { Tabs } from 'antd';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Modal, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import BasicSetting from '../../components/setting/basicSetting';
@@ -60,6 +61,22 @@ const Setting = () => {
       Local.set('user', user);
     } catch (err) {
       console.log('getCurrentUser', err);
+      Modal.confirm({
+        title: '数据库错误，是否重置数据库?',
+        icon: <ExclamationCircleFilled />,
+        content: err.message,
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        async onOk() {
+          console.log('OK');
+          await db.delete();
+          location.reload();
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
   }
 

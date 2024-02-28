@@ -1,6 +1,11 @@
-import { BorderOutlined, CloseOutlined, MinusOutlined } from '@ant-design/icons';
+import {
+  BorderOutlined,
+  CloseOutlined,
+  ExclamationCircleFilled,
+  MinusOutlined,
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Dropdown } from 'antd';
+import { Dropdown, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // import Header from '../../components/common/header';
@@ -48,6 +53,22 @@ const PinImage: React.FC = () => {
       setUser(user);
     } catch (err) {
       console.log(err);
+      Modal.confirm({
+        title: '数据库错误，是否重置数据库?',
+        icon: <ExclamationCircleFilled />,
+        content: err.message,
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        async onOk() {
+          console.log('OK');
+          await db.delete();
+          location.reload();
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
   }
 

@@ -1,5 +1,5 @@
-import { LeftOutlined } from '@ant-design/icons';
-import { Button, Drawer, Empty } from 'antd';
+import { ExclamationCircleFilled, LeftOutlined } from '@ant-design/icons';
+import { Button, Drawer, Empty, Modal } from 'antd';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
 import { useEffect, useRef, useState } from 'react';
@@ -41,6 +41,22 @@ const ViewVideo = () => {
       Local.set('user', user);
     } catch (err) {
       console.log('getCurrentUser', err);
+      Modal.confirm({
+        title: '数据库错误，是否重置数据库?',
+        icon: <ExclamationCircleFilled />,
+        content: err.message,
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        async onOk() {
+          console.log('OK');
+          await db.delete();
+          location.reload();
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
   }
 
