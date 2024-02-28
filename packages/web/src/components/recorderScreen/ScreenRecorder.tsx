@@ -169,7 +169,12 @@ const ScreenRecorder = (props) => {
   }
 
   async function setMediaRecorder() {
-    window.isElectron && (await cropStream());
+    // window.isElectron && (await cropStream());
+    if (window.isElectron) {
+      await cropStream();
+    } else {
+      combinedStream.current = mediaStream.current;
+    }
     const recodeMS = combinedStream.current.clone();
     const size = window.isElectron ? await window.electronAPI?.invokeRsGetBoundsClip() : props.size;
     mediaRecorder.current = new AVRecorder(recodeMS, { width: size.width, height: size.height });

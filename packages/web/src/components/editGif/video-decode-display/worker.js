@@ -39,7 +39,6 @@ function renderFrame(frame) {
 
 async function renderAnimationFrame() {
   renderer.draw(pendingFrame);
-  setStatus('imgs', renderer.getImgs());
   pendingFrame = null;
 }
 

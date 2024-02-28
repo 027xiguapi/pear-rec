@@ -27,6 +27,9 @@ export function gifReducer(state, action) {
     case 'setLoad': {
       return { ...state, load: action.load };
     }
+    case 'setLoadAdd': {
+      return { ...state, load: state.load + action.num > 99 ? 99 : state.load + action.num };
+    }
     default:
       throw new Error();
   }
