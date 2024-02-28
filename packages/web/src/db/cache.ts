@@ -8,7 +8,7 @@ export interface Cache {
 
   fileType: string;
 
-  frameDuration: number;
+  duration: number;
 
   userId: number;
 

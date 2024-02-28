@@ -139,12 +139,8 @@ const File = () => {
 
   function handleUploadVideo(event) {
     const file = event.target.files[0];
-    if (window.electronAPI) {
-      gifDispatch({ type: 'setVideoUrl', videoUrl: file.path });
-    } else {
-      const videoUrl = window.URL.createObjectURL(file);
-      gifDispatch({ type: 'setVideoUrl', videoUrl: videoUrl });
-    }
+    const videoUrl = window.URL.createObjectURL(file);
+    gifDispatch({ type: 'setVideoUrl', videoUrl: videoUrl });
     event.target.value = '';
   }
 

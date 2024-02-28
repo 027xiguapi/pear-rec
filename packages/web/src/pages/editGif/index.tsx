@@ -67,9 +67,14 @@ const EditGif = () => {
   async function init() {
     let _videoUrl = searchParams.get('videoUrl');
     let _imgUrl = searchParams.get('imgUrl');
+    let recordId = searchParams.get('recordId');
 
     _videoUrl && gifDispatch({ type: 'setVideoUrl', videoUrl: _videoUrl });
     _imgUrl && gifDispatch({ type: 'setImgUrl', imgUrl: _imgUrl });
+    if (recordId) {
+      let record = await db.records.where({ id: Number(recordId) }).first();
+      gifDispatch({ type: 'setVideoUrl', videoUrl: URL.createObjectURL(record.fileData) });
+    }
   }
 
   async function fetchImageByteStream(imgUrl: string) {
@@ -102,6 +107,10 @@ const EditGif = () => {
       imageFrame.close();
       gifDispatch({ type: 'setLoad', load: Math.round(((frameIndex + 1) / frameCount) * 100) });
     }
+    setVideoFrames();
+  }
+
+  async function setVideoFrames() {
     let _videoFrames = await db.caches.where('fileType').equals('cg').toArray();
     gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
   }
@@ -120,7 +129,7 @@ const EditGif = () => {
       fileName: `pear-rec_${+new Date()}.png`,
       fileData: blob,
       fileType: 'cg',
-      frameDuration: frameDuration,
+      duration: frameDuration,
       userId: user.id,
       createdAt: new Date(),
       createdBy: user.id,
@@ -130,7 +139,8 @@ const EditGif = () => {
     await db.caches.add(cache);
   }
 
-  function loadVideo() {
+  async function loadVideo() {
+    await db.caches.where('fileType').equals('cg').delete();
     let _videoUrl = gifState.videoUrl;
     if (_videoUrl && _videoUrl.substring(0, 4) != 'blob') {
       _videoUrl = `${window.baseURL}file?url=${gifState.videoUrl}`;
@@ -141,24 +151,18 @@ const EditGif = () => {
     const worker = new Worker(
       new URL('../../components/editGif/video-decode-display/worker.js', import.meta.url),
     );
-    function setStatus(message) {
-      let _videoFrames = [];
-
+    async function setStatus(message) {
       message.data['fetch'] && gifDispatch({ type: 'setLoad', load: 20 });
-
-      if (message.data['imgs'] instanceof Array) {
-        message.data['imgs']?.map((_videoFrame, index) => {
-          _videoFrames.push({
-            url: `${window.baseURL}file?url=${_videoFrame.fileData}`,
-            fileData: _videoFrame.fileData,
-            fileName: _videoFrame.fileName,
-            index: _videoFrame.index,
-            duration: (_videoFrame.duration / 1000).toFixed(0),
-          });
-        });
-
-        gifDispatch({ type: 'setLoad', load: 100 });
-        gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
+      if (message.data['videoFrame']) {
+        let videoFrame = message.data['videoFrame'];
+        await uploadFileCache(videoFrame.fileData, videoFrame.frameDuration);
+        gifDispatch({ type: 'setLoadAdd', num: 1 });
+      }
+      if (message.data['render']) {
+        setTimeout(() => {
+          gifDispatch({ type: 'setLoad', load: 100 });
+          setVideoFrames();
+        }, 500);
       }
     }
     worker.addEventListener('message', setStatus);

@@ -17,7 +17,7 @@ export class MySubClassedDexie extends Dexie {
       records:
         '++id, filePath, fileData, fileType, fileName, mark, userId, createdAt, createdBy, updatedAt, updatedBy',
       caches:
-        '++id, fileData, fileType, frameDuration, userId, createdAt, createdBy, updatedAt, updatedBy',
+        '++id, fileData, fileType, duration, userId, createdAt, createdBy, updatedAt, updatedBy',
       settings:
         '++id, isProxy, proxyPort, language, filePath, openServer, openAtLogin, serverPath, userId, createdAt, createdBy, updatedAt, updatedBy',
     });

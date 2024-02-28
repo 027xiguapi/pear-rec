@@ -1,27 +1,24 @@
 class Canvas2DRenderer {
   #canvas = null;
   #ctx = null;
-  imgs = [];
 
   constructor(canvas) {
     this.#canvas = canvas;
     this.#ctx = canvas.getContext('2d');
-    this.imgs = [];
   }
 
-  async draw(frame) {
+  draw(frame) {
     this.#canvas.width = frame.displayWidth;
     this.#canvas.height = frame.displayHeight;
     this.#ctx.drawImage(frame, 0, 0, frame.displayWidth, frame.displayHeight);
     frame.close();
-    await this.#canvas.convertToBlob({ type: 'image/jpeg' }).then((blob) => {
-      let url = URL.createObjectURL(blob);
-      let duration = frame.duration;
-      this.imgs.push({ index: this.imgs.length, url, duration });
+    this.#canvas.convertToBlob({ type: 'image/png' }).then((blob) => {
+      let videoFrame = {
+        fileName: `pear-rec_${+new Date()}.png`,
+        fileData: blob,
+        frameDuration: (frame.duration / 1000).toFixed(0),
+      };
+      self.postMessage({ videoFrame });
     });
-  }
-
-  getImgs() {
-    return this.imgs;
   }
 }
