@@ -1,9 +1,9 @@
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import { CameraOne } from '@icon-park/react';
 import Timer from '@pear-rec/timer';
 import '@pear-rec/timer/src/Timer/index.module.scss';
 import useTimer from '@pear-rec/timer/src/useTimer';
-import { Button, message } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsFillStopFill, BsPause, BsPlayFill, BsRecordCircle } from 'react-icons/bs';
@@ -40,6 +40,22 @@ const RecorderScreen = () => {
       setUser(user);
     } catch (err) {
       console.log(err);
+      Modal.confirm({
+        title: '数据库错误，是否重置数据库?',
+        icon: <ExclamationCircleFilled />,
+        content: err.message,
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        async onOk() {
+          console.log('OK');
+          await db.delete();
+          location.reload();
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
   }
 

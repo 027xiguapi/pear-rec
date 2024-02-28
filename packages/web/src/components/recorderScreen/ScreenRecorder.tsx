@@ -1,9 +1,9 @@
-import { CameraOutlined, SettingOutlined } from '@ant-design/icons';
+import { CameraOutlined, ExclamationCircleFilled, SettingOutlined } from '@ant-design/icons';
 import Timer from '@pear-rec/timer';
 import useTimer from '@pear-rec/timer/src/useTimer';
 import { mp4StreamToOPFSFile } from '@webav/av-cliper';
 import { AVRecorder } from '@webav/av-recorder';
-import { Button, Modal, message } from 'antd';
+import { Button, Modal } from 'antd';
 import { saveAs } from 'file-saver';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -64,6 +64,22 @@ const ScreenRecorder = (props) => {
       setUser(user);
     } catch (err) {
       console.log(err);
+      Modal.confirm({
+        title: '数据库错误，是否重置数据库?',
+        icon: <ExclamationCircleFilled />,
+        content: err.message,
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        async onOk() {
+          console.log('OK');
+          await db.delete();
+          location.reload();
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
   }
 
@@ -215,11 +231,11 @@ const ScreenRecorder = (props) => {
         fileName: `pear-rec_${+new Date()}.webm`,
         fileData: blob,
         fileType: 'rs',
-        userId: props.user.id,
+        userId: user.id,
         createdAt: new Date(),
-        createdBy: props.user.id,
+        createdBy: user.id,
         updatedAt: new Date(),
-        updatedBy: props.user.id,
+        updatedBy: user.id,
       };
       const recordId = await db.records.add(record);
       if (recordId) {
@@ -243,7 +259,7 @@ const ScreenRecorder = (props) => {
         }
       }
     } catch (err) {
-      message.error('保存失败');
+      console.log('保存失败', err);
     }
   }
 

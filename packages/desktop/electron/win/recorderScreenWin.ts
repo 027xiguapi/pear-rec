@@ -31,7 +31,6 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
       preload,
     },
   });
-  recorderScreenWin?.setResizable(false);
   // recorderScreenWin.webContents.openDevTools();
   if (url) {
     recorderScreenWin.loadURL(WEB_URL + `recorderScreen.html?type=${search?.type || ''}`);
