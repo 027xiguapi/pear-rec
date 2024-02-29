@@ -88,15 +88,12 @@ const PinImage: React.FC = () => {
     let _imgUrl = searchParams.get('imgUrl');
     let recordId = searchParams.get('recordId');
     if (_imgUrl && _imgUrl.substring(0, 4) != 'blob') {
-      _imgUrl = `${window.baseURL}file?url=${_imgUrl}`;
+      _imgUrl = `pearrec://${_imgUrl}`;
+      setImgUrl(_imgUrl);
     }
     if (recordId) {
       let record = await db.records.where({ id: Number(recordId) }).first();
-      setImgUrl(`url(${URL.createObjectURL(record.fileData)})`);
-    } else {
-      const data = await fetch(_imgUrl);
-      const blob = await data.blob();
-      setImgUrl(`url(${URL.createObjectURL(blob)})`);
+      setImgUrl(`${URL.createObjectURL(record.fileData)}`);
     }
   }
 
@@ -160,13 +157,7 @@ const PinImage: React.FC = () => {
           onOneToOne={handleOneToOne}
           onRotateLeft={handleRotateLeft}
         />
-        <div
-          className="img"
-          id="image"
-          style={{
-            backgroundImage: imgUrl,
-          }}
-        ></div>
+        <img className="img" id="image" src={imgUrl} alt="image" />
       </div>
     </Dropdown>
   );

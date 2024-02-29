@@ -52,7 +52,7 @@ const EditImage = () => {
     const searchParams = new URLSearchParams(paramsString);
     let _imgUrl = searchParams.get('imgUrl');
     if (_imgUrl && _imgUrl.substring(0, 4) != 'blob') {
-      _imgUrl = `${window.baseURL}file?url=${_imgUrl}`;
+      _imgUrl = `pearrec://${_imgUrl}`;
     }
     setImgUrl(_imgUrl || '');
   }

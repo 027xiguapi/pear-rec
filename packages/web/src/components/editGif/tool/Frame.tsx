@@ -37,7 +37,7 @@ const Frame = (props) => {
       fileData: file,
       fileType: 'cg',
       userId: user.id,
-      frameDuration: 100,
+      duration: 100,
       createdAt: new Date(),
       createdBy: user.id,
       updatedAt: new Date(),
@@ -50,7 +50,7 @@ const Frame = (props) => {
   function handleInsertFrame(filePath) {
     let index = gifState.index;
     let newVideoFrame = {
-      url: `${window.baseURL}file?url=${filePath}`,
+      url: `pearrec://${filePath}`,
       filePath: filePath,
       index: index + 1,
       duration: 100,

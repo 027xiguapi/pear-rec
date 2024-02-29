@@ -79,7 +79,7 @@ const EditGif = () => {
 
   async function fetchImageByteStream(imgUrl: string) {
     if (imgUrl.substring(0, 4) != 'blob') {
-      imgUrl = `${window.baseURL}file?url=${imgUrl}`;
+      imgUrl = `pearrec://${imgUrl}`;
     }
     const response = await fetch(imgUrl);
     return response.body!;
@@ -143,7 +143,7 @@ const EditGif = () => {
     await db.caches.where('fileType').equals('cg').delete();
     let _videoUrl = gifState.videoUrl;
     if (_videoUrl && _videoUrl.substring(0, 4) != 'blob') {
-      _videoUrl = `${window.baseURL}file?url=${gifState.videoUrl}`;
+      _videoUrl = `pearrec://${gifState.videoUrl}`;
     }
     const duration = 100;
     const rendererName = '2d';

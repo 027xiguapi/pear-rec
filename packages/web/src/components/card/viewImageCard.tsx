@@ -32,11 +32,11 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
       label: '打开图片',
       key: 'file',
     },
-    {
-      label: '打开文件夹',
-      key: 'directory',
-      disabled: !window.electronAPI,
-    },
+    // {
+    //   label: '打开文件夹',
+    //   key: 'directory',
+    //   disabled: !window.electronAPI,
+    // },
     {
       label: '钉图',
       key: 'pin',
@@ -141,14 +141,14 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
         className="fileRef"
         onChange={handleUploadImg}
       />
-      <input
+      {/* <input
         type="file"
         ref={directoryRef}
         directory="directory"
         webkitdirectory="webkitdirectory"
         className="directoryRef"
         onChange={handleUploadDirectory}
-      />
+      /> */}
     </Card>
   );
 });
