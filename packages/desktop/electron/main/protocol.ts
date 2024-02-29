@@ -1,14 +1,28 @@
-import { protocol } from "electron";
+import { net, protocol } from 'electron';
 
-export function registerFileProtocol() {
-	protocol.registerFileProtocol("pearrec", (request, callback) => {
-		const url = request.url.replace(/^pearrec:\/\//, ""); // 去掉协议头 'pearrec://'
-		const decodedUrl = decodeURIComponent(url); // 解码 URL
-		try {
-			// 返回图片的本地路径
-			return callback(decodedUrl);
-		} catch (error) {
-			console.error("Failed to register protocol", error);
-		}
-	});
+export function registerSchemesAsPrivileged() {
+  protocol.registerSchemesAsPrivileged([
+    {
+      scheme: 'pearrec',
+      privileges: {
+        standard: true,
+        secure: true,
+        supportFetchAPI: true,
+        stream: true,
+      },
+    },
+  ]);
+}
+
+export function protocolHandle() {
+  protocol.handle('pearrec', (req) => {
+    const { host, pathname } = new URL(req.url);
+    console.log(host, pathname, `file://${host}:\\${pathname}`);
+    try {
+      return net.fetch(`file://${host}:\\${pathname}`);
+      // return net.fetch(`file://C://Users/Administrator/Desktop/pear-rec_1709102672477.mp4`);
+    } catch (error) {
+      console.error('protocolHandle', error);
+    }
+  });
 }

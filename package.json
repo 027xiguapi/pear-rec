@@ -9,7 +9,7 @@
     "copy:web": "pnpm run -C packages/web build && node tools/copy-files-web2desktop.js",
     "copy:server": "pnpm run -C packages/server build && node tools/copy-files-server2desktop.js",
     "dev:web": "pnpm run -C packages/web dev",
-    "build:web": "concurrently -s \"pnpm run -C packages/server dev\" \"pnpm run project:web\"",
+    "build:web": "pnpm run -C packages/web build",
     "only-build:web": "pnpm run -C packages/web build",
     "watch:web": "pnpm run -C packages/web watch",
     "project:web": "pnpm run -C packages/web build && node tools/copy-files-web2server.js",

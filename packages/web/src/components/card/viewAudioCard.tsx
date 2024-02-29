@@ -1,9 +1,8 @@
-import React, { useImperativeHandle, forwardRef, useRef } from 'react';
+import type { MenuProps } from 'antd';
+import { Card, Modal } from 'antd';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsMusicNoteBeamed } from 'react-icons/bs';
-import type { MenuProps } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import { Space, Card, Dropdown, Modal } from 'antd';
 
 const ViewAudioCard = forwardRef((props: any, ref: any) => {
   useImperativeHandle(ref, () => ({
@@ -69,12 +68,13 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
   return (
     <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
       <div className="cardContent">
-        <Dropdown menu={{ items, onClick }}>
+        {/* <Dropdown menu={{ items, onClick }}>
           <Space>
             <BsMusicNoteBeamed className="cardIcon" onClick={() => fileRef.current.click()} />
             <DownOutlined className="cardToggle" />
           </Space>
-        </Dropdown>
+        </Dropdown> */}
+        <BsMusicNoteBeamed className="cardIcon" onClick={() => fileRef.current.click()} />
         <div className="cardTitle">{t('home.playAudio')}</div>
       </div>
       <input
@@ -84,14 +84,15 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
         className="fileRef"
         onChange={handleUploadFile}
       />
-      <input
+      {/* <input
         type="file"
         ref={directoryRef}
-        directory="directory"
-        webkitdirectory="webkitdirectory"
+        multiple
+        webkitdirectory
+        directory
         className="directoryRef"
         onChange={handleUploadDirectory}
-      />
+      /> */}
     </Card>
   );
 });

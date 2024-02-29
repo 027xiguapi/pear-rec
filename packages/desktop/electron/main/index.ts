@@ -6,7 +6,7 @@ import { isWin } from './constant';
 import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
 import './ipcMain';
 import './logger';
-import { registerFileProtocol } from './protocol';
+import { protocolHandle, registerSchemesAsPrivileged } from './protocol';
 import { initServerProcess, quitServerProcess } from './serverProcess';
 import { initTray } from './tray';
 import { update } from './update';
@@ -49,9 +49,11 @@ async function createWindow() {
   mainWin.openMainWin();
 }
 
+registerSchemesAsPrivileged();
+
 app.whenReady().then(() => {
   const config = getConfig();
-  registerFileProtocol();
+  protocolHandle();
   createWindow();
   initTray(config.language);
   registerGlobalShortcut();

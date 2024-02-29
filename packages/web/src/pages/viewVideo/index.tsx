@@ -70,7 +70,7 @@ const ViewVideo = () => {
       if (videoUrl.substring(0, 4) == 'blob') {
         setSource(videoUrl);
       } else {
-        setSource(`pearrec:///${videoUrl}`);
+        setSource(`pearrec://${videoUrl}`);
       }
     } else if (recordId) {
       let record = await db.records.where({ id: Number(recordId) }).first();
