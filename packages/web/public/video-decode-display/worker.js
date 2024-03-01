@@ -1,4 +1,9 @@
-importScripts('demuxer_mp4.js', 'renderer_2d.js', 'renderer_webgl.js', 'renderer_webgpu.js');
+importScripts(
+  './demuxer_mp4.js',
+  './renderer_2d.js',
+  './renderer_webgl.js',
+  './renderer_webgpu.js',
+);
 
 // Status UI. Messages are batched per animation frame.
 let pendingStatus = null;

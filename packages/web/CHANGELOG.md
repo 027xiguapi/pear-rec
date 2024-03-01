@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.4.9
+
+fix: vite 加载 worker.js bug
+
 ## 1.4.8
 
 fix: 桌面软件打开软件

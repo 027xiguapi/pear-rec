@@ -8,9 +8,9 @@ function createRecorderVideoWin(): BrowserWindow {
   recorderVideoWin = new BrowserWindow({
     title: 'pear-rec 录像',
     icon: ICON,
-    height: WIN_CONFIG.recorderAudio.height,
-    width: WIN_CONFIG.recorderAudio.width,
-    autoHideMenuBar: WIN_CONFIG.recorderAudio.autoHideMenuBar, // 自动隐藏菜单栏
+    height: WIN_CONFIG.recorderVideo.height,
+    width: WIN_CONFIG.recorderVideo.width,
+    autoHideMenuBar: WIN_CONFIG.recorderVideo.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
     },
@@ -20,7 +20,7 @@ function createRecorderVideoWin(): BrowserWindow {
     recorderVideoWin.loadURL(WEB_URL + 'recorderVideo.html');
     // recorderVideoWin.webContents.openDevTools();
   } else {
-    recorderVideoWin.loadFile(WIN_CONFIG.recorderAudio.html);
+    recorderVideoWin.loadFile(WIN_CONFIG.recorderVideo.html);
   }
 
   recorderVideoWin?.webContents.session.on(

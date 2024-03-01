@@ -84,12 +84,13 @@ function useLoading() {
 
 // ----------------------------------------------------------------------
 const { appendLoading, removeLoading } = useLoading();
-location.pathname != '/shotScreen.html' &&
-  location.pathname != '/clipScreen.html' &&
+!location.pathname.includes('/shotScreen.html') &&
+  !location.pathname.includes('/clipScreen.html') &&
+  !location.pathname.includes('/canvas.html') &&
   domReady().then(appendLoading);
 
 window.onmessage = (ev) => {
   ev.data.payload === 'removeLoading' && removeLoading();
 };
 
-// setTimeout(removeLoading, 4999);
+setTimeout(removeLoading, 4999);

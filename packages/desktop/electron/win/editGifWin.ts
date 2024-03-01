@@ -18,20 +18,21 @@ function createEditGifWin(search?: any): BrowserWindow {
   const videoUrl = search?.videoUrl || '';
   const filePath = search?.filePath || '';
   const imgUrl = search?.imgUrl || '';
+  const recordId = search?.recordId || '';
 
   // editGifWin.webContents.openDevTools();
   if (url) {
     editGifWin.loadURL(
       WEB_URL +
         `editGif.html?${filePath ? 'filePath=' + filePath : ''}${imgUrl ? 'imgUrl=' + imgUrl : ''}${
-          videoUrl ? 'videoUrl=' + videoUrl : ''
-        }`,
+          recordId ? 'recordId=' + recordId : ''
+        }${videoUrl ? 'videoUrl=' + videoUrl : ''}`,
     );
   } else {
     editGifWin.loadFile(WIN_CONFIG.editGif.html, {
       search: `?${filePath ? 'filePath=' + filePath : ''}${imgUrl ? 'imgUrl=' + imgUrl : ''}${
-        videoUrl ? 'videoUrl=' + videoUrl : ''
-      }`,
+        recordId ? 'recordId=' + recordId : ''
+      }${videoUrl ? 'videoUrl=' + videoUrl : ''}`,
     });
   }
 

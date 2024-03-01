@@ -44,8 +44,8 @@ export const WIN_CONFIG = {
   },
   canvas: {
     html: path.join(process.env.DIST, 'canvas.html'),
-    width: 768,
-    height: 1024,
+    height: 768,
+    width: 1024,
     autoHideMenuBar: true,
   },
   clipScreen: {
@@ -132,7 +132,7 @@ export const WIN_CONFIG = {
     autoHideMenuBar: true,
   },
   setting: {
-    html: path.join(process.env.DIST, 'records.html'),
+    html: path.join(process.env.DIST, 'setting.html'),
     autoHideMenuBar: true,
     width: 600,
     height: 380,

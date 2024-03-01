@@ -19,7 +19,7 @@ const File = () => {
   const { gifState, gifDispatch } = useContext(GifContext);
 
   async function handleConvert() {
-    const worker = new URL('../gif.js/gif.worker.js', import.meta.url) as any;
+    const worker = new URL('/gif.js/gif.worker.js', import.meta.url) as any;
 
     const gif = new GIF({
       workers: 4,
