@@ -16,6 +16,9 @@ function createViewAudioWin(search?: any): BrowserWindow {
 
   const audioUrl = search?.audioUrl || '';
   const recordId = search?.recordId || '';
+  // Open devTool if the app is not packaged
+  // viewAudioWin.webContents.openDevTools();
+
   if (url) {
     viewAudioWin.loadURL(
       WEB_URL +
@@ -23,13 +26,9 @@ function createViewAudioWin(search?: any): BrowserWindow {
           recordId ? 'recordId=' + recordId : ''
         }`,
     );
-    // Open devTool if the app is not packaged
-    // viewAudioWin.webContents.openDevTools();
   } else {
     viewAudioWin.loadFile(WIN_CONFIG.viewAudio.html, {
-      search: `?audioUrl=${audioUrl ? 'audioUrl=' + audioUrl : ''}${
-        recordId ? 'recordId=' + recordId : ''
-      }`,
+      search: `${audioUrl ? 'audioUrl=' + audioUrl : ''}${recordId ? 'recordId=' + recordId : ''}`,
     });
   }
 

@@ -149,7 +149,10 @@ const EditGif = () => {
     const rendererName = '2d';
     const canvas = (document.querySelector('#canvas') as any).transferControlToOffscreen?.();
     const worker = new Worker(
-      new URL('../../components/editGif/video-decode-display/worker.js', import.meta.url),
+      window.isElectron ? './video-decode-display/worker.js' : '/video-decode-display/worker.js',
+      {
+        type: 'classic',
+      },
     );
     async function setStatus(message) {
       message.data['fetch'] && gifDispatch({ type: 'setLoad', load: 20 });
