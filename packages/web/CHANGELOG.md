@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.4.10
+
+feat: 网站统计
+
 ## 1.4.9
 
 fix: vite 加载 worker.js bug
