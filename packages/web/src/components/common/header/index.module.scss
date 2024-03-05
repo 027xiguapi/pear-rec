@@ -11,6 +11,7 @@
       width: 100px;
       height: 100%;
       line-height: 32px;
+      white-space: nowrap;
       text-align: left;
       span {
         display: inline-block;
@@ -28,6 +29,7 @@
     }
     .center {
       flex: auto;
+      white-space: nowrap;
       text-align: center;
       -webkit-app-region: drag;
       .icon {
@@ -37,6 +39,8 @@
     }
     .right {
       width: 100px;
+      min-width: 100px;
+      white-space: nowrap;
       .icon {
         -webkit-app-region: no-drag;
       }

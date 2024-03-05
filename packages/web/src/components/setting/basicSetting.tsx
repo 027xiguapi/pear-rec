@@ -43,6 +43,7 @@ const BasicSetting = (props) => {
 
   function handleSetOpenAtLogin(isOpen: boolean) {
     db.settings.update(setting.id, { openAtLogin: isOpen });
+    window.electronAPI?.sendSeSetOpenAtLogin(isOpen);
   }
 
   async function getOpenAtLogin() {

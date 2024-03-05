@@ -174,17 +174,13 @@ const ViewImage = () => {
   }
 
   function handleToggleMaximizeWin(isMaximize) {
-    isMaximize ? window.electronAPI.sendViUnmaximizeWin() : window.electronAPI.sendViMaximizeWin();
+    isMaximize
+      ? window.electronAPI?.sendViUnmaximizeWin()
+      : window.electronAPI?.sendViMaximizeWin();
   }
 
-  function handleAlwaysOnTopWin() {
-    const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
-    if (window.isElectron) {
-      window.electronAPI.sendViCloseWin();
-      window.electronAPI.sendPiOpenWin({ imgUrl });
-    } else {
-      window.open(`/pinImage.html?imgUrl=${imgUrl}`);
-    }
+  function handleAlwaysOnTopWin(isTop: boolean) {
+    window.electronAPI?.sendViAlwaysOnTopWin(isTop);
   }
 
   function handleOpenFile() {

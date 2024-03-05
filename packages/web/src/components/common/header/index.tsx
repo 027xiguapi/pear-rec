@@ -28,6 +28,7 @@ const logo = './imgs/icons/png/512x512.png';
 const Header = (props) => {
   const { t } = useTranslation();
   const [isMaximize, setIsMaximize] = useState(false);
+  const [isTop, setIsTop] = useState(false);
 
   async function handleMinimizeWin() {
     props.onMinimizeWin();
@@ -40,6 +41,12 @@ const Header = (props) => {
   function handleToggleMaximizeWin() {
     props.onToggleMaximizeWin(isMaximize);
     setIsMaximize(!isMaximize);
+  }
+
+  function handleAlwaysOnTopWin() {
+    let _isTop = !isTop;
+    props.onAlwaysOnTopWin(_isTop);
+    setIsTop(_isTop);
   }
 
   return (
@@ -91,9 +98,9 @@ const Header = (props) => {
           <Button
             className="alwaysOnTopWin icon"
             type="text"
-            icon={<PushpinOutlined />}
+            icon={<PushpinOutlined style={{ color: isTop ? '#08c' : '' }} />}
             title={t('nav.alwaysOnTopWin')}
-            onClick={() => props.onAlwaysOnTopWin()}
+            onClick={() => handleAlwaysOnTopWin()}
           />
           <Button
             className="openFile icon"

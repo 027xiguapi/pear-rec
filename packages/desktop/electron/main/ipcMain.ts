@@ -9,6 +9,7 @@ import {
   shell,
   webContents,
 } from 'electron';
+import * as canvasWin from '../win/canvasWin';
 import * as clipScreenWin from '../win/clipScreenWin';
 import * as editGifWin from '../win/editGifWin';
 import * as editImageWin from '../win/editImageWin';
@@ -26,7 +27,6 @@ import * as spliceImageWin from '../win/spliceImageWin';
 import * as viewAudioWin from '../win/viewAudioWin';
 import * as viewImageWin from '../win/viewImageWin';
 import * as viewVideoWin from '../win/viewVideoWin';
-import * as canvasWin from '../win/canvasWin';
 import logger from './logger';
 import * as utils from './utils';
 
@@ -207,6 +207,9 @@ function initIpcMain() {
   });
   ipcMain.on('vi:open-file', (e, imgUrl) => {
     shell.openExternal(imgUrl);
+  });
+  ipcMain.on('vi:alwaysOnTop-win', (e, isTop) => {
+    viewImageWin.setIsAlwaysOnTopViewImageWin(isTop);
   });
   ipcMain.handle('vi:set-always-on-top', () => {
     const isAlwaysOnTop = viewImageWin.getIsAlwaysOnTopViewImageWin();
