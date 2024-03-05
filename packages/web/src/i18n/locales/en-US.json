@@ -7,7 +7,10 @@
     "setting": "setting",
     "minimize": "minimize",
     "maximize": "maximize",
-    "close": "close"
+    "close": "close",
+    "record": "record",
+    "update": "update",
+    "github": "github"
   },
   "home": {
     "audioRecording": "sound recording",
@@ -84,5 +87,14 @@
     "download": "download",
     "openServer": "open server",
     "serverPath": "server path"
+  },
+  "update": {
+    "cancel": "cancel",
+    "update": "update",
+    "later": "later",
+    "install": "install",
+    "progress": "Update progress",
+    "version": "The last version is",
+    "error": "Error downloading the latest version."
   }
 }

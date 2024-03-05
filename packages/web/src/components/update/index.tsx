@@ -1,12 +1,13 @@
+import { SyncOutlined } from '@ant-design/icons';
 import type { ProgressInfo } from 'electron-updater';
 import { useCallback, useEffect, useState } from 'react';
-import { Badge, Avatar, Button } from 'antd';
-import { SyncOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 import Modal from './Modal';
 import Progress from './Progress';
 import styles from './update.module.scss';
 
 const Update = () => {
+  const { t } = useTranslation();
   const [checking, setChecking] = useState(false);
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [versionInfo, setVersionInfo] = useState<VersionInfo>();
@@ -43,12 +44,11 @@ const Update = () => {
       setVersionInfo(arg1);
       setUpdateError(undefined);
       // Can be update
-      console.log(arg1);
       if (arg1.update) {
         setModalBtn((state) => ({
           ...state,
-          cancelText: 'Cancel',
-          okText: 'Update',
+          cancelText: t('update.later'),
+          okText: t('update.update'),
           onOk: () => window.electronAPI?.invokeEuStartDownload(),
         }));
         setUpdateAvailable(true);
@@ -75,8 +75,8 @@ const Update = () => {
     setProgressInfo({ percent: 100 });
     setModalBtn((state) => ({
       ...state,
-      cancelText: 'Later',
-      okText: 'Install now',
+      cancelText: t('update.later'),
+      okText: t('update.install'),
       onOk: () => window.electronAPI?.invokeEuQuitAndInstall(),
     }));
   }, []);
@@ -110,17 +110,19 @@ const Update = () => {
         <div className={styles.modalslot}>
           {updateError ? (
             <div className="update-error">
-              <p>Error downloading the latest version.</p>
+              <p>{t('update.error')}</p>
               <p>{updateError.message}</p>
             </div>
           ) : updateAvailable ? (
             <div className="can-available">
-              <div>The last version is: v{versionInfo?.newVersion}</div>
+              <div>
+                {t('update.version')}: v{versionInfo?.newVersion}
+              </div>
               <div className="new-version-target">
                 v{versionInfo?.version} -&gt; v{versionInfo?.newVersion}
               </div>
               <div className="update-progress">
-                <div className="progress-title">Update progress:</div>
+                <div className="progress-title">{t('update.progress')}:</div>
                 <div className="progress-bar">
                   <Progress percent={progressInfo?.percent}></Progress>
                 </div>
@@ -132,7 +134,7 @@ const Update = () => {
         </div>
       </Modal>
       <SyncOutlined
-        title="update"
+        title={t('nav.update')}
         className={`${updateAvailable ? 'red blink' : ''} icon`}
         disabled={checking}
         onClick={() => checkUpdate(true)}

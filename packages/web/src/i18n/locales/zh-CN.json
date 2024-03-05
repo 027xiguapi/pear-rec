@@ -7,7 +7,10 @@
     "setting": "设置",
     "minimize": "最小化",
     "maximize": "最大化",
-    "close": "关闭"
+    "close": "关闭",
+    "record": "记录",
+    "update": "升级",
+    "github": "仓库"
   },
   "home": {
     "audioRecording": "录音",
@@ -84,5 +87,14 @@
     "download": "浏览器下载",
     "openServer": "打开服务",
     "serverPath": "服务地址"
+  },
+  "update": {
+    "cancel": "取消",
+    "update": "升级",
+    "later": "稍后",
+    "install": "安装",
+    "progress": "进度",
+    "version": "最新版本",
+    "error": "下载最新版本时出错。"
   }
 }

@@ -3,7 +3,10 @@
     "setting": "Einstellung",
     "minimize": "minimieren",
     "maximize": "maximieren",
-    "close": "schließen"
+    "close": "schließen",
+    "record": "record",
+    "update": "update",
+    "github": "github"
   },
   "home": {
     "audioRecording": "Audioaufnahme",
@@ -77,5 +80,14 @@
     "open": "öffnen",
     "close": "schließen",
     "download": "Download"
+  },
+  "update": {
+    "cancel": "cancel",
+    "update": "update",
+    "later": "later",
+    "install": "install",
+    "progress": "Update progress",
+    "version": "The last version is",
+    "error": "Error downloading the latest version."
   }
 }
