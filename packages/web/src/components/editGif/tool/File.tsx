@@ -1,6 +1,5 @@
 import { Close, FileGif, Save, VideoFile } from '@icon-park/react';
 import { Modal, Progress } from 'antd';
-import async from 'async';
 import { saveAs } from 'file-saver';
 import GIF from 'gif.js';
 import { useContext, useRef, useState } from 'react';
@@ -38,33 +37,26 @@ const File = () => {
 
     async function loadImage(videoFrame, callback) {
       const img = new Image();
-      const data = await fetch(videoFrame.url);
-      const blob = await data.blob();
-      const videoFrameUrl = URL.createObjectURL(blob);
-      img.src = videoFrameUrl;
-
+      img.crossOrigin = '';
       img.onload = function () {
-        return callback(null, img);
+        return callback(img);
       };
       img.onerror = function (error) {
-        return callback(new Error('Could load ' + error));
+        return console.log('Could load ' + error);
       };
-
-      return img;
+      img.src = URL.createObjectURL(videoFrame.fileData);
     }
 
-    async.map(gifState.videoFrames, loadImage, function (error, images) {
-      if (error != null) {
-        throw error;
-      }
-      for (let j = 0; j < images.length; j++) {
-        let image = images[j];
+    gifState.videoFrames.map((videoFrame, index) => {
+      loadImage(videoFrame, function (image) {
         gif.addFrame(image, {
-          delay: gifState.videoFrames[j].duration,
+          delay: videoFrame.duration,
           copy: true,
         });
-      }
-      return gif.render();
+        if (index == gifState.videoFrames.length - 1) {
+          gif.render();
+        }
+      });
     });
   }
 
@@ -75,7 +67,7 @@ const File = () => {
   async function handleDownloadFile(blob) {
     try {
       const record = {
-        fileName: `pear-rec_${+new Date()}.webm`,
+        fileName: `pear-rec_${+new Date()}.gif`,
         fileData: blob,
         fileType: 'eg',
         userId: user.id,

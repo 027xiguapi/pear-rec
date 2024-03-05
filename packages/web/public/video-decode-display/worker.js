@@ -48,11 +48,11 @@ async function renderAnimationFrame() {
 }
 
 // Startup.
-function start({ dataUri, rendererName, canvas, duration }) {
+function start({ dataUri, rendererName, canvas, option }) {
   // Pick a renderer to use.
   switch (rendererName) {
     case '2d':
-      renderer = new Canvas2DRenderer(canvas);
+      renderer = new Canvas2DRenderer(canvas, option);
       break;
     case 'webgl':
       renderer = new WebGLRenderer(rendererName, canvas);
