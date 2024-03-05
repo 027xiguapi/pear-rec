@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.4.12
+
+fix: 开机自启动 bug、图片预览钉图 bug
+
 ## 1.4.11
 
 fix: 动图导出 bug、视频解析动图 bug

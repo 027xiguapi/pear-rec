@@ -48,7 +48,7 @@ const UserSetting = (props) => {
         <img alt="logo" src={logo} />
       </div>
       <div className="info">
-        <p>版本：1.3.12</p>
+        <p>版本：1.3.13</p>
         <p>{uuid}</p>
         <p>{formatTime(createdTime)}</p>
         <Button type="primary" className="resetBtn" danger onClick={handleResetClick}>

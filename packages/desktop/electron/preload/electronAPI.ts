@@ -69,6 +69,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendViMinimizeWin: () => ipcRenderer.send('vi:minimize-win'),
   sendViMaximizeWin: () => ipcRenderer.send('vi:maximize-win'),
   sendViUnmaximizeWin: () => ipcRenderer.send('vi:unmaximize-win'),
+  sendViAlwaysOnTopWin: (isTop: boolean) => ipcRenderer.send('vi:alwaysOnTop-win', isTop),
   sendViOpenFile: (imgUrl: string) => ipcRenderer.send('vi:open-file', imgUrl),
   invokeViSetIsAlwaysOnTop: () => ipcRenderer.invoke('vi:set-always-on-top'),
   invokeViGetImgs: (imgUrl: string) => ipcRenderer.invoke('vi:get-imgs', imgUrl),
