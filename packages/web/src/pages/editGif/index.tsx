@@ -146,8 +146,10 @@ const EditGif = () => {
       _videoUrl = `pearrec://${gifState.videoUrl}`;
     }
     const duration = 100;
+    const num = 500;
     const rendererName = '2d';
     const canvas = (document.querySelector('#canvas') as any).transferControlToOffscreen?.();
+    let option = { timeStart: 0 * 1e6, timeEnd: 0 * 1e6, duration, num };
     const worker = new Worker(
       window.isElectron ? './video-decode-display/worker.js' : '/video-decode-display/worker.js',
       {
@@ -160,17 +162,17 @@ const EditGif = () => {
         let videoFrame = message.data['videoFrame'];
         await uploadFileCache(videoFrame.fileData, videoFrame.frameDuration);
         gifDispatch({ type: 'setLoadAdd', num: 1 });
-      }
-      if (message.data['render']) {
-        setTimeout(() => {
-          gifDispatch({ type: 'setLoad', load: 100 });
-          setVideoFrames();
-        }, 500);
+        if (message.data['index'] == num) {
+          setTimeout(() => {
+            gifDispatch({ type: 'setLoad', load: 100 });
+            setVideoFrames();
+          }, 500);
+        }
       }
     }
     worker.addEventListener('message', setStatus);
 
-    worker.postMessage({ dataUri: _videoUrl, rendererName, canvas, duration }, [canvas]);
+    worker.postMessage({ dataUri: _videoUrl, rendererName, canvas, option }, [canvas]);
   }
 
   return (
