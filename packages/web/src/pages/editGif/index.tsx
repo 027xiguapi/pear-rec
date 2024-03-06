@@ -146,10 +146,12 @@ const EditGif = () => {
       _videoUrl = `pearrec://${gifState.videoUrl}`;
     }
     const duration = 100;
-    const num = 500;
+    const num = 0;
+    const timeStart = 0 * 1e6;
+    const timeEnd = 0 * 1e6;
     const rendererName = '2d';
     const canvas = (document.querySelector('#canvas') as any).transferControlToOffscreen?.();
-    let option = { timeStart: 0 * 1e6, timeEnd: 0 * 1e6, duration, num };
+    let option = { timeStart, timeEnd, duration, num };
     const worker = new Worker(
       window.isElectron ? './video-decode-display/worker.js' : '/video-decode-display/worker.js',
       {
@@ -168,6 +170,12 @@ const EditGif = () => {
             setVideoFrames();
           }, 500);
         }
+      }
+      if (num == 0 && message.data['render']) {
+        setTimeout(() => {
+          gifDispatch({ type: 'setLoad', load: 100 });
+          setVideoFrames();
+        }, 500);
       }
     }
     worker.addEventListener('message', setStatus);
