@@ -1,5 +1,5 @@
-import { BrowserWindow } from 'electron';
-import { ICON, preload, url, WEB_URL, WIN_CONFIG } from '../main/constant';
+import { BrowserWindow, shell } from 'electron';
+import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 
 let settingWin: BrowserWindow | null = null;
 
@@ -21,6 +21,11 @@ function createSettingWin(): BrowserWindow {
   } else {
     settingWin.loadFile(WIN_CONFIG.setting.html);
   }
+
+  settingWin.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith('https:')) shell.openExternal(url);
+    return { action: 'deny' };
+  });
 
   return settingWin;
 }

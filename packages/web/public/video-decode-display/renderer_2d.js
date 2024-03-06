@@ -15,23 +15,24 @@ class Canvas2DRenderer {
   }
 
   draw(frame) {
-    if (
-      (this.#index < this.#num || !this.#num) &&
-      ((this.#timeStart == 0 && this.#timeEnd == 0) ||
-        (this.#timeStart <= frame.timestamp && this.#timeEnd > frame.timestamp))
-    ) {
-      this.#index++;
-      this.#canvas.width = frame.displayWidth;
-      this.#canvas.height = frame.displayHeight;
-      this.#ctx.drawImage(frame, 0, 0, frame.displayWidth, frame.displayHeight);
-      this.#canvas.convertToBlob({ type: 'image/png' }).then((blob) => {
-        let videoFrame = {
-          fileName: `pear-rec_${+new Date()}.png`,
-          fileData: blob,
-          frameDuration: (frame.duration / 1000).toFixed(0),
-        };
-        self.postMessage({ videoFrame, index: this.#index });
-      });
+    if (this.#index < this.#num || !this.#num) {
+      if (
+        (this.#timeStart == 0 && this.#timeEnd == 0) ||
+        (this.#timeStart <= frame.timestamp && this.#timeEnd > frame.timestamp)
+      ) {
+        this.#index++;
+        this.#canvas.width = frame.displayWidth;
+        this.#canvas.height = frame.displayHeight;
+        this.#ctx.drawImage(frame, 0, 0, frame.displayWidth, frame.displayHeight);
+        this.#canvas.convertToBlob({ type: 'image/png' }).then((blob) => {
+          let videoFrame = {
+            fileName: `pear-rec_${+new Date()}.png`,
+            fileData: blob,
+            frameDuration: (frame.duration / 1000).toFixed(0),
+          };
+          self.postMessage({ videoFrame, index: this.#index });
+        });
+      }
     }
     frame.close();
   }

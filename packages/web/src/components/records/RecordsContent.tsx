@@ -69,6 +69,7 @@ const RecordAudioCard = forwardRef(() => {
   async function getRecords() {
     let records = await db.records
       .orderBy('id')
+      .reverse()
       .offset((pageNumber - 1) * pageSize)
       .limit(pageSize)
       .toArray();
