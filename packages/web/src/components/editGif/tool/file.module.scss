@@ -1,32 +1,57 @@
 .file {
-  width: 240px;
-  border-right: 1px solid #ccc;
+  display: flex;
   :global {
-    .fileList {
-      display: flex;
-      width: 100%;
-      .fileBtn {
-        width: 25%;
-        height: 70px;
-        padding-top: 10px;
-        text-align: center;
-        cursor: pointer;
-        .fileBtnTitle {
-          margin-top: 5px;
-          color: #888;
-          font-size: 14px;
+    .fileGroup {
+      width: 240px;
+      border-right: 1px solid #ccc;
+      .fileList {
+        display: flex;
+        width: 100%;
+        .fileBtn {
+          width: 25%;
+          height: 70px;
+          padding-top: 10px;
+          text-align: center;
+          cursor: pointer;
+          .fileBtnTitle {
+            margin-top: 5px;
+            color: #000;
+            font-size: 12px;
+          }
+        }
+        .fileBtn:hover {
+          background-color: rgb(225 233 244);
         }
       }
-      .fileBtn:hover {
-        background-color: rgb(225 233 244);
+      .subTitle {
+        width: 100%;
+        color: rgb(191 191 191);
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
       }
     }
-    .subTitle {
-      width: 100%;
-      color: rgb(191 191 191);
-      font-size: 14px;
-      line-height: 20px;
-      text-align: center;
+    .setting {
+      width: 400px;
+      white-space: nowrap;
+      .slider {
+        display: inline-block;
+        width: 260px;
+      }
+      .frameNum {
+        display: inline-block;
+        width: 100px;
+      }
+      .fileItem {
+        padding: 0 10px;
+        padding-top: 8px;
+        text-align: center;
+      }
+      .fileBtnTitle {
+        margin-top: 5px;
+        color: #000;
+        font-size: 12px;
+      }
     }
   }
 }

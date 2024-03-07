@@ -95,13 +95,13 @@ table {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 .hidden {
-  display: none;
+  display: none !important;
 }
 .show {
-  display: block;
+  display: block !important;
 }
 
 @keyframes blink {
@@ -143,17 +143,17 @@ table {
   justify-content: center;
   .viewImgs {
     .viewer-toolbar {
-      background-color: rgba(0, 0, 0, 0.1);
       height: 45px;
+      background-color: rgba(0, 0, 0, 0.1);
       ul {
-        padding: 0;
         margin: 0 auto;
+        padding: 0;
         li {
-          background-color: transparent;
           width: 40px;
           height: 45px;
-          line-height: 45px;
           font-size: 16px;
+          line-height: 45px;
+          background-color: transparent;
           border-radius: unset;
         }
         li::before {
@@ -168,38 +168,38 @@ table {
         }
         .viewer-download {
           background: transparent url(/imgs/svg/download.svg) no-repeat 0px 0px;
-          background-size: 20px;
           background-position: 8px 14px;
+          background-size: 20px;
         }
         .viewer-print {
           background: transparent url(/imgs/svg/print.svg) no-repeat 0px 0px;
-          background-size: 20px;
           background-position: 8px 14px;
+          background-size: 20px;
         }
         .viewer-always-on-top-win {
           background: transparent url(/imgs/svg/pushpin.svg) no-repeat 0px 0px;
-          background-size: 20px;
           background-position: 8px 14px;
+          background-size: 20px;
         }
         .viewer-edit {
           background: transparent url(/imgs/svg/edit.svg) no-repeat 0px 0px;
-          background-size: 20px;
           background-position: 8px 14px;
+          background-size: 20px;
         }
         .viewer-file {
           background: transparent url(/imgs/svg/file.svg) no-repeat 0px 0px;
-          background-size: 20px;
           background-position: 8px 14px;
+          background-size: 20px;
         }
         .viewer-scan {
           background: transparent url(/imgs/svg/viewer-scan.svg) no-repeat 0px 0px;
-          background-size: 20px;
           background-position: 8px 14px;
+          background-size: 20px;
         }
         .viewer-search {
           background: transparent url(/imgs/svg/viewer-search.svg) no-repeat 0px 0px;
-          background-size: 20px;
           background-position: 8px 14px;
+          background-size: 20px;
         }
         .current {
           background-color: #1677ff;

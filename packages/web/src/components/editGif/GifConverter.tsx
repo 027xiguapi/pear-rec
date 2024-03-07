@@ -4,13 +4,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GifContext } from '../context/GifContext';
 import { UserContext } from '../context/UserContext';
-import FileTool from './tool/File';
-import FrameTool from './tool/Frame';
-import HistoryTool from './tool/History';
-import MoveTool from './tool/Move';
-import PlayTool from './tool/Play';
-import SettingTool from './tool/Setting';
-import SpliceTool from './tool/Splice';
+import Tool from './Tool';
 
 export default function VideoToGifConverter() {
   const { t } = useTranslation();
@@ -80,13 +74,7 @@ export default function VideoToGifConverter() {
   return (
     <div className="gifConverter">
       <div className="tool">
-        <FileTool />
-        <PlayTool setCurrentVideoFrame={setCurrentVideoFrame} />
-        <FrameTool />
-        <MoveTool />
-        <HistoryTool />
-        <SettingTool />
-        <SpliceTool />
+        <Tool />
       </div>
       <div className="content">
         <canvas ref={canvasRef} style={{ transform: 'scale(' + scale / 100 + ')' }}></canvas>
