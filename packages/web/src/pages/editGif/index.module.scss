@@ -8,11 +8,18 @@
       width: 100%;
     }
     .tool {
-      display: flex;
-      width: 100%;
-      height: 100px;
+      // display: flex;
+      // width: 100%;
+      height: 132px;
+      padding: 0 10px;
       background-color: rgb(250 250 250);
       border-bottom: 1px solid #ccc;
+      .ant-tabs .ant-tabs-tab {
+        padding: 5px 0;
+      }
+      .ant-tabs-nav {
+        margin: 0;
+      }
     }
     .content {
       position: relative;

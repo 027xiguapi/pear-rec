@@ -3,22 +3,22 @@
   border-right: 1px solid #ccc;
   :global {
     .playList {
-      width: 100%;
       display: flex;
+      width: 100%;
       .playBtn {
         width: 20%;
         height: 70px;
-        text-align: center;
         padding-top: 10px;
+        text-align: center;
         cursor: pointer;
         .playIcon {
-          font-size: 32px;
           color: rgb(151 189 176);
+          font-size: 32px;
         }
         .playBtnTitle {
-          font-size: 14px;
           margin-top: 5px;
-          color: #888;
+          color: #000;
+          font-size: 12px;
         }
         .pauseIcon {
           color: rgb(64 126 183);
@@ -30,10 +30,10 @@
     }
     .subTitle {
       width: 100%;
-      text-align: center;
       color: rgb(191 191 191);
       font-size: 14px;
       line-height: 20px;
+      text-align: center;
     }
   }
 }

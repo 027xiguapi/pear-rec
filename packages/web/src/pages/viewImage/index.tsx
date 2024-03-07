@@ -139,10 +139,10 @@ const ViewImage = () => {
     const imgUrl = searchParams.get('imgUrl');
     const recordId = searchParams.get('recordId');
     if (imgUrl) {
-      if (imgUrl.substring(0, 4) == 'blob') {
-        setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
-      } else {
+      if (imgUrl.substring(0, 7) != 'pearrec') {
         setImgs([{ url: 'pearrec://' + imgUrl, filePath: 'pearrec://' + imgUrl, index: 0 }]);
+      } else {
+        setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
       }
     }
     if (recordId) {
@@ -151,6 +151,7 @@ const ViewImage = () => {
         {
           url: URL.createObjectURL(record.fileData),
           filePath: URL.createObjectURL(record.fileData),
+          fileName: record.fileName,
           index: 0,
         },
       ]);
@@ -284,12 +285,10 @@ const ViewImage = () => {
   }
 
   function handleDownload() {
-    const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
-    if (window.isElectron) {
-      window.electronAPI.sendViDownloadImg(imgUrl);
-    } else {
-      saveAs(imgUrl, `pear-rec_${+new Date()}.png`);
-    }
+    const img = imgs[initialViewIndexRef.current];
+    const imgUrl = img?.filePath;
+    const fileName = img?.fileName || `pear-rec_${+new Date()}.png`;
+    saveAs(imgUrl, fileName);
   }
 
   return (

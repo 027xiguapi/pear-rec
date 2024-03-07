@@ -153,7 +153,7 @@ const RecordAudioCard = forwardRef(() => {
   }
 
   function handleOpenFilePath(record: any) {
-    if (record.fileType == 'ss') {
+    if (record.fileType == 'ss' || record.fileType == 'eg') {
       window.electronAPI
         ? window.electronAPI?.sendViOpenWin({ recordId: record.id })
         : window.open(`/viewImage.html?recordId=${record.id}`);

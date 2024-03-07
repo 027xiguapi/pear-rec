@@ -1,5 +1,6 @@
 import { Close, FileGif, Save, VideoFile } from '@icon-park/react';
-import { Modal, Progress } from 'antd';
+import { InputNumber, Modal, Progress, Slider } from 'antd';
+import map from 'async/map';
 import { saveAs } from 'file-saver';
 import GIF from 'gif.js';
 import { useContext, useRef, useState } from 'react';
@@ -32,36 +33,40 @@ const File = () => {
     });
 
     gif.on('progress', (progress) => {
-      setPercent(Math.round(progress * 100));
+      setPercent(Math.ceil(progress * 100));
     });
 
-    async function loadImage(videoFrame, callback) {
+    function loadImage(videoFrame, callback) {
       const img = new Image();
       img.crossOrigin = '';
       img.onload = function () {
-        return callback(img);
+        return callback(null, img);
       };
       img.onerror = function (error) {
-        return console.log('Could load ' + error);
+        return callback(new Error('Could load ' + error));
       };
       img.src = URL.createObjectURL(videoFrame.fileData);
     }
 
-    gifState.videoFrames.map((videoFrame, index) => {
-      loadImage(videoFrame, function (image) {
+    map(gifState.videoFrames, loadImage, function (error, images) {
+      if (error != null) {
+        throw error;
+      }
+      for (let j = 0; j < images.length; j++) {
+        let image = images[j];
         gif.addFrame(image, {
-          delay: videoFrame.duration,
+          delay: gifState.videoFrames[j].duration,
           copy: true,
         });
-        if (index == gifState.videoFrames.length - 1) {
-          gif.render();
-        }
-      });
+      }
+      return gif.render();
     });
   }
 
   async function handleSaveClick() {
-    await handleConvert();
+    if (percent == 0 || percent == 100) {
+      await handleConvert();
+    }
   }
 
   async function handleDownloadFile(blob) {
@@ -89,7 +94,6 @@ const File = () => {
             cancelText: t('modal.cancel'),
             onOk() {
               window.open(`/viewImage.html?recordId=${recordId}`);
-              console.log('OK');
             },
             onCancel() {
               console.log('Cancel');
@@ -119,7 +123,6 @@ const File = () => {
       okText: t('modal.ok'),
       cancelText: t('modal.cancel'),
       async onOk() {
-        console.log('OK');
         await db.caches.where('fileType').equals('cg').delete();
         gifDispatch({ type: 'setVideoFrames', videoFrames: [] });
       },
@@ -138,45 +141,62 @@ const File = () => {
 
   return (
     <div className={`${styles.file}`}>
-      <div className="fileList">
-        <div className="fileBtn" onClick={() => fileRef.current.click()}>
-          <FileGif theme="outline" size="27" fill="#749EC4" />
-          <div className="fileBtnTitle">打开动图</div>
-          <input
-            type="file"
-            ref={fileRef}
-            accept=".gif"
-            className="fileRef hide"
-            onChange={handleUploadImg}
-          />
+      <div className="fileGroup">
+        <div className="fileList">
+          <div className="fileBtn" onClick={() => fileRef.current.click()}>
+            <FileGif theme="outline" size="27" fill="#749EC4" />
+            <div className="fileBtnTitle">打开动图</div>
+            <input
+              type="file"
+              ref={fileRef}
+              accept=".gif"
+              className="fileRef hide"
+              onChange={handleUploadImg}
+            />
+          </div>
+          <div className="fileBtn" onClick={() => videoRef.current.click()}>
+            <VideoFile
+              className="fileIcon openIcon"
+              theme="outline"
+              size="27"
+              fill="rgb(177 143 193)"
+            />
+            <div className="fileBtnTitle">打开视频</div>
+            <input
+              type="file"
+              ref={videoRef}
+              accept=".mp4"
+              className="videoRef hide"
+              onChange={handleUploadVideo}
+            />
+          </div>
+          <div className="fileBtn" onClick={handleSaveClick}>
+            <Save className="fileIcon saveIcon" theme="outline" size="27" fill="rgb(235 191 124)" />
+            <div className="fileBtnTitle">保存GIF</div>
+            {percent ? <Progress size="small" percent={percent} showInfo={false} /> : ''}
+          </div>
+          <div className="fileBtn" onClick={handleCloseClick}>
+            <Close className="fileIcon closeIcon" theme="outline" size="27" fill="#666" />
+            <div className="fileBtnTitle">放弃项目</div>
+          </div>
         </div>
-        <div className="fileBtn" onClick={() => videoRef.current.click()}>
-          <VideoFile
-            className="fileIcon openIcon"
-            theme="outline"
-            size="27"
-            fill="rgb(177 143 193)"
-          />
-          <div className="fileBtnTitle">打开视频</div>
-          <input
-            type="file"
-            ref={videoRef}
-            accept=".mp4"
-            className="videoRef hide"
-            onChange={handleUploadVideo}
-          />
-        </div>
-        <div className="fileBtn" onClick={handleSaveClick}>
-          <Save className="fileIcon saveIcon" theme="outline" size="27" fill="rgb(235 191 124)" />
-          <div className="fileBtnTitle">保存GIF</div>
-          {percent ? <Progress size="small" percent={percent} showInfo={false} /> : ''}
-        </div>
-        <div className="fileBtn" onClick={handleCloseClick}>
-          <Close className="fileIcon closeIcon" theme="outline" size="27" fill="#666" />
-          <div className="fileBtnTitle">放弃项目</div>
-        </div>
+        <div className="subTitle">文件</div>
       </div>
-      <div className="subTitle">文件</div>
+      <div className="fileGroup setting">
+        <div className="fileItem slider">
+          <Slider
+            range={{ draggableTrack: true }}
+            marks={{ 0: '0s', 100: '100s' }}
+            defaultValue={[20, 50]}
+          />
+          <div className="fileBtnTitle">时长</div>
+        </div>
+        <div className="fileItem frameNum">
+          <InputNumber min={1} max={10} />
+          <div className="fileBtnTitle">帧数</div>
+        </div>
+        <div className="subTitle">设置</div>
+      </div>
     </div>
   );
 };
