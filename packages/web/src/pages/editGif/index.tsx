@@ -146,9 +146,9 @@ const EditGif = () => {
       _videoUrl = `pearrec://${gifState.videoUrl}`;
     }
     const duration = 100;
-    const num = 0;
-    const timeStart = 0 * 1e6;
-    const timeEnd = 0 * 1e6;
+    const num = gifState.frameNum;
+    const timeStart = gifState.timeStart;
+    const timeEnd = gifState.timeEnd;
     const rendererName = '2d';
     const canvas = (document.querySelector('#canvas') as any).transferControlToOffscreen?.();
     let option = { timeStart, timeEnd, duration, num };

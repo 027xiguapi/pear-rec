@@ -1,6 +1,7 @@
 import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
-import React from 'react';
+import React, { useContext } from 'react';
+import { GifContext } from '../context/GifContext';
 import FileTool from './tool/File';
 import FrameTool from './tool/Frame';
 import HistoryTool from './tool/History';
@@ -8,10 +9,6 @@ import MoveTool from './tool/Move';
 import PlayTool from './tool/Play';
 import SettingTool from './tool/Setting';
 import SpliceTool from './tool/Splice';
-
-const onChange = (key: string) => {
-  console.log(key);
-};
 
 const items: TabsProps['items'] = [
   {
@@ -51,6 +48,9 @@ const items: TabsProps['items'] = [
   },
 ];
 
-const Tool: React.FC = () => <Tabs defaultActiveKey="file" items={items} onChange={onChange} />;
+const Tool: React.FC = () => {
+  const { gifState, gifDispatch } = useContext(GifContext);
+  return <Tabs defaultActiveKey="file" items={items} />;
+};
 
 export default Tool;

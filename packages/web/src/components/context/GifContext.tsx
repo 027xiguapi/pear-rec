@@ -6,6 +6,10 @@ export const gifInitialState: any = {
   videoFrames: [],
   index: 0,
   load: 0,
+  frameNum: 0,
+  timeStart: 0,
+  timeEnd: 0,
+  duration: 100,
 };
 
 export const GifContext = createContext(gifInitialState);
@@ -26,6 +30,21 @@ export function gifReducer(state, action) {
     }
     case 'setLoad': {
       return { ...state, load: action.load };
+    }
+    case 'setDuration': {
+      return { ...state, duration: action.duration };
+    }
+    case 'setFrameNum': {
+      return { ...state, frameNum: action.frameNum };
+    }
+    case 'setTime': {
+      return { ...state, timeStart: action.time[0], timeEnd: action.time[1] };
+    }
+    case 'setTimeStart': {
+      return { ...state, timeStart: action.timeStart };
+    }
+    case 'setTimeEnd': {
+      return { ...state, timeEnd: action.timeEnd };
     }
     case 'setLoadAdd': {
       return { ...state, load: state.load + action.num > 99 ? 99 : state.load + action.num };

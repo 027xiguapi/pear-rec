@@ -31,12 +31,14 @@ const Play = (props) => {
     const length = gifState.videoFrames.length;
     if (index + 1 >= length) {
       setIsPlay(false);
-      props.setCurrentVideoFrame(0);
+      // props.setCurrentVideoFrame(0);
+      gifDispatch({ type: 'setIndex', index: 0 });
     } else {
       const videoFrame = gifState.videoFrames[index];
       const duration = videoFrame.duration;
       const timer = setTimeout(() => {
-        props.setCurrentVideoFrame(index);
+        // props.setCurrentVideoFrame(index);
+        gifDispatch({ type: 'setIndex', index });
         renderVideoFrame(index + 1);
       }, duration);
 
