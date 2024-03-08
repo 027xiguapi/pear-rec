@@ -14,7 +14,9 @@ const File = () => {
   const { t } = useTranslation();
   const fileRef = useRef(null);
   const videoRef = useRef(null);
+  const video = useRef(null);
   const [percent, setPercent] = useState(0);
+  const [time, setTime] = useState([0, 1]);
   const { user, setUser } = useContext(UserContext);
   const { gifState, gifDispatch } = useContext(GifContext);
 
@@ -137,6 +139,21 @@ const File = () => {
     const videoUrl = window.URL.createObjectURL(file);
     gifDispatch({ type: 'setVideoUrl', videoUrl: videoUrl });
     event.target.value = '';
+    video.current.src = videoUrl;
+    video.current.onloadedmetadata = function () {
+      const duration = Math.ceil(video.current.duration); // 视频时长（以秒为单位）
+      gifDispatch({ type: 'setDuration', duration: duration });
+      handleTime([0, duration]);
+    };
+  }
+
+  function handleFrameNum(value) {
+    gifDispatch({ type: 'setFrameNum', frameNum: value });
+  }
+
+  function handleTime(value) {
+    gifDispatch({ type: 'setTime', time: value });
+    setTime(value);
   }
 
   return (
@@ -169,6 +186,7 @@ const File = () => {
               className="videoRef hide"
               onChange={handleUploadVideo}
             />
+            <video ref={video} className="hide" playsInline autoPlay />
           </div>
           <div className="fileBtn" onClick={handleSaveClick}>
             <Save className="fileIcon saveIcon" theme="outline" size="27" fill="rgb(235 191 124)" />
@@ -186,13 +204,16 @@ const File = () => {
         <div className="fileItem slider">
           <Slider
             range={{ draggableTrack: true }}
-            marks={{ 0: '0s', 100: '100s' }}
-            defaultValue={[20, 50]}
+            tooltip={{ placement: 'bottom', color: '#2db7f5' }}
+            onChangeComplete={handleTime}
+            max={gifState.duration || 100}
           />
-          <div className="fileBtnTitle">时长</div>
+          <div className="fileBtnTitle">
+            时长 {time[0]} - {time[1]}(秒)
+          </div>
         </div>
         <div className="fileItem frameNum">
-          <InputNumber min={1} max={10} />
+          <InputNumber onChange={handleFrameNum} />
           <div className="fileBtnTitle">帧数</div>
         </div>
         <div className="subTitle">设置</div>
