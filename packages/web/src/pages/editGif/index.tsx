@@ -112,7 +112,9 @@ const EditGif = () => {
 
   async function setVideoFrames() {
     let _videoFrames = await db.caches.where('fileType').equals('cg').toArray();
+    console.log(_videoFrames);
     gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
+    gifDispatch({ type: 'setFrameNum', frameNum: _videoFrames.length });
   }
 
   async function saveImg(videoFrame, frameIndex) {
@@ -164,14 +166,8 @@ const EditGif = () => {
         let videoFrame = message.data['videoFrame'];
         await uploadFileCache(videoFrame.fileData, videoFrame.frameDuration);
         gifDispatch({ type: 'setLoadAdd', num: 1 });
-        if (message.data['index'] == num) {
-          setTimeout(() => {
-            gifDispatch({ type: 'setLoad', load: 100 });
-            setVideoFrames();
-          }, 500);
-        }
       }
-      if (num == 0 && message.data['render']) {
+      if (message.data['completed']) {
         setTimeout(() => {
           gifDispatch({ type: 'setLoad', load: 100 });
           setVideoFrames();

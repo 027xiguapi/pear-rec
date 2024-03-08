@@ -86,6 +86,13 @@ function start({ dataUri, rendererName, canvas, option }) {
     },
   });
 
+  decoder.addEventListener('dequeue', () => {
+    if (decoder.decodeQueueSize === 0) {
+      console.log('Video decoding completed!');
+      setStatus('completed', 'Video decoding completed!');
+    }
+  });
+
   // Fetch and demux the media data.
   const demuxer = new MP4Demuxer(dataUri, {
     onConfig(config) {

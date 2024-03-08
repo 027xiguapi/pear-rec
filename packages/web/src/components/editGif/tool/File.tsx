@@ -3,7 +3,7 @@ import { InputNumber, Modal, Progress, Slider } from 'antd';
 import map from 'async/map';
 import { saveAs } from 'file-saver';
 import GIF from 'gif.js';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../../components/context/GifContext';
 import { db } from '../../../db';
@@ -17,8 +17,13 @@ const File = () => {
   const video = useRef(null);
   const [percent, setPercent] = useState(0);
   const [time, setTime] = useState([0, 1]);
+  const [frameNum, setFrameNum] = useState(0);
   const { user, setUser } = useContext(UserContext);
   const { gifState, gifDispatch } = useContext(GifContext);
+
+  useEffect(() => {
+    setFrameNum(gifState.frameNum);
+  }, [gifState.frameNum]);
 
   async function handleConvert() {
     const worker = new URL('/gif.js/gif.worker.js', import.meta.url) as any;
@@ -213,7 +218,7 @@ const File = () => {
           </div>
         </div>
         <div className="fileItem frameNum">
-          <InputNumber onChange={handleFrameNum} />
+          <InputNumber value={frameNum} onChange={handleFrameNum} />
           <div className="fileBtnTitle">帧数</div>
         </div>
         <div className="subTitle">设置</div>
