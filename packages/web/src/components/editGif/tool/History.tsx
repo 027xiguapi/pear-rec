@@ -1,11 +1,11 @@
 import { Redo, Refresh, Undo } from '@icon-park/react';
-import { useContext, useEffect } from 'react';
+import { forwardRef, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../context/GifContext';
 import { HistoryContext } from '../../context/HistoryContext';
 import styles from './history.module.scss';
 
-const History = (props) => {
+const History = forwardRef<any>((props, ref) => {
   const { t } = useTranslation();
   const { historyState, historyDispatch } = useContext(HistoryContext);
   const { gifState, gifDispatch } = useContext(GifContext);
@@ -89,7 +89,7 @@ const History = (props) => {
   }
 
   return (
-    <div className={`${styles.history}`}>
+    <div className={`${styles.history}`} ref={ref}>
       <div className="historyList">
         <div
           className={`${
@@ -128,6 +128,6 @@ const History = (props) => {
       <div className="subTitle">操作</div>
     </div>
   );
-};
+});
 
 export default History;

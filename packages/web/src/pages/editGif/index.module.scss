@@ -8,25 +8,17 @@
       width: 100%;
     }
     .tool {
-      // display: flex;
-      // width: 100%;
       height: 132px;
       padding: 0 10px;
       background-color: rgb(250 250 250);
       border-bottom: 1px solid #ccc;
-      .ant-tabs .ant-tabs-tab {
-        padding: 5px 0;
-      }
-      .ant-tabs-nav {
-        margin: 0;
-      }
     }
     .content {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: calc(100vh - 220px);
+      height: calc(100vh - 245px);
       overflow: hidden;
       text-align: center;
       background-image: repeating-linear-gradient(transparent 0 8px, rgb(245 245 245) 0 16px),
@@ -55,6 +47,7 @@
       background-color: #fff;
       .videoFrame {
         position: relative;
+        width: 150px;
         height: 100%;
         img {
           height: calc(100% - 16px);

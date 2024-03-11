@@ -82,9 +82,7 @@ export default function VideoToGifConverter() {
 
   return (
     <div className="gifConverter">
-      <div className="tool">
-        <Tool />
-      </div>
+      <Tool />
       <div className="content">
         <canvas ref={canvasRef} style={{ transform: 'scale(' + scale / 100 + ')' }}></canvas>
         <div className="info">

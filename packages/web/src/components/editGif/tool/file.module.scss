@@ -1,5 +1,7 @@
 .file {
   display: flex;
+  flex: 0 0 auto;
+  width: 240px;
   :global {
     .fileGroup {
       width: 240px;

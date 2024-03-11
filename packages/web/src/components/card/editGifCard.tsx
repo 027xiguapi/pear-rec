@@ -1,7 +1,7 @@
-import React, { useImperativeHandle, forwardRef, useRef } from 'react';
+import { GifOutlined } from '@ant-design/icons';
+import { Card, Modal } from 'antd';
+import { forwardRef, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EditOutlined, GifOutlined } from '@ant-design/icons';
-import { Space, Card, Dropdown, Modal } from 'antd';
 
 const EditGifCard = forwardRef((props: any, ref: any) => {
   const { t } = useTranslation();
