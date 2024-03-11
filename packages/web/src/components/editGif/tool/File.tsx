@@ -1,16 +1,16 @@
 import { Close, FileGif, Save, VideoFile } from '@icon-park/react';
-import { InputNumber, Modal, Progress, Slider } from 'antd';
+import { Modal, Progress } from 'antd';
 import map from 'async/map';
 import { saveAs } from 'file-saver';
 import GIF from 'gif.js';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { forwardRef, useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../../components/context/GifContext';
 import { db } from '../../../db';
 import { UserContext } from '../../context/UserContext';
 import styles from './file.module.scss';
 
-const File = () => {
+const File = forwardRef<any>((props, ref) => {
   const { t } = useTranslation();
   const fileRef = useRef(null);
   const videoRef = useRef(null);
@@ -162,7 +162,7 @@ const File = () => {
   }
 
   return (
-    <div className={`${styles.file}`}>
+    <div className={`${styles.file}`} ref={ref}>
       <div className="fileGroup">
         <div className="fileList">
           <div className="fileBtn" onClick={() => fileRef.current.click()}>
@@ -205,7 +205,7 @@ const File = () => {
         </div>
         <div className="subTitle">文件</div>
       </div>
-      <div className="fileGroup setting">
+      {/* <div className="fileGroup setting">
         <div className="fileItem slider">
           <Slider
             range={{ draggableTrack: true }}
@@ -222,9 +222,9 @@ const File = () => {
           <div className="fileBtnTitle">帧数</div>
         </div>
         <div className="subTitle">设置</div>
-      </div>
+      </div> */}
     </div>
   );
-};
+});
 
 export default File;

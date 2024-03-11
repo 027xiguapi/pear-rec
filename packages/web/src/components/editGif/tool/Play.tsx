@@ -6,12 +6,12 @@ import {
   StepBackwardOutlined,
   StepForwardOutlined,
 } from '@ant-design/icons';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { forwardRef, useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../../components/context/GifContext';
 import styles from './play.module.scss';
 
-const Play = (props) => {
+const Play = forwardRef<any>((props, ref) => {
   const { t } = useTranslation();
   const { gifState, gifDispatch } = useContext(GifContext);
   const [isPlay, setIsPlay] = useState(false);
@@ -31,13 +31,11 @@ const Play = (props) => {
     const length = gifState.videoFrames.length;
     if (index + 1 >= length) {
       setIsPlay(false);
-      // props.setCurrentVideoFrame(0);
       gifDispatch({ type: 'setIndex', index: 0 });
     } else {
       const videoFrame = gifState.videoFrames[index];
       const duration = videoFrame.duration;
       const timer = setTimeout(() => {
-        // props.setCurrentVideoFrame(index);
         gifDispatch({ type: 'setIndex', index });
         renderVideoFrame(index + 1);
       }, duration);
@@ -55,15 +53,17 @@ const Play = (props) => {
   }
 
   return (
-    <div className={`${styles.play}`}>
+    <div className={`${styles.play}`} ref={ref}>
       <div className="playList">
-        <div className="playBtn" onClick={() => props.setCurrentVideoFrame(0)}>
+        <div className="playBtn" onClick={() => gifDispatch({ type: 'setIndex', index: 0 })}>
           <FastBackwardOutlined className="playIcon" />
           <div className="playBtnTitle">首帧</div>
         </div>
         <div
           className="playBtn"
-          onClick={() => props.setCurrentVideoFrame(gifState.index < 1 ? 0 : gifState.index - 1)}
+          onClick={() =>
+            gifDispatch({ type: 'setIndex', index: gifState.index < 1 ? 0 : gifState.index - 1 })
+          }
         >
           <StepBackwardOutlined className="playIcon" />
           <div className="playBtnTitle">上一帧</div>
@@ -82,11 +82,13 @@ const Play = (props) => {
         <div
           className="playBtn"
           onClick={() =>
-            props.setCurrentVideoFrame(
-              gifState.index >= gifState.videoFrames.length - 1
-                ? gifState.videoFrames.length - 1
-                : gifState.index + 1,
-            )
+            gifDispatch({
+              type: 'setIndex',
+              index:
+                gifState.index >= gifState.videoFrames.length - 1
+                  ? gifState.videoFrames.length - 1
+                  : gifState.index + 1,
+            })
           }
         >
           <StepForwardOutlined className="playIcon" />
@@ -94,7 +96,7 @@ const Play = (props) => {
         </div>
         <div
           className="playBtn"
-          onClick={() => props.setCurrentVideoFrame(gifState.videoFrames.length - 1)}
+          onClick={() => gifDispatch({ type: 'setIndex', index: gifState.videoFrames.length - 1 })}
         >
           <FastForwardOutlined className="playIcon" />
           <div className="playBtnTitle">尾帧</div>
@@ -103,6 +105,6 @@ const Play = (props) => {
       <div className="subTitle">播放</div>
     </div>
   );
-};
+});
 
 export default Play;

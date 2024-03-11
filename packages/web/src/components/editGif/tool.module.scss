@@ -1,0 +1,23 @@
+.tool {
+  :global {
+    .nav {
+      display: flex;
+      padding: 5px 0;
+      border-bottom: 1px #eee solid;
+      .item {
+        margin: 0 15px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .current {
+        color: #1677ff;
+      }
+    }
+    .list {
+      display: flex;
+      width: 100vw;
+      overflow-x: scroll;
+      // white-space: nowrap;
+    }
+  }
+}

@@ -112,7 +112,6 @@ const EditGif = () => {
 
   async function setVideoFrames() {
     let _videoFrames = await db.caches.where('fileType').equals('cg').toArray();
-    console.log(_videoFrames);
     gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
     gifDispatch({ type: 'setFrameNum', frameNum: _videoFrames.length });
   }

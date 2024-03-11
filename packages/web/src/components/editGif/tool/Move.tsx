@@ -1,12 +1,12 @@
 import { DoubleLeft, DoubleRight, LeftSmall, RightSmall } from '@icon-park/react';
-import { useContext } from 'react';
+import { forwardRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../context/GifContext';
 import { HistoryContext } from '../../context/HistoryContext';
 import { UserContext } from '../../context/UserContext';
 import styles from './move.module.scss';
 
-const Move = (props) => {
+const Move = forwardRef<any>((props, ref) => {
   const { t } = useTranslation();
   const { user, setUser } = useContext(UserContext);
   const { historyState, historyDispatch } = useContext(HistoryContext);
@@ -56,7 +56,7 @@ const Move = (props) => {
   }
 
   return (
-    <div className={`${styles.move}`}>
+    <div className={`${styles.move}`} ref={ref}>
       <div className="moveList">
         <div className="moveBtn" onClick={handleMovePrevFrame}>
           <LeftSmall className="moveIcon" theme="outline" size="27" fill="#749EC4" />
@@ -78,6 +78,6 @@ const Move = (props) => {
       <div className="subTitle">移动</div>
     </div>
   );
-};
+});
 
 export default Move;

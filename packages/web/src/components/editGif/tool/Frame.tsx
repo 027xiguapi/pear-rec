@@ -1,5 +1,5 @@
 import { FileAdditionOne, FileFailedOne, ToLeft, ToRight } from '@icon-park/react';
-import { useContext, useEffect, useRef } from 'react';
+import { forwardRef, useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { db } from '../../../db';
 import { GifContext } from '../../context/GifContext';
@@ -7,7 +7,7 @@ import { HistoryContext } from '../../context/HistoryContext';
 import { UserContext } from '../../context/UserContext';
 import styles from './frame.module.scss';
 
-const Frame = (props) => {
+const Frame = forwardRef<any>((props, ref) => {
   const { t } = useTranslation();
   const inputRef = useRef(null);
   const { user, setUser } = useContext(UserContext);
@@ -91,7 +91,7 @@ const Frame = (props) => {
   function handleMoveNextFrame() {}
 
   return (
-    <div className={`${styles.frame}`}>
+    <div className={`${styles.frame}`} ref={ref}>
       <div className="frameList">
         <div className="frameBtn" onClick={handleDeleteFrame}>
           <FileFailedOne className="frameIcon" theme="outline" size="27" fill="#749EC4" />
@@ -120,6 +120,6 @@ const Frame = (props) => {
       <div className="subTitle">帧</div>
     </div>
   );
-};
+});
 
 export default Frame;

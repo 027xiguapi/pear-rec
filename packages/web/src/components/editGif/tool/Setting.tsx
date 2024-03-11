@@ -1,7 +1,7 @@
 import { FileEditingOne, FolderDownload, Stopwatch } from '@icon-park/react';
 import { InputNumber, Modal } from 'antd';
 import { saveAs } from 'file-saver';
-import { useContext, useEffect, useState } from 'react';
+import { forwardRef, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../context/GifContext';
 import { HistoryContext } from '../../context/HistoryContext';
@@ -9,7 +9,7 @@ import { UserContext } from '../../context/UserContext';
 import EditImg from '../../editImg';
 import styles from './setting.module.scss';
 
-const Setting = (props) => {
+const Setting = forwardRef<any>((props, ref) => {
   const { t } = useTranslation();
   const { user, setUser } = useContext(UserContext);
   const { historyState, historyDispatch } = useContext(HistoryContext);
@@ -38,15 +38,14 @@ const Setting = (props) => {
   function handleDownloadFrame() {
     const newVideoFrames = [...gifState.videoFrames];
     const videoFrame = newVideoFrames[gifState.index];
-    saveAs(videoFrame.url, `pear-rec_${+new Date()}.png`);
+    saveAs(URL.createObjectURL(videoFrame.fileData), `pear-rec_${+new Date()}.png`);
   }
 
   function handleEditFrame(blob) {
-    let url = URL.createObjectURL(blob);
     let currentVideoFrame = gifState.videoFrames[gifState.index];
     let newVideoFrame = {
       ...currentVideoFrame,
-      url: url,
+      fileData: blob,
     };
     const newVideoFrames = [...gifState.videoFrames];
     newVideoFrames.splice(gifState.index, 1, newVideoFrame);
@@ -54,8 +53,15 @@ const Setting = (props) => {
     setIsModalOpen(false);
   }
 
+  function getImgUrl() {
+    return (
+      gifState.videoFrames[gifState.index]?.fileData &&
+      URL.createObjectURL(gifState.videoFrames[gifState.index]?.fileData)
+    );
+  }
+
   return (
-    <div className={`${styles.setting}`}>
+    <div className={`${styles.setting}`} ref={ref}>
       <div className="settingList">
         <div className="settingBtn durationBtn">
           <div className="durationTool">
@@ -85,14 +91,13 @@ const Setting = (props) => {
         style={{ top: 10 }}
         open={isModalOpen}
         destroyOnClose
-        // onOk={() => setIsModalOpen(false)}
         onCancel={() => setIsModalOpen(false)}
         footer={[]}
       >
-        <EditImg imgUrl={gifState.videoFrames[gifState.index]?.url} onSave={handleEditFrame} />
+        <EditImg imgUrl={getImgUrl()} onSave={handleEditFrame} />
       </Modal>
     </div>
   );
-};
+});
 
 export default Setting;

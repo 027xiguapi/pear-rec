@@ -1,6 +1,6 @@
 import { AlignHorizontally, AlignVertically } from '@icon-park/react';
 import { Modal } from 'antd';
-import { useContext, useRef, useState } from 'react';
+import { forwardRef, useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../context/GifContext';
 import { HistoryContext } from '../../context/HistoryContext';
@@ -8,7 +8,7 @@ import { UserContext } from '../../context/UserContext';
 import SpliceImg from '../../spliceImg';
 import styles from './splice.module.scss';
 
-const Splice = (props) => {
+const Splice = forwardRef<any>((props, ref) => {
   const { t } = useTranslation();
   const { user, setUser } = useContext(UserContext);
   const { historyState, historyDispatch } = useContext(HistoryContext);
@@ -62,7 +62,7 @@ const Splice = (props) => {
   }
 
   return (
-    <div className={`${styles.splice}`}>
+    <div className={`${styles.splice}`} ref={ref}>
       <div className="spliceList">
         <div className="spliceBtn" onClick={handleVerticalSpliceFrames}>
           <AlignVertically className="spliceIcon" theme="outline" size="27" fill="#749EC4" />
@@ -88,6 +88,6 @@ const Splice = (props) => {
       </Modal>
     </div>
   );
-};
+});
 
 export default Splice;
