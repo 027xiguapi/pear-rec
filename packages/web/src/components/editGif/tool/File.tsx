@@ -8,22 +8,25 @@ import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../../components/context/GifContext';
 import { db } from '../../../db';
 import { UserContext } from '../../context/UserContext';
+import MP4Converter from '../MP4Converter';
 import styles from './file.module.scss';
 
 const File = forwardRef<any>((props, ref) => {
   const { t } = useTranslation();
   const fileRef = useRef(null);
   const videoRef = useRef(null);
-  const video = useRef(null);
   const [percent, setPercent] = useState(0);
-  const [time, setTime] = useState([0, 1]);
-  const [frameNum, setFrameNum] = useState(0);
+  const [videoUrl, setVideoUrl] = useState('');
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const { gifState, gifDispatch } = useContext(GifContext);
 
   useEffect(() => {
-    setFrameNum(gifState.frameNum);
-  }, [gifState.frameNum]);
+    if (gifState.videoUrl) {
+      setVideoUrl(gifState.videoUrl);
+      setIsOpenModal(true);
+    }
+  }, [gifState.videoUrl]);
 
   async function handleConvert() {
     const worker = new URL('/gif.js/gif.worker.js', import.meta.url) as any;
@@ -142,23 +145,20 @@ const File = forwardRef<any>((props, ref) => {
   function handleUploadVideo(event) {
     const file = event.target.files[0];
     const videoUrl = window.URL.createObjectURL(file);
-    gifDispatch({ type: 'setVideoUrl', videoUrl: videoUrl });
+    setVideoUrl(videoUrl);
+    setIsOpenModal(true);
     event.target.value = '';
-    video.current.src = videoUrl;
-    video.current.onloadedmetadata = function () {
-      const duration = Math.ceil(video.current.duration); // 视频时长（以秒为单位）
-      gifDispatch({ type: 'setDuration', duration: duration });
-      handleTime([0, duration]);
-    };
   }
 
-  function handleFrameNum(value) {
-    gifDispatch({ type: 'setFrameNum', frameNum: value });
+  async function setVideoFrames() {
+    let _videoFrames = await db.caches.where('fileType').equals('cg').toArray();
+    gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
+    gifDispatch({ type: 'setFrameNum', frameNum: _videoFrames.length });
   }
 
-  function handleTime(value) {
-    gifDispatch({ type: 'setTime', time: value });
-    setTime(value);
+  function handleOk() {
+    setVideoFrames();
+    setIsOpenModal(false);
   }
 
   return (
@@ -191,7 +191,6 @@ const File = forwardRef<any>((props, ref) => {
               className="videoRef hide"
               onChange={handleUploadVideo}
             />
-            <video ref={video} className="hide" playsInline autoPlay />
           </div>
           <div className="fileBtn" onClick={handleSaveClick}>
             <Save className="fileIcon saveIcon" theme="outline" size="27" fill="rgb(235 191 124)" />
@@ -205,24 +204,17 @@ const File = forwardRef<any>((props, ref) => {
         </div>
         <div className="subTitle">文件</div>
       </div>
-      {/* <div className="fileGroup setting">
-        <div className="fileItem slider">
-          <Slider
-            range={{ draggableTrack: true }}
-            tooltip={{ placement: 'bottom', color: '#2db7f5' }}
-            onChangeComplete={handleTime}
-            max={gifState.duration || 100}
-          />
-          <div className="fileBtnTitle">
-            时长 {time[0]} - {time[1]}(秒)
-          </div>
-        </div>
-        <div className="fileItem frameNum">
-          <InputNumber value={frameNum} onChange={handleFrameNum} />
-          <div className="fileBtnTitle">帧数</div>
-        </div>
-        <div className="subTitle">设置</div>
-      </div> */}
+      <Modal
+        title="从视频导入帧"
+        width={'90%'}
+        style={{ top: 10 }}
+        open={isOpenModal}
+        destroyOnClose
+        onCancel={() => setIsOpenModal(false)}
+        footer={[]}
+      >
+        <MP4Converter videoUrl={videoUrl} onCancel={() => setIsOpenModal(false)} onOk={handleOk} />
+      </Modal>
     </div>
   );
 });

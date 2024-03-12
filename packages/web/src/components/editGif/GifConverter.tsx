@@ -39,29 +39,35 @@ export default function VideoToGifConverter() {
   }, [gifState.index]);
 
   useEffect(() => {
-    if (videoFramesRef.current.length) {
-      const img = videoFramesRef.current[gifState.index];
-      img
-        ? (img.onload = function () {
-            setCurrentVideoFrame(gifState.index);
-          })
-        : clearCanvas();
-    }
     setVideoFrames(gifState.videoFrames);
   }, [gifState.videoFrames]);
 
+  useEffect(() => {
+    if (videoFramesRef.current.length) {
+      const img = videoFramesRef.current[gifState.index];
+      img ? setCurrentVideoFrame(gifState.index) : clearCanvas();
+    }
+  }, [videoFrames]);
+
   function renderImgToCanvas(img) {
-    const ratio = window.devicePixelRatio || 1;
-    const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
-    let { naturalWidth, naturalHeight } = img;
-    canvas.width = naturalWidth * ratio;
-    canvas.height = naturalHeight * ratio;
-    canvas.style.width = naturalWidth + 'px';
-    canvas.style.height = naturalHeight + 'px';
-    context.scale(ratio, ratio);
-    context.drawImage(img, 0, 0, naturalWidth, naturalHeight);
-    img.scrollIntoView();
+    img.addEventListener(
+      'load',
+      () => {
+        const ratio = window.devicePixelRatio || 1;
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        let { naturalWidth, naturalHeight } = img;
+        canvas.width = naturalWidth * ratio;
+        canvas.height = naturalHeight * ratio;
+        canvas.style.width = naturalWidth + 'px';
+        canvas.style.height = naturalHeight + 'px';
+        context.scale(ratio, ratio);
+        context.drawImage(img, 0, 0, naturalWidth, naturalHeight);
+        console.log(img);
+        img.scrollIntoView();
+      },
+      { once: true },
+    );
   }
 
   function clearCanvas() {
