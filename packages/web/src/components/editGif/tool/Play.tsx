@@ -6,22 +6,23 @@ import {
   StepBackwardOutlined,
   StepForwardOutlined,
 } from '@ant-design/icons';
-import { forwardRef, useContext, useEffect, useRef, useState } from 'react';
+import { forwardRef, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../../components/context/GifContext';
 import styles from './play.module.scss';
+
+const timers = [];
 
 const Play = forwardRef<any>((props, ref) => {
   const { t } = useTranslation();
   const { gifState, gifDispatch } = useContext(GifContext);
   const [isPlay, setIsPlay] = useState(false);
-  const timerRefs = useRef<any>([]);
 
   useEffect(() => {
     if (isPlay) {
       renderVideoFrame(gifState.index);
     } else {
-      timerRefs.current.map((timer) => {
+      timers.map((timer) => {
         clearTimeout(timer);
       });
     }
@@ -40,7 +41,7 @@ const Play = forwardRef<any>((props, ref) => {
         renderVideoFrame(index + 1);
       }, duration);
 
-      timerRefs.current.push(timer);
+      timers.push(timer);
     }
   }
 
