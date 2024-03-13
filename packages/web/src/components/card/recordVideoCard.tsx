@@ -1,7 +1,7 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { VideoCameraOutlined } from '@ant-design/icons';
-import { Button, Card } from 'antd';
+import { Card } from 'antd';
+import { forwardRef, useImperativeHandle, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const RecordVideoCard = forwardRef((props: any, ref: any) => {
   useImperativeHandle(ref, () => ({ setIsRecordVideo }));
@@ -17,25 +17,19 @@ const RecordVideoCard = forwardRef((props: any, ref: any) => {
   }
 
   function handleCanvasClick(e) {
-    window.isElectron
-    ? window.electronAPI.sendCaOpenWin()
-    : (location.href = '/canvas.html');
+    window.isElectron ? window.electronAPI.sendCaOpenWin() : (location.href = '/canvas.html');
 
     e.preventDefault();
-		e.stopPropagation();
+    e.stopPropagation();
   }
 
   return (
-    <Card
-      hoverable
-      bordered={false}
-      style={{ maxWidth: 300, minWidth: 140, height: 130 }}
-    >
+    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
       <span className="extra" onClick={handleCanvasClick}>
         {t('home.canvas')}
       </span>
       <div className="cardContent">
-        <VideoCameraOutlined onClick={handleRecorderVideo}/>
+        <VideoCameraOutlined onClick={handleRecorderVideo} />
         <div className="cardTitle">{t('home.videoRecording')}</div>
       </div>
     </Card>

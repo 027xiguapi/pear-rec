@@ -233,7 +233,7 @@ const ScreenRecorder = (props) => {
   async function saveFile(blob) {
     try {
       const record = {
-        fileName: `pear-rec_${+new Date()}.webm`,
+        fileName: `pear-rec_${+new Date()}.mp4`,
         fileData: blob,
         fileType: 'rs',
         userId: user.id,

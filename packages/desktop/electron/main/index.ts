@@ -7,11 +7,9 @@ import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalSho
 import './ipcMain';
 import './logger';
 import { protocolHandle, registerSchemesAsPrivileged } from './protocol';
-import { initServerProcess, quitServerProcess } from './serverProcess';
 import { initTray } from './tray';
 import { update } from './update';
 
-initServerProcess();
 initConfig();
 
 // The built directory structure
@@ -61,7 +59,6 @@ app.whenReady().then(() => {
 });
 
 app.on('will-quit', () => {
-  quitServerProcess();
   unregisterAllGlobalShortcut();
 });
 

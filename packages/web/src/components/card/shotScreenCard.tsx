@@ -1,7 +1,7 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ScissorOutlined } from '@ant-design/icons';
-import { Button, Card } from 'antd';
+import { Card } from 'antd';
+import { forwardRef, useImperativeHandle } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ShotScreenCard = forwardRef((props: any, ref: any) => {
   useImperativeHandle(ref, () => ({

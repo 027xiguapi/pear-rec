@@ -3,6 +3,7 @@
     .nav {
       display: flex;
       padding: 5px 0;
+      white-space: nowrap;
       border-bottom: 1px #eee solid;
       .item {
         margin: 0 15px;
