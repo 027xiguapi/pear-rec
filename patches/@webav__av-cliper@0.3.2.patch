@@ -1,0 +1,13 @@
+diff --git a/dist/av-cliper.js b/dist/av-cliper.js
+index f3743308ef8020181018d022c548b7b7423e8c8f..2ed9cb569bc8f1e47ac0064dc3b1da63832a3f2d 100644
+--- a/dist/av-cliper.js
++++ b/dist/av-cliper.js
+@@ -4056,7 +4056,7 @@ class qi {
+     if (a < 0)
+       return null;
+     const l = await _(this, zt);
+-    if (a > l.duration / l.timescale)
++    if (l.duration != 0 && a > l.duration / l.timescale)
+       return null;
+     let o = a * l.timescale, f = 0, c = 0;
+     for (let s = 0; s < _(this, lt).length; s += 1) {

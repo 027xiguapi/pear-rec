@@ -1,7 +1,7 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import { AudioMutedOutlined, AudioOutlined } from '@ant-design/icons';
+import { Card } from 'antd';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AudioOutlined, AudioMutedOutlined } from '@ant-design/icons';
-import { Button, Card } from 'antd';
 
 const RecordAudioCard = forwardRef((props: any, ref: any) => {
   useImperativeHandle(ref, () => ({ setIsRecordAudio }));

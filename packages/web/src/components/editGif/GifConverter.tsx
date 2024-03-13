@@ -34,8 +34,10 @@ export default function VideoToGifConverter() {
 
   useEffect(() => {
     let index = gifState.index;
-    setCurrentVideoFrame(index);
-    setFrameIndex(index);
+    if (index != frameIndex) {
+      setCurrentVideoFrame(index);
+      setFrameIndex(index);
+    }
   }, [gifState.index]);
 
   useEffect(() => {
@@ -49,25 +51,20 @@ export default function VideoToGifConverter() {
     }
   }, [videoFrames]);
 
-  function renderImgToCanvas(img) {
-    img.addEventListener(
-      'load',
-      () => {
-        const ratio = window.devicePixelRatio || 1;
-        const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
-        let { naturalWidth, naturalHeight } = img;
-        canvas.width = naturalWidth * ratio;
-        canvas.height = naturalHeight * ratio;
-        canvas.style.width = naturalWidth + 'px';
-        canvas.style.height = naturalHeight + 'px';
-        context.scale(ratio, ratio);
-        context.drawImage(img, 0, 0, naturalWidth, naturalHeight);
-        console.log(img);
-        img.scrollIntoView();
-      },
-      { once: true },
-    );
+  function renderImgToCanvas(index) {
+    let imgs = document.querySelectorAll('.videoFrame img');
+    let img = imgs[index] as any;
+    const ratio = window.devicePixelRatio || 1;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    let { naturalWidth, naturalHeight } = img;
+    canvas.width = naturalWidth * ratio;
+    canvas.height = naturalHeight * ratio;
+    canvas.style.width = naturalWidth + 'px';
+    canvas.style.height = naturalHeight + 'px';
+    context.scale(ratio, ratio);
+    context.drawImage(img, 0, 0, naturalWidth, naturalHeight);
+    img.scrollIntoView();
   }
 
   function clearCanvas() {
@@ -80,10 +77,12 @@ export default function VideoToGifConverter() {
   function handleCurrentVideoFrameClick(index) {
     gifDispatch({ type: 'setIndex', index });
     setFrameIndex(index);
+    renderImgToCanvas(index);
   }
 
   function setCurrentVideoFrame(index) {
-    videoFramesRef.current[index] && renderImgToCanvas(videoFramesRef.current[index]);
+    let videoFrames = document.querySelectorAll('.videoFrame');
+    videoFrames[index] && renderImgToCanvas(index);
   }
 
   return (

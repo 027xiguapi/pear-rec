@@ -1,4 +1,3 @@
-import { rmSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import electron from 'vite-plugin-electron/simple';
 import pkg from './package.json';

@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.3.13
+
+perf: 升级 electron
+
 ## 1.3.12
 
 fix: 配置修改
