@@ -42,6 +42,18 @@
   <img src="../assets/imgs/rv.jpg" title="录像" />
 </center>
 
+## 编辑图片
+
+<center>
+  <img src="../assets/imgs/ei.jpg" title="编辑图片" />
+</center>
+
+## 编辑 gif
+
+<center>
+  <img src="../assets/imgs/eg.jpg" title="编辑gif" />
+</center>
+
 ## 查看图片
 
 <center>
