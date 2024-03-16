@@ -70,6 +70,7 @@
   "pnpm": {
     "patchedDependencies": {
       "@webav/av-cliper@0.3.2": "patches/@webav__av-cliper@0.3.2.patch"
-    }
+    },
+    "allowNonAppliedPatches": true
   }
 }
