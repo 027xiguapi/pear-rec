@@ -170,14 +170,14 @@ const Home: React.FC = () => {
                   <ScanImageCard />
                 </Col>
               </Row>
-              <Row className="cardRow" justify="left" gutter={16}>
+              <Row className="cardRow" justify="start" gutter={16}>
                 <Col span={6}>
                   <SpliceImageCard ref={rvcRef} />
                 </Col>
               </Row>
             </div>
             <div id="video">
-              <Row className="cardRow" justify="left" gutter={16}>
+              <Row className="cardRow" justify="start" gutter={16}>
                 <Col span={6}>
                   <RecordVideoCard ref={rvcRef} />
                 </Col>

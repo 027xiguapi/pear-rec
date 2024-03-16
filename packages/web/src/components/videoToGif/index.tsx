@@ -1,8 +1,10 @@
 import { MP4Previewer } from '@webav/av-cliper';
-import { Button, Flex, InputNumber, Progress, Slider } from 'antd';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { db } from '../../db';
-import { UserContext } from '../context/UserContext';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Button, Flex, InputNumber, Progress, Slider, Modal } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { db, defaultUser } from '../../db';
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import styles from './converter.module.scss';
 
 let defaultTime = [0, 3];
@@ -18,7 +20,15 @@ export default function MP4Converter(props) {
   const [time, setTime] = useState(defaultTime);
   const [fps, setFps] = useState(33);
   const [percent, setPercent] = useState(0);
-  const { user, setUser } = useContext(UserContext);
+  const [user, setUser] = useState<any>({});
+  const [loaded, setLoaded] = useState(false);
+  const ffmpegRef = useRef(new FFmpeg());
+  // const videoRef = useRef(null);
+  const messageRef = useRef(null);
+
+  useEffect(() => {
+    user.id || getCurrentUser();
+  }, []);
 
   useEffect(() => {
     if (props.videoUrl) {
@@ -31,6 +41,64 @@ export default function MP4Converter(props) {
       })();
     }
   }, [props.videoUrl]);
+
+  async function getCurrentUser() {
+    try {
+      let user = await db.users.where({ userType: 1 }).first();
+      if (!user) {
+        user = defaultUser;
+        await db.users.add(user);
+      }
+      setUser(user);
+    } catch (err) {
+      console.log(err);
+      Modal.confirm({
+        title: '数据库错误，是否重置数据库?',
+        icon: <ExclamationCircleFilled />,
+        content: err.message,
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        async onOk() {
+          console.log('OK');
+          await db.delete();
+          location.reload();
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
+    }
+  }
+
+  const load = async () => {
+    const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+    const ffmpeg = ffmpegRef.current;
+    ffmpeg.on('log', ({ message }) => {
+      messageRef.current.innerHTML = message;
+      console.log(message);
+    });
+    // toBlobURL is used to bypass CORS issue, urls with the same
+    // domain can be used directly.
+    await ffmpeg.load({
+      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+    });
+    setLoaded(true);
+  };
+
+  const transcode = async () => {
+    const ffmpeg = ffmpegRef.current;
+    await ffmpeg.writeFile(
+      'input.webm',
+      await fetchFile(
+        'https://raw.githubusercontent.com/ffmpegwasm/testdata/master/Big_Buck_Bunny_180_10s.webm',
+      ),
+    );
+    await ffmpeg.exec(['-i', 'input.webm', 'output.mp4']);
+    const data = (await ffmpeg.readFile('output.mp4')) as any;
+    videoRef.current.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+  };
 
   async function start(videoUrl) {
     let stream = (await fetch(videoUrl)).body!;
