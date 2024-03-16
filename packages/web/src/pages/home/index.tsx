@@ -12,6 +12,7 @@ import SpliceImageCard from '../../components/card/spliceImageCard';
 import ViewAudioCard from '../../components/card/viewAudioCard';
 import ViewImageCard from '../../components/card/viewImageCard';
 import ViewVideoCard from '../../components/card/viewVideoCard';
+import VideoConverterCard from '../../components/card/videoConverterCard';
 import HomeFooter from '../../components/home/HomeFooter';
 import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
@@ -183,6 +184,9 @@ const Home: React.FC = () => {
                 </Col>
                 <Col span={6}>
                   <RecordScreenCard ref={rscRef} />
+                </Col>
+                <Col span={6}>
+                  <VideoConverterCard />
                 </Col>
               </Row>
             </div>

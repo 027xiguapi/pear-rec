@@ -75,7 +75,7 @@ pnpm run clear
 ## Functions
 
 <center>
-  <img src="https://027xiguapi.github.io/pear-rec/assets/home.f67a1aa8.jpg" />
+  <img src="https://027xiguapi.github.io/pear-rec/assets/home.7d9162cb.jpg" />
 </center>
 
 Features that have been ticked are the latest in the development process but may not have been released in the latest version

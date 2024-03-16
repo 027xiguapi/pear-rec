@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.4.21
+
+feat: 视频转gif
+
 ## 1.4.20
 
 fix: 编辑动图视频解析 bug

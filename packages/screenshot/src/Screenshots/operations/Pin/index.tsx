@@ -33,5 +33,5 @@ export default function Pin(): ReactElement {
     });
   }, [canvasContextRef, historyDispatcher, image, width, height, history, bounds, call, reset]);
 
-  return <ScreenshotsButton title={lang.operation_scan_title} icon="icon-pin" onClick={onClick} />;
+  return <ScreenshotsButton title={lang.operation_pin_title} icon="icon-pin" onClick={onClick} />;
 }
