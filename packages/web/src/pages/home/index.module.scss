@@ -40,11 +40,18 @@
           animation-duration: 10s;
         }
       }
+      .nav {
+        padding: 0 0 20px;
+      }
+      .content {
+        height: calc(100% - 45px);
+        overflow: auto;
+      }
       .cardRow {
         margin-bottom: 10px;
         text-align: center;
         .ant-card {
-          background: rgba(255, 255, 255, .9);
+          background: rgba(255, 255, 255, 0.9);
         }
       }
     }
@@ -102,7 +109,7 @@
 
 .web {
   width: 660px;
-  height: 335px;
+  height: 390px;
   margin-top: 30px;
   box-shadow:
     rgb(190, 200, 228) 3px 3px 6px 0px,

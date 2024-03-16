@@ -1,5 +1,5 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Col, Modal, Row } from 'antd';
+import { Col, Modal, Row, Anchor } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import EditGifCard from '../../components/card/editGifCard';
 import RecordAudioCard from '../../components/card/recordAudioCard';
@@ -9,6 +9,9 @@ import CutScreenCard from '../../components/card/shotScreenCard';
 import ViewAudioCard from '../../components/card/viewAudioCard';
 import ViewImageCard from '../../components/card/viewImageCard';
 import ViewVideoCard from '../../components/card/viewVideoCard';
+import ScanImageCard from '../../components/card/scanImageCard';
+import SearchImageCard from '../../components/card/searchImageCard';
+import SpliceImageCard from '../../components/card/spliceImageCard';
 import HomeFooter from '../../components/home/HomeFooter';
 import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
@@ -98,34 +101,93 @@ const Home: React.FC = () => {
     <div className={`${styles.home} ${window.isElectron ? styles.electron : styles.web}`}>
       <div className="container">
         <div className="wavesurfer"></div>
-        <Row className="cardRow" justify="center" gutter={16}>
-          <Col span={6}>
-            <CutScreenCard ref={cscRef} />
-          </Col>
-          <Col span={6}>
-            <RecordScreenCard ref={rscRef} />
-          </Col>
-          <Col span={6}>
-            <RecordVideoCard ref={rvcRef} />
-          </Col>
-          <Col span={6}>
-            <RecordAudioCard ref={racRef} />
-          </Col>
-        </Row>
-        <Row className="cardRow" justify="center" gutter={16}>
-          <Col span={6}>
-            <EditGifCard />
-          </Col>
-          <Col span={6}>
-            <ViewImageCard />
-          </Col>
-          <Col span={6}>
-            <ViewVideoCard />
-          </Col>
-          <Col span={6}>
-            <ViewAudioCard />
-          </Col>
-        </Row>
+        <div className="nav">
+          <Anchor
+            direction="horizontal"
+            items={[
+              {
+                key: 'main',
+                href: '#main',
+                title: '首页',
+              },
+              {
+                key: 'image',
+                href: '#image',
+                title: '图片',
+              },
+              {
+                key: 'video',
+                href: '#video',
+                title: '视频',
+              },
+            ]}
+          />
+        </div>
+        <div className="content">
+          <div>
+            <div id="main">
+              <Row className="cardRow" justify="center" gutter={16}>
+                <Col span={6}>
+                  <CutScreenCard ref={cscRef} />
+                </Col>
+                <Col span={6}>
+                  <RecordScreenCard ref={rscRef} />
+                </Col>
+                <Col span={6}>
+                  <RecordVideoCard ref={rvcRef} />
+                </Col>
+                <Col span={6}>
+                  <RecordAudioCard ref={racRef} />
+                </Col>
+              </Row>
+              <Row className="cardRow" justify="center" gutter={16}>
+                <Col span={6}>
+                  <EditGifCard />
+                </Col>
+                <Col span={6}>
+                  <ViewImageCard />
+                </Col>
+                <Col span={6}>
+                  <ViewVideoCard />
+                </Col>
+                <Col span={6}>
+                  <ViewAudioCard />
+                </Col>
+              </Row>
+            </div>
+            <div id="image">
+              <Row className="cardRow" justify="center" gutter={16}>
+                <Col span={6}>
+                  <EditGifCard />
+                </Col>
+                <Col span={6}>
+                  <ViewImageCard />
+                </Col>
+                <Col span={6}>
+                  <SearchImageCard />
+                </Col>
+                <Col span={6}>
+                  <ScanImageCard />
+                </Col>
+              </Row>
+              <Row className="cardRow" justify="left" gutter={16}>
+                <Col span={6}>
+                  <SpliceImageCard ref={rvcRef} />
+                </Col>
+              </Row>
+            </div>
+            <div id="video">
+              <Row className="cardRow" justify="left" gutter={16}>
+                <Col span={6}>
+                  <RecordVideoCard ref={rvcRef} />
+                </Col>
+                <Col span={6}>
+                  <RecordScreenCard ref={rscRef} />
+                </Col>
+              </Row>
+            </div>
+          </div>
+        </div>
       </div>
       <HomeFooter></HomeFooter>
     </div>

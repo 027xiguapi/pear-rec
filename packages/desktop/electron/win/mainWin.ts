@@ -22,7 +22,7 @@ const createMainWin = (): BrowserWindow => {
   } else {
     mainWin.loadFile(WIN_CONFIG.main.html);
   }
-  // mainWin.webContents.openDevTools();
+  mainWin.webContents.openDevTools();
 
   // Test actively push message to the Electron-Renderer
   // mainWin.webContents.on("did-finish-load", () => {
