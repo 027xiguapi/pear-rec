@@ -75,6 +75,10 @@ export default ({ mode }) => {
       // open: true,
       port: 9191,
       host: '0.0.0.0',
+      headers: {
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Embedder-Policy': 'require-corp',
+      },
     },
     plugins: [
       react(),
@@ -122,6 +126,9 @@ export default ({ mode }) => {
         },
       }),
     ],
+    optimizeDeps: {
+      exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'],
+    },
     // build: mode == "lib" ? buildOptionsLib : buildOptionsProject,
     build: buildOptionsProject,
   });

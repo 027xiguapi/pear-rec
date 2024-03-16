@@ -21,13 +21,12 @@ export default function MP4Converter(props) {
   const [fps, setFps] = useState(33);
   const [percent, setPercent] = useState(0);
   const [user, setUser] = useState<any>({});
-  const [loaded, setLoaded] = useState(false);
   const ffmpegRef = useRef(new FFmpeg());
-  // const videoRef = useRef(null);
-  const messageRef = useRef(null);
+  const messageRef = useRef<HTMLParagraphElement | null>(null);
 
   useEffect(() => {
     user.id || getCurrentUser();
+    load();
   }, []);
 
   useEffect(() => {
@@ -71,33 +70,31 @@ export default function MP4Converter(props) {
     }
   }
 
-  const load = async () => {
-    const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+  async function load() {
+    const baseURL = 'http://localhost:9191/ffmpeg';
+    // const baseURL = 'https://unpkg.com/@ffmpeg/core-mt@0.12.6/dist/esm';
     const ffmpeg = ffmpegRef.current;
     ffmpeg.on('log', ({ message }) => {
-      messageRef.current.innerHTML = message;
+      // messageRef.current.innerHTML = message;
       console.log(message);
     });
-    // toBlobURL is used to bypass CORS issue, urls with the same
-    // domain can be used directly.
     await ffmpeg.load({
       coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
       wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
     });
-    setLoaded(true);
-  };
+  }
 
   const transcode = async () => {
+    console.log(66);
     const ffmpeg = ffmpegRef.current;
-    await ffmpeg.writeFile(
-      'input.webm',
-      await fetchFile(
-        'https://raw.githubusercontent.com/ffmpegwasm/testdata/master/Big_Buck_Bunny_180_10s.webm',
-      ),
-    );
+    await ffmpeg.writeFile('input.webm', await fetchFile('/ffmpeg/Big_Buck_Bunny_180_10s.webm'));
+    console.log(55);
     await ffmpeg.exec(['-i', 'input.webm', 'output.mp4']);
-    const data = (await ffmpeg.readFile('output.mp4')) as any;
-    videoRef.current.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+    const fileData = await ffmpeg.readFile('output.mp4');
+    const data = new Uint8Array(fileData as ArrayBuffer);
+    if (videoRef.current) {
+      videoRef.current.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+    }
   };
 
   async function start(videoUrl) {
@@ -173,7 +170,7 @@ export default function MP4Converter(props) {
 
   return (
     <div className={styles.converter}>
-      <video ref={videoRef} className="hide" playsInline autoPlay />
+      <video ref={videoRef} playsInline autoPlay />
       <div className="frames">
         {imgStartSrc && <img src={imgStartSrc} className="frame imgStart" />}
         {imgEndSrc && <img src={imgEndSrc} className="frame imgEnd" />}
@@ -224,7 +221,10 @@ export default function MP4Converter(props) {
       </div>
       <div className="progress">{percent ? <Progress percent={percent} /> : ''}</div>
       <Flex gap="small" wrap="wrap" justify="right" className="footer">
-        <Button type="primary" onClick={handleSubmit}>
+        <Button type="primary" onClick={load}>
+          加载
+        </Button>
+        <Button type="primary" onClick={transcode}>
           确定
         </Button>
         <Button onClick={handleCancel}>取消</Button>
