@@ -37,7 +37,7 @@ export const WIN_CONFIG = {
   main: {
     html: path.join(process.env.DIST, 'index.html'),
     width: 660,
-    height: 375,
+    height: 420,
     autoHideMenuBar: true,
     maximizable: false,
     resizable: false,
