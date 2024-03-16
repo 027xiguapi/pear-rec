@@ -1,0 +1,46 @@
+.converter {
+  :global {
+    .frames {
+      display: flex;
+      width: 100%;
+      .frame {
+        width: calc(50% - 10px);
+        padding: 5px;
+      }
+    }
+    .slider {
+      display: flex;
+      align-items: center;
+      .sliderInput {
+        flex: 1;
+      }
+    }
+    .setting {
+      display: flex;
+      overflow: hidden;
+      .item {
+        margin-right: 10px;
+        margin-left: 10px;
+        .title {
+          margin-bottom: 5px;
+        }
+      }
+      .frameSize {
+        min-width: 160px;
+      }
+      .fps,
+      .frameNum,
+      .timeStart,
+      .timeEnd {
+        width: 120px;
+        min-width: 120px;
+      }
+      .frameInfo {
+        min-width: 160px;
+      }
+    }
+    .footer {
+      margin-top: 10px;
+    }
+  }
+}

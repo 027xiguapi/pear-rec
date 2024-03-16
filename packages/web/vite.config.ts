@@ -17,6 +17,7 @@ const buildOptionsProject = {
       viewImage: resolve(__dirname, 'src/pages/viewImage.html'),
       pinImage: resolve(__dirname, 'src/pages/pinImage.html'),
       viewVideo: resolve(__dirname, 'src/pages/viewVideo.html'),
+      videoToGif: resolve(__dirname, 'src/pages/videoToGif.html'),
       setting: resolve(__dirname, 'src/pages/setting.html'),
       clipScreen: resolve(__dirname, 'src/pages/clipScreen.html'),
       editImage: resolve(__dirname, 'src/pages/editImage.html'),
