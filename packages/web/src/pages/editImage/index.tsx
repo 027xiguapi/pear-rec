@@ -51,7 +51,7 @@ const EditImage = () => {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
     let _imgUrl = searchParams.get('imgUrl');
-    if (_imgUrl && _imgUrl.substring(0, 7) != 'pearrec') {
+    if (_imgUrl && _imgUrl.substring(0, 7) != 'pearrec' && _imgUrl.substring(0, 4) != 'blob') {
       _imgUrl = `pearrec://${_imgUrl}`;
     }
     setImgUrl(_imgUrl || '');

@@ -78,7 +78,7 @@ pnpm run clear
 ## 功能
 
 <center>
-  <img src="https://027xiguapi.github.io/pear-rec/assets/home.f67a1aa8.jpg" />
+  <img src="https://027xiguapi.github.io/pear-rec/assets/home.7d9162cb.jpg" />
 </center>
 
 已经勾选的功能是开发过程最新功能，但可能还没发布在最新版本

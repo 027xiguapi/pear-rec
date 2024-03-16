@@ -139,7 +139,7 @@ const ViewImage = () => {
     const imgUrl = searchParams.get('imgUrl');
     const recordId = searchParams.get('recordId');
     if (imgUrl) {
-      if (imgUrl.substring(0, 7) != 'pearrec') {
+      if (imgUrl.substring(0, 7) != 'pearrec' && imgUrl.substring(0, 4) != 'blob') {
         setImgs([{ url: 'pearrec://' + imgUrl, filePath: 'pearrec://' + imgUrl, index: 0 }]);
       } else {
         setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
