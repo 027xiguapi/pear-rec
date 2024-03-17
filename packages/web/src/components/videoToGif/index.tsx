@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { db, defaultUser } from '../../db';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
-import styles from './converter.module.scss';
+import styles from './index.module.scss';
 
 let defaultTime = [0, 3];
 let previewer;
@@ -26,7 +26,7 @@ export default function MP4Converter(props) {
 
   useEffect(() => {
     user.id || getCurrentUser();
-    load();
+    // load();
   }, []);
 
   useEffect(() => {
@@ -81,6 +81,7 @@ export default function MP4Converter(props) {
     await ffmpeg.load({
       coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
       wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+      workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
     });
   }
 

@@ -74,7 +74,7 @@ export default ({ mode }) => {
     server: {
       // open: true,
       port: 9191,
-      host: '0.0.0.0',
+      // host: '0.0.0.0',
       headers: {
         'Cross-Origin-Opener-Policy': 'same-origin',
         'Cross-Origin-Embedder-Policy': 'require-corp',
