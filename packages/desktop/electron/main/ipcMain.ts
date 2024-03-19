@@ -27,6 +27,7 @@ import * as spliceImageWin from '../win/spliceImageWin';
 import * as viewAudioWin from '../win/viewAudioWin';
 import * as viewImageWin from '../win/viewImageWin';
 import * as viewVideoWin from '../win/viewVideoWin';
+import * as videoConverterWin from '../win/videoConverterWin';
 import logger from './logger';
 import * as utils from './utils';
 
@@ -240,6 +241,14 @@ function initIpcMain() {
   });
   ipcMain.on('si:open-win', () => {
     spliceImageWin.openSpliceImageWin();
+  });
+
+  // 视频转换
+  ipcMain.on('vc:close-win', () => {
+    videoConverterWin.closeVideoConverterWin();
+  });
+  ipcMain.on('vc:open-win', (e, search) => {
+    videoConverterWin.openVideoConverterWin(search);
   });
 
   // 动图编辑

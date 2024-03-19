@@ -37,7 +37,7 @@ export const WIN_CONFIG = {
   main: {
     html: path.join(process.env.DIST, 'index.html'),
     width: 660,
-    height: 420,
+    height: 410,
     autoHideMenuBar: true,
     maximizable: false,
     resizable: false,
@@ -64,6 +64,12 @@ export const WIN_CONFIG = {
     autoHideMenuBar: true,
   },
   editImage: {
+    html: path.join(process.env.DIST, 'editImage.html'),
+    height: 768,
+    width: 1024,
+    autoHideMenuBar: true,
+  },
+  videoConverter: {
     html: path.join(process.env.DIST, 'editImage.html'),
     height: 768,
     width: 1024,

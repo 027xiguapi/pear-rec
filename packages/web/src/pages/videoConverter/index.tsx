@@ -68,7 +68,7 @@ const App: React.FC = () => {
   return (
     <div className={styles.videoConverter}>
       <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-        <Card title="设置">
+        <Card title="转换">
           <VideoToGif videoUrl={videoUrl} onSave={handleSave} />
         </Card>
       </Space>

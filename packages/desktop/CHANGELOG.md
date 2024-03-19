@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.3.14
+
+feat: 增加视频转换
+
 ## 1.3.13
 
 perf: 升级 electron
