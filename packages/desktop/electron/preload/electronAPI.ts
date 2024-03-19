@@ -87,7 +87,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendEgCloseWin: () => ipcRenderer.send('eg:close-win'),
   sendEgOpenWin: (search?: string) => ipcRenderer.send('eg:open-win', search),
 
-  //egWin
+  //vcWin
+  sendVcCloseWin: () => ipcRenderer.send('vc:close-win'),
+  sendVcOpenWin: (search?: string) => ipcRenderer.send('vc:open-win', search),
+
+  //caWin
   sendCaCloseWin: () => ipcRenderer.send('ca:close-win'),
   sendCaOpenWin: () => ipcRenderer.send('ca:open-win'),
 

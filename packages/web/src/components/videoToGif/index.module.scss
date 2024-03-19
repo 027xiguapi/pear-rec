@@ -1,11 +1,16 @@
 .converter {
   :global {
-    .frames {
+    .content {
       display: flex;
       width: 100%;
-      .frame {
+      .output,
+      .input {
         width: calc(50% - 10px);
         padding: 5px;
+      }
+      .img,
+      .video {
+        width: 100%;
       }
     }
     .slider {
