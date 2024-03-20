@@ -87,7 +87,7 @@ const PinImage: React.FC = () => {
     const searchParams = new URLSearchParams(paramsString);
     let _imgUrl = searchParams.get('imgUrl');
     let recordId = searchParams.get('recordId');
-    if (imgUrl.substring(0, 7) != 'pearrec' && imgUrl.substring(0, 4) != 'blob') {
+    if (_imgUrl.substring(0, 7) != 'pearrec' && _imgUrl.substring(0, 4) != 'blob') {
       _imgUrl = `pearrec://${_imgUrl}`;
       setImgUrl(_imgUrl);
     } else {

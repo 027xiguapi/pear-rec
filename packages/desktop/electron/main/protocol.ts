@@ -17,7 +17,7 @@ export function registerSchemesAsPrivileged() {
 export function protocolHandle() {
   protocol.handle('pearrec', (req) => {
     const { host, pathname } = new URL(req.url);
-    console.log(host, pathname, `file://${host}:\\${pathname}`);
+
     try {
       return net.fetch(`file://${host}:\\${pathname}`);
       // return net.fetch(`file://C://Users/Administrator/Desktop/pear-rec_1709102672477.mp4`);
