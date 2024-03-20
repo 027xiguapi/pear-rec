@@ -67,7 +67,7 @@ const ViewVideo = () => {
     const recordId = searchParams.get('recordId');
 
     if (videoUrl) {
-      if (videoUrl.substring(0, 4) == 'blob') {
+      if (videoUrl.substring(0, 4) == 'blob' || videoUrl.substring(0, 7) == 'pearrec') {
         setSource(videoUrl);
       } else {
         setSource(`pearrec://${videoUrl}`);

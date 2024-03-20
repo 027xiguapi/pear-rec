@@ -25,7 +25,7 @@
 
 ## Documentation
 
-> pear-rec(pear rec) is a cross platform screenshot, screen recording, audio recording, and video recording software.
+> pear-rec(pear rec) is a cross-Platform screenshot, screen recording, audio recording, and video recording software.
 >
 > pear-rec(pear rec) is a project based on react + electron + vite + viewerjs + plyr + aplayer + react-screenshots.
 >

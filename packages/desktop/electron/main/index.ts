@@ -9,8 +9,10 @@ import './logger';
 import { protocolHandle, registerSchemesAsPrivileged } from './protocol';
 import { initTray } from './tray';
 import { update } from './update';
+import { initApp } from './app';
 
 initConfig();
+initApp();
 
 // The built directory structure
 //

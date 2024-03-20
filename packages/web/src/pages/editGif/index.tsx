@@ -78,7 +78,7 @@ const EditGif = () => {
   }
 
   async function fetchImageByteStream(imgUrl: string) {
-    if (imgUrl.substring(0, 4) != 'blob') {
+    if (imgUrl.substring(0, 7) != 'pearrec' && imgUrl.substring(0, 4) != 'blob') {
       imgUrl = `pearrec://${imgUrl}`;
     }
     const response = await fetch(imgUrl);

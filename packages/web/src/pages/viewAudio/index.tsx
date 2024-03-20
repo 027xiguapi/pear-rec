@@ -31,7 +31,7 @@ const ViewAudio = () => {
     const recordId = searchParams.get('recordId');
     let audio = [];
     if (audioUrl) {
-      if (audioUrl.substring(0, 4) == 'blob') {
+      if (audioUrl.substring(0, 4) == 'blob' || audioUrl.substring(0, 7) == 'pearrec') {
         audio = [{ url: audioUrl, cover: './imgs/music.png' }];
       } else {
         audio = [{ url: 'pearrec://' + audioUrl, cover: './imgs/music.png' }];
