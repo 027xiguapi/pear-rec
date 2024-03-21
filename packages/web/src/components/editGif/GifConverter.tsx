@@ -11,8 +11,6 @@ export default function VideoToGifConverter() {
   const canvasRef = useRef(null);
   const videoFramesRef = useRef([]);
   const [scale, setScale] = useState<number>(100);
-  const [frameIndex, setFrameIndex] = useState<number>(0);
-  const [videoFrames, setVideoFrames] = useState<any>([]);
   const { user, setUser } = useContext(UserContext);
   const { gifState, gifDispatch } = useContext(GifContext);
 
@@ -34,37 +32,28 @@ export default function VideoToGifConverter() {
 
   useEffect(() => {
     let index = gifState.index;
-    if (index != frameIndex) {
-      setCurrentVideoFrame(index);
-      setFrameIndex(index);
-    }
+    setCurrentVideoFrame(index);
   }, [gifState.index]);
 
-  useEffect(() => {
-    setVideoFrames(gifState.videoFrames);
-  }, [gifState.videoFrames]);
-
-  useEffect(() => {
-    if (videoFramesRef.current.length) {
-      const img = videoFramesRef.current[gifState.index];
-      img ? setCurrentVideoFrame(gifState.index) : clearCanvas();
-    }
-  }, [videoFrames]);
-
   function renderImgToCanvas(index) {
-    let imgs = document.querySelectorAll('.videoFrame img');
-    let img = imgs[index] as any;
+    const imgs = document.querySelectorAll('.videoFrame img');
+    const _img = imgs[index] as any;
+    const img = new Image();
+    img.src = _img.src;
     const ratio = window.devicePixelRatio || 1;
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
-    let { naturalWidth, naturalHeight } = img;
-    canvas.width = naturalWidth * ratio;
-    canvas.height = naturalHeight * ratio;
-    canvas.style.width = naturalWidth + 'px';
-    canvas.style.height = naturalHeight + 'px';
-    context.scale(ratio, ratio);
-    context.drawImage(img, 0, 0, naturalWidth, naturalHeight);
-    img.scrollIntoView();
+    img.onload = function () {
+      const { naturalWidth, naturalHeight } = img;
+      canvas.width = naturalWidth * ratio;
+      canvas.height = naturalHeight * ratio;
+      canvas.style.width = naturalWidth + 'px';
+      canvas.style.height = naturalHeight + 'px';
+      context.scale(ratio, ratio);
+      context.clearRect(0, 0, naturalWidth, naturalHeight);
+      context.drawImage(img, 0, 0, naturalWidth, naturalHeight);
+    };
+    _img.scrollIntoView();
   }
 
   function clearCanvas() {
@@ -76,8 +65,6 @@ export default function VideoToGifConverter() {
 
   function handleCurrentVideoFrameClick(index) {
     gifDispatch({ type: 'setIndex', index });
-    setFrameIndex(index);
-    renderImgToCanvas(index);
   }
 
   function setCurrentVideoFrame(index) {
@@ -112,10 +99,10 @@ export default function VideoToGifConverter() {
         </FloatButton.Group>
       </div>
       <div className="videoFrames">
-        {videoFrames.length ? (
-          videoFrames.map((videoFrame, index) => (
+        {gifState.videoFrames.length ? (
+          gifState.videoFrames.map((videoFrame, index) => (
             <div
-              className={`${'videoFrame ' + (index == frameIndex ? 'current' : '')}`}
+              className={`${'videoFrame ' + (index == gifState.index ? 'current' : '')}`}
               key={index}
               onClick={(e) => handleCurrentVideoFrameClick(index)}
             >
