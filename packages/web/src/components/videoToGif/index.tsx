@@ -4,7 +4,6 @@ import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import { Button, Flex, InputNumber, Modal, Progress, Slider } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { db, defaultUser } from '../../db';
-import { saveAs } from 'file-saver';
 import styles from './index.module.scss';
 
 let defaultTime = [0, 10];
@@ -16,7 +15,7 @@ export default function MP4Converter(props) {
   const [duration, setDuration] = useState(0);
   const [frameNum, setFrameNum] = useState(0);
   const [time, setTime] = useState(defaultTime);
-  const [fps, setFps] = useState(16);
+  const [fps, setFps] = useState(10);
   const [percent, setPercent] = useState(0);
   const [user, setUser] = useState<any>({});
   const [isLoad, setIsLoad] = useState(false);
@@ -140,10 +139,7 @@ export default function MP4Converter(props) {
 
   function handleDownload() {
     const imgUrl = imgRef.current.src;
-    if (imgUrl) {
-      const fileName = `pear-rec_${+new Date()}.gif`;
-      saveAs(imgUrl, fileName);
-    }
+    imgUrl && props.onSave(imgUrl);
   }
 
   return (
@@ -205,7 +201,7 @@ export default function MP4Converter(props) {
         <Button type="primary" onClick={handleTranscode}>
           转换
         </Button>
-        <Button onClick={handleDownload}>下载</Button>
+        <Button onClick={handleDownload}>保存</Button>
       </Flex>
     </div>
   );

@@ -61,8 +61,8 @@ const App: React.FC = () => {
     setVideoUrl(_videoUrl || '');
   }
 
-  function handleSave(blob) {
-    saveAs(blob, `pear-rec_${+new Date()}.png`);
+  function handleSave(imgUrl) {
+    saveAs(imgUrl, `pear-rec_${+new Date()}.gif`);
   }
 
   return (
