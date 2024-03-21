@@ -46,7 +46,7 @@
 编译需要`nodejs`和`pnpm`环境
 
 ```
-nodejs: 18
+nodejs >= 18
 pnpm: 8
 ```
 

@@ -152,13 +152,7 @@ Features that have been ticked are the latest in the development process but may
 
 ## Feedback
 
-We recommend that [issue](https://github.com/027xiguapi/pear-rec/issues) be used for problem feedback, or others:
-
-- QQ group
-
-<p align="center">
-  <img src="https://027xiguapi.github.io/pear-rec/imgs/pear-rec_qq_qrcode.png" />
-</p>
+We recommend that [issue](https://github.com/027xiguapi/pear-rec/issues) be used for problem feedback.
 
 ## License
 

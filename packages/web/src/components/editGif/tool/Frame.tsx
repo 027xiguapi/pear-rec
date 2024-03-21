@@ -44,14 +44,14 @@ const Frame = forwardRef<any>((props, ref) => {
       updatedBy: user.id,
     };
     await db.caches.add(cache);
-    return cache.fileData;
+    event.target.value = '';
+    handleInsertFrame(cache);
   }
 
-  function handleInsertFrame(filePath) {
+  function handleInsertFrame(cache) {
     let index = gifState.index;
     let newVideoFrame = {
-      url: `pearrec://${filePath}`,
-      filePath: filePath,
+      fileData: cache.fileData,
       index: index + 1,
       duration: 100,
     };
@@ -84,6 +84,7 @@ const Frame = forwardRef<any>((props, ref) => {
     let videoFrames = newVideoFrames.splice(0, index);
     gifDispatch({ type: 'setVideoFrames', videoFrames: newVideoFrames });
     historyDispatch({ type: 'increment', data: { curd: 'deletePrevList', index, videoFrames } });
+    gifDispatch({ type: 'setIndex', index: 0 });
   }
 
   function handleMovePrevFrame() {}

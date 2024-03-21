@@ -114,6 +114,7 @@ const EditGif = () => {
     let _videoFrames = await db.caches.where('fileType').equals('cg').toArray();
     gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
     gifDispatch({ type: 'setFrameNum', frameNum: _videoFrames.length });
+    gifDispatch({ type: 'setIndex', index: 0 });
   }
 
   async function saveImg(videoFrame, frameIndex) {
