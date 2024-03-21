@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { GifContext } from '../../../components/context/GifContext';
 import { db } from '../../../db';
 import { UserContext } from '../../context/UserContext';
-import MP4Converter from '../MP4Converter';
+import VideoToGif from '../../videoToGif';
 import styles from './file.module.scss';
 
 const File = forwardRef<any>((props, ref) => {
@@ -150,14 +150,8 @@ const File = forwardRef<any>((props, ref) => {
     event.target.value = '';
   }
 
-  async function setVideoFrames() {
-    let _videoFrames = await db.caches.where('fileType').equals('cg').toArray();
-    gifDispatch({ type: 'setVideoFrames', videoFrames: _videoFrames });
-    gifDispatch({ type: 'setFrameNum', frameNum: _videoFrames.length });
-  }
-
-  function handleOk() {
-    setVideoFrames();
+  function handleSave(imgUrl) {
+    gifDispatch({ type: 'setImgUrl', imgUrl: imgUrl });
     setIsOpenModal(false);
   }
 
@@ -213,7 +207,11 @@ const File = forwardRef<any>((props, ref) => {
         onCancel={() => setIsOpenModal(false)}
         footer={[]}
       >
-        <MP4Converter videoUrl={videoUrl} onCancel={() => setIsOpenModal(false)} onOk={handleOk} />
+        <VideoToGif
+          videoUrl={videoUrl}
+          onCancel={() => setIsOpenModal(false)}
+          onSave={handleSave}
+        />
       </Modal>
     </div>
   );
