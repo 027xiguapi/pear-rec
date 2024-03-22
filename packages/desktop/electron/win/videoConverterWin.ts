@@ -17,7 +17,7 @@ function createVideoConverterWin(search?: any): BrowserWindow {
 
   const videoUrl = search?.videoUrl || '';
 
-  videoConverterWin.webContents.openDevTools();
+  // videoConverterWin.webContents.openDevTools();
   if (url) {
     videoConverterWin.loadURL(WEB_URL + `videoConverter.html?videoUrl=${videoUrl}`);
   } else {

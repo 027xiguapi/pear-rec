@@ -141,44 +141,6 @@ const EditGif = () => {
     await db.caches.add(cache);
   }
 
-  // async function loadVideo() {
-  //   await db.caches.where('fileType').equals('cg').delete();
-  //   let _videoUrl = gifState.videoUrl;
-  //   if (_videoUrl && _videoUrl.substring(0, 4) != 'blob') {
-  //     _videoUrl = `pearrec://${gifState.videoUrl}`;
-  //   }
-  //   const duration = 100;
-  //   const num = gifState.frameNum;
-  //   const timeStart = gifState.timeStart;
-  //   const timeEnd = gifState.timeEnd;
-  //   const rendererName = '2d';
-  //   const canvas = (document.querySelector('#canvas') as any).transferControlToOffscreen?.();
-  //   let option = { timeStart, timeEnd, duration, num };
-  //   const worker = new Worker(
-  //     window.isElectron ? './video-decode-display/worker.js' : '/video-decode-display/worker.js',
-  //     {
-  //       type: 'classic',
-  //     },
-  //   );
-  //   async function setStatus(message) {
-  //     message.data['fetch'] && gifDispatch({ type: 'setLoad', load: 20 });
-  //     if (message.data['videoFrame']) {
-  //       let videoFrame = message.data['videoFrame'];
-  //       await uploadFileCache(videoFrame.fileData, videoFrame.frameDuration);
-  //       gifDispatch({ type: 'setLoadAdd', num: 1 });
-  //     }
-  //     if (message.data['completed']) {
-  //       setTimeout(() => {
-  //         gifDispatch({ type: 'setLoad', load: 100 });
-  //         setVideoFrames();
-  //       }, 500);
-  //     }
-  //   }
-  //   worker.addEventListener('message', setStatus);
-
-  //   worker.postMessage({ dataUri: _videoUrl, rendererName, canvas, option }, [canvas]);
-  // }
-
   return (
     <UserContext.Provider
       value={{

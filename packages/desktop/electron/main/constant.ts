@@ -70,7 +70,7 @@ export const WIN_CONFIG = {
     autoHideMenuBar: true,
   },
   videoConverter: {
-    html: path.join(process.env.DIST, 'editImage.html'),
+    html: path.join(process.env.DIST, 'videoConverter.html'),
     height: 768,
     width: 1024,
     autoHideMenuBar: true,
