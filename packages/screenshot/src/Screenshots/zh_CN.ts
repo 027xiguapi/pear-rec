@@ -31,7 +31,7 @@ const zhCN: Lang = {
   operation_rectangle_title: '矩形',
   operation_search_title: '搜图',
   operation_scan_title: '扫码',
-  operation_pin_title: '钉图',
+  operation_pin_title: '贴图',
 };
 
 export default zhCN;

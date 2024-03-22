@@ -38,7 +38,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
     //   disabled: !window.electronAPI,
     // },
     {
-      label: '钉图',
+      label: '贴图',
       key: 'pin',
       disabled: !window.electronAPI,
     },
@@ -100,9 +100,29 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
 
   function handlePinImg(event) {
     const file = event.target.files[0];
-    if (window.isElectron) {
-      window.electronAPI.sendPiOpenWin({ imgUrl: file.path });
-    }
+    const img = new Image();
+    const imgUrl = window.URL.createObjectURL(file);
+    img.src = imgUrl;
+    img.onload = function () {
+      const { naturalWidth, naturalHeight } = img;
+      if (window.isElectron) {
+        window.electronAPI.sendPiOpenWin({
+          imgUrl: file.path,
+          width: naturalWidth,
+          height: naturalHeight,
+        });
+      } else {
+        Modal.confirm({
+          title: '提示',
+          content: `是否贴图${file.name}`,
+          okText: t('modal.ok'),
+          cancelText: t('modal.cancel'),
+          onOk() {
+            window.open(`/pinImage.html?imgUrl=${encodeURIComponent(imgUrl)}`);
+          },
+        });
+      }
+    };
     event.target.value = '';
   }
 

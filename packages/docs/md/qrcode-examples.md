@@ -29,3 +29,8 @@ title: QrCode
   - [jsqr](https://github.com/cozmo/jsQR)
     - 不支持多个二维码
     - [demo](https://cozmo.github.io/jsQR/)
+  - [html5-qrcode](https://github.com/mebjas/html5-qrcode)
+    - [demo](https://scanapp.org/)
+  - [qr-scanner-wechat](https://github.com/antfu/qr-scanner-wechat)
+    - [demo](https://qrcode-wechat.netlify.app/)
+    - [文章](https://juejin.cn/post/7290813210276724771?searchId=202403220940400452709FA51954DFEEDF)

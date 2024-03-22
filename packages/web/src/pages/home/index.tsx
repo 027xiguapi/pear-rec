@@ -13,6 +13,7 @@ import ViewAudioCard from '../../components/card/viewAudioCard';
 import ViewImageCard from '../../components/card/viewImageCard';
 import ViewVideoCard from '../../components/card/viewVideoCard';
 import VideoConverterCard from '../../components/card/videoConverterCard';
+import PinImageCard from '../../components/card/pinImageCard';
 import HomeFooter from '../../components/home/HomeFooter';
 import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
@@ -173,17 +174,20 @@ const Home: React.FC = () => {
               </Row>
               <Row className="cardRow" justify="start" gutter={16}>
                 <Col span={6}>
-                  <SpliceImageCard ref={rvcRef} />
+                  <SpliceImageCard />
+                </Col>
+                <Col span={6}>
+                  <PinImageCard />
                 </Col>
               </Row>
             </div>
             <div id="video">
               <Row className="cardRow" justify="start" gutter={16}>
                 <Col span={6}>
-                  <RecordVideoCard ref={rvcRef} />
+                  <RecordVideoCard />
                 </Col>
                 <Col span={6}>
-                  <RecordScreenCard ref={rscRef} />
+                  <RecordScreenCard />
                 </Col>
                 <Col span={6}>
                   <VideoConverterCard />

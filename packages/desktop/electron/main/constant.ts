@@ -78,7 +78,6 @@ export const WIN_CONFIG = {
   pinImage: {
     html: path.join(process.env.DIST, 'pinImage.html'),
     frame: false, // 无边框窗口
-    resizable: true, // 窗口大小是否可调整
     transparent: true, // 使窗口透明
     fullscreenable: false, // 窗口是否可以进入全屏状态
     alwaysOnTop: true, // 窗口是否永远在别的窗口的上面

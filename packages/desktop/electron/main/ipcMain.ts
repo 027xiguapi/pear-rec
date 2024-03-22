@@ -379,6 +379,9 @@ function initIpcMain() {
   });
 
   // 钉图
+  ipcMain.on('pi:set-size-win', (e, size) => {
+    pinImageWin.setSizePinImageWin(size);
+  });
   ipcMain.on('pi:open-win', (e, search) => {
     pinImageWin.openPinImageWin(search);
   });
