@@ -48,7 +48,7 @@ export default function MP4Converter(props) {
   }
 
   async function load() {
-    const baseURL = '/ffmpeg@0.12.5';
+    const baseURL = window.isElectron ? './ffmpeg@0.12.5' : '/ffmpeg@0.12.5';
     const ffmpeg = ffmpegRef.current;
     ffmpeg.on('log', ({ message }) => {
       console.log('log', message);

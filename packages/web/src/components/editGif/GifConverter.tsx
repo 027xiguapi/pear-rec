@@ -14,22 +14,6 @@ export default function VideoToGifConverter() {
   const { user, setUser } = useContext(UserContext);
   const { gifState, gifDispatch } = useContext(GifContext);
 
-  // const handleVideoDecodeClick = async () => {
-  //   // const dataUri = `
-  //   // https://w3c.github.io/webcodecs/samples/data/bbb_video_avc_frag.mp4`;
-  //   const dataUri = `http://localhost:9190/video?url=C:\\Users\\Administrator\\Downloads\\davinci.mp4`;
-  //   // `http://localhost:9190/video?url=C:\\Users\\Administrator\\Documents\\Pear%20Files\\c106a26a-21bb-5538-8bf2-57095d1976c1\\rs\\rs-1703556579452-320065280.mp4`;
-  //   const rendererName = '2d';
-  //   const canvas = document.querySelector('canvas').transferControlToOffscreen?.();
-  //   const worker = new Worker(new URL('./video-decode-display/worker.js', import.meta.url));
-  //   function setStatus(message) {
-  //     message.data['imgs'] && setVideoFrames(message.data['imgs']);
-  //   }
-  //   worker.addEventListener('message', setStatus);
-  //   const duration = 100;
-  //   worker.postMessage({ dataUri, rendererName, canvas, duration }, [canvas]);
-  // };
-
   useEffect(() => {
     let index = gifState.index;
     setCurrentVideoFrame(index);
