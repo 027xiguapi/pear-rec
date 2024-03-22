@@ -17,13 +17,13 @@
 
 [中文](README.zh-CN.md) | [English](README.md) | [Deutsch](README.de-DE.md)
 
-## Frameworks
+## 🧱 Frameworks
 
 <center>
   <img src="https://027xiguapi.github.io/pear-rec/imgs/1700442414996.jpg" />
 </center>
 
-## Documentation
+## 📖 Documentation
 
 > pear-rec(pear rec) is a cross-Platform screenshot, screen recording, audio recording, and video recording software.
 >
@@ -31,17 +31,17 @@
 >
 > More functions and APIs can be found on [the official website(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) or [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec).
 
-## Example
+## 🌰 Example
 
 [web pages](https://pear-rec-xiguapi.vercel.app/)
 
-## Installation
+## 🧲 Repository
 
 > gitee: https://gitee.com/xiguapi027/pear-rec
 >
 > github: https://github.com/027xiguapi/pear-rec
 
-## Usage
+## 🔨 Usage
 
 ### Getting Started
 
@@ -72,7 +72,7 @@ pnpm run build:desktop
 pnpm run clear
 ```
 
-## Functions
+## 🥰 Functions
 
 <center>
   <img src="https://027xiguapi.github.io/pear-rec/assets/home.7d9162cb.jpg" />
@@ -138,19 +138,19 @@ Features that have been ticked are the latest in the development process but may
   - [x] Self-starting
   - [x] internationalization(zh,en,de )
 
-## Internationalization(I18n)
+## 🌍 Internationalization(I18n)
 
 - [x] Chinese
 - [x] English
 - [x] German
 
-## Download
+## 👇 Download
 
 | OS   | Windows                                                     | Linux | Macos |
 | ---- | ----------------------------------------------------------- | ----- | ----- |
 | link | [Download](https://github.com/027xiguapi/pear-rec/releases) | ◯     | ◯     |
 
-## Feedback
+## 👨‍👨‍👦‍👦 Feedback
 
 We recommend that [issue](https://github.com/027xiguapi/pear-rec/issues) be used for problem feedback.
 

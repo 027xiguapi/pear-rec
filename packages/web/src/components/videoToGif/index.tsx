@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 
 let defaultTime = [0, 10];
 let mp4Info = {} as any;
+let videoUrl = '';
 
 export default function MP4Converter(props) {
   const videoRef = useRef(null);
@@ -22,46 +23,28 @@ export default function MP4Converter(props) {
   const ffmpegRef = useRef(new FFmpeg());
 
   useEffect(() => {
-    user.id || getCurrentUser();
     load();
   }, []);
 
   useEffect(() => {
+    if (props.video) {
+      videoUrl = URL.createObjectURL(props.video);
+      init(videoUrl);
+    }
+  }, [props.video]);
+
+  useEffect(() => {
     if (props.videoUrl) {
-      mp4Info = loadVideo(props.videoUrl);
-      setDuration(mp4Info.duration);
-      defaultTime[1] >= mp4Info.duration && (defaultTime[1] = Math.floor(mp4Info.duration));
-      handleTimeChange(defaultTime);
+      videoUrl = props.videoUrl;
+      init(videoUrl);
     }
   }, [props.videoUrl]);
 
-  async function getCurrentUser() {
-    try {
-      let user = await db.users.where({ userType: 1 }).first();
-      if (!user) {
-        user = defaultUser;
-        await db.users.add(user);
-      }
-      setUser(user);
-    } catch (err) {
-      console.log(err);
-      Modal.confirm({
-        title: '数据库错误，是否重置数据库?',
-        icon: <ExclamationCircleFilled />,
-        content: err.message,
-        okText: '确定',
-        okType: 'danger',
-        cancelText: '取消',
-        async onOk() {
-          console.log('OK');
-          await db.delete();
-          location.reload();
-        },
-        onCancel() {
-          console.log('Cancel');
-        },
-      });
-    }
+  function init(videoUrl) {
+    mp4Info = loadVideo(videoUrl);
+    setDuration(mp4Info.duration);
+    defaultTime[1] >= mp4Info.duration && (defaultTime[1] = Math.floor(mp4Info.duration));
+    handleTimeChange(defaultTime);
   }
 
   async function load() {
@@ -84,7 +67,6 @@ export default function MP4Converter(props) {
   const handleTranscode = async () => {
     if (isLoad) {
       const ffmpeg = ffmpegRef.current;
-      const videoUrl = props.videoUrl;
       const input = 'input.mov';
       const output = `pear-rec_${+new Date()}.gif`;
       await ffmpeg.writeFile(input, await fetchFile(videoUrl));
