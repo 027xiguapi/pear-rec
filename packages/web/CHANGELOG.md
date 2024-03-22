@@ -1,5 +1,9 @@
 # @pear-rec/web
 
+## 1.4.25
+
+perf: 优化视频转gif
+
 ## 1.4.24
 
 perf: 优化贴图
