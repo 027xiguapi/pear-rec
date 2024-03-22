@@ -138,12 +138,12 @@ function ShotScreen() {
 
   const onOk = useCallback(
     (blob: Blob, bounds: Bounds) => {
-      saveFile(blob);
+      saveFile(blob, bounds, false);
     },
     [user],
   );
 
-  async function saveFile(blob, isPin?) {
+  async function saveFile(blob, bounds, isPin) {
     try {
       const record = {
         fileName: `pear-rec_${+new Date()}.png`,
@@ -157,7 +157,6 @@ function ShotScreen() {
       };
       const recordId = await db.records.add(record);
       if (recordId) {
-        // copyImg(window.isElectron ? res.data.filePath : blob);
         copyImg(blob);
         if (window.isElectron) {
           window.electronAPI?.sendSsCloseWin();
@@ -165,7 +164,11 @@ function ShotScreen() {
             ? window.electronAPI?.sendPiOpenWin({
                 recordId: recordId,
               })
-            : window.electronAPI?.sendViOpenWin({ recordId: recordId });
+            : window.electronAPI?.sendViOpenWin({
+                recordId: recordId,
+                width: bounds.width,
+                height: bounds.height,
+              });
         } else {
           Modal.confirm({
             title: '图片已保存，是否查看？',
@@ -185,9 +188,8 @@ function ShotScreen() {
     }
   }
 
-  const onPin = useCallback(async (blob) => {
-    const imgUrl = URL.createObjectURL(blob);
-    window.isOffline ? saveAs(imgUrl, `pear-rec_${+new Date()}.png`) : saveFile(blob, true);
+  const onPin = useCallback(async (blob, bounds) => {
+    window.isElectron && saveFile(blob, bounds, true);
   }, []);
 
   async function copyImg(blob) {

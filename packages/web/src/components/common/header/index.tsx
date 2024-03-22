@@ -50,7 +50,9 @@ const Header = (props) => {
   }
 
   return (
-    <div className={`${props.className} ${styles.header}`}>
+    <div
+      className={`${props.className} ${styles.header} ${props.type == 'pin' ? 'no-drag' : 'drag'}`}
+    >
       <div className="left" title="pear-rec">
         <img className="logo" src={logo} alt="logo" />
         <span>REC</span>
@@ -79,122 +81,122 @@ const Header = (props) => {
             onClick={() => props.onOneToOne()}
           />
           <Button
-            className="rotateLeft icon"
-            type="text"
-            icon={<RotateLeftOutlined />}
-            title={t('nav.rotateLeft')}
-            onClick={() => props.onRotateLeft()}
-          />
-        </div>
-      ) : (
-        <div className="center">
-          <Button
-            className="download icon"
-            type="text"
-            icon={<DownloadOutlined />}
-            title={t('nav.download')}
-            onClick={() => props.onDownload()}
-          />
-          <Button
-            className="alwaysOnTopWin icon"
-            type="text"
-            icon={<PushpinOutlined style={{ color: isTop ? '#08c' : '' }} />}
-            title={t('nav.alwaysOnTopWin')}
-            onClick={() => handleAlwaysOnTopWin()}
-          />
-          <Button
-            className="openFile icon"
-            type="text"
-            icon={<FolderOpenOutlined />}
-            title={t('nav.openFile')}
-            onClick={() => props.onOpenFile()}
-          />
-          <Button
-            className="uploadFile icon"
-            type="text"
-            icon={<PictureOutlined />}
-            title={t('nav.uploadFile')}
-            onClick={() => props.onUploadFile()}
-          />
-          <Button
-            className="scan icon"
-            type="text"
-            icon={<ScanOutlined />}
-            title={t('nav.scan')}
-            onClick={() => props.onScan()}
-          />
-          <Button
-            className="search icon"
-            type="text"
-            icon={<SearchOutlined />}
-            title={t('nav.search')}
-            onClick={() => props.onSearch()}
-          />
-          <Button
-            className="zoomIn icon"
-            type="text"
-            icon={<ZoomInOutlined />}
-            title={t('nav.zoomIn')}
-            onClick={() => props.onZoomIn()}
-          />
-          <Button
-            className="zoomOut icon"
-            type="text"
-            icon={<ZoomOutOutlined />}
-            title={t('nav.zoomOut')}
-            onClick={() => props.onZoomOut()}
-          />
-          <Button
-            className="oneToOne icon"
-            type="text"
-            icon={<OneToOneOutlined />}
-            title={t('nav.oneToOne')}
-            onClick={() => props.onOneToOne()}
-          />
-          <Button
-            className="prev icon"
-            type="text"
-            icon={<LeftOutlined />}
-            title={t('nav.prev')}
-            onClick={() => props.onPrev()}
-          />
-          <Button
-            className="next icon"
-            type="text"
-            icon={<RightOutlined />}
-            title={t('nav.next')}
-            onClick={() => props.onNext()}
-          />
-          <Button
-            className="rotateLeft icon"
-            type="text"
-            icon={<RotateLeftOutlined />}
-            title={t('nav.rotateLeft')}
-            onClick={() => props.onRotateLeft()}
-          />
-          <Button
             className="rotateRight icon"
             type="text"
             icon={<RotateRightOutlined />}
             title={t('nav.rotateRight')}
             onClick={() => props.onRotateRight()}
           />
+        </div>
+      ) : (
+        <div className="center">
           <Button
-            className="flipHorizontal icon"
+            className="download icon  no-drag"
+            type="text"
+            icon={<DownloadOutlined />}
+            title={t('nav.download')}
+            onClick={() => props.onDownload()}
+          />
+          <Button
+            className="alwaysOnTopWin icon no-drag"
+            type="text"
+            icon={<PushpinOutlined style={{ color: isTop ? '#08c' : '' }} />}
+            title={t('nav.alwaysOnTopWin')}
+            onClick={() => handleAlwaysOnTopWin()}
+          />
+          <Button
+            className="openFile icon no-drag"
+            type="text"
+            icon={<FolderOpenOutlined />}
+            title={t('nav.openFile')}
+            onClick={() => props.onOpenFile()}
+          />
+          <Button
+            className="uploadFile icon no-drag"
+            type="text"
+            icon={<PictureOutlined />}
+            title={t('nav.uploadFile')}
+            onClick={() => props.onUploadFile()}
+          />
+          <Button
+            className="scan icon no-drag"
+            type="text"
+            icon={<ScanOutlined />}
+            title={t('nav.scan')}
+            onClick={() => props.onScan()}
+          />
+          <Button
+            className="search icon no-drag"
+            type="text"
+            icon={<SearchOutlined />}
+            title={t('nav.search')}
+            onClick={() => props.onSearch()}
+          />
+          <Button
+            className="zoomIn icon no-drag"
+            type="text"
+            icon={<ZoomInOutlined />}
+            title={t('nav.zoomIn')}
+            onClick={() => props.onZoomIn()}
+          />
+          <Button
+            className="zoomOut icon no-drag"
+            type="text"
+            icon={<ZoomOutOutlined />}
+            title={t('nav.zoomOut')}
+            onClick={() => props.onZoomOut()}
+          />
+          <Button
+            className="oneToOne icon no-drag"
+            type="text"
+            icon={<OneToOneOutlined />}
+            title={t('nav.oneToOne')}
+            onClick={() => props.onOneToOne()}
+          />
+          <Button
+            className="prev icon no-drag"
+            type="text"
+            icon={<LeftOutlined />}
+            title={t('nav.prev')}
+            onClick={() => props.onPrev()}
+          />
+          <Button
+            className="next icon no-drag"
+            type="text"
+            icon={<RightOutlined />}
+            title={t('nav.next')}
+            onClick={() => props.onNext()}
+          />
+          <Button
+            className="rotateLeft icon no-drag"
+            type="text"
+            icon={<RotateLeftOutlined />}
+            title={t('nav.rotateLeft')}
+            onClick={() => props.onRotateLeft()}
+          />
+          <Button
+            className="rotateRight icon no-drag"
+            type="text"
+            icon={<RotateRightOutlined />}
+            title={t('nav.rotateRight')}
+            onClick={() => props.onRotateRight()}
+          />
+          <Button
+            className="flipHorizontal icon no-drags"
             type="text"
             icon={<FlipHorizontally theme="outline" size="20" strokeWidth={3} />}
             title={t('nav.flipHorizontal')}
             onClick={() => props.onFlipHorizontal()}
           />
           <Button
-            className="flipVertical icon"
+            className="flipVertical icon no-drag"
             type="text"
             icon={<FlipVertically theme="outline" size="20" strokeWidth={3} />}
             title={t('nav.flipVertical')}
             onClick={() => props.onFlipVertical()}
           />
           <Button
-            className="edit icon"
+            className="edit icon no-drag"
             type="text"
             icon={<EditOutlined />}
             title={t('nav.edit')}
@@ -205,21 +207,21 @@ const Header = (props) => {
 
       <div className={`right ${window.isElectron ? 'show' : 'hide'}`}>
         <Button
-          className="minimize icon"
+          className="minimize icon no-drag"
           type="text"
           icon={<MinusOutlined />}
           title={t('nav.minimize')}
           onClick={handleMinimizeWin}
         />
         <Button
-          className="toggleMaximize icon"
+          className="toggleMaximize icon no-drag"
           type="text"
           icon={isMaximize ? <BlockOutlined /> : <BorderOutlined />}
           title={isMaximize ? '向下还原' : '最大化'}
           onClick={() => handleToggleMaximizeWin()}
         />
         <Button
-          className="close icon"
+          className="close icon no-drag"
           type="text"
           icon={<CloseOutlined />}
           title={t('nav.close')}

@@ -35,7 +35,7 @@ const VideoConverterCard = forwardRef((props: any, ref: any) => {
     >
       <div className="cardContent">
         <FileConversion className="cardIcon" />
-        <div className="cardTitle">视频转化</div>
+        <div className="cardTitle">视频转gif</div>
       </div>
       <input
         type="file"

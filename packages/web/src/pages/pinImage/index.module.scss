@@ -12,9 +12,9 @@
       opacity: 1;
     }
     .img {
-      width: 100%;
+      width: 100vw;
       height: 100vh;
-      object-fit: contain;
+      transform-origin: center center;
     }
   }
 }

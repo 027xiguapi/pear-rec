@@ -1,15 +1,10 @@
-import {
-  BorderOutlined,
-  CloseOutlined,
-  ExclamationCircleFilled,
-  MinusOutlined,
-} from '@ant-design/icons';
+import { BorderOutlined, CloseOutlined, MinusOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Dropdown, Modal } from 'antd';
+import { Dropdown } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Header from '../../components/common/header';
-import { db, defaultUser } from '../../db';
+import { db } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
@@ -31,71 +26,31 @@ const items: MenuProps['items'] = [
   },
 ];
 
+let infoImg = { width: 0, height: 0 };
+let scale = 1;
+let rotate = 0;
+
 const PinImage: React.FC = () => {
   const { t } = useTranslation();
-  const [user, setUser] = useState<any>({});
   const [imgUrl, setImgUrl] = useState<any>('');
-  const [scale, setScale] = useState<any>(1);
-  const [rotate, setRotate] = useState<any>(0);
 
   useEffect(() => {
     init();
-    user.id || getCurrentUser();
   }, []);
-
-  useEffect(() => {
-    const image = document.getElementById('image');
-    image.style.transform = 'scale(' + scale + ')';
-  }, [scale]);
-
-  useEffect(() => {
-    const image = document.getElementById('image');
-    image.style.transform = 'rotate(' + rotate + 'deg)';
-  }, [rotate]);
-
-  async function getCurrentUser() {
-    try {
-      let user = await db.users.where({ userType: 1 }).first();
-      if (!user) {
-        user = defaultUser;
-        await db.users.add(user);
-      }
-      setUser(user);
-    } catch (err) {
-      console.log(err);
-      Modal.confirm({
-        title: '数据库错误，是否重置数据库?',
-        icon: <ExclamationCircleFilled />,
-        content: err.message,
-        okText: '确定',
-        okType: 'danger',
-        cancelText: '取消',
-        async onOk() {
-          console.log('OK');
-          await db.delete();
-          location.reload();
-        },
-        onCancel() {
-          console.log('Cancel');
-        },
-      });
-    }
-  }
 
   async function init() {
     const paramsString = location.search;
     const searchParams = new URLSearchParams(paramsString);
     let _imgUrl = searchParams.get('imgUrl');
     let recordId = searchParams.get('recordId');
-    if (_imgUrl.substring(0, 7) != 'pearrec' && _imgUrl.substring(0, 4) != 'blob') {
+    if (recordId) {
+      let record = await db.records.where({ id: Number(recordId) }).first();
+      setImgUrl(`${URL.createObjectURL(record.fileData)}`);
+    } else if (_imgUrl.substring(0, 7) != 'pearrec' && _imgUrl.substring(0, 4) != 'blob') {
       _imgUrl = `pearrec://${_imgUrl}`;
       setImgUrl(_imgUrl);
     } else {
       setImgUrl(_imgUrl);
-    }
-    if (recordId) {
-      let record = await db.records.where({ id: Number(recordId) }).first();
-      setImgUrl(`${URL.createObjectURL(record.fileData)}`);
     }
   }
 
@@ -130,19 +85,45 @@ const PinImage: React.FC = () => {
   }
 
   function handleZoomIn() {
-    setScale((scale) => scale * 1.1);
+    scale = scale * 1.1;
+    setSizeWin();
   }
 
   function handleZoomOut() {
-    setScale((scale) => scale * 0.9);
+    scale = scale * 0.9;
+    setSizeWin();
   }
 
   function handleOneToOne() {
-    setScale(1);
+    scale = 1;
+    setSizeWin();
   }
 
-  function handleRotateLeft() {
-    setRotate((rotate) => rotate - 90);
+  function setSizeWin() {
+    const isRotate = (rotate / 90) % 2;
+    const width = Number((infoImg.width * scale).toFixed(0));
+    const height = Number((infoImg.height * scale).toFixed(0));
+    if (isRotate) {
+      window.electronAPI?.sendPiSetSizeWin({ width: height, height: width });
+    } else {
+      window.electronAPI?.sendPiSetSizeWin({ width, height });
+    }
+  }
+
+  function handleRotateRight() {
+    rotate = rotate + 90;
+    const image = document.getElementById('image');
+    image.style.transform = 'rotate(' + rotate + 'deg)';
+    // const isRotate = (rotate / 90) % 2;
+    // image.style.width = isRotate ? '100vh' : '100vw';
+    // image.style.height = isRotate ? '100vw' : '100vh';
+    setSizeWin();
+  }
+
+  function handleLoadImg(e) {
+    const img = e.target;
+    const { naturalWidth, naturalHeight } = img;
+    infoImg = { width: naturalWidth, height: naturalHeight };
   }
 
   return (
@@ -157,9 +138,9 @@ const PinImage: React.FC = () => {
           onZoomIn={handleZoomIn}
           onZoomOut={handleZoomOut}
           onOneToOne={handleOneToOne}
-          onRotateLeft={handleRotateLeft}
+          onRotateRight={handleRotateRight}
         />
-        <img className="img" id="image" src={imgUrl} alt="image" />
+        <img className="img" id="image" src={imgUrl} alt="image" onLoad={handleLoadImg} />
       </div>
     </Dropdown>
   );

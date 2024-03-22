@@ -92,11 +92,11 @@ const PinImage: React.FC = () => {
 
   const onClick: MenuProps['onClick'] = ({ key }) => {
     if (key == '1') {
-      window.electronAPI.sendPiCloseWin();
+      window.electronAPI.sendPvCloseWin();
     } else if (key == '2') {
-      window.electronAPI.sendPiMinimizeWin();
+      window.electronAPI.sendPvMinimizeWin();
     } else {
-      window.electronAPI.sendPiMaximizeWin();
+      window.electronAPI.sendPvMaximizeWin();
     }
   };
 
