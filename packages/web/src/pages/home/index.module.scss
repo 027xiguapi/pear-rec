@@ -16,6 +16,7 @@
         overflow: hidden;
         height: calc(100% - 55px);
         width: 100%;
+        z-index: -1;
         &:before:local,
         &:after:local {
           content: '';
@@ -45,7 +46,8 @@
       }
       .content {
         height: calc(100% - 45px);
-        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: scroll;
       }
       .cardRow {
         margin-bottom: 10px;
@@ -121,6 +123,20 @@
   height: 100vh;
   margin: 0;
   box-shadow: unset;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(204, 201, 201, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 @keyframes rotate {
