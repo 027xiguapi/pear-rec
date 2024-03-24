@@ -66,11 +66,5 @@
   "bugs": {
     "url": "https://github.com/027xiguapi/pear-rec/issues"
   },
-  "license": "Apache-2.0",
-  "pnpm": {
-    "patchedDependencies": {
-      "@webav/av-cliper@0.3.2": "patches/@webav__av-cliper@0.3.2.patch"
-    },
-    "allowNonAppliedPatches": true
-  }
+  "license": "Apache-2.0"
 }

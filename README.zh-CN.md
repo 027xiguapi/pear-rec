@@ -17,13 +17,13 @@
 
 [中文](README.zh-CN.md) | [English](README.md) | [Deutsch](README.de-DE.md)
 
-## 简介
+## 📖 简介
 
 > pear-rec(梨子 rec) 是一个跨平台的截图、录屏、录音、录像、录制(动图)gif、查看图片、查看视频、查看音频和修改图片的软件。
 >
 > 更多功能和 api 可以查看[官网(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) 或 [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec)
 
-## 架构
+## 🧱 架构
 
 > pear-rec(梨子 rec) 的跨平台是基于 `electronjs`,前端是基于 `reactjs`,截图、录屏、录音、录像、录制(动图)gif 等功能是基于 `webrtc` 和 `webcodecs` 的一个项目。
 
@@ -31,17 +31,17 @@
   <img src="https://027xiguapi.github.io/pear-rec/imgs/1700442414996.jpg" />
 </center>
 
-## 例子
+## 🌰 例子
 
 [网页](https://pear-rec-xiguapi.vercel.app/)
 
-## 下载地址
+## 🧲 下载地址
 
 > gitee: https://gitee.com/xiguapi027/pear-rec
 >
 > github: https://github.com/027xiguapi/pear-rec
 
-## 源码运行&编译
+## 🔨 源码运行&编译
 
 编译需要`nodejs`和`pnpm`环境
 
@@ -75,7 +75,7 @@ pnpm run build:desktop
 pnpm run clear
 ```
 
-## 功能
+## 🥰 功能
 
 <center>
   <img src="https://027xiguapi.github.io/pear-rec/assets/home.7d9162cb.jpg" />
@@ -144,13 +144,13 @@ pnpm run clear
   - [ ] 快捷键设置
   - [ ] 重置设置
 
-## 国际化(I18n)
+## 🌍 国际化(I18n)
 
 - [x] 简体中文
 - [x] 英语
 - [x] 德语
 
-## Download
+## 👇 Download
 
 | 系统 | Windows                                                 | Linux | Macos |
 | ---- | ------------------------------------------------------- | ----- | ----- |
@@ -158,7 +158,7 @@ pnpm run clear
 
 国内可以用 [GitHub Proxy](https://ghproxy.com/) 加速下载
 
-## 反馈和交流
+## 👨‍👨‍👦‍👦 反馈和交流
 
 我们推荐使用 [issue](https://github.com/027xiguapi/pear-rec/issues) 列表进行最直接有效的反馈，也可以下面的方式
 
@@ -168,7 +168,7 @@ pnpm run clear
   <img src="https://027xiguapi.github.io/pear-rec/imgs/pear-rec_qq_qrcode.png" />
 </p>
 
-## 开源协议
+## 🤝 开源协议
 
 [pear-rec(梨子 rec) 可在 Apache License V2 下使用。](LICENSE)
 
