@@ -75,6 +75,10 @@ function unmaximizePinImageWin() {
   pinImageWin?.unmaximize();
 }
 
+function getSizePinImageWin() {
+  return pinImageWin.getBounds();
+}
+
 export {
   setSizePinImageWin,
   closePinImageWin,
@@ -85,4 +89,5 @@ export {
   openPinImageWin,
   showPinImageWin,
   unmaximizePinImageWin,
+  getSizePinImageWin,
 };

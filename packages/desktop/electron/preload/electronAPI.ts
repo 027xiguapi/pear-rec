@@ -127,6 +127,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendPiMinimizeWin: () => ipcRenderer.send('pi:minimize-win'),
   sendPiMaximizeWin: () => ipcRenderer.send('pi:maximize-win'),
   sendPiUnmaximizeWin: () => ipcRenderer.send('pi:unmaximize-win'),
+  invokePiGetSizeWin: () => ipcRenderer.invoke('pi:get-size-win'),
 
   //pi 钉视频
   sendPvOpenWin: (search?: any) => ipcRenderer.send('pv:open-win', search),
