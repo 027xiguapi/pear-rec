@@ -14,11 +14,13 @@ const PinImageCard = forwardRef((props: any, ref: any) => {
     img.src = imgUrl;
     img.onload = function () {
       const { naturalWidth, naturalHeight } = img;
+      const width = naturalWidth > 800 || naturalWidth < 150 ? 800 : naturalWidth;
+      const height = naturalHeight > 600 || naturalHeight < 150 ? 600 : naturalHeight;
       if (window.isElectron) {
         window.electronAPI.sendPiOpenWin({
           imgUrl: file.path,
-          width: naturalWidth,
-          height: naturalHeight,
+          width: width,
+          height: height,
         });
       } else {
         Modal.confirm({

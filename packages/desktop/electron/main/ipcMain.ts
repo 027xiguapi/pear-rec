@@ -397,6 +397,9 @@ function initIpcMain() {
   ipcMain.on('pi:unmaximize-win', () => {
     pinImageWin.unmaximizePinImageWin();
   });
+  ipcMain.handle('pi:get-size-win', () => {
+    return pinImageWin.getSizePinImageWin();
+  });
 
   // 钉图
   ipcMain.on('pv:open-win', (e, search) => {

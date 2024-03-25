@@ -99,10 +99,11 @@ const PinImage: React.FC = () => {
     setSizeWin();
   }
 
-  function setSizeWin() {
+  async function setSizeWin() {
     const isRotate = (rotate / 90) % 2;
-    const width = Number((infoImg.width * scale).toFixed(0));
-    const height = Number((infoImg.height * scale).toFixed(0));
+    const size = await window.electronAPI?.invokePiGetSizeWin();
+    const width = Number(((size.width || 800) * scale).toFixed(0));
+    const height = Number(((size.height || 600) * scale).toFixed(0));
     if (isRotate) {
       window.electronAPI?.sendPiSetSizeWin({ width: height, height: width });
     } else {
