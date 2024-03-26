@@ -85,25 +85,25 @@ const PinImage: React.FC = () => {
   }
 
   function handleZoomIn() {
-    scale = scale * 1.1;
-    setSizeWin();
+    scale = 1.1;
+    setSizeWin(false);
   }
 
   function handleZoomOut() {
-    scale = scale * 0.9;
-    setSizeWin();
+    scale = 0.9;
+    setSizeWin(false);
   }
 
   function handleOneToOne() {
     scale = 1;
-    setSizeWin();
+    setSizeWin(true);
   }
 
-  async function setSizeWin() {
+  async function setSizeWin(isReset) {
     const isRotate = (rotate / 90) % 2;
     const size = await window.electronAPI?.invokePiGetSizeWin();
-    const width = Number(((size.width || 800) * scale).toFixed(0));
-    const height = Number(((size.height || 600) * scale).toFixed(0));
+    const width = isReset ? infoImg.width : Number(((size.width || 800) * scale).toFixed(0));
+    const height = isReset ? infoImg.height : Number(((size.height || 600) * scale).toFixed(0));
     if (isRotate) {
       window.electronAPI?.sendPiSetSizeWin({ width: height, height: width });
     } else {
@@ -118,13 +118,16 @@ const PinImage: React.FC = () => {
     // const isRotate = (rotate / 90) % 2;
     // image.style.width = isRotate ? '100vh' : '100vw';
     // image.style.height = isRotate ? '100vw' : '100vh';
-    setSizeWin();
+    setSizeWin(false);
   }
 
   function handleLoadImg(e) {
     const img = e.target;
     const { naturalWidth, naturalHeight } = img;
-    infoImg = { width: naturalWidth, height: naturalHeight };
+    infoImg = {
+      width: naturalWidth > 800 || naturalWidth < 150 ? 800 : naturalWidth,
+      height: naturalHeight > 600 || naturalHeight < 150 ? 600 : naturalHeight,
+    };
   }
 
   return (
