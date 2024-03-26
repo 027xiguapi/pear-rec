@@ -150,8 +150,8 @@ const File = forwardRef<any>((props, ref) => {
     event.target.value = '';
   }
 
-  function handleSave(imgUrl) {
-    gifDispatch({ type: 'setImgUrl', imgUrl: imgUrl });
+  function handleSave(img) {
+    gifDispatch({ type: 'setImgUrl', imgUrl: img.src });
     setIsOpenModal(false);
   }
 

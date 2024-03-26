@@ -1,8 +1,12 @@
 # @pear-rec/web
 
+## 1.4.27
+
+feat: 视频转gif增加历史记录
+
 ## 1.4.26
 
-perf: 优化视频转gif
+fix: 贴图旋转 bug
 
 ## 1.4.25
 

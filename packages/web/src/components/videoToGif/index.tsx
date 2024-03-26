@@ -1,24 +1,23 @@
-import { ExclamationCircleFilled } from '@ant-design/icons';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import { Button, Flex, InputNumber, Modal, Progress, Slider } from 'antd';
 import { useEffect, useRef, useState } from 'react';
-import { db, defaultUser } from '../../db';
 import styles from './index.module.scss';
 
 let defaultTime = [0, 10];
-let mp4Info = {} as any;
+let videoInfo = {} as any;
 let videoUrl = '';
 
 export default function MP4Converter(props) {
-  const videoRef = useRef(null);
-  const imgRef = useRef(null);
+  const inputVideo0Ref = useRef(null);
+  const inputVideo1Ref = useRef(null);
+  const inputImg0Ref = useRef(null);
+  const inputImg1Ref = useRef(null);
   const [duration, setDuration] = useState(0);
   const [frameNum, setFrameNum] = useState(0);
   const [time, setTime] = useState(defaultTime);
   const [fps, setFps] = useState(10);
   const [percent, setPercent] = useState(0);
-  const [user, setUser] = useState<any>({});
   const [isLoad, setIsLoad] = useState(false);
   const ffmpegRef = useRef(new FFmpeg());
 
@@ -41,9 +40,9 @@ export default function MP4Converter(props) {
   }, [props.videoUrl]);
 
   function init(videoUrl) {
-    mp4Info = loadVideo(videoUrl);
-    setDuration(mp4Info.duration);
-    defaultTime[1] >= mp4Info.duration && (defaultTime[1] = Math.floor(mp4Info.duration));
+    videoInfo = loadVideo(videoUrl);
+    setDuration(videoInfo.duration);
+    defaultTime[1] >= videoInfo.duration && (defaultTime[1] = Math.floor(videoInfo.duration));
     handleTimeChange(defaultTime);
   }
 
@@ -51,9 +50,11 @@ export default function MP4Converter(props) {
     const baseURL = window.isElectron ? './ffmpeg@0.12.5' : '/ffmpeg@0.12.5';
     const ffmpeg = ffmpegRef.current;
     ffmpeg.on('log', ({ message }) => {
-      console.log('log', message);
+      // console.log('log', message);
     });
-    ffmpeg.on('progress', ({ progress }) => {
+    ffmpeg.on('progress', (res) => {
+      console.log('progress', res);
+      let { progress } = res;
       setPercent(Number((progress * 100).toFixed(0)));
     });
     await ffmpeg.load({
@@ -79,9 +80,9 @@ export default function MP4Converter(props) {
       const fileData = await ffmpeg.readFile(output);
       const data = new Uint8Array(fileData as ArrayBuffer);
       let imgUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'image/gif' }));
-      imgRef.current.src = imgUrl;
       await ffmpeg.deleteFile(input);
       await ffmpeg.deleteFile(output);
+      handleSave({ imgUrl, size: (data.byteLength / 1024 / 1024).toFixed(1) });
     } else {
       console.log('软件未加载完');
     }
@@ -89,15 +90,16 @@ export default function MP4Converter(props) {
 
   async function loadVideo(videoUrl) {
     return new Promise(async function (resolve, reject) {
-      videoRef.current.src = videoUrl;
-      videoRef.current.onloadedmetadata = function () {
-        let mp4Dur = Number(videoRef.current.duration.toFixed(2));
-        mp4Info = {
+      inputVideo0Ref.current.src = videoUrl;
+      inputVideo1Ref.current.src = videoUrl;
+      inputVideo0Ref.current.onloadedmetadata = function () {
+        let mp4Dur = Number(inputVideo0Ref.current.duration.toFixed(2));
+        videoInfo = {
           duration: mp4Dur,
-          width: videoRef.current.videoWidth,
-          heighe: videoRef.current.videoHeight,
+          width: inputVideo0Ref.current.videoWidth,
+          heighe: inputVideo0Ref.current.videoHeight,
         };
-        resolve(mp4Info);
+        resolve(videoInfo);
       };
     });
   }
@@ -105,6 +107,23 @@ export default function MP4Converter(props) {
   async function handleTimeChange(time) {
     setTime(time);
     setFrameNum(Number((fps * (time[1] - time[0])).toFixed(0)));
+    setInputImgs(time);
+  }
+
+  function setInputImgs(time) {
+    inputVideo0Ref.current.currentTime = time[0] || 0.1;
+    inputVideo0Ref.current.onseeked = function () {
+      const canvas0 = inputImg0Ref.current;
+      const context0 = canvas0.getContext('2d');
+      context0.drawImage(inputVideo0Ref.current, 0, 0, canvas0.width, canvas0.height);
+    };
+
+    inputVideo1Ref.current.currentTime = time[1];
+    inputVideo1Ref.current.onseeked = function () {
+      const canvas1 = inputImg1Ref.current;
+      const context1 = canvas1.getContext('2d');
+      context1.drawImage(inputVideo1Ref.current, 0, 0, canvas1.width, canvas1.height);
+    };
   }
 
   function handleTimeStart(timeStart) {
@@ -119,19 +138,29 @@ export default function MP4Converter(props) {
     setFps(val);
   }
 
-  function handleDownload() {
-    const imgUrl = imgRef.current.src;
-    imgUrl && props.onSave(imgUrl);
+  function handleSave(img) {
+    const _img = {
+      src: img.imgUrl,
+      name: `pear-rec_${+new Date()}.gif`,
+      duration: (time[1] - time[0]).toFixed(1),
+      frameNum: frameNum,
+      width: videoInfo.width,
+      heighe: videoInfo.heighe,
+      size: img.size,
+    };
+    img.imgUrl && props.onSave(_img);
   }
 
   return (
     <div className={styles.converter}>
       <div className="content">
-        <div className="input">
-          <video className="video" ref={videoRef} playsInline autoPlay />
+        <div className="input input1">
+          <canvas className="img" ref={inputImg0Ref} />
+          <video className="video hide" ref={inputVideo0Ref} />
         </div>
-        <div className="output">
-          <img className="img" ref={imgRef} />
+        <div className="input input2">
+          <canvas className="img" ref={inputImg1Ref} />
+          <video className="video hide" ref={inputVideo1Ref} />
         </div>
       </div>
       {duration === 0 ? (
@@ -142,24 +171,24 @@ export default function MP4Converter(props) {
           <div className="sliderInput">
             <Slider
               min={0}
-              max={mp4Info.duration}
+              max={videoInfo.duration}
               step={0.1}
               defaultValue={defaultTime}
               range={{ draggableTrack: true }}
               onChangeComplete={handleTimeChange}
             />
           </div>
-          <span>{mp4Info.duration}s</span>
+          <span>{videoInfo.duration}s</span>
         </div>
       )}
       <div className="fileGroup setting">
         <div className="item frameSize">
           <div className="title">大小: </div>
-          宽度: {mp4Info.width}px 高度: {mp4Info.heighe}px
+          宽度: {videoInfo.width}px 高度: {videoInfo.heighe}px
         </div>
         <div className="item frameDuration">
           <div className="title">时长: </div>
-          {mp4Info.duration}s
+          {videoInfo.duration}s
         </div>
         <div className="item fps">
           <div className="title">帧速率: </div>
@@ -183,7 +212,6 @@ export default function MP4Converter(props) {
         <Button type="primary" onClick={handleTranscode}>
           转换
         </Button>
-        <Button onClick={handleDownload}>保存</Button>
       </Flex>
     </div>
   );
