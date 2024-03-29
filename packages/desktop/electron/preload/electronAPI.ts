@@ -115,6 +115,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   invokeSeGetFilePath: () => ipcRenderer.invoke('se:get-filePath'),
   sendSeSetOpenAtLogin: (isOpen: boolean) => ipcRenderer.send('se:set-openAtLogin', isOpen),
   sendSeSetLanguage: (lng: string) => ipcRenderer.send('se:set-language', lng),
+  sendSeSetShortcut: (data: string) => ipcRenderer.send('se:set-shortcut', data),
+  sendSeSetShortcuts: (data: string) => ipcRenderer.send('se:set-shortcuts', data),
   invokeSeGetOpenAtLogin: () => ipcRenderer.invoke('se:get-openAtLogin'),
 
   //re 记录

@@ -28,6 +28,7 @@ import * as viewAudioWin from '../win/viewAudioWin';
 import * as viewImageWin from '../win/viewImageWin';
 import * as viewVideoWin from '../win/viewVideoWin';
 import * as videoConverterWin from '../win/videoConverterWin';
+import * as globalShortcut from './globalShortcut';
 import logger from './logger';
 import * as utils from './utils';
 
@@ -353,12 +354,6 @@ function initIpcMain() {
     }
     return filePath;
   });
-  ipcMain.handle('se:get-filePath', async () => {
-    // return await store.getFilePath();
-  });
-  ipcMain.handle('se:get-user', async () => {
-    // return await store.getUser();
-  });
   ipcMain.on('se:set-openAtLogin', (e, isOpen) => {
     app.setLoginItemSettings({ openAtLogin: isOpen });
   });
@@ -367,6 +362,20 @@ function initIpcMain() {
       app.relaunch();
       app.exit(0);
     });
+  });
+  ipcMain.on('se:set-shortcut', (e, data) => {
+    if (data.name == 'screenshot') {
+      globalShortcut.registerShotScreenShortcut(data);
+    } else if (data.name == 'videoRecording') {
+      globalShortcut.registerRecorderVideoShortcut(data);
+    } else if (data.name == 'screenRecording') {
+      globalShortcut.registerRecorderScreenShortcut(data);
+    } else if (data.name == 'audioRecording') {
+      globalShortcut.registerRecorderAudioShortcut(data);
+    }
+  });
+  ipcMain.on('se:set-shortcuts', (e, data) => {
+    globalShortcut.registerGlobalShortcut(data);
   });
   ipcMain.handle('se:get-openAtLogin', () => {
     return app.getLoginItemSettings();

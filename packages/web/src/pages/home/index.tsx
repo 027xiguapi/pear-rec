@@ -15,7 +15,7 @@ import ViewVideoCard from '../../components/card/viewVideoCard';
 import VideoConverterCard from '../../components/card/videoConverterCard';
 import PinImageCard from '../../components/card/pinImageCard';
 import HomeFooter from '../../components/home/HomeFooter';
-import { db, defaultUser } from '../../db';
+import { db, defaultUser, defaultShortcut } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
@@ -27,16 +27,13 @@ const Home: React.FC = () => {
   const [user, setUser] = useState<any>({});
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeydown);
-    getDevices();
-    user.id || getCurrentUser();
-  }, []);
-
-  function handleKeydown(event: any) {
-    // if ((event.metaKey || event.altKey) && event.code === "KeyQ") {
-    // 	cscRef.current!.handleShotScreen();
-    // }
-  }
+    // getDevices();
+    if (user.id) {
+      getShortcut(user.id);
+    } else {
+      getCurrentUser();
+    }
+  }, [user]);
 
   async function getCurrentUser() {
     try {
@@ -64,6 +61,24 @@ const Home: React.FC = () => {
           console.log('Cancel');
         },
       });
+    }
+  }
+
+  async function getShortcut(userId) {
+    try {
+      let shortcut = await db.shortcuts.where({ userId }).first();
+      if (!shortcut) {
+        shortcut = { userId, createdBy: userId, updatedBy: userId, ...defaultShortcut };
+        await db.shortcuts.add(shortcut);
+      }
+      window.electronAPI?.sendSeSetShortcuts({
+        screenshot: shortcut.screenshot,
+        videoRecording: shortcut.videoRecording,
+        screenRecording: shortcut.screenRecording,
+        audioRecording: shortcut.audioRecording,
+      });
+    } catch (err) {
+      console.log('getSetting', err);
     }
   }
 

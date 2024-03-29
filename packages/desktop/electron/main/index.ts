@@ -3,7 +3,7 @@ import { BrowserWindow, app } from 'electron';
 import { release } from 'node:os';
 import * as mainWin from '../win/mainWin';
 import { isWin } from './constant';
-import { registerGlobalShortcut, unregisterAllGlobalShortcut } from './globalShortcut';
+import { unregisterAllGlobalShortcut } from './globalShortcut';
 import './ipcMain';
 import './logger';
 import { protocolHandle, registerSchemesAsPrivileged } from './protocol';
@@ -56,7 +56,7 @@ app.whenReady().then(() => {
   protocolHandle();
   createWindow();
   initTray(config.language);
-  registerGlobalShortcut();
+  // registerGlobalShortcut();
   update();
 });
 

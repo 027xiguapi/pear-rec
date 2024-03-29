@@ -24,25 +24,25 @@ export function initTray(lng: string) {
   const t = lngMap[lng].tray;
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: t.screenshot + '(Alt+Shift+Q)',
+      label: t.screenshot,
       click: () => {
         openShotScreenWin();
       },
     },
     {
-      label: t.screenRecording + '(Alt+Shift+S)',
+      label: t.screenRecording,
       click: () => {
         openClipScreenWin();
       },
     },
     {
-      label: t.audioRecording + '(Alt+Shift+A)',
+      label: t.audioRecording,
       click: () => {
         openRecorderAudioWin();
       },
     },
     {
-      label: t.videoRecording + '(Alt+Shift+V)',
+      label: t.videoRecording,
       click: () => {
         openRecorderVideoWin();
       },
