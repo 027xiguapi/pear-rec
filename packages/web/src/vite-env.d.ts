@@ -8,6 +8,7 @@ declare global {
     electronAPI: any;
     isElectron: boolean;
     isOffline: boolean;
+    isMac: boolean;
     baseURL: string;
     showSaveFilePicker: any;
   }

@@ -131,8 +131,13 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(204, 201, 201, 0.2);
+  background-color: transparent;
   border-radius: 4px;
+}
+
+::-webkit-scrollbar:hover {
+  width: 8px;
+  background-color: rgba(204, 201, 201, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {

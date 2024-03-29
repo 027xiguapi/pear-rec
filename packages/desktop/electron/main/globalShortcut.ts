@@ -4,25 +4,54 @@ import { openRecorderAudioWin } from '../win/recorderAudioWin';
 import { openClipScreenWin } from '../win/clipScreenWin';
 import { openRecorderVideoWin } from '../win/recorderVideoWin';
 
-function registerGlobalShortcut() {
-  globalShortcut.register('Alt+Shift+q', () => {
+function registerGlobalShortcut(data) {
+  globalShortcut.register(data['screenshot'], () => {
     openShotScreenWin();
   });
 
-  globalShortcut.register('Alt+Shift+s', () => {
+  globalShortcut.register(data['screenRecording'], () => {
     openClipScreenWin();
   });
 
-  globalShortcut.register('Alt+Shift+a', () => {
+  globalShortcut.register(data['audioRecording'], () => {
     openRecorderAudioWin();
   });
 
-  globalShortcut.register('Alt+Shift+v', () => {
+  globalShortcut.register(data['videoRecording'], () => {
     openRecorderVideoWin();
   });
 
   globalShortcut.register('Esc', () => {
+    console.log(55);
     closeShotScreenWin();
+  });
+}
+
+function registerShotScreenShortcut(data) {
+  globalShortcut.unregister(data.oldKey);
+  globalShortcut.register(data.key, () => {
+    openShotScreenWin();
+  });
+}
+
+function registerRecorderScreenShortcut(data) {
+  globalShortcut.unregister(data.oldKey);
+  globalShortcut.register(data.key, () => {
+    openClipScreenWin();
+  });
+}
+
+function registerRecorderAudioShortcut(data) {
+  globalShortcut.unregister(data.oldKey);
+  globalShortcut.register(data.key, () => {
+    openRecorderAudioWin();
+  });
+}
+
+function registerRecorderVideoShortcut(data) {
+  globalShortcut.unregister(data.oldKey);
+  globalShortcut.register(data.key, () => {
+    openRecorderVideoWin();
   });
 }
 
@@ -38,4 +67,12 @@ function unregisterAllGlobalShortcut() {
   globalShortcut.unregisterAll();
 }
 
-export { registerGlobalShortcut, unregisterGlobalShortcut, unregisterAllGlobalShortcut };
+export {
+  registerGlobalShortcut,
+  unregisterGlobalShortcut,
+  unregisterAllGlobalShortcut,
+  registerShotScreenShortcut,
+  registerRecorderScreenShortcut,
+  registerRecorderAudioShortcut,
+  registerRecorderVideoShortcut,
+};
