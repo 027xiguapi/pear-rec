@@ -18,7 +18,14 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined,
 } from '@ant-design/icons';
-import { FlipHorizontally, FlipVertically } from '@icon-park/react';
+import {
+  FlipHorizontally,
+  FlipVertically,
+  Close,
+  Minus,
+  MinusTheTop,
+  FullScreen,
+} from '@icon-park/react';
 import { Button } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -209,21 +216,27 @@ const Header = (props) => {
         <Button
           className="minimize icon no-drag"
           type="text"
-          icon={<MinusOutlined />}
+          icon={<Minus theme="outline" size="20" fill="#333" strokeWidth={3} />}
           title={t('nav.minimize')}
           onClick={handleMinimizeWin}
         />
         <Button
           className="toggleMaximize icon no-drag"
           type="text"
-          icon={isMaximize ? <BlockOutlined /> : <BorderOutlined />}
+          icon={
+            isMaximize ? (
+              <MinusTheTop theme="outline" size="20" fill="#333" strokeWidth={3} />
+            ) : (
+              <FullScreen theme="outline" size="20" fill="#333" strokeWidth={3} />
+            )
+          }
           title={isMaximize ? '向下还原' : '最大化'}
           onClick={() => handleToggleMaximizeWin()}
         />
         <Button
           className="close icon no-drag"
           type="text"
-          icon={<CloseOutlined />}
+          icon={<Close theme="outline" size="20" fill="#333" strokeWidth={3} />}
           title={t('nav.close')}
           onClick={handleCloseWin}
         />
