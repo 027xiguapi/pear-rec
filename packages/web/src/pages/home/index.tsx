@@ -14,6 +14,8 @@ import ViewImageCard from '../../components/card/viewImageCard';
 import ViewVideoCard from '../../components/card/viewVideoCard';
 import VideoConverterCard from '../../components/card/videoConverterCard';
 import PinImageCard from '../../components/card/pinImageCard';
+import EditImageCard from '../../components/card/editImageCard';
+import RecordCanvasCard from '../../components/card/recordCanvasCard';
 import HomeFooter from '../../components/home/HomeFooter';
 import { db, defaultUser, defaultShortcut } from '../../db';
 import ininitApp from '../../pages/main';
@@ -141,74 +143,78 @@ const Home: React.FC = () => {
           />
         </div>
         <div className="content">
-          <div>
-            <div id="main">
-              <Row className="cardRow" justify="center" gutter={16}>
-                <Col span={6}>
-                  <CutScreenCard ref={cscRef} />
-                </Col>
-                <Col span={6}>
-                  <RecordScreenCard ref={rscRef} />
-                </Col>
-                <Col span={6}>
-                  <RecordVideoCard ref={rvcRef} />
-                </Col>
-                <Col span={6}>
-                  <RecordAudioCard ref={racRef} />
-                </Col>
-              </Row>
-              <Row className="cardRow" justify="center" gutter={16}>
-                <Col span={6}>
-                  <EditGifCard />
-                </Col>
-                <Col span={6}>
-                  <ViewImageCard />
-                </Col>
-                <Col span={6}>
-                  <ViewVideoCard />
-                </Col>
-                <Col span={6}>
-                  <ViewAudioCard />
-                </Col>
-              </Row>
-            </div>
-            <div id="image">
-              <Row className="cardRow" justify="center" gutter={16}>
-                <Col span={6}>
-                  <EditGifCard />
-                </Col>
-                <Col span={6}>
-                  <ViewImageCard />
-                </Col>
-                <Col span={6}>
-                  <SearchImageCard user={user} />
-                </Col>
-                <Col span={6}>
-                  <ScanImageCard />
-                </Col>
-              </Row>
-              <Row className="cardRow" justify="start" gutter={16}>
-                <Col span={6}>
-                  <SpliceImageCard />
-                </Col>
-                <Col span={6}>
-                  <PinImageCard />
-                </Col>
-              </Row>
-            </div>
-            <div id="video">
-              <Row className="cardRow" justify="start" gutter={16}>
-                <Col span={6}>
-                  <RecordVideoCard />
-                </Col>
-                <Col span={6}>
-                  <RecordScreenCard />
-                </Col>
-                <Col span={6}>
-                  <VideoConverterCard />
-                </Col>
-              </Row>
-            </div>
+          <div id="main">
+            <Row className="cardRow" justify="center" gutter={16}>
+              <Col span={6}>
+                <CutScreenCard ref={cscRef} />
+              </Col>
+              <Col span={6}>
+                <RecordScreenCard ref={rscRef} />
+              </Col>
+              <Col span={6}>
+                <RecordVideoCard ref={rvcRef} />
+              </Col>
+              <Col span={6}>
+                <RecordAudioCard ref={racRef} />
+              </Col>
+            </Row>
+            <Row className="cardRow" justify="center" gutter={16}>
+              <Col span={6}>
+                <EditGifCard />
+              </Col>
+              <Col span={6}>
+                <ViewImageCard />
+              </Col>
+              <Col span={6}>
+                <ViewVideoCard />
+              </Col>
+              <Col span={6}>
+                <ViewAudioCard />
+              </Col>
+            </Row>
+          </div>
+          <div id="image">
+            <Row className="cardRow" justify="center" gutter={16}>
+              <Col span={6}>
+                <EditGifCard />
+              </Col>
+              <Col span={6}>
+                <ViewImageCard />
+              </Col>
+              <Col span={6}>
+                <SearchImageCard user={user} />
+              </Col>
+              <Col span={6}>
+                <ScanImageCard />
+              </Col>
+            </Row>
+            <Row className="cardRow" justify="start" gutter={16}>
+              <Col span={6}>
+                <SpliceImageCard />
+              </Col>
+              <Col span={6}>
+                <PinImageCard />
+              </Col>
+              <Col span={6}>
+                <EditImageCard />
+              </Col>
+            </Row>
+          </div>
+          <div id="video">
+            <Row className="cardRow" justify="start" gutter={16}>
+              <Col span={6}>
+                <RecordVideoCard />
+              </Col>
+              <Col span={6}>
+                <RecordScreenCard />
+              </Col>
+              <Col span={6}>
+                <VideoConverterCard />
+              </Col>
+              <Col span={6}>
+                <RecordCanvasCard />
+              </Col>
+            </Row>
           </div>
         </div>
       </div>
