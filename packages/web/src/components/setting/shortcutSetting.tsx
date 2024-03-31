@@ -126,7 +126,7 @@ const ShortcutSetting = (props) => {
   }
 
   function inputValidate(input) {
-    const str = form.getFieldValue(input);
+    const str = form.getFieldValue(input) || '';
     const formatKeys = str.replace('\ue672', 'CommandOrControl');
     const keyArr = formatKeys.split('+');
     if (formatKeys && keyArr.slice(-1)[0].trim()) {

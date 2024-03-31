@@ -10,7 +10,22 @@
     "close": "关闭",
     "record": "记录",
     "update": "升级",
-    "github": "仓库"
+    "github": "仓库",
+    "zoomIn": "放大",
+    "zoomOut": "缩小",
+    "oneToOne": "还原",
+    "download": "下载",
+    "alwaysOnTopWin": "置顶",
+    "openFile": "打开文件夹",
+    "uploadFile": "打开图片",
+    "scan": "扫码",
+    "search": "搜图",
+    "prev": "上一个",
+    "next": "下一个",
+    "rotateLeft": "左转",
+    "rotateRight": "右转",
+    "flipHorizontal": "水平翻转",
+    "flipVertical": "垂直翻转"
   },
   "home": {
     "audioRecording": "录音",

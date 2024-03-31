@@ -27,10 +27,6 @@
 
 > pear-rec(梨子 rec) 的跨平台是基于 `electronjs`,前端是基于 `reactjs`,截图、录屏、录音、录像、录制(动图)gif 等功能是基于 `webrtc` 和 `webcodecs` 的一个项目。
 
-<center>
-  <img src="https://027xiguapi.github.io/pear-rec/imgs/1700442414996.jpg" />
-</center>
-
 ## 🌰 例子
 
 [网页](https://pear-rec-xiguapi.vercel.app/)
