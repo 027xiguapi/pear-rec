@@ -17,7 +17,22 @@
     "setting": "Einstellung",
     "minimize": "minimieren",
     "maximize": "maximieren",
-    "close": "schließen"
+    "close": "schließen",
+    "zoomIn": "zoomIn",
+    "zoomOut": "zoomOut",
+    "oneToOne": "oneToOne",
+    "download": "download",
+    "alwaysOnTopWin": "alwaysOnTopWin",
+    "openFile": "openFile",
+    "uploadFile": "uploadFile",
+    "scan": "scan",
+    "search": "search",
+    "prev": "prev",
+    "next": "next",
+    "rotateLeft": "rotateLeft",
+    "rotateRight": "rotateRight",
+    "flipHorizontal": "flipHorizontal",
+    "flipVertical": "flipVertical"
   },
   "home": {
     "audioRecording": "Audioaufnahme",

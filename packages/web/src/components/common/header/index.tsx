@@ -18,14 +18,7 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined,
 } from '@ant-design/icons';
-import {
-  FlipHorizontally,
-  FlipVertically,
-  Close,
-  Minus,
-  MinusTheTop,
-  FullScreen,
-} from '@icon-park/react';
+import { FlipHorizontally, FlipVertically, Close, Minus, MinusTheTop } from '@icon-park/react';
 import { Button } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -34,6 +27,7 @@ import styles from './index.module.scss';
 const logo = './imgs/icons/png/512x512.png';
 const Header = (props) => {
   const { t } = useTranslation();
+  console.log(t);
   const [isMaximize, setIsMaximize] = useState(false);
   const [isTop, setIsTop] = useState(false);
 
@@ -212,7 +206,7 @@ const Header = (props) => {
         </div>
       )}
 
-      <div className={`right ${window.isElectron ? 'show' : 'hide'}`}>
+      <div className={`right ${window.isElectron ? '' : 'hide'}`}>
         <Button
           className="minimize icon no-drag"
           type="text"
@@ -227,7 +221,7 @@ const Header = (props) => {
             isMaximize ? (
               <MinusTheTop theme="outline" size="20" fill="#333" strokeWidth={3} />
             ) : (
-              <FullScreen theme="outline" size="20" fill="#333" strokeWidth={3} />
+              <BorderOutlined />
             )
           }
           title={isMaximize ? '向下还原' : '最大化'}

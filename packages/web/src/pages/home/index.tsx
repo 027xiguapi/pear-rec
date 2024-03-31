@@ -116,6 +116,10 @@ const Home: React.FC = () => {
     });
   }
 
+  function getCurrentAnchor(e) {
+    return e || '#main';
+  }
+
   return (
     <div className={`${styles.home} ${window.isElectron ? styles.electron : styles.web}`}>
       <div className="container">
@@ -123,6 +127,7 @@ const Home: React.FC = () => {
         <div className="nav">
           <Anchor
             direction="horizontal"
+            getCurrentAnchor={getCurrentAnchor}
             items={[
               {
                 key: 'main',

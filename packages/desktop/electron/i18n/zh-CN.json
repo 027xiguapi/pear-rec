@@ -17,7 +17,22 @@
     "setting": "设置",
     "minimize": "最小化",
     "maximize": "最大化",
-    "close": "关闭"
+    "close": "关闭",
+    "zoomIn": "放大",
+    "zoomOut": "缩小",
+    "oneToOne": "还原",
+    "download": "下载",
+    "alwaysOnTopWin": "置顶",
+    "openFile": "打开图片",
+    "uploadFile": "打开文件夹",
+    "scan": "扫码",
+    "search": "搜图",
+    "prev": "上一个",
+    "next": "下一个",
+    "rotateLeft": "左转",
+    "rotateRight": "右转",
+    "flipHorizontal": "水平翻转",
+    "flipVertical": "垂直翻转"
   },
   "home": {
     "audioRecording": "录音",

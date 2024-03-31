@@ -19,9 +19,7 @@
 
 ## 🧱 Frameworks
 
-<center>
-  <img src="https://027xiguapi.github.io/pear-rec/imgs/1700442414996.jpg" />
-</center>
+The cross-Platform of `pear-rec` is based on `electronjs`, and the front-end is based on `reactjs`. The functions of screenshot, screen recording, recording, recording (dynamic image) gif are a project based on `webrtc` and `webcodecs`.
 
 ## 📖 Documentation
 
