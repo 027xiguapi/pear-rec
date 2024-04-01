@@ -166,11 +166,18 @@ function initIpcMain() {
     return img;
   });
   ipcMain.on('ss:open-win', () => {
-    shotScreenWin.closeShotScreenWin();
-    shotScreenWin.openShotScreenWin();
+    shotScreenWin.hideShotScreenWin();
+    shotScreenWin.showShotScreenWin();
   });
   ipcMain.on('ss:close-win', () => {
-    shotScreenWin.closeShotScreenWin();
+    shotScreenWin.hideShotScreenWin();
+  });
+  ipcMain.on('ss:start-win', async () => {
+    mainWin.closeMainWin();
+    setTimeout(() => {
+      shotScreenWin.hideShotScreenWin();
+      shotScreenWin.showShotScreenWin();
+    }, 100 * 2);
   });
   ipcMain.on('ss:save-img', async (e, downloadUrl) => {
     shotScreenWin.downloadURLShotScreenWin(downloadUrl);

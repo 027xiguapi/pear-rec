@@ -2,6 +2,7 @@ import { getConfig, initConfig } from '@pear-rec/server/src/config';
 import { BrowserWindow, app } from 'electron';
 import { release } from 'node:os';
 import * as mainWin from '../win/mainWin';
+import * as shotScreenWin from '../win/shotScreenWin';
 import { isWin } from './constant';
 import { unregisterAllGlobalShortcut } from './globalShortcut';
 import './ipcMain';
@@ -47,6 +48,7 @@ if (!app.requestSingleInstanceLock()) {
 
 async function createWindow() {
   mainWin.openMainWin();
+  shotScreenWin.openShotScreenWin();
 }
 
 registerSchemesAsPrivileged();
@@ -56,7 +58,6 @@ app.whenReady().then(() => {
   protocolHandle();
   createWindow();
   initTray(config.language);
-  // registerGlobalShortcut();
   update();
 });
 

@@ -53,9 +53,14 @@ function ShotScreen() {
   }
 
   async function init() {
+    setScreenShotImg('');
     if (window.electronAPI) {
-      const img = await window.electronAPI?.invokeSsGetShotScreenImg();
-      setScreenShotImg(img || defaultImg);
+      window.electronAPI?.sendSsShowWin((img) => {
+        setScreenShotImg(img);
+      });
+      window.electronAPI?.sendSsHideWin(() => {
+        setScreenShotImg('');
+      });
     }
   }
 

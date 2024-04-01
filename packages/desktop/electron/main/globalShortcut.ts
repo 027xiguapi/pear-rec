@@ -1,12 +1,12 @@
 import { globalShortcut } from 'electron';
-import { openShotScreenWin, closeShotScreenWin } from '../win/shotScreenWin';
+import { hideShotScreenWin, showShotScreenWin } from '../win/shotScreenWin';
 import { openRecorderAudioWin } from '../win/recorderAudioWin';
 import { openClipScreenWin } from '../win/clipScreenWin';
 import { openRecorderVideoWin } from '../win/recorderVideoWin';
 
 function registerGlobalShortcut(data) {
   globalShortcut.register(data['screenshot'], () => {
-    openShotScreenWin();
+    showShotScreenWin();
   });
 
   globalShortcut.register(data['screenRecording'], () => {
@@ -22,15 +22,14 @@ function registerGlobalShortcut(data) {
   });
 
   globalShortcut.register('Esc', () => {
-    console.log(55);
-    closeShotScreenWin();
+    hideShotScreenWin();
   });
 }
 
 function registerShotScreenShortcut(data) {
   globalShortcut.unregister(data.oldKey);
   globalShortcut.register(data.key, () => {
-    openShotScreenWin();
+    showShotScreenWin();
   });
 }
 

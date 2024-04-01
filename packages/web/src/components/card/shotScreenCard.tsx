@@ -12,8 +12,7 @@ const ShotScreenCard = forwardRef((props: any, ref: any) => {
 
   function handleCutScreen() {
     if (window.electronAPI) {
-      window.electronAPI.sendMaCloseWin();
-      window.electronAPI.sendSsOpenWin();
+      window.electronAPI.sendSsStartWin();
     } else {
       location.href = '/shotScreen.html';
     }
