@@ -1,7 +1,7 @@
 import { Menu, Tray, app, shell } from 'electron';
 import { ICON } from './constant';
 import { openMainWin } from '../win/mainWin';
-import { openShotScreenWin } from '../win/shotScreenWin';
+import { showShotScreenWin } from '../win/shotScreenWin';
 import { openClipScreenWin } from '../win/clipScreenWin';
 import { openRecorderAudioWin } from '../win/recorderAudioWin';
 import { openRecorderVideoWin } from '../win/recorderVideoWin';
@@ -26,7 +26,7 @@ export function initTray(lng: string) {
     {
       label: t.screenshot,
       click: () => {
-        openShotScreenWin();
+        showShotScreenWin();
       },
     },
     {

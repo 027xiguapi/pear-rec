@@ -27,7 +27,6 @@ import styles from './index.module.scss';
 const logo = './imgs/icons/png/512x512.png';
 const Header = (props) => {
   const { t } = useTranslation();
-  console.log(t);
   const [isMaximize, setIsMaximize] = useState(false);
   const [isTop, setIsTop] = useState(false);
 

@@ -1,5 +1,6 @@
-import { BrowserWindow, clipboard, dialog, nativeImage } from 'electron';
+import { BrowserWindow, clipboard, dialog, nativeImage, screen, desktopCapturer } from 'electron';
 import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
+import * as utils from '../main/utils';
 
 let shotScreenWin: BrowserWindow | null = null;
 let savePath: string = '';
@@ -9,6 +10,7 @@ function createShotScreenWin(): BrowserWindow {
   shotScreenWin = new BrowserWindow({
     title: 'pear-rec 截屏',
     icon: ICON,
+    show: false,
     autoHideMenuBar: WIN_CONFIG.shotScreen.autoHideMenuBar, // 自动隐藏菜单栏
     useContentSize: WIN_CONFIG.shotScreen.useContentSize, // width 和 height 将设置为 web 页面的尺寸
     movable: WIN_CONFIG.shotScreen.movable, // 是否可移动
@@ -48,14 +50,31 @@ function openShotScreenWin() {
   if (!shotScreenWin || shotScreenWin?.isDestroyed()) {
     shotScreenWin = createShotScreenWin();
   }
-  shotScreenWin?.show();
+  // shotScreenWin?.show();
 }
 
-function showShotScreenWin() {
+async function showShotScreenWin() {
+  const { id } = screen.getPrimaryDisplay();
+  const { width, height } = utils.getScreenSize();
+  const sources = [
+    ...(await desktopCapturer.getSources({
+      types: ['screen'],
+      thumbnailSize: {
+        width,
+        height,
+      },
+    })),
+  ];
+
+  let source = sources.filter((e: any) => parseInt(e.display_id, 10) == id)[0];
+  source || (source = sources[0]);
+  const img = source.thumbnail.toDataURL();
+  shotScreenWin?.webContents.send('ss:show-win', img);
   shotScreenWin?.show();
 }
 
 function hideShotScreenWin() {
+  shotScreenWin?.webContents.send('ss:hide-win');
   shotScreenWin?.hide();
 }
 
