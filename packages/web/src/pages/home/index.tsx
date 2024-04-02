@@ -123,7 +123,8 @@ const Home: React.FC = () => {
   return (
     <div className={`${styles.home} ${window.isElectron ? styles.electron : styles.web}`}>
       <div className="container">
-        <div className="wavesurfer"></div>
+        <div className="wavesurfer1"></div>
+        <div className="wavesurfer2"></div>
         <div className="nav">
           <Anchor
             direction="horizontal"

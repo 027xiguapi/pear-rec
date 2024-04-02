@@ -7,39 +7,52 @@
       overflow: hidden;
       padding: 0 10px 10px 10px;
       height: calc(100% - 50px);
-      .wavesurfer {
+      .wavesurfer1 {
         position: absolute;
-        top: 55px;
+        bottom: 0;
         left: 0;
-        align-items: center;
-        background-color: rgb(118, 218, 255);
-        overflow: hidden;
-        height: calc(100% - 55px);
         width: 100%;
+        height: 260px;
+        --c: rgb(118, 218, 255);
+        --w1: radial-gradient(100% 57% at top, #0000 100%, var(--c) 100.5%) no-repeat;
+        --w2: radial-gradient(100% 57% at bottom, var(--c) 100%, #0000 100.5%) no-repeat;
+        background: var(--w1), var(--w2), var(--w1), var(--w2);
+        background-position-x:
+          -200%,
+          -100%,
+          0%,
+          100%;
+        background-position-y: 100%;
+        background-size: 50.5% 100%;
+        animation-name: rotate1;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-duration: 2s;
         z-index: -1;
-        &:before:local,
-        &:after:local {
-          content: '';
-          position: absolute;
-          left: 50%;
-          min-width: 300vw;
-          min-height: 300vw;
-          background-color: #fff;
-          animation-name: rotate;
-          animation-iteration-count: infinite;
-          animation-timing-function: linear;
-        }
-        &:before {
-          bottom: 15vh;
-          border-radius: 45%;
-          animation-duration: 10s;
-        }
-        &:after {
-          bottom: 12vh;
-          opacity: 0.5;
-          border-radius: 47%;
-          animation-duration: 10s;
-        }
+      }
+      .wavesurfer2 {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 260px;
+        --c: #2196f3;
+        --w1: radial-gradient(100% 57% at top, #0000 100%, var(--c) 100.5%) no-repeat;
+        --w2: radial-gradient(100% 57% at bottom, var(--c) 100%, #0000 100.5%) no-repeat;
+        background: var(--w1), var(--w2), var(--w1), var(--w2);
+        opacity: 0.5;
+        background-position-x:
+          -200%,
+          -100%,
+          0%,
+          100%;
+        background-position-y: 100%;
+        background-size: 50.5% 100%;
+        animation-name: rotate2;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-duration: 2.5s;
+        z-index: -2;
       }
       .nav {
         padding: 0 0 20px;
@@ -142,16 +155,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
-}
-
-@keyframes rotate {
-  0% {
-    transform: translate(-50%, 0) rotateZ(0deg);
-  }
-  50% {
-    transform: translate(-50%, -2%) rotateZ(180deg);
-  }
-  100% {
-    transform: translate(-50%, 0%) rotateZ(360deg);
-  }
 }
