@@ -12,6 +12,8 @@ import { db, defaultUser } from '../../db';
 import PauseRecorder from './PauseRecorder';
 import PlayRecorder from './PlayRecorder';
 import StopRecorder from './StopRecorder';
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile, toBlobURL } from '@ffmpeg/util';
 
 const ScreenRecorder = (props) => {
   const { t } = useTranslation();
@@ -27,6 +29,9 @@ const ScreenRecorder = (props) => {
   const recordedUrl = useRef<string>(''); // 存储录制的音频数据
   const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
   const isSave = useRef<boolean>(false);
+  const [percent, setPercent] = useState(0);
+  const [isLoad, setIsLoad] = useState(false);
+  const ffmpegRef = useRef(new FFmpeg());
 
   const paramsString = location.search;
   const searchParams = new URLSearchParams(paramsString);
@@ -49,7 +54,8 @@ const ScreenRecorder = (props) => {
     (async () => {
       if (outputStream.current == null) return;
       const opfsFile = await mp4StreamToOPFSFile(outputStream.current);
-      window.isOffline ? saveAs(opfsFile, `pear-rec_${+new Date()}.mp4`) : saveFile(opfsFile);
+      type == 'gif' ? transcodeGif(opfsFile) : saveFile(opfsFile);
+      // window.isOffline ? saveAs(opfsFile, `pear-rec_${+new Date()}.mp4`) : saveFile(opfsFile);
       isSave.current = false;
     })();
   }, [outputStream.current]);
@@ -230,10 +236,50 @@ const ScreenRecorder = (props) => {
     });
   }
 
+  async function loadFfmpeg() {
+    const baseURL = window.isElectron ? './ffmpeg@0.12.5' : '/ffmpeg@0.12.5';
+    const ffmpeg = ffmpegRef.current;
+    ffmpeg.on('log', ({ message }) => {
+      // console.log('log', message);
+    });
+    ffmpeg.on('progress', (res) => {
+      console.log('progress', res);
+      let { progress } = res;
+      setPercent(Number((progress * 100).toFixed(0)));
+    });
+    await ffmpeg.load({
+      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+      workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
+    });
+    setIsLoad(true);
+  }
+
+  async function transcodeGif(video) {
+    if (isLoad) {
+      const ffmpeg = ffmpegRef.current;
+      const input = 'input.mov';
+      const output = `pear-rec_${+new Date()}.gif`;
+      await ffmpeg.writeFile(input, await fetchFile(video));
+      let rule = [];
+      rule.push('-i', input, '-vf', `fps=${10},scale=-1:-1`, '-c:v', 'gif', output);
+      console.log(rule);
+      await ffmpeg.exec(rule);
+      const fileData = await ffmpeg.readFile(output);
+      const data = new Uint8Array(fileData as ArrayBuffer);
+      let blob = new Blob([data.buffer], { type: 'image/gif' });
+      await ffmpeg.deleteFile(input);
+      await ffmpeg.deleteFile(output);
+      saveFile(blob);
+    } else {
+      console.log('软件未加载完');
+    }
+  }
+
   async function saveFile(blob) {
     try {
       const record = {
-        fileName: `pear-rec_${+new Date()}.mp4`,
+        fileName: `pear-rec_${+new Date()}.${type == 'gif' ? 'gif' : 'mp4'}`,
         fileData: blob,
         fileType: 'rs',
         userId: user.id,
@@ -247,7 +293,7 @@ const ScreenRecorder = (props) => {
         if (window.isElectron) {
           window.electronAPI.sendRsCloseWin();
           type == 'gif'
-            ? window.electronAPI.sendEgOpenWin({ recordId: recordId })
+            ? window.electronAPI.sendViOpenWin({ recordId: recordId })
             : window.electronAPI.sendVvOpenWin({ recordId: recordId });
         } else {
           Modal.confirm({
@@ -258,7 +304,7 @@ const ScreenRecorder = (props) => {
             onOk() {
               type == 'gif'
                 ? window.open(`/editGif.html?recordId=${recordId}`)
-                : window.open(`/viewVideo.html?recordId=${recordId}`);
+                : window.open(`/viewImage.html?recordId=${recordId}`);
             },
           });
         }
