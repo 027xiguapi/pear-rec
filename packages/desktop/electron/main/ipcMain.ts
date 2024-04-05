@@ -89,8 +89,8 @@ function initIpcMain() {
     return clipScreenWin.getBoundsClipScreenWin();
   });
   ipcMain.on('rs:start-record', (event) => {
-    recorderScreenWin.setMovableRecorderScreenWin(false);
-    recorderScreenWin.setResizableRecorderScreenWin(false);
+    // recorderScreenWin.setMovableRecorderScreenWin(false);
+    // recorderScreenWin.setResizableRecorderScreenWin(false);
     clipScreenWin.setMovableClipScreenWin(false);
     clipScreenWin.setResizableClipScreenWin(false);
     clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, true, {
@@ -99,16 +99,16 @@ function initIpcMain() {
     clipScreenWin.setIsPlayClipScreenWin(true);
   });
   ipcMain.on('rs:pause-record', (event) => {
-    recorderScreenWin.setMovableRecorderScreenWin(true);
-    recorderScreenWin.setResizableRecorderScreenWin(true);
+    // recorderScreenWin.setMovableRecorderScreenWin(true);
+    // recorderScreenWin.setResizableRecorderScreenWin(true);
     clipScreenWin.setMovableClipScreenWin(true);
     clipScreenWin.setResizableClipScreenWin(true);
     clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, false);
     clipScreenWin.setIsPlayClipScreenWin(false);
   });
   ipcMain.on('rs:stop-record', (event) => {
-    recorderScreenWin.setMovableRecorderScreenWin(true);
-    recorderScreenWin.setResizableRecorderScreenWin(true);
+    // recorderScreenWin.setMovableRecorderScreenWin(true);
+    // recorderScreenWin.setResizableRecorderScreenWin(true);
     clipScreenWin.setMovableClipScreenWin(true);
     clipScreenWin.setResizableClipScreenWin(true);
     clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, false);

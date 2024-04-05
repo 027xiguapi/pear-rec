@@ -8,11 +8,21 @@ import styles from './index.module.scss';
 const ClipScreen = () => {
   const { t } = useTranslation();
   const [isPlay, setIsPlay] = useState(false);
+  const [size, setSize] = useState({ width: 0, height: 0 });
   useEffect(() => {
     window.electronAPI?.handleCsSetIsPlay((e: any, isPlay: boolean) => {
       setIsPlay(isPlay);
     });
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+    setSize({ width: windowWidth, height: windowHeight });
   }, []);
+
+  window.addEventListener('resize', () => {
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+    setSize({ width: windowWidth, height: windowHeight });
+  });
 
   async function handleCloseWin() {
     window.electronAPI?.sendCsCloseWin();
@@ -33,6 +43,7 @@ const ClipScreen = () => {
           <></>
         ) : (
           <div className="right">
+            <Button type="text">{size.width}</Button>x<Button type="text">{size.height}</Button>
             <Button
               type="text"
               icon={<MinusOutlined rev={undefined} />}

@@ -28,13 +28,25 @@
       outline: 2px solid #ccc;
       display: flex;
       cursor: pointer;
+      width: 100%;
+      height: 100%;
       background-color: #ccc;
+      align-items: center;
+      justify-content: space-around;
+      .info {
+        width: 140px;
+        text-align: center;
+        .tool {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+        }
+      }
       .toolbarIcon {
-        font-size: 30px;
-        line-height: 30px;
+        font-size: 26px;
       }
       .recordBtn {
-        font-size: 18px;
+        font-size: 32px;
       }
       .settingBtn {
         line-height: 15px;
@@ -47,6 +59,7 @@
       }
       .playBtn {
         color: #1677ff;
+        font-size: 40px;
       }
       .stopBtn {
         color: red;
@@ -55,18 +68,19 @@
         color: #000;
       }
       .toggleMuteBtn {
-        font-size: 18px;
         color: #000;
       }
       .singleDigit {
         background: transparent;
       }
       .playRecorder {
-        line-height: 40px;
-        display: flex;
+        width: 55px;
+        text-align: center;
+        // line-height: 40px;
+        // display: flex;
         .toolbarTitle {
-          height: 30px;
-          line-height: 35px;
+          // height: 30px;
+          // line-height: 35px;
         }
       }
     }
