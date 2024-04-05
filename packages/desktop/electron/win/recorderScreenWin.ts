@@ -10,7 +10,7 @@ let recorderScreenWin: BrowserWindow | null = null;
 
 function createRecorderScreenWin(search?: any): BrowserWindow {
   const { x, y, width, height } = getBoundsClipScreenWin() as Rectangle;
-  let recorderScreenWinX = x;
+  let recorderScreenWinX = x + (width - WIN_CONFIG.recorderScreen.width) / 2;
   let recorderScreenWinY = y + height;
 
   recorderScreenWin = new BrowserWindow({
@@ -18,15 +18,15 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
     icon: ICON,
     x: recorderScreenWinX,
     y: recorderScreenWinY,
-    width: width,
+    width: WIN_CONFIG.recorderScreen.width,
     height: WIN_CONFIG.recorderScreen.height,
     autoHideMenuBar: WIN_CONFIG.recorderScreen.autoHideMenuBar, // 自动隐藏菜单栏
-    frame: WIN_CONFIG.recorderScreen.frame, // 无边框窗口
+    // frame: WIN_CONFIG.recorderScreen.frame, // 无边框窗口
     hasShadow: WIN_CONFIG.recorderScreen.hasShadow, // 窗口是否有阴影
     fullscreenable: WIN_CONFIG.recorderScreen.fullscreenable, // 窗口是否可以进入全屏状态
     alwaysOnTop: WIN_CONFIG.recorderScreen.alwaysOnTop, // 窗口是否永远在别的窗口的上面
-    skipTaskbar: WIN_CONFIG.recorderScreen.skipTaskbar,
-    resizable: WIN_CONFIG.recorderScreen.resizable,
+    // skipTaskbar: WIN_CONFIG.recorderScreen.skipTaskbar,
+    // resizable: WIN_CONFIG.recorderScreen.resizable,
     webPreferences: {
       preload,
     },
@@ -40,16 +40,16 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
     });
   }
 
-  recorderScreenWin.on('move', () => {
-    const recorderScreenWinBounds = getBoundsRecorderScreenWin() as Rectangle;
-    const clipScreenWinBounds = getBoundsClipScreenWin() as Rectangle;
-    setBoundsClipScreenWin({
-      x: recorderScreenWinBounds.x,
-      y: recorderScreenWinBounds.y - clipScreenWinBounds.height,
-      width: clipScreenWinBounds.width,
-      height: clipScreenWinBounds.height,
-    });
-  });
+  // recorderScreenWin.on('move', () => {
+  //   const recorderScreenWinBounds = getBoundsRecorderScreenWin() as Rectangle;
+  //   const clipScreenWinBounds = getBoundsClipScreenWin() as Rectangle;
+  //   setBoundsClipScreenWin({
+  //     x: recorderScreenWinBounds.x,
+  //     y: recorderScreenWinBounds.y - clipScreenWinBounds.height,
+  //     width: clipScreenWinBounds.width,
+  //     height: clipScreenWinBounds.height,
+  //   });
+  // });
 
   return recorderScreenWin;
 }
@@ -81,9 +81,9 @@ function minimizeRecorderScreenWin() {
 }
 
 function setSizeRecorderScreenWin(width: number, height: number) {
-  recorderScreenWin?.setResizable(true);
-  recorderScreenWin?.setSize(width, height);
-  recorderScreenWin?.setResizable(false);
+  // recorderScreenWin?.setResizable(true);
+  // recorderScreenWin?.setSize(width, height);
+  // recorderScreenWin?.setResizable(false);
 }
 
 function getBoundsRecorderScreenWin() {

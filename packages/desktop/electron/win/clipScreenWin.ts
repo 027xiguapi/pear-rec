@@ -19,27 +19,28 @@ function createClipScreenWin(): BrowserWindow {
     transparent: WIN_CONFIG.clipScreen.transparent, // 使窗口透明
     fullscreenable: WIN_CONFIG.clipScreen.fullscreenable, // 窗口是否可以进入全屏状态
     alwaysOnTop: WIN_CONFIG.clipScreen.alwaysOnTop, // 窗口是否永远在别的窗口的上面
+    skipTaskbar: WIN_CONFIG.clipScreen.skipTaskbar,
     webPreferences: {
       preload,
     },
   });
 
+  // clipScreenWin.webContents.openDevTools();
   if (url) {
     clipScreenWin.loadURL(WEB_URL + 'clipScreen.html');
-    // clipScreenWin.webContents.openDevTools();
   } else {
     clipScreenWin.loadFile(WIN_CONFIG.clipScreen.html);
   }
 
-  clipScreenWin.on('resize', () => {
-    const clipScreenWinBounds = getBoundsClipScreenWin();
-    setBoundsRecorderScreenWin(clipScreenWinBounds);
-  });
+  // clipScreenWin.on('resize', () => {
+  //   const clipScreenWinBounds = getBoundsClipScreenWin();
+  //   setBoundsRecorderScreenWin(clipScreenWinBounds);
+  // });
 
-  clipScreenWin.on('move', () => {
-    const clipScreenWinBounds = getBoundsClipScreenWin();
-    setBoundsRecorderScreenWin(clipScreenWinBounds);
-  });
+  // clipScreenWin.on('move', () => {
+  //   const clipScreenWinBounds = getBoundsClipScreenWin();
+  //   setBoundsRecorderScreenWin(clipScreenWinBounds);
+  // });
 
   clipScreenWin.on('restore', () => {
     showRecorderScreenWin();

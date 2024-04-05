@@ -1,4 +1,4 @@
-import { CameraOutlined, ExclamationCircleFilled, SettingOutlined } from '@ant-design/icons';
+import { CameraOutlined, ExclamationCircleFilled, DesktopOutlined } from '@ant-design/icons';
 import Timer from '@pear-rec/timer';
 import useTimer from '@pear-rec/timer/src/useTimer';
 import { mp4StreamToOPFSFile } from '@webav/av-cliper';
@@ -12,6 +12,7 @@ import { db, defaultUser } from '../../db';
 import PauseRecorder from './PauseRecorder';
 import PlayRecorder from './PlayRecorder';
 import StopRecorder from './StopRecorder';
+import MuteRecorder from './MuteRecorder';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 
@@ -44,6 +45,7 @@ const ScreenRecorder = (props) => {
     } else {
       initCropArea();
     }
+    loadFfmpeg();
     user.id || getCurrentUser();
     return () => {
       mediaRecorder.current?.stop();
@@ -55,7 +57,6 @@ const ScreenRecorder = (props) => {
       if (outputStream.current == null) return;
       const opfsFile = await mp4StreamToOPFSFile(outputStream.current);
       type == 'gif' ? transcodeGif(opfsFile) : saveFile(opfsFile);
-      // window.isOffline ? saveAs(opfsFile, `pear-rec_${+new Date()}.mp4`) : saveFile(opfsFile);
       isSave.current = false;
     })();
   }, [outputStream.current]);
@@ -175,7 +176,6 @@ const ScreenRecorder = (props) => {
   }
 
   async function setMediaRecorder() {
-    // window.isElectron && (await cropStream());
     if (window.isElectron) {
       await cropStream();
     } else {
@@ -186,8 +186,11 @@ const ScreenRecorder = (props) => {
     mediaRecorder.current = new AVRecorder(recodeMS, { width: size.width, height: size.height });
   }
 
-  function handleOpenSettingWin() {
-    window.electronAPI ? window.electronAPI.sendSeOpenWin() : window.open('/setting.html');
+  function handleFullRecordScreen() {
+    window.electronAPI?.sendRsCloseWin();
+    window.electronAPI
+      ? window.electronAPI.sendRfsOpenWin()
+      : window.open('/recorderFullScreen.html');
   }
 
   function handleShotScreen() {
@@ -315,48 +318,46 @@ const ScreenRecorder = (props) => {
   }
 
   return (
-    <div
-      className="screenRecorder"
-      style={{
-        top: props.position ? props.position.y + props.size.height + 2 : 0,
-        left: props.position ? props.position.x : 0,
-        width: props.size ? props.size.width : '100%',
-      }}
-    >
+    <div className="screenRecorder">
       <video ref={videoRef} className="hide" playsInline autoPlay />
-      <Button
-        type="text"
-        icon={<BsRecordCircle />}
-        className={`toolbarIcon recordBtn ${isRecording ? 'blink' : ''}`}
-      ></Button>
-      <Button
-        type="text"
-        icon={<SettingOutlined />}
-        className="toolbarIcon settingBtn"
-        title={t('nav.setting')}
-        onClick={handleOpenSettingWin}
-      ></Button>
-      <Button
-        type="text"
-        icon={<CameraOutlined />}
-        className="toolbarIcon shotScreenBtn"
-        title={t('recorderScreen.shotScreen')}
-        onClick={handleShotScreen}
-      ></Button>
-      <div className="drgan"></div>
+      <div>
+        <div className={`toolbarIcon recordBtn ${isRecording ? 'blink' : ''}`}>
+          <BsRecordCircle />
+        </div>
+        <div>录制</div>
+      </div>
+      <div className="info">
+        <Timer
+          seconds={timer.seconds}
+          minutes={timer.minutes}
+          hours={timer.hours}
+          isShowTitle={false}
+          className="timer"
+        />
+        <div className="tool">
+          <div
+            className="toolbarIcon fullRecordScreenBtn"
+            title={t('recorderScreen.fullRecordScreenBtn')}
+            onClick={handleFullRecordScreen}
+          >
+            <DesktopOutlined />
+          </div>
+          <div
+            className="toolbarIcon shotScreenBtn"
+            title={t('recorderScreen.shotScreen')}
+            onClick={handleShotScreen}
+          >
+            <CameraOutlined />
+          </div>
+          <MuteRecorder />
+        </div>
+      </div>
       {isSave.current ? (
         <Button type="text" loading>
           {t('recorderScreen.saving')}...
         </Button>
       ) : isRecording ? (
         <>
-          {/* <MuteRecorder /> */}
-          <Timer
-            seconds={timer.seconds}
-            minutes={timer.minutes}
-            hours={timer.hours}
-            isShowTitle={false}
-          />
           <PauseRecorder pauseRecord={handlePauseRecord} resumeRecord={handleResumeRecord} />
           <StopRecorder stopRecord={handleStopRecord} />
         </>

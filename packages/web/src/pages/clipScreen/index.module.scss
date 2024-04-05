@@ -1,18 +1,18 @@
 .clipScreen {
-	border: 1px dashed #1677ff;
-	width: calc(100vw - 2px);
-	height: calc(100vh - 2px);
-	overflow: hidden;
-	-webkit-app-region: drag;
-	:global {
-		.header {
-			display: flex;
-			flex-direction: row-reverse;
-			.right {
-				width: 66px;
-				background-color: rgba(204, 201, 201, 0.2);
-				-webkit-app-region: no-drag;
-			}
-		}
-	}
+  border: 1px dashed #1677ff;
+  width: calc(100vw - 2px);
+  height: calc(100vh - 2px);
+  overflow: hidden;
+  -webkit-app-region: drag;
+  :global {
+    .header {
+      display: flex;
+      flex-direction: row-reverse;
+      .right {
+        // width: 150px;
+        background-color: rgba(204, 201, 201, 0.2);
+        -webkit-app-region: no-drag;
+      }
+    }
+  }
 }
