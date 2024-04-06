@@ -61,7 +61,8 @@
     "play": "abspielen",
     "width": "Breite",
     "height": "Höhe",
-    "shotScreen": "shotScreen"
+    "shotScreen": "shotScreen",
+    "fullRecordScreen": "fullScreen"
   },
   "recorderVideo": {
     "tip": "Zum Starten der Aufnahme auf 'Start' klicken",

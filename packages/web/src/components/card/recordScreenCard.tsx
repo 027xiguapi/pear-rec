@@ -1,4 +1,4 @@
-import { CameraOutlined, DownOutlined } from '@ant-design/icons';
+import { DesktopOutlined, DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Card, Dropdown, Space } from 'antd';
 import { forwardRef, useImperativeHandle } from 'react';
@@ -57,7 +57,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
       <div className="cardContent">
         <Dropdown menu={{ items, onClick }}>
           <Space>
-            <CameraOutlined className="cardIcon" onClick={() => handleClipScreenClick('video')} />
+            <DesktopOutlined className="cardIcon" onClick={() => handleClipScreenClick('video')} />
             <DownOutlined className="cardToggle" />
           </Space>
         </Dropdown>

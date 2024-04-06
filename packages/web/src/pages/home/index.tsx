@@ -127,6 +127,7 @@ const Home: React.FC = () => {
         <div className="wavesurfer2"></div>
         <div className="nav">
           <Anchor
+            className="anchor"
             direction="horizontal"
             getCurrentAnchor={getCurrentAnchor}
             items={[

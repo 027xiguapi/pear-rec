@@ -1,18 +1,18 @@
 .home {
   overflow: hidden;
-  border-radius: 8px;
+  // border-radius: 8px;
   :global {
     .container {
       position: relative;
       overflow: hidden;
-      padding: 0 10px 10px 10px;
-      height: calc(100% - 50px);
+      padding: 0 10px 0px 10px;
+      height: calc(100% - 40px);
       .wavesurfer1 {
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 260px;
+        height: 140px;
         --c: rgb(118, 218, 255);
         --w1: radial-gradient(100% 57% at top, #0000 100%, var(--c) 100.5%) no-repeat;
         --w2: radial-gradient(100% 57% at bottom, var(--c) 100%, #0000 100.5%) no-repeat;
@@ -35,8 +35,8 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 260px;
-        --c: #2196f3;
+        height: 140px;
+        --c: rgb(118, 218, 255);
         --w1: radial-gradient(100% 57% at top, #0000 100%, var(--c) 100.5%) no-repeat;
         --w2: radial-gradient(100% 57% at bottom, var(--c) 100%, #0000 100.5%) no-repeat;
         background: var(--w1), var(--w2), var(--w1), var(--w2);
@@ -55,10 +55,21 @@
         z-index: -2;
       }
       .nav {
-        padding: 0 0 20px;
+        width: calc(100% - 20px);
+        padding: 0 0 10px;
+        position: absolute;
+        top: 0;
+        margin-top: 4px;
+        .anchor {
+          margin-block-start: 0px;
+          padding-block-start: 0px;
+          height: 30px;
+        }
       }
       .content {
-        height: calc(100% - 45px);
+        position: absolute;
+        top: 40px;
+        height: calc(100% - 50px);
         overflow-x: hidden;
         overflow-y: scroll;
       }
@@ -106,8 +117,8 @@
       display: none;
     }
     .homeFooter {
-      background-color: rgba(204, 201, 201, 0.2);
-      height: 35px;
+      background-color: #2e2e2e;
+      height: 40px;
       width: 100%;
       padding-left: 8px;
       padding-top: 2px;
@@ -115,7 +126,7 @@
         height: 33px;
         font-size: 20px;
         line-height: 18px;
-        color: #1677ff;
+        color: #fff;
         margin-right: 13px;
       }
     }

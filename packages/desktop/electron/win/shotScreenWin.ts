@@ -22,6 +22,7 @@ function createShotScreenWin(): BrowserWindow {
     fullscreen: WIN_CONFIG.shotScreen.fullscreen, // 窗口是否全屏
     simpleFullscreen: WIN_CONFIG.shotScreen.simpleFullscreen, // 在 macOS 上使用 pre-Lion 全屏
     alwaysOnTop: WIN_CONFIG.shotScreen.alwaysOnTop,
+    skipTaskbar: WIN_CONFIG.shotScreen.skipTaskbar,
     webPreferences: {
       preload,
     },
@@ -70,6 +71,9 @@ async function showShotScreenWin() {
   source || (source = sources[0]);
   const img = source.thumbnail.toDataURL();
   shotScreenWin?.webContents.send('ss:show-win', img);
+  if (!shotScreenWin || shotScreenWin?.isDestroyed()) {
+    shotScreenWin = createShotScreenWin();
+  }
   shotScreenWin?.show();
 }
 
