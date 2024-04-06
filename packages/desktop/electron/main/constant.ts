@@ -157,6 +157,7 @@ export const WIN_CONFIG = {
     fullscreen: true, // 窗口是否全屏
     simpleFullscreen: true, // 在 macOS 上使用 pre-Lion 全屏
     alwaysOnTop: true,
+    skipTaskbar: true,
   },
   spliceImage: {
     html: path.join(process.env.DIST, 'spliceImage.html'),

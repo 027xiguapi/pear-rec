@@ -198,15 +198,11 @@ function ShotScreen() {
   }, []);
 
   async function copyImg(blob) {
-    if (window.isElectron) {
-      window.electronAPI.sendSsCopyImg(blob);
-    } else {
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          [blob.type]: blob,
-        }),
-      ]);
-    }
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        [blob.type]: blob,
+      }),
+    ]);
   }
 
   function handleUploadImg(files) {

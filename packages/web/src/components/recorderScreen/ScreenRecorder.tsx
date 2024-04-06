@@ -12,7 +12,10 @@ import { db, defaultUser } from '../../db';
 import PauseRecorder from './PauseRecorder';
 import PlayRecorder from './PlayRecorder';
 import StopRecorder from './StopRecorder';
-import MuteRecorder from './MuteRecorder';
+import MicMuteRecorder from './MicMuteRecorder';
+import SoundMuteRecorder from './SoundMuteRecorder';
+import FullScreen from './FullScreen';
+import ShotScreen from './ShotScreen';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 
@@ -186,13 +189,6 @@ const ScreenRecorder = (props) => {
     mediaRecorder.current = new AVRecorder(recodeMS, { width: size.width, height: size.height });
   }
 
-  function handleFullRecordScreen() {
-    window.electronAPI?.sendRsCloseWin();
-    window.electronAPI
-      ? window.electronAPI.sendRfsOpenWin()
-      : window.open('/recorderFullScreen.html');
-  }
-
   function handleShotScreen() {
     const { width, height } = props.size;
     const canvas = document.createElement('canvas');
@@ -335,21 +331,10 @@ const ScreenRecorder = (props) => {
           className="timer"
         />
         <div className="tool">
-          <div
-            className="toolbarIcon fullRecordScreenBtn"
-            title={t('recorderScreen.fullRecordScreenBtn')}
-            onClick={handleFullRecordScreen}
-          >
-            <DesktopOutlined />
-          </div>
-          <div
-            className="toolbarIcon shotScreenBtn"
-            title={t('recorderScreen.shotScreen')}
-            onClick={handleShotScreen}
-          >
-            <CameraOutlined />
-          </div>
-          <MuteRecorder />
+          <FullScreen />
+          <ShotScreen onShotScreen={handleShotScreen} />
+          <MicMuteRecorder />
+          <SoundMuteRecorder />
         </div>
       </div>
       {isSave.current ? (

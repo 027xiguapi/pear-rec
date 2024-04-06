@@ -65,7 +65,8 @@
     "play": "开始",
     "width": "长",
     "height": "高",
-    "shotScreen": "截图"
+    "shotScreen": "截图",
+    "fullRecordScreen": "全屏"
   },
   "recorderVideo": {
     "tip": "点击下面开始按钮开始录制",
