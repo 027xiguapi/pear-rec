@@ -14,7 +14,7 @@ const FullScreen = (props) => {
 
   return (
     <div
-      className="toolbarIcon fullRecordScreenBtn"
+      className={`${props.isRecording ? 'disabled' : ''} toolbarIcon fullRecordScreenBtn`}
       title={t('recorderScreen.fullRecordScreen')}
       onClick={handleFullRecordScreen}
     >

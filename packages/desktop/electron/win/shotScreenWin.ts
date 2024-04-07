@@ -8,7 +8,7 @@ let downloadSet: Set<string> = new Set();
 
 function createShotScreenWin(): BrowserWindow {
   shotScreenWin = new BrowserWindow({
-    title: 'pear-rec 截屏',
+    title: 'pear-rec 截图',
     icon: ICON,
     show: false,
     autoHideMenuBar: WIN_CONFIG.shotScreen.autoHideMenuBar, // 自动隐藏菜单栏

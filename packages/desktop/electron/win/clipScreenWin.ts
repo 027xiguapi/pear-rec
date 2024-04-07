@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron';
 import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 import {
-  hideRecorderScreenWin,
+  minimizeRecorderScreenWin,
   openRecorderScreenWin,
   setBoundsRecorderScreenWin,
   showRecorderScreenWin,
@@ -42,13 +42,13 @@ function createClipScreenWin(): BrowserWindow {
   //   setBoundsRecorderScreenWin(clipScreenWinBounds);
   // });
 
-  clipScreenWin.on('restore', () => {
-    showRecorderScreenWin();
-  });
+  // clipScreenWin.on('restore', () => {
+  //   showRecorderScreenWin();
+  // });
 
-  clipScreenWin.on('minimize', () => {
-    hideRecorderScreenWin();
-  });
+  // clipScreenWin.on('minimize', () => {
+  //   hideRecorderScreenWin();
+  // });
 
   return clipScreenWin;
 }
@@ -93,6 +93,7 @@ function setResizableClipScreenWin(resizable: boolean) {
 
 function minimizeClipScreenWin() {
   clipScreenWin?.minimize();
+  minimizeRecorderScreenWin();
 }
 
 function setIgnoreMouseEventsClipScreenWin(event: any, ignore: boolean, options?: any) {

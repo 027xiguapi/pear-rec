@@ -3,14 +3,16 @@ import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 import {
   closeClipScreenWin,
   getBoundsClipScreenWin,
-  setBoundsClipScreenWin,
+  showClipScreenWin,
+  minimizeClipScreenWin,
 } from './clipScreenWin';
 
 let recorderScreenWin: BrowserWindow | null = null;
 
 function createRecorderScreenWin(search?: any): BrowserWindow {
   const { x, y, width, height } = getBoundsClipScreenWin() as Rectangle;
-  let recorderScreenWinX = x + (width - WIN_CONFIG.recorderScreen.width) / 2;
+  // let recorderScreenWinX = x + (width - WIN_CONFIG.recorderScreen.width) / 2;
+  let recorderScreenWinX = x + width + 4 - WIN_CONFIG.recorderScreen.width;
   let recorderScreenWinY = y + height;
 
   recorderScreenWin = new BrowserWindow({
@@ -21,7 +23,7 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
     width: WIN_CONFIG.recorderScreen.width,
     height: WIN_CONFIG.recorderScreen.height,
     autoHideMenuBar: WIN_CONFIG.recorderScreen.autoHideMenuBar, // 自动隐藏菜单栏
-    // frame: WIN_CONFIG.recorderScreen.frame, // 无边框窗口
+    maximizable: WIN_CONFIG.recorderScreen.maximizable,
     hasShadow: WIN_CONFIG.recorderScreen.hasShadow, // 窗口是否有阴影
     fullscreenable: WIN_CONFIG.recorderScreen.fullscreenable, // 窗口是否可以进入全屏状态
     alwaysOnTop: WIN_CONFIG.recorderScreen.alwaysOnTop, // 窗口是否永远在别的窗口的上面
@@ -51,6 +53,18 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
   //   });
   // });
 
+  recorderScreenWin.on('restore', () => {
+    showClipScreenWin();
+  });
+
+  recorderScreenWin.on('minimize', () => {
+    minimizeClipScreenWin();
+  });
+
+  recorderScreenWin.on('close', () => {
+    closeClipScreenWin();
+  });
+
   return recorderScreenWin;
 }
 
@@ -58,7 +72,6 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
 function closeRecorderScreenWin() {
   recorderScreenWin?.isDestroyed() || recorderScreenWin?.close();
   recorderScreenWin = null;
-  closeClipScreenWin();
 }
 
 function openRecorderScreenWin(search?: any) {

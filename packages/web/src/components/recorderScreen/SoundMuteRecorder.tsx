@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MutedOutlined, SoundOutlined } from '@ant-design/icons';
 
-const SoundMuteRecorder = () => {
+const SoundMuteRecorder = (props) => {
   const { t } = useTranslation();
   const [isMute, setIsMute] = useState(false); // 标记是否静音
 
@@ -24,7 +24,9 @@ const SoundMuteRecorder = () => {
 
   return (
     <div
-      className={`toolbarIcon toggleMuteBtn ${isMute ? '' : 'muted'}`}
+      className={`${props.isRecording ? 'disabled' : ''} ${
+        isMute ? '' : 'muted'
+      } toolbarIcon toggleMuteBtn`}
       onClick={handleToggleMute}
       title={isMute ? t('recorderScreen.unmute') : t('recorderScreen.mute')}
     >

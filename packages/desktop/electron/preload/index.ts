@@ -150,7 +150,8 @@ if (location.pathname.includes('/index.html')) {
   if (
     !location.pathname.includes('/shotScreen.html') &&
     !location.pathname.includes('/clipScreen.html') &&
-    !location.pathname.includes('/canvas.html')
+    !location.pathname.includes('/canvas.html') &&
+    !location.pathname.includes('/recorderScreen.html')
   ) {
     domReady().then(appendLoading);
 

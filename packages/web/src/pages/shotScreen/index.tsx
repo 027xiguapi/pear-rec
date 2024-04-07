@@ -165,6 +165,10 @@ function ShotScreen() {
         copyImg(blob);
         if (window.isElectron) {
           window.electronAPI?.sendSsCloseWin();
+          window.electronAPI?.sendNotification({
+            title: '截图通知',
+            body: '截图完成',
+          });
           isPin
             ? window.electronAPI?.sendPiOpenWin({
                 recordId: recordId,

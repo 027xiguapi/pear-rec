@@ -1,6 +1,6 @@
 {
   "tray": {
-    "screenshot": "截屏",
+    "screenshot": "截图",
     "audioRecording": "录音",
     "screenRecording": "录屏",
     "videoRecording": "录像",
@@ -38,7 +38,7 @@
     "audioRecording": "录音",
     "screenRecording": "录屏",
     "videoRecording": "录像",
-    "screenshot": "截屏",
+    "screenshot": "截图",
     "fullScreen": "全屏",
     "viewImage": "查看图片",
     "playAudio": "查看音频",

@@ -120,7 +120,7 @@ export const WIN_CONFIG = {
     width: 340,
     height: 130,
     autoHideMenuBar: true, // 自动隐藏菜单栏
-    frame: false, // 无边框窗口
+    maximizable: false, // 最大
     hasShadow: false, // 窗口是否有阴影
     fullscreenable: false, // 窗口是否可以进入全屏状态
     alwaysOnTop: true, // 窗口是否永远在别的窗口的上面

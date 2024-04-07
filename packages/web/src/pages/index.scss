@@ -26,16 +26,6 @@ td {
   margin: 0;
   padding: 0;
 }
-// body,
-// button,
-// input,
-// select,
-// textarea {
-//   font:
-//     12px/1.5 tahoma,
-//     arial,
-//     \5b8b\4f53;
-// }
 h1,
 h2,
 h3,
@@ -154,6 +144,11 @@ table {
 .blink {
   color: red !important;
   animation: blink 1s linear infinite;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 #root {
