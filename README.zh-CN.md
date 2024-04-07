@@ -82,7 +82,7 @@ pnpm run clear
 - [x] 动图(gif.js)
   - [x] 录制
   - [x] 编辑
-- [x] 截屏(react-screenshots)
+- [x] 截图(react-screenshots)
   - [x] 框选裁切
   - [x] 框选大小位置可调整
   - [x] 取色器

@@ -331,10 +331,10 @@ const ScreenRecorder = (props) => {
           className="timer"
         />
         <div className="tool">
-          <FullScreen />
+          <FullScreen isRecording={isRecording} />
           <ShotScreen onShotScreen={handleShotScreen} />
-          <MicMuteRecorder />
-          <SoundMuteRecorder />
+          <MicMuteRecorder isRecording={isRecording} />
+          <SoundMuteRecorder isRecording={isRecording} />
         </div>
       </div>
       {isSave.current ? (

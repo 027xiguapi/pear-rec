@@ -18,10 +18,10 @@
   <img src="../assets/imgs/home.jpg" title="首页" />
 </center>
 
-## 截屏
+## 截图
 
 <center>
-  <img src="../assets/imgs/ss.jpg" title="截屏" />
+  <img src="../assets/imgs/ss.jpg" title="截图" />
 </center>
 
 ## 录屏

@@ -4,6 +4,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // logger
   sendLogger: (msg: any) => ipcRenderer.send('lg:send-msg', msg),
 
+  // notification
+  sendNotification: (options: any) => ipcRenderer.send('nt:send-msg', options),
+
   // mainWin
   sendMaOpenWin: () => ipcRenderer.send('ma:open-win'),
   sendMaCloseWin: () => ipcRenderer.send('ma:close-win'),

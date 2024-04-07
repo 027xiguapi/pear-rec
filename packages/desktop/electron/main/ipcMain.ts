@@ -30,6 +30,7 @@ import * as viewVideoWin from '../win/viewVideoWin';
 import * as videoConverterWin from '../win/videoConverterWin';
 import * as globalShortcut from './globalShortcut';
 import logger from './logger';
+import { showNotification } from './notification';
 import * as utils from './utils';
 
 const selfWindws = async () =>
@@ -57,6 +58,11 @@ function initIpcMain() {
   // 日志
   ipcMain.on('lg:send-msg', (e, msg) => {
     logger.info(msg);
+  });
+
+  // 通知
+  ipcMain.on('nt:send-msg', (e, options) => {
+    showNotification(options);
   });
 
   // 主页
@@ -89,8 +95,6 @@ function initIpcMain() {
     return clipScreenWin.getBoundsClipScreenWin();
   });
   ipcMain.on('rs:start-record', (event) => {
-    // recorderScreenWin.setMovableRecorderScreenWin(false);
-    // recorderScreenWin.setResizableRecorderScreenWin(false);
     clipScreenWin.setMovableClipScreenWin(false);
     clipScreenWin.setResizableClipScreenWin(false);
     clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, true, {
@@ -99,16 +103,12 @@ function initIpcMain() {
     clipScreenWin.setIsPlayClipScreenWin(true);
   });
   ipcMain.on('rs:pause-record', (event) => {
-    // recorderScreenWin.setMovableRecorderScreenWin(true);
-    // recorderScreenWin.setResizableRecorderScreenWin(true);
     clipScreenWin.setMovableClipScreenWin(true);
     clipScreenWin.setResizableClipScreenWin(true);
     clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, false);
     clipScreenWin.setIsPlayClipScreenWin(false);
   });
   ipcMain.on('rs:stop-record', (event) => {
-    // recorderScreenWin.setMovableRecorderScreenWin(true);
-    // recorderScreenWin.setResizableRecorderScreenWin(true);
     clipScreenWin.setMovableClipScreenWin(true);
     clipScreenWin.setResizableClipScreenWin(true);
     clipScreenWin.setIgnoreMouseEventsClipScreenWin(event, false);
