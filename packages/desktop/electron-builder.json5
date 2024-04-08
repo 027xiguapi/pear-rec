@@ -7,7 +7,7 @@
   copyright: 'Copyright © 2024 ${author}',
   asar: true,
   directories: {
-    output: 'release/${version}',
+    output: 'release',
   },
   files: ['dist-electron', 'dist', '.env'],
   mac: {

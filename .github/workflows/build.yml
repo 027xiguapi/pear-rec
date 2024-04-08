@@ -1,0 +1,44 @@
+name: Build
+'on':
+  push:
+    tags:
+      - v*
+jobs:
+  build:
+    name: build and release electron app
+    runs-on: '${{ matrix.os }}'
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        with:
+          version: 8
+
+      - name: Install Dependencies
+        run: pnpm install
+      - name: Build Electron App
+        run: 'pnpm run build:desktop'
+        env:
+          GITHUB_TOKEN: '${{ secrets.ACCESS_TOKEN }}'
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: '${{ matrix.os }}'
+          path: packages/desktop/release
+      - name: release
+        uses: softprops/action-gh-release@v2
+        if: "startsWith(github.ref, 'refs/tags/')"
+        with:
+          files: packages/desktop/release/**
+        env:
+          GITHUB_TOKEN: '${{ secrets.ACCESS_TOKEN }}'
