@@ -11,7 +11,7 @@
   },
   files: ['dist-electron', 'dist', '.env'],
   mac: {
-    icon: 'build/mac/icon.icns',
+    icon: 'build/icons/mac/icon.icns',
     artifactName: '${productName}-Mac-${version}-Installer.${ext}',
     target: ['dmg', 'zip'],
   },
