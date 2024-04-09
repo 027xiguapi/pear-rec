@@ -148,9 +148,9 @@ pnpm run clear
 
 ## 👇 Download
 
-| 系统 | Windows                                                 | Linux | Macos |
-| ---- | ------------------------------------------------------- | ----- | ----- |
-| 链接 | [下载](https://github.com/027xiguapi/pear-rec/releases) | ◯     | ◯     |
+| 系统 | Windows | Linux | Macos |
+| --- | --- | --- | --- |
+| 链接 | [下载](https://github.com/027xiguapi/pear-rec/releases) | [下载](https://github.com/027xiguapi/pear-rec/releases) | [下载](https://github.com/027xiguapi/pear-rec/releases) |
 
 国内可以用 [GitHub Proxy](https://ghproxy.com/) 加速下载
 

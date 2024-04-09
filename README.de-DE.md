@@ -77,9 +77,9 @@ pnpm run clear
 
 ## Download
 
-| OS   | Windows                                                     | Linux | Macos |
-| ---- | ----------------------------------------------------------- | ----- | ----- |
-| link | [Download](https://github.com/027xiguapi/pear-rec/releases) | ◯     | ◯     |
+| OS | Windows | Linux | Macos |
+| --- | --- | --- | --- |
+| link | [Download](https://github.com/027xiguapi/pear-rec/releases) | [Download](https://github.com/027xiguapi/pear-rec/releases) | [Download](https://github.com/027xiguapi/pear-rec/releases) |
 
 ## Feedback
 

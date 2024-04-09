@@ -1,4 +1,5 @@
-import { GithubFilled, HistoryOutlined, SettingOutlined } from '@ant-design/icons';
+import { HistoryOutlined, SettingOutlined } from '@ant-design/icons';
+import { GithubOne } from '@icon-park/react';
 import { useTranslation } from 'react-i18next';
 import UpdateElectron from '../update';
 
@@ -22,7 +23,13 @@ const HomeFooter = () => {
       <SettingOutlined className="icon" title={t('nav.setting')} onClick={handleOpenSettingWin} />
       <HistoryOutlined className="icon" title={t('nav.record')} onClick={handleOpenRecordWin} />
       <UpdateElectron />
-      <GithubFilled className="icon" title={t('nav.github')} onClick={handleOpenGithub} />
+      <GithubOne
+        className="icon"
+        size={24}
+        strokeWidth={3}
+        title={t('nav.github')}
+        onClick={handleOpenGithub}
+      />
     </div>
   );
 };

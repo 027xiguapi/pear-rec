@@ -144,9 +144,9 @@ Features that have been ticked are the latest in the development process but may
 
 ## 👇 Download
 
-| OS   | Windows                                                     | Linux | Macos |
-| ---- | ----------------------------------------------------------- | ----- | ----- |
-| link | [Download](https://github.com/027xiguapi/pear-rec/releases) | ◯     | ◯     |
+| OS | Windows | Linux | Macos |
+| --- | --- | --- | --- |
+| Link | [Download](https://github.com/027xiguapi/pear-rec/releases) | [Download](https://github.com/027xiguapi/pear-rec/releases) | [Download](https://github.com/027xiguapi/pear-rec/releases) |
 
 ## 👨‍👨‍👦‍👦 Feedback
 
