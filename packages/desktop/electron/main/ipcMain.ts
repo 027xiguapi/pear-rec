@@ -89,7 +89,10 @@ function initIpcMain() {
     recorderScreenWin.minimizeRecorderScreenWin();
   });
   ipcMain.handle('rs:get-desktop-capturer-source', async () => {
-    return [...(await desktopCapturer.getSources({ types: ['screen'] })), ...(await selfWindws())];
+    const { id } = screen.getPrimaryDisplay();
+    const sources = [...(await desktopCapturer.getSources({ types: ['screen'] }))];
+    let source = sources.filter((e: any) => parseInt(e.display_id, 10) == id)[0];
+    return source;
   });
   ipcMain.handle('rs:get-bounds-clip', async () => {
     return clipScreenWin.getBoundsClipScreenWin();
@@ -187,9 +190,6 @@ function initIpcMain() {
   });
   ipcMain.on('ss:open-external', async (e, tabUrl) => {
     shell.openExternal(tabUrl);
-  });
-  ipcMain.handle('ss:get-desktop-capturer-source', async () => {
-    return [...(await desktopCapturer.getSources({ types: ['screen'] })), ...(await selfWindws())];
   });
   ipcMain.on('ss:copy-img', (e, imgUrl) => {
     shotScreenWin.copyImg(imgUrl);

@@ -5,8 +5,7 @@ const SelectMedia = (props) => {
   const { t } = useTranslation();
 
   async function getMediaElectron() {
-    const sources = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
-    const source = sources.filter((e: any) => e.id == 'screen:0:0')[0] || sources[0];
+    const source = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
     const constraints: any = {
       audio: false,
       video: {

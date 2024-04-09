@@ -122,12 +122,16 @@
       width: 100%;
       padding-left: 8px;
       padding-top: 2px;
+      display: flex;
+      align-items: center;
       .icon {
-        height: 33px;
+        height: 100%;
+        display: flex;
+        align-items: center;
         font-size: 20px;
-        line-height: 18px;
         color: #fff;
         margin-right: 13px;
+        cursor: pointer;
       }
     }
   }

@@ -1,5 +1,9 @@
 # @pear-rec/desktop
 
+## 1.3.15
+
+fix: 多屏录屏 bug
+
 ## 1.3.14
 
 feat: 增加视频转换
