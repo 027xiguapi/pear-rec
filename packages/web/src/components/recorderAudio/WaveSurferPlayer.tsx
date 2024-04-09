@@ -48,8 +48,6 @@ const WaveSurferPlayer = (props) => {
     const data = await fetch(url);
     const blob = await data.blob();
 
-    // window.isOffline ? saveAs(url, `pear-rec_${+new Date()}.webm`) : saveFile(blob);
-    // window.isElectron ? saveFile(blob) : saveAs(url, `pear-rec_${+new Date()}.webm`);
     saveFile(blob);
   }, [wavesurfer]);
 

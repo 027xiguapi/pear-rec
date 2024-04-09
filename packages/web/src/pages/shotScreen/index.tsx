@@ -165,19 +165,15 @@ function ShotScreen() {
         copyImg(blob);
         if (window.isElectron) {
           window.electronAPI?.sendSsCloseWin();
-          window.electronAPI?.sendNotification({
-            title: '截图通知',
-            body: '截图完成',
-          });
-          isPin
-            ? window.electronAPI?.sendPiOpenWin({
-                recordId: recordId,
-              })
-            : window.electronAPI?.sendViOpenWin({
-                recordId: recordId,
-                width: bounds.width,
-                height: bounds.height,
-              });
+          if (isPin) {
+            window.electronAPI?.sendPiOpenWin({
+              recordId: recordId,
+              width: bounds.width,
+              height: bounds.height,
+            });
+          } else {
+            saveAs(blob, `pear-rec_${+new Date()}.png`);
+          }
         } else {
           Modal.confirm({
             title: '图片已保存，是否查看？',

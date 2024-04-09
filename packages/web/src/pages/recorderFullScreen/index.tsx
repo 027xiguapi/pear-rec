@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsFillStopFill, BsPause, BsPlayFill, BsRecordCircle } from 'react-icons/bs';
 import { db, defaultUser } from '../../db';
+import { saveAs } from 'file-saver';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
 
@@ -160,8 +161,9 @@ const RecorderScreen = () => {
 
   async function saveFile(blob) {
     try {
+      const fileName = `pear-rec_${+new Date()}.webm`;
       const record = {
-        fileName: `pear-rec_${+new Date()}.webm`,
+        fileName: fileName,
         fileData: blob,
         fileType: 'rs',
         userId: user.id,
@@ -172,8 +174,8 @@ const RecorderScreen = () => {
       };
       const recordId = await db.records.add(record);
       if (recordId) {
-        window.electronAPI?.sendRfsCloseWin();
-        window.electronAPI?.sendVvOpenWin({ recordId: recordId });
+        setIsSave(false);
+        saveAs(blob, fileName);
       }
     } catch (err) {
       message.error('保存失败');

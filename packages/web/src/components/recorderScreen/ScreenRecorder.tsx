@@ -32,7 +32,8 @@ const ScreenRecorder = (props) => {
   const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
   const recordedUrl = useRef<string>(''); // 存储录制的音频数据
   const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
-  const isSave = useRef<boolean>(false);
+  const [isSave, setIsSave] = useState(false);
+  // const isSave = useRef<boolean>(false);
   const [percent, setPercent] = useState(0);
   const [isLoad, setIsLoad] = useState(false);
   const ffmpegRef = useRef(new FFmpeg());
@@ -60,7 +61,6 @@ const ScreenRecorder = (props) => {
       if (outputStream.current == null) return;
       const opfsFile = await mp4StreamToOPFSFile(outputStream.current);
       type == 'gif' ? transcodeGif(opfsFile) : saveFile(opfsFile);
-      isSave.current = false;
     })();
   }, [outputStream.current]);
 
@@ -225,10 +225,11 @@ const ScreenRecorder = (props) => {
 
   // 停止录制，并将录制的音频数据导出为 Blob 对象
   async function handleStopRecord() {
-    isSave.current = true;
+    setIsSave(true);
     timer.reset();
     if (isRecording) {
       await mediaRecorder.current.stop();
+      setIsRecording(false);
     }
     worker.postMessage({
       status: 'stop',
@@ -277,8 +278,9 @@ const ScreenRecorder = (props) => {
 
   async function saveFile(blob) {
     try {
+      const fileName = `pear-rec_${+new Date()}.${type == 'gif' ? 'gif' : 'mp4'}`;
       const record = {
-        fileName: `pear-rec_${+new Date()}.${type == 'gif' ? 'gif' : 'mp4'}`,
+        fileName: fileName,
         fileData: blob,
         fileType: 'rs',
         userId: user.id,
@@ -289,11 +291,9 @@ const ScreenRecorder = (props) => {
       };
       const recordId = await db.records.add(record);
       if (recordId) {
+        setIsSave(false);
         if (window.isElectron) {
-          window.electronAPI.sendRsCloseWin();
-          type == 'gif'
-            ? window.electronAPI.sendViOpenWin({ recordId: recordId })
-            : window.electronAPI.sendVvOpenWin({ recordId: recordId });
+          saveAs(blob, fileName);
         } else {
           Modal.confirm({
             title: '录屏已保存，是否查看？',
@@ -337,7 +337,7 @@ const ScreenRecorder = (props) => {
           <SoundMuteRecorder isRecording={isRecording} />
         </div>
       </div>
-      {isSave.current ? (
+      {isSave ? (
         <Button type="text" loading>
           {t('recorderScreen.saving')}...
         </Button>

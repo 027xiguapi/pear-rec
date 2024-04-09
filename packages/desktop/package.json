@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build:win": "electron-builder",
+    "build:win": "rimraf release && electron-builder",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
     "e2e": "playwright test",
