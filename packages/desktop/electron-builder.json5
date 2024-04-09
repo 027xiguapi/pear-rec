@@ -12,8 +12,8 @@
   files: ['dist-electron', 'dist', '.env'],
   mac: {
     icon: 'build/icons/mac/icon.icns',
+    target: { target: 'dmg' },
     artifactName: '${productName}-Mac-${version}-Installer.${ext}',
-    target: ['dmg', 'zip'],
   },
   linux: {
     icon: 'build/icons/png',
@@ -25,7 +25,6 @@
     target: [
       {
         target: 'nsis',
-        arch: ['x64'],
       },
     ],
     artifactName: '${productName}-Windows-${version}-Setup.${ext}',
