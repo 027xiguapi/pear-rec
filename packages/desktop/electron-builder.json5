@@ -17,7 +17,7 @@
   },
   linux: {
     icon: 'build/icons/png',
-    target: ['AppImage'],
+    target: ['AppImage', 'deb', 'rpm'],
     artifactName: '${productName}-Linux-${version}.${ext}',
   },
   win: {
