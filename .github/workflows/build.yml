@@ -44,6 +44,8 @@ jobs:
         with:
           files: |
             packages/desktop/release/*.AppImage
+            packages/desktop/release/*.deb
+            packages/desktop/release/*.rpm
             packages/desktop/release/*.exe
             packages/desktop/release/*.dmg
             packages/desktop/release/*.yml

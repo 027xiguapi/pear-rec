@@ -1,4 +1,4 @@
-import { HistoryOutlined, SettingOutlined } from '@ant-design/icons';
+import { FileTextOutlined, SettingOutlined } from '@ant-design/icons';
 import { GithubOne } from '@icon-park/react';
 import { useTranslation } from 'react-i18next';
 import UpdateElectron from '../update';
@@ -21,7 +21,7 @@ const HomeFooter = () => {
   return (
     <div className="homeFooter">
       <SettingOutlined className="icon" title={t('nav.setting')} onClick={handleOpenSettingWin} />
-      <HistoryOutlined className="icon" title={t('nav.record')} onClick={handleOpenRecordWin} />
+      <FileTextOutlined className="icon" title={t('nav.record')} onClick={handleOpenRecordWin} />
       <UpdateElectron />
       <GithubOne
         className="icon"
