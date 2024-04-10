@@ -148,7 +148,8 @@ table {
 
 .disabled {
   opacity: 0.5;
-  cursor: not-allowed;
+  // pointer-events: none !important;
+  cursor: not-allowed !important;
 }
 
 #root {

@@ -28,12 +28,14 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
     fullscreenable: WIN_CONFIG.recorderScreen.fullscreenable, // 窗口是否可以进入全屏状态
     alwaysOnTop: WIN_CONFIG.recorderScreen.alwaysOnTop, // 窗口是否永远在别的窗口的上面
     // skipTaskbar: WIN_CONFIG.recorderScreen.skipTaskbar,
-    // resizable: WIN_CONFIG.recorderScreen.resizable,
+    resizable: WIN_CONFIG.recorderScreen.resizable,
     webPreferences: {
       preload,
     },
   });
+
   // recorderScreenWin.webContents.openDevTools();
+
   if (url) {
     recorderScreenWin.loadURL(WEB_URL + `recorderScreen.html?type=${search?.type || ''}`);
   } else {

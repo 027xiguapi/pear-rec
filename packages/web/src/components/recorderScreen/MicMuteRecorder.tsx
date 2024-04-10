@@ -7,7 +7,9 @@ const MuteRecorder = (props) => {
   const [isMute, setIsMute] = useState(false); // 标记是否静音
 
   function handleToggleMute() {
-    isMute ? unmuteRecording() : muteRecording();
+    if (!props.isRecording) {
+      isMute ? unmuteRecording() : muteRecording();
+    }
   }
 
   // 静音录制
