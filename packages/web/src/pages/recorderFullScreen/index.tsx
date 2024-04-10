@@ -267,13 +267,6 @@ const RecorderScreen = () => {
     <div className={styles.recorderFullScreen}>
       <div className={'recordTool ' + `${isRecording ? 'recording' : ''}`}>
         <BsRecordCircle className={'recordIcon ' + `${isRecording && !isPause ? 'blink' : ''}`} />
-        {/* <Button
-          type="text"
-          icon={<SettingOutlined />}
-          className="toolbarIcon settingBtn"
-          title={t('nav.setting')}
-          onClick={handleOpenSettingWin}
-        ></Button> */}
         <Button
           type="text"
           icon={<CameraOne theme="outline" size="22" fill="#333" strokeWidth={3} />}
@@ -288,13 +281,6 @@ const RecorderScreen = () => {
           title={t('nav.close')}
           onClick={handleCloseWin}
         ></Button>
-        {/* <Button
-          type="text"
-          icon={<CameraOutlined />}
-          className="toolbarIcon shotScreenBtn"
-          title={t('recorderScreen.shotScreen')}
-          onClick={handleShotScreen}
-        ></Button> */}
         <Timer
           seconds={timer.seconds}
           minutes={timer.minutes}

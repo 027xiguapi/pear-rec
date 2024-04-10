@@ -11,6 +11,7 @@ import { protocolHandle, registerSchemesAsPrivileged } from './protocol';
 import { initTray } from './tray';
 import { update } from './update';
 import { initApp } from './app';
+import { initNotification } from './notification';
 
 initConfig();
 initApp();
@@ -58,6 +59,7 @@ app.whenReady().then(() => {
   protocolHandle();
   createWindow();
   initTray(config.language);
+  initNotification();
   update();
 });
 

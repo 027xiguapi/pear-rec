@@ -6,10 +6,12 @@ const FullScreen = (props) => {
   const { t } = useTranslation();
 
   function handleFullRecordScreen() {
-    window.electronAPI?.sendRsCloseWin();
-    window.electronAPI
-      ? window.electronAPI.sendRfsOpenWin()
-      : window.open('/recorderFullScreen.html');
+    if (!props.isRecording) {
+      window.electronAPI?.sendRsCloseWin();
+      window.electronAPI
+        ? window.electronAPI.sendRfsOpenWin()
+        : window.open('/recorderFullScreen.html');
+    }
   }
 
   return (

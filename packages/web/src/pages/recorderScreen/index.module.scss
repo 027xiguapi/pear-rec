@@ -27,10 +27,8 @@
       z-index: 100;
       outline: 2px solid #ccc;
       display: flex;
-      // cursor: pointer;
       width: 100%;
       height: 100%;
-      // background-color: #ccc;
       align-items: center;
       justify-content: space-around;
       .info {
@@ -44,10 +42,27 @@
       }
       .toolbarIcon {
         font-size: 26px;
+        height: 35px;
+        display: flex;
+        width: 30px;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
+        .icon {
+          display: flex;
+          align-items: center;
+        }
+      }
+      .toolbarIcon:hover {
+        background-color: #ccc;
       }
       .recordBtn {
         font-size: 32px;
+        height: 35px;
+        display: flex;
+        width: 30px;
+        align-items: center;
+        justify-content: center;
       }
       .settingBtn {
         line-height: 15px;
@@ -61,8 +76,10 @@
       .playBtn {
         color: #1677ff;
         font-size: 40px;
+        width: 45px;
       }
       .stopBtn {
+        width: 45px;
         color: red;
       }
       .pauseBtn {
@@ -75,14 +92,8 @@
         background: transparent;
       }
       .playRecorder {
-        width: 55px;
+        width: 45px;
         text-align: center;
-        // line-height: 40px;
-        // display: flex;
-        .toolbarTitle {
-          // height: 30px;
-          // line-height: 35px;
-        }
       }
     }
     .iframeRef {

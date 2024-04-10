@@ -1,7 +1,14 @@
 import { Notification } from 'electron';
-import { ICON } from './constant';
+import { ICONx2 } from './constant';
 
-export function showNotification(_options) {
-  const options = { icon: ICON, ..._options };
-  new Notification(options).show();
+let notification = null;
+
+export function showNotification(options) {
+  notification.title = options.title;
+  notification.body = options.body;
+  notification.show();
+}
+
+export function initNotification() {
+  notification = new Notification({ icon: ICONx2 });
 }

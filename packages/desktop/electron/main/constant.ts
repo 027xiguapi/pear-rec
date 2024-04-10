@@ -20,6 +20,7 @@ export const DIST = path.join(DIST_ELECTRON, '../dist');
 export const PUBLIC = url ? path.join(DIST_ELECTRON, '../public') : process.env.DIST;
 
 export const ICON = path.join(PUBLIC, './imgs/icons/png/32x32.png');
+export const ICONx2 = path.join(PUBLIC, './imgs/icons/png/64x64.png');
 
 export const DOCS_PATH = path.join(homedir(), 'Documents');
 
@@ -125,7 +126,7 @@ export const WIN_CONFIG = {
     fullscreenable: false, // 窗口是否可以进入全屏状态
     alwaysOnTop: true, // 窗口是否永远在别的窗口的上面
     skipTaskbar: true,
-    // resizable: false,
+    resizable: false,
   },
   recorderVideo: {
     html: path.join(process.env.DIST, 'recorderVideo.html'),

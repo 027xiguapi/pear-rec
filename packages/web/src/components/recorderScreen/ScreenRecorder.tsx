@@ -1,4 +1,4 @@
-import { CameraOutlined, ExclamationCircleFilled, DesktopOutlined } from '@ant-design/icons';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import Timer from '@pear-rec/timer';
 import useTimer from '@pear-rec/timer/src/useTimer';
 import { mp4StreamToOPFSFile } from '@webav/av-cliper';
@@ -16,6 +16,7 @@ import MicMuteRecorder from './MicMuteRecorder';
 import SoundMuteRecorder from './SoundMuteRecorder';
 import FullScreen from './FullScreen';
 import ShotScreen from './ShotScreen';
+import Camera from './Camera';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 
@@ -188,15 +189,40 @@ const ScreenRecorder = (props) => {
     mediaRecorder.current = new AVRecorder(recodeMS, { width: size.width, height: size.height });
   }
 
-  function handleShotScreen() {
-    const { width, height } = props.size;
+  async function handleShotScreen() {
+    const { width, height } = window.isElectron
+      ? await window.electronAPI?.invokeRsGetBoundsClip()
+      : props.size;
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     const context = canvas.getContext('2d');
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-    const url = canvas.toDataURL('image/png');
-    saveAs(url, `pear-rec_${+new Date()}.png`);
+    canvas.toBlob((blob) => {
+      saveImg(blob);
+    }, 'image/png');
+  }
+
+  async function saveImg(blob) {
+    try {
+      const fileName = `pear-rec_${+new Date()}.png`;
+      const record = {
+        fileName: fileName,
+        fileData: blob,
+        fileType: 'ss',
+        userId: user.id,
+        createdAt: new Date(),
+        createdBy: user.id,
+        updatedAt: new Date(),
+        updatedBy: user.id,
+      };
+      const recordId = await db.records.add(record);
+      if (recordId) {
+        window.electronAPI?.sendNotification({ title: '截图成功', body: '可以在历史中查看' });
+      }
+    } catch (err) {
+      console.log('截图保存失败', err);
+    }
   }
 
   // 开始录制
@@ -316,7 +342,7 @@ const ScreenRecorder = (props) => {
     <div className="screenRecorder">
       <video ref={videoRef} className="hide" playsInline autoPlay />
       <div>
-        <div className={`toolbarIcon recordBtn ${isRecording ? 'blink' : ''}`}>
+        <div className={`recordBtn ${isRecording ? 'blink' : ''}`}>
           <BsRecordCircle />
         </div>
         <div>录制</div>
@@ -330,8 +356,9 @@ const ScreenRecorder = (props) => {
           className="timer"
         />
         <div className="tool">
+          <Camera />
           <FullScreen isRecording={isRecording} />
-          <ShotScreen onShotScreen={handleShotScreen} />
+          <ShotScreen isRecording={isRecording} onShotScreen={handleShotScreen} />
           <MicMuteRecorder isRecording={isRecording} />
           <SoundMuteRecorder isRecording={isRecording} />
         </div>

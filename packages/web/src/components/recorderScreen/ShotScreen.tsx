@@ -6,13 +6,12 @@ const ShotScreen = (props) => {
   const { t } = useTranslation();
 
   function handleShotScreen() {
-    props.onShotScreen();
-    console.log('截图');
+    props.isRecording && props.onShotScreen();
   }
 
   return (
     <div
-      className="toolbarIcon shotScreenBtn"
+      className={`${props.isRecording ? '' : 'disabled'} toolbarIcon shotScreenBtn`}
       title={t('recorderScreen.shotScreen')}
       onClick={handleShotScreen}
     >
