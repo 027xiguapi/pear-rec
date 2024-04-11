@@ -3,7 +3,7 @@ import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Header from '../../components/common/header';
+import Header from '../../components/common/winBar';
 import { db } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
