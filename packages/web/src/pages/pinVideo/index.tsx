@@ -8,7 +8,6 @@ import type { MenuProps } from 'antd';
 import { Dropdown, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import Header from '../../components/common/header';
 import { db, defaultUser } from '../../db';
 import ininitApp from '../main';
 import styles from './index.module.scss';

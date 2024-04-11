@@ -9,7 +9,7 @@ function createViewImageWin(search?: any): BrowserWindow {
   viewImageWin = new BrowserWindow({
     title: 'pear-rec 图片',
     icon: ICON,
-    frame: WIN_CONFIG.viewImage.frame,
+    // frame: WIN_CONFIG.viewImage.frame,
     autoHideMenuBar: WIN_CONFIG.viewImage.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
