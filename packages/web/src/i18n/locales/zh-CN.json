@@ -66,7 +66,9 @@
     "width": "长",
     "height": "高",
     "shotScreen": "截图",
-    "fullRecordScreen": "全屏"
+    "fullRecordScreen": "全屏",
+    "record": "录屏",
+    "gif": "动图"
   },
   "recorderVideo": {
     "tip": "点击下面开始按钮开始录制",

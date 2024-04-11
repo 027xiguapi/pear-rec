@@ -66,7 +66,9 @@
     "width": "width",
     "height": "height",
     "shotScreen": "shotScreen",
-    "fullRecordScreen": "fullScreen"
+    "fullRecordScreen": "fullScreen",
+    "record": "record",
+    "gif": "gif"
   },
   "recorderVideo": {
     "tip": "click the start button below to start recording",

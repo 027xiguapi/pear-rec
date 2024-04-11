@@ -34,9 +34,6 @@ const items: MenuProps['items'] = [
 const PinImage: React.FC = () => {
   const { t } = useTranslation();
   const [user, setUser] = useState<any>({});
-  const [imgUrl, setImgUrl] = useState<any>('');
-  const [scale, setScale] = useState<any>(1);
-  const [rotate, setRotate] = useState<any>(0);
 
   useEffect(() => {
     init();
@@ -82,6 +79,7 @@ const PinImage: React.FC = () => {
       handleSuccess(stream);
     } catch (e) {
       console.log(e);
+      window.electronAPI.sendPvCloseWin();
     }
   }
 

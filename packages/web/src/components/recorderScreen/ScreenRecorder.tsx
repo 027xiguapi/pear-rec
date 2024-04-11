@@ -7,7 +7,6 @@ import { Button, Modal } from 'antd';
 import { saveAs } from 'file-saver';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BsRecordCircle } from 'react-icons/bs';
 import { db, defaultUser } from '../../db';
 import PauseRecorder from './PauseRecorder';
 import PlayRecorder from './PlayRecorder';
@@ -17,6 +16,8 @@ import SoundMuteRecorder from './SoundMuteRecorder';
 import FullScreen from './FullScreen';
 import ShotScreen from './ShotScreen';
 import Camera from './Camera';
+import RecordBtn from './RecordBtn';
+import SaveRecorder from './SaveRecorder';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 
@@ -30,13 +31,12 @@ const ScreenRecorder = (props) => {
   const combinedStream = useRef<MediaStream>(); // 合并流
   const mediaRecorder = useRef<AVRecorder | null>(); // 媒体录制器对象
   const outputStream = useRef<any>();
-  const recordedChunks = useRef<Blob[]>([]); // 存储录制的音频数据
-  const recordedUrl = useRef<string>(''); // 存储录制的音频数据
   const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
   const [isSave, setIsSave] = useState(false);
-  // const isSave = useRef<boolean>(false);
   const [percent, setPercent] = useState(0);
   const [isLoad, setIsLoad] = useState(false);
+  const [isMicMute, setIsMicMute] = useState(false);
+  const [isSoundMute, setIsSoundMute] = useState(false);
   const ffmpegRef = useRef(new FFmpeg());
 
   const paramsString = location.search;
@@ -164,18 +164,43 @@ const ScreenRecorder = (props) => {
     micStream.current = await navigator.mediaDevices.getUserMedia({
       audio: true,
     });
+
+    setCombinedStream(videoStream);
+  }
+
+  function setCombinedStream(videoStream) {
     // 使用Web Audio API来捕获系统声音和麦克风声音，将它们合并到同一个MediaStream中。
     const audioCtx = new window.AudioContext();
-    const systemSoundSource = audioCtx.createMediaStreamSource(mediaStream.current);
-    const systemSoundDestination = audioCtx.createMediaStreamDestination();
-    systemSoundSource.connect(systemSoundDestination);
-    const micSoundSource = audioCtx.createMediaStreamSource(micStream.current);
-    micSoundSource.connect(systemSoundDestination);
-    // 合并音频流与视频流
-    combinedStream.current = new MediaStream([
-      ...videoStream.getVideoTracks(),
-      ...systemSoundDestination.stream.getAudioTracks(),
-    ]);
+    if (isMicMute && isSoundMute) {
+      combinedStream.current = new MediaStream([...videoStream.getVideoTracks()]);
+    } else if (!isMicMute && !isSoundMute) {
+      const systemSoundSource = audioCtx.createMediaStreamSource(mediaStream.current);
+      const systemSoundDestination = audioCtx.createMediaStreamDestination();
+      systemSoundSource.connect(systemSoundDestination);
+      const micSoundSource = audioCtx.createMediaStreamSource(micStream.current);
+      micSoundSource.connect(systemSoundDestination);
+      // 合并音频流与视频流
+      combinedStream.current = new MediaStream([
+        ...videoStream.getVideoTracks(),
+        ...systemSoundDestination.stream.getAudioTracks(),
+      ]);
+    } else if (isMicMute && !isSoundMute) {
+      // const systemSoundSource = audioCtx.createMediaStreamSource(mediaStream.current);
+      // const systemSoundDestination = audioCtx.createMediaStreamDestination();
+      // systemSoundSource.connect(systemSoundDestination);
+      combinedStream.current = new MediaStream([
+        ...videoStream.getVideoTracks(),
+        ...mediaStream.current.getAudioTracks(),
+      ]);
+    } else if (!isMicMute && isSoundMute) {
+      // const systemSoundSource = audioCtx.createMediaStreamSource(micStream.current);
+      // const systemSoundDestination = audioCtx.createMediaStreamDestination();
+      // systemSoundSource.connect(systemSoundDestination);
+      combinedStream.current = new MediaStream([
+        ...videoStream.getVideoTracks(),
+        ...micStream.current.getAudioTracks(),
+      ]);
+    }
   }
 
   async function setMediaRecorder() {
@@ -338,15 +363,18 @@ const ScreenRecorder = (props) => {
     }
   }
 
+  function handleSetIsMicMute() {
+    setIsMicMute((isMicMute) => !isMicMute);
+  }
+
+  function handleSetIsSoundMute() {
+    setIsSoundMute((isSoundMute) => !isSoundMute);
+  }
+
   return (
     <div className="screenRecorder">
       <video ref={videoRef} className="hide" playsInline autoPlay />
-      <div>
-        <div className={`recordBtn ${isRecording ? 'blink' : ''}`}>
-          <BsRecordCircle />
-        </div>
-        <div>录制</div>
-      </div>
+      <RecordBtn type={type} isRecording={isRecording} />
       <div className="info">
         <Timer
           seconds={timer.seconds}
@@ -359,14 +387,20 @@ const ScreenRecorder = (props) => {
           <Camera />
           <FullScreen isRecording={isRecording} />
           <ShotScreen isRecording={isRecording} onShotScreen={handleShotScreen} />
-          <MicMuteRecorder isRecording={isRecording} />
-          <SoundMuteRecorder isRecording={isRecording} />
+          <MicMuteRecorder
+            isRecording={isRecording}
+            isMicMute={isMicMute}
+            onSetIsMicMute={handleSetIsMicMute}
+          />
+          <SoundMuteRecorder
+            isRecording={isRecording}
+            isSoundMute={isSoundMute}
+            onSetIsSoundMute={handleSetIsSoundMute}
+          />
         </div>
       </div>
       {isSave ? (
-        <Button type="text" loading>
-          {t('recorderScreen.saving')}...
-        </Button>
+        <SaveRecorder percent={percent} />
       ) : isRecording ? (
         <>
           <PauseRecorder pauseRecord={handlePauseRecord} resumeRecord={handleResumeRecord} />

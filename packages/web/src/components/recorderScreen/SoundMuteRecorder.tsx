@@ -4,35 +4,22 @@ import { MutedOutlined, SoundOutlined } from '@ant-design/icons';
 
 const SoundMuteRecorder = (props) => {
   const { t } = useTranslation();
-  const [isMute, setIsMute] = useState(false); // 标记是否静音
 
   function handleToggleMute() {
     if (!props.isRecording) {
-      isMute ? unmuteRecording() : muteRecording();
+      props.onSetIsSoundMute();
     }
-  }
-
-  // 静音录制
-  function muteRecording() {
-    setIsMute(true);
-    console.log('录像已静音');
-  }
-
-  // 取消静音
-  function unmuteRecording() {
-    setIsMute(false);
-    console.log('取消静音');
   }
 
   return (
     <div
       className={`${props.isRecording ? 'disabled' : ''} ${
-        isMute ? '' : 'muted'
+        props.isSoundMute ? '' : 'muted'
       } toolbarIcon toggleMuteBtn`}
       onClick={handleToggleMute}
-      title={isMute ? t('recorderScreen.unmute') : t('recorderScreen.mute')}
+      title={props.isSoundMute ? t('recorderScreen.unmute') : t('recorderScreen.mute')}
     >
-      {isMute ? <MutedOutlined /> : <SoundOutlined />}
+      {props.isSoundMute ? <MutedOutlined /> : <SoundOutlined />}
     </div>
   );
 };
