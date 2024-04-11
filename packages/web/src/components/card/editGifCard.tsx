@@ -28,12 +28,12 @@ const EditGifCard = forwardRef((props: any, ref: any) => {
 
   function handleClipScreenClick(type) {
     if (window.isElectron) {
-      window.electronAPI.sendEgOpenWin();
-      // window.electronAPI.sendCsOpenWin({ type });
+      // window.electronAPI.sendEgOpenWin();
+      window.electronAPI.sendCsOpenWin({ type });
       window.electronAPI.sendMaCloseWin();
     } else {
-      location.href = `/editGif.html`;
-      // location.href = `/recorderScreen.html?type=${type}`;
+      // location.href = `/editGif.html`;
+      location.href = `/recorderScreen.html?type=${type}`;
     }
   }
 
