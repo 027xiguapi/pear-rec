@@ -54,7 +54,7 @@ const App: React.FC = () => {
 
   return (
     <div className={styles.videoConverter}>
-      <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+      <Space direction="vertical" size="middle" className="content" style={{ display: 'flex' }}>
         <Upload.Dragger {...props}>
           <p className="ant-upload-drag-icon">
             <InboxOutlined />

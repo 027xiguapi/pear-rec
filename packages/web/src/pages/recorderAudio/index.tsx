@@ -66,8 +66,8 @@ const RecordAudio = () => {
     });
   }
   return (
-    <div className={`${styles.recordAudio} ${window.isElectron ? styles.electron : styles.web}`}>
-      <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+    <div className={`${styles.recordAudio}`}>
+      <Space direction="vertical" size="middle" className="content">
         <AudioRecorder onSetAudios={handleSetAudios} />
         {audios.map((audio, index) => (
           <Card
