@@ -1,29 +1,35 @@
 .recordAudio {
-	position: relative;
-	width: calc(100% - 30px);
-	max-width: 1000px;
-	margin: 15px auto;
-	:global {
-		#mic {
-			border: 1px solid #ddd;
-			border-radius: 4px;
-			margin-top: 1rem;
-		}
-		#recordings {
-			margin: 1rem 0;
-		}
-		.tools {
-			line-height: 34px;
-		}
-		.singleDigit {
-			font-size: 26px;
-		}
-		.separtorContainer {
-			margin: 0 0 7px 0px;
-			.separtor {
-				width: 3px;
-				height: 3px;
-			}
-		}
-	}
+  position: relative;
+  background: linear-gradient(rgb(246, 246, 246), rgb(217, 224, 241)) no-repeat;
+  width: 100%;
+  height: 100vh;
+  :global {
+    .content {
+      display: flex;
+      width: calc(100% - 30px);
+      max-width: 1000px;
+      margin: 15px auto;
+    }
+    #mic {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+    #recordings {
+      margin: 1rem 0;
+    }
+    .tools {
+      line-height: 34px;
+    }
+    .singleDigit {
+      font-size: 26px;
+    }
+    .separtorContainer {
+      margin: 0 0 7px 0px;
+      .separtor {
+        width: 3px;
+        height: 3px;
+      }
+    }
+  }
 }

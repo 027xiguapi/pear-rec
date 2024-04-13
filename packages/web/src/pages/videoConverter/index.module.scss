@@ -1,8 +1,15 @@
 .videoConverter {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   position: relative;
-  width: calc(100% - 30px);
-  max-width: 1000px;
-  margin: 15px auto;
+  background: linear-gradient(rgb(246, 246, 246), rgb(217, 224, 241)) no-repeat;
   :global {
+    .content {
+      display: flex;
+      width: calc(100% - 30px);
+      max-width: 1000px;
+      margin: 15px auto;
+    }
   }
 }
