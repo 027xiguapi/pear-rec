@@ -10,6 +10,7 @@ declare global {
     isOffline: boolean;
     isMac: boolean;
     baseURL: string;
+    Vudio: any;
     showSaveFilePicker: any;
   }
 }
