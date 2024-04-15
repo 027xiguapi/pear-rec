@@ -17,7 +17,7 @@ function createViewAudioWin(search?: any): BrowserWindow {
   const audioUrl = search?.audioUrl || '';
   const recordId = search?.recordId || '';
   // Open devTool if the app is not packaged
-  // viewAudioWin.webContents.openDevTools();
+  viewAudioWin.webContents.openDevTools();
 
   if (url) {
     viewAudioWin.loadURL(

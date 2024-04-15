@@ -1,4 +1,96 @@
 .viewAudio {
-	width: 100%;
-	height: 100vh;
+  box-sizing: border-box;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #31002d;
+  :global {
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    #bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: blur(50px);
+    }
+    #canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 260px;
+      height: 260px;
+    }
+    #audioFile {
+      position: absolute;
+      width: 100%;
+      height: 88px;
+      opacity: 0;
+    }
+    .label {
+      position: absolute;
+      text-align: center;
+      height: 85px;
+      width: 100%;
+      color: #eee;
+      font-size: 24px;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 700;
+      opacity: 0.3;
+      border-radius: 8px;
+      border: 1px dashed #ccc;
+    }
+    .controller {
+      position: absolute;
+      z-index: 5;
+      bottom: 40px;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .controller div {
+      display: inline-block;
+      height: 40px;
+      margin: 0 10px;
+    }
+    .controller button {
+      display: block;
+      float: left;
+      height: 40px;
+      margin: 0 1px;
+      padding: 0 20px;
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      outline: none;
+    }
+    .controller button:hover {
+      opacity: 0.6;
+    }
+    .color-1 {
+      background-image: linear-gradient(#f00 0%, #f00 30%, #f90 30%, #f90 70%, #ff0 70%, #ff0 100%);
+    }
+    button.color-2 {
+      background-color: #ff0;
+    }
+    .color-3 {
+      background-image: linear-gradient(#00f, #06f, #09f, #0ff);
+    }
+    .color-4 {
+      background-image: linear-gradient(#fb6d6b, #c10056, #a50053, #51074b);
+    }
+    .color-5 {
+      background-image: linear-gradient(#ff422d 0%, #ff422d 50%, #6072ff 50%, #6072ff 100%);
+    }
+  }
 }
