@@ -215,7 +215,7 @@ function initIpcMain() {
     viewImageWin.unmaximizeViewImageWin();
   });
   ipcMain.on('vi:open-file', (e, imgUrl) => {
-    shell.openExternal(imgUrl);
+    shell.showItemInFolder(imgUrl);
   });
   ipcMain.on('vi:alwaysOnTop-win', (e, isTop) => {
     viewImageWin.setIsAlwaysOnTopViewImageWin(isTop);
