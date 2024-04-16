@@ -140,7 +140,7 @@ const ViewImage = () => {
     const recordId = searchParams.get('recordId');
     if (imgUrl) {
       if (imgUrl.substring(0, 7) != 'pearrec' && imgUrl.substring(0, 4) != 'blob') {
-        setImgs([{ url: 'pearrec://' + imgUrl, filePath: 'pearrec://' + imgUrl, index: 0 }]);
+        setImgs([{ url: 'pearrec://' + imgUrl, filePath: imgUrl, index: 0 }]);
       } else {
         setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
       }
@@ -159,25 +159,12 @@ const ViewImage = () => {
   }
 
   function handleImgUpload(event) {
-    const selectedFile = event.target.files[0];
-    const url = window.URL.createObjectURL(selectedFile);
+    const file = event.target.files[0];
+    const filePath = window.electronAPI ? file.path : window.URL.createObjectURL(file);
+    const url = window.electronAPI ? 'pearrec://' + file.path : window.URL.createObjectURL(file);
     viewerRef.current?.destroy();
-    setImgs([...imgs, { url: url, filePath: url, index: imgs.length }]);
+    setImgs([...imgs, { url: url, filePath: filePath, index: imgs.length }]);
     initialViewIndexRef.current = imgs.length;
-  }
-
-  function handleMinimizeWin() {
-    window.electronAPI.sendViMinimizeWin();
-  }
-
-  function handleCloseWin() {
-    window.electronAPI.sendViCloseWin();
-  }
-
-  function handleToggleMaximizeWin(isMaximize) {
-    isMaximize
-      ? window.electronAPI?.sendViUnmaximizeWin()
-      : window.electronAPI?.sendViMaximizeWin();
   }
 
   function handleAlwaysOnTopWin(isTop: boolean) {
@@ -275,7 +262,7 @@ const ViewImage = () => {
   }
 
   function handleEdit() {
-    const imgUrl = imgs[initialViewIndexRef.current]?.filePath;
+    const imgUrl = imgs[initialViewIndexRef.current]?.url;
     if (window.isElectron) {
       window.electronAPI.sendEiOpenWin({ imgUrl });
     } else {
@@ -286,7 +273,7 @@ const ViewImage = () => {
 
   function handleDownload() {
     const img = imgs[initialViewIndexRef.current];
-    const imgUrl = img?.filePath;
+    const imgUrl = img?.url;
     const fileName = img?.fileName || `pear-rec_${+new Date()}.png`;
     saveAs(imgUrl, fileName);
   }
@@ -294,9 +281,6 @@ const ViewImage = () => {
   return (
     <div className={styles.viewImgs}>
       <Header
-        onMinimizeWin={handleMinimizeWin}
-        onToggleMaximizeWin={handleToggleMaximizeWin}
-        onCloseWin={handleCloseWin}
         onAlwaysOnTopWin={handleAlwaysOnTopWin}
         onOpenFile={handleOpenFile}
         onUploadFile={handleUploadFile}
