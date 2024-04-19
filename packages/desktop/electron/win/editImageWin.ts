@@ -57,6 +57,10 @@ async function downloadImg(imgUrl: any) {
       if (err) {
         console.error(err);
       } else {
+        editImageWin.webContents.send('ei:send-filePath', {
+          fileName: defaultPath,
+          filePath: `${res.filePath}`,
+        });
         console.log(`${defaultPath}:图片保存成功`);
       }
     });

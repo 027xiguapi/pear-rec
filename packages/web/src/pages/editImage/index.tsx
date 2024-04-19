@@ -16,7 +16,30 @@ const EditImage = () => {
   useEffect(() => {
     init();
     user.id || getCurrentUser();
+    window.electronAPI.sendEiFilePath((file) => {
+      addRecord(file);
+    });
   }, []);
+
+  async function addRecord(file) {
+    try {
+      const record = {
+        fileName: file.fileName,
+        filePath: file.filePath,
+        fileData: file.fileData,
+        fileType: 'ei',
+        userId: user.id,
+        createdAt: new Date(),
+        createdBy: user.id,
+        updatedAt: new Date(),
+        updatedBy: user.id,
+      };
+      const recordId = await db.records.add(record);
+      window.electronAPI?.sendNotification({ title: '保存成功', body: '可以在历史中查看' });
+    } catch (err) {
+      console.log('保存图片err', err);
+    }
+  }
 
   async function getCurrentUser() {
     try {
@@ -58,7 +81,12 @@ const EditImage = () => {
   }
 
   function handleSave(blob) {
-    saveAs(blob, `pear-rec_${+new Date()}.png`);
+    if (window.isElectron) {
+      window.electronAPI.sendEiDownloadImg(blob);
+    } else {
+      saveAs(blob, `pear-rec_${+new Date()}.png`);
+      addRecord({ fileData: blob, filePath: `pear-rec_${+new Date()}.png` });
+    }
   }
 
   return (

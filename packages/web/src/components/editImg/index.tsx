@@ -199,7 +199,7 @@ const EditImage = (props) => {
       ia[i] = data.charCodeAt(i);
     }
     const blob = new Blob([ia], { type: 'image/png' }); // blob 文件
-    props.onSave(blob);
+    props.onSave(window.isElectron ? base64String : blob);
   }
 
   function handleUploadImg(files) {

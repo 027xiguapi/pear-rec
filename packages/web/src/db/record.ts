@@ -4,7 +4,7 @@ export interface Record {
 
   filePath?: string;
 
-  fileData: any;
+  fileData?: any;
 
   fileName: string;
 
