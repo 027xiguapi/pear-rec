@@ -60,7 +60,7 @@
     "rimraf": "^5.0.1",
     "rollup-plugin-visualizer": "^5.9.2",
     "typescript": "^5.2.2",
-    "vite": "^4.3.9",
+    "vite": "^5.1.5",
     "vite-plugin-pwa": "^0.19.0"
   },
   "files": [
