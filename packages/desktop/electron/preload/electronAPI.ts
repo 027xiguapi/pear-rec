@@ -64,10 +64,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendSsShowWin: (callback) => ipcRenderer.on('ss:show-win', (e, img) => callback(img)),
   sendSsHideWin: (callback) => ipcRenderer.on('ss:hide-win', () => callback()),
   invokeSsGetShotScreenImg: () => ipcRenderer.invoke('ss:get-shot-screen-img'),
-  sendSsDownloadImg: (imgUrl: string) => ipcRenderer.send('ss:download-img', imgUrl),
+  sendSsDownloadImg: (file: any) => ipcRenderer.send('ss:download-img', file),
   sendSsSaveImg: (imgUrl: string) => ipcRenderer.send('ss:save-img', imgUrl),
   sendSsOpenExternal: (tabUrl: string) => ipcRenderer.send('ss:open-external', tabUrl),
   sendSsCopyImg: (imgUrl: string) => ipcRenderer.send('ss:copy-img', imgUrl),
+  sendSsFile: (callback) => ipcRenderer.on('ss:send-file', (e, file) => callback(file)),
 
   //viWin
   sendViCloseWin: () => ipcRenderer.send('vi:close-win'),
@@ -88,8 +89,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendEiCloseWin: () => ipcRenderer.send('ei:close-win'),
   sendEiOpenWin: (search?: string) => ipcRenderer.send('ei:open-win', search),
   sendEiDownloadImg: (imgUrl?: string) => ipcRenderer.send('ei:download-img', imgUrl),
-  sendEiFilePath: (callback) =>
-    ipcRenderer.on('ei:send-filePath', (e, filePath) => callback(filePath)),
+  sendEiFile: (callback) => ipcRenderer.on('ei:send-file', (e, file) => callback(file)),
 
   //egWin
   sendEgCloseWin: () => ipcRenderer.send('eg:close-win'),

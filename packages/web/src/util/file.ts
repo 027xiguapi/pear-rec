@@ -17,6 +17,16 @@ export function urlToBlob(url) {
   });
 }
 
+export function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      resolve(e.target.result);
+    };
+    reader.readAsDataURL(blob);
+  });
+}
+
 export async function saveImageToFile(imageBlob, suggestedFileName) {
   try {
     const opts = {

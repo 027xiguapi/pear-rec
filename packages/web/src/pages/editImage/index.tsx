@@ -16,7 +16,7 @@ const EditImage = () => {
   useEffect(() => {
     init();
     user.id || getCurrentUser();
-    window.electronAPI.sendEiFilePath((file) => {
+    window.electronAPI?.sendEiFile((file) => {
       addRecord(file);
     });
   }, []);
@@ -84,8 +84,9 @@ const EditImage = () => {
     if (window.isElectron) {
       window.electronAPI.sendEiDownloadImg(blob);
     } else {
-      saveAs(blob, `pear-rec_${+new Date()}.png`);
-      addRecord({ fileData: blob, filePath: `pear-rec_${+new Date()}.png` });
+      const fileName = `pear-rec_${+new Date()}.png`;
+      saveAs(blob, fileName);
+      addRecord({ fileData: blob, fileName: fileName });
     }
   }
 

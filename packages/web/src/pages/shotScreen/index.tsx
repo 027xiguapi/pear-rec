@@ -10,9 +10,9 @@ import { db, defaultUser } from '../../db';
 import ininitApp from '../../pages/main';
 import { searchImg } from '../../util/searchImg';
 import { isURL } from '../../util/validate';
+import { blobToBase64 } from '../../util/file';
 import styles from './index.module.scss';
 
-const defaultImg = '/imgs/th.webp';
 function ShotScreen() {
   const { t } = useTranslation();
   const [user, setUser] = useState<any>({});
@@ -21,6 +21,9 @@ function ShotScreen() {
   useEffect(() => {
     init();
     user.id || getCurrentUser();
+    window.electronAPI?.sendSsFile((file) => {
+      addRecord(file);
+    });
   }, []);
 
   async function getCurrentUser() {
@@ -89,10 +92,48 @@ function ShotScreen() {
       });
   }
 
+  const onOk = useCallback(
+    (blob: Blob, bounds: Bounds) => {
+      copyImg(blob);
+      window.electronAPI?.sendSsCloseWin();
+      const fileName = `pear-rec_${+new Date()}.png`;
+      if (window.isElectron) {
+        blobToBase64(blob).then((base64Data) => {
+          window.electronAPI.sendSsDownloadImg({
+            fileData: base64Data,
+            fileName: fileName,
+            bounds: bounds,
+            isShow: false,
+            isPin: false,
+          });
+        });
+      } else {
+        saveAs(blob, fileName);
+        addRecord({ fileData: blob, fileName: fileName });
+      }
+    },
+    [user],
+  );
+
   const onSave = useCallback(
     (blob: Blob, bounds: Bounds) => {
-      const url = URL.createObjectURL(blob);
-      saveAs(url, `pear-rec_${+new Date()}.png`);
+      copyImg(blob);
+      window.electronAPI?.sendSsCloseWin();
+      const fileName = `pear-rec_${+new Date()}.png`;
+      if (window.isElectron) {
+        blobToBase64(blob).then((base64Data) => {
+          window.electronAPI.sendSsDownloadImg({
+            fileData: base64Data,
+            fileName: fileName,
+            bounds: bounds,
+            isShow: true,
+            isPin: false,
+          });
+        });
+      } else {
+        saveAs(blob, fileName);
+        addRecord({ fileData: blob, fileName: fileName });
+      }
     },
     [user],
   );
@@ -128,6 +169,22 @@ function ShotScreen() {
     [user],
   );
 
+  const onPin = useCallback(async (blob, bounds) => {
+    const fileName = `pear-rec_${+new Date()}.png`;
+    window.electronAPI?.sendSsCloseWin();
+    if (window.isElectron) {
+      blobToBase64(blob).then((base64Data) => {
+        window.electronAPI.sendSsDownloadImg({
+          fileData: base64Data,
+          fileName: fileName,
+          bounds: bounds,
+          isShow: false,
+          isPin: true,
+        });
+      });
+    }
+  }, []);
+
   const onSearch = useCallback(
     async (blob) => {
       const tabUrl = await searchImg(blob, user.isProxy);
@@ -141,18 +198,14 @@ function ShotScreen() {
     [user],
   );
 
-  const onOk = useCallback(
-    (blob: Blob, bounds: Bounds) => {
-      saveFile(blob, bounds, false);
-    },
-    [user],
-  );
-
-  async function saveFile(blob, bounds, isPin) {
+  async function addRecord(file) {
+    const isPin = file.isPin;
+    const bounds = file.bounds;
     try {
       const record = {
-        fileName: `pear-rec_${+new Date()}.png`,
-        fileData: blob,
+        fileName: file.fileName,
+        filePath: file.filePath,
+        fileData: file.fileData,
         fileType: 'ss',
         userId: user.id,
         createdAt: new Date(),
@@ -162,29 +215,11 @@ function ShotScreen() {
       };
       const recordId = await db.records.add(record);
       if (recordId) {
-        copyImg(blob);
-        if (window.isElectron) {
-          window.electronAPI?.sendSsCloseWin();
-          if (isPin) {
-            window.electronAPI?.sendPiOpenWin({
-              recordId: recordId,
-              width: bounds.width,
-              height: bounds.height,
-            });
-          } else {
-            saveAs(blob, `pear-rec_${+new Date()}.png`);
-          }
-        } else {
-          Modal.confirm({
-            title: '图片已保存，是否查看？',
-            content: record.fileName,
-            okText: t('modal.ok'),
-            cancelText: t('modal.cancel'),
-            onOk() {
-              location.href = isPin
-                ? `/pinImage.html?recordId=${recordId}`
-                : `/viewImage.html?recordId=${recordId}`;
-            },
+        if (isPin) {
+          window.electronAPI?.sendPiOpenWin({
+            recordId: recordId,
+            width: bounds.width,
+            height: bounds.height,
           });
         }
       }
@@ -192,10 +227,6 @@ function ShotScreen() {
       message.error('保存失败');
     }
   }
-
-  const onPin = useCallback(async (blob, bounds) => {
-    window.isElectron && saveFile(blob, bounds, true);
-  }, []);
 
   async function copyImg(blob) {
     await navigator.clipboard.write([
