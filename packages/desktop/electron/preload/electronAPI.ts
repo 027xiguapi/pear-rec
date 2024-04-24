@@ -14,7 +14,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //raWin
   sendRaCloseWin: () => ipcRenderer.send('ra:close-win'),
   sendRaOpenWin: () => ipcRenderer.send('ra:open-win'),
-  sendRaDownloadRecord: (url: string) => ipcRenderer.send('ra:download-record', url),
+  sendRaDownloadAudio: (url: string) => ipcRenderer.send('ra:download-audio', url),
+  sendRaFile: (callback) => ipcRenderer.on('ra:send-file', (e, file) => callback(file)),
 
   //rsWin
   sendRsOpenWin: (search?: any) => ipcRenderer.send('rs:open-win', search),

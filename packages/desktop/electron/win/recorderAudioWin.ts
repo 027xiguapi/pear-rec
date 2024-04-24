@@ -46,23 +46,36 @@ function minimizeRecorderAudioWin() {
   recorderAudioWin?.minimize();
 }
 
-function downloadURLRecorderAudioWin(downloadUrl: string) {
-  // recorderAudioWin?.webContents.downloadURL(downloadUrl);
-  // downloadSet.add(downloadUrl);
-}
-
 function setSizeRecorderAudioWin(width: number, height: number) {
   recorderAudioWin?.setResizable(true);
   recorderAudioWin?.setSize(width, height);
   recorderAudioWin?.setResizable(false);
 }
 
+async function downloadAudio(audioUrl: any) {
+  recorderAudioWin.webContents.downloadURL(audioUrl);
+  recorderAudioWin.webContents.session.once('will-download', async (event, item, webContents) => {
+    item.setSaveDialogOptions({});
+    item.once('done', (event, state) => {
+      if (state === 'completed') {
+        const savePath = item.getSavePath();
+        const fileName = item.getFilename();
+        recorderAudioWin.webContents.send('ra:send-file', {
+          fileName: fileName,
+          filePath: savePath,
+        });
+        console.log(`${savePath}:录音保存成功`);
+      }
+    });
+  });
+}
+
 export {
   closeRecorderAudioWin,
   createRecorderAudioWin,
-  downloadURLRecorderAudioWin,
   hideRecorderAudioWin,
   minimizeRecorderAudioWin,
   openRecorderAudioWin,
   setSizeRecorderAudioWin,
+  downloadAudio,
 };

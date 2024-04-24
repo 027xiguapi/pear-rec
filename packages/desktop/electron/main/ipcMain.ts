@@ -310,18 +310,10 @@ function initIpcMain() {
   ipcMain.on('ra:hide-win', () => {
     recorderAudioWin.hideRecorderAudioWin();
   });
-  ipcMain.on('ra:minimize-win', () => {
-    recorderAudioWin.minimizeRecorderAudioWin();
+  ipcMain.on('ra:download-audio', (e, url) => {
+    recorderAudioWin.downloadAudio(url);
   });
-  ipcMain.on('ra:download-record', (e, downloadUrl) => {
-    recorderAudioWin.downloadURLRecorderAudioWin(downloadUrl);
-  });
-  ipcMain.on('ra:start-record', () => {
-    recorderAudioWin.setSizeRecorderAudioWin(285, 43);
-  });
-  ipcMain.on('ra:pause-record', () => {
-    recorderAudioWin.setSizeRecorderAudioWin(260, 43);
-  });
+
   ipcMain.on('ra:stop-record', () => {});
   // 录像
   ipcMain.on('rv:open-win', () => {

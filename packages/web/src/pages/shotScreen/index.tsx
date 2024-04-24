@@ -215,6 +215,7 @@ function ShotScreen() {
       };
       const recordId = await db.records.add(record);
       if (recordId) {
+        window.electronAPI?.sendNotification({ title: '保存成功', body: '可以在历史中查看' });
         if (isPin) {
           window.electronAPI?.sendPiOpenWin({
             recordId: recordId,

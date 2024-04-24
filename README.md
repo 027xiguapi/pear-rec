@@ -17,6 +17,14 @@
 
 [中文](README.zh-CN.md) | [English](README.md) | [Deutsch](README.de-DE.md)
 
+## 📖 Documentation
+
+> pear-rec(pear rec) is a free and open-source cross-Platform screenshot, screen recording, audio recording, and video recording software.
+>
+> pear-rec(pear rec) is a project based on react + electron + vite + viewerjs + plyr + aplayer + react-screenshots + webav.
+>
+> More functions and APIs can be found on [the official website(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) or [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec).
+
 ## 🧱 Frameworks
 
 The cross-Platform of `pear-rec` is based on `electronjs`, and the front-end is based on `reactjs`. The functions of screenshot, screen recording, recording, recording (dynamic image) gif are a project based on `webrtc` and `webcodecs`.
@@ -24,14 +32,6 @@ The cross-Platform of `pear-rec` is based on `electronjs`, and the front-end is 
 ## 🖖 Vue
 
 Screenshot implemented by community personnel based on `vue` 👉 [electron-screenshort](https://github.com/yejimeiming/electron-screenshort).
-
-## 📖 Documentation
-
-> pear-rec(pear rec) is a cross-Platform screenshot, screen recording, audio recording, and video recording software.
->
-> pear-rec(pear rec) is a project based on react + electron + vite + viewerjs + plyr + aplayer + react-screenshots.
->
-> More functions and APIs can be found on [the official website(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) or [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec).
 
 ## 🌰 Example
 
