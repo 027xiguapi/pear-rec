@@ -57,7 +57,7 @@ async function downloadImg(imgUrl: any) {
       if (err) {
         console.error(err);
       } else {
-        editImageWin.webContents.send('ei:send-filePath', {
+        editImageWin.webContents.send('ei:send-file', {
           fileName: defaultPath,
           filePath: `${res.filePath}`,
         });

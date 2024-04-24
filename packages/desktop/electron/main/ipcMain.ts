@@ -185,8 +185,8 @@ function initIpcMain() {
   ipcMain.on('ss:save-img', async (e, downloadUrl) => {
     shotScreenWin.downloadURLShotScreenWin(downloadUrl);
   });
-  ipcMain.on('ss:download-img', async (e, downloadUrl) => {
-    shotScreenWin.downloadURLShotScreenWin(downloadUrl, true);
+  ipcMain.on('ss:download-img', async (e, file) => {
+    shotScreenWin.downloadImg(file);
   });
   ipcMain.on('ss:open-external', async (e, tabUrl) => {
     shell.openExternal(tabUrl);

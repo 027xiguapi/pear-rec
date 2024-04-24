@@ -1,5 +1,7 @@
 import { BrowserWindow, clipboard, dialog, nativeImage, screen, desktopCapturer } from 'electron';
-import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
+import { ICON, WEB_URL, WIN_CONFIG, PEAR_FILES_PATH, preload, url } from '../main/constant';
+import { writeFile, existsSync, mkdirSync } from 'node:fs';
+import path from 'node:path';
 import * as utils from '../main/utils';
 
 let shotScreenWin: BrowserWindow | null = null;
@@ -94,6 +96,40 @@ function unmaximizeShotScreenWin() {
   shotScreenWin?.unmaximize();
 }
 
+async function downloadImg(file: any) {
+  let defaultPath = file.fileName;
+  let isPin = file.isPin;
+  let isShow = file.isShow;
+  let res =
+    isShow &&
+    (await dialog.showSaveDialog({
+      defaultPath: defaultPath,
+      filters: [{ name: 'Images', extensions: ['png', 'jpg', 'gif'] }],
+    }));
+  if (!res.canceled || isPin) {
+    const imagePath = isShow ? res.filePath : path.join(PEAR_FILES_PATH, `/ss/${defaultPath}`);
+    const directory = path.dirname(imagePath);
+    if (!existsSync(directory)) {
+      mkdirSync(directory, { recursive: true });
+    }
+    const imgData = nativeImage.createFromDataURL(file.fileData).toPNG();
+    writeFile(imagePath, imgData, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        shotScreenWin.webContents.send('ss:send-file', {
+          fileName: defaultPath,
+          filePath: imagePath,
+          bounds: file.bounds,
+          isClose: file.isClose,
+          isPin: isPin,
+        });
+        console.log(`${imagePath}:图片保存成功`);
+      }
+    });
+  }
+}
+
 async function downloadURLShotScreenWin(downloadUrl: string, isShowDialog?: boolean) {
   savePath = '';
   isShowDialog && (savePath = await showOpenDialogShotScreenWin());
@@ -121,6 +157,7 @@ export {
   copyImg,
   createShotScreenWin,
   downloadURLShotScreenWin,
+  downloadImg,
   hideShotScreenWin,
   maximizeShotScreenWin,
   minimizeShotScreenWin,
