@@ -2,6 +2,7 @@ import { Button, Checkbox, Col, Divider, Modal, Row, Slider, Space, message } fr
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import WaveSurfer from 'wavesurfer.js';
+import { saveAs } from 'file-saver';
 import { db } from '../../db';
 
 const useWavesurfer = (containerRef, options) => {
@@ -39,23 +40,28 @@ const WaveSurferPlayer = (props) => {
   const [autoCenter, setAutoCenter] = useState(true);
   const wavesurfer = useWavesurfer(containerRef, props);
 
+  useEffect(() => {
+    window.electronAPI?.sendRaFile((file) => {
+      addRecord(file);
+    });
+  }, []);
+
   const onPlayClick = useCallback(() => {
     wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer.play();
   }, [wavesurfer]);
 
   const onDownloadClick = useCallback(async () => {
-    const url = wavesurfer.getMediaElement().src;
-    const data = await fetch(url);
-    const blob = await data.blob();
+    const blobUrl = wavesurfer.getMediaElement().src;
 
-    saveFile(blob);
+    saveFile(blobUrl);
   }, [wavesurfer]);
 
-  async function saveFile(blob) {
+  async function addRecord(file) {
     try {
       const record = {
-        fileName: `pear-rec_${+new Date()}.webm`,
-        fileData: blob,
+        fileName: file.fileName,
+        filePath: file.filePath,
+        fileData: file.fileData,
         fileType: 'ra',
         userId: props.user.id,
         createdAt: new Date(),
@@ -65,23 +71,22 @@ const WaveSurferPlayer = (props) => {
       };
       const recordId = await db.records.add(record);
       if (recordId) {
-        if (window.isElectron) {
-          window.electronAPI.sendRaCloseWin();
-          window.electronAPI.sendVaOpenWin({ recordId: recordId });
-        } else {
-          Modal.confirm({
-            title: '音频已保存，是否查看？',
-            content: `${record.fileName}`,
-            okText: t('modal.ok'),
-            cancelText: t('modal.cancel'),
-            onOk() {
-              window.open(`/viewAudio.html?recordId=${recordId}`);
-            },
-          });
-        }
+        window.electronAPI?.sendNotification({ title: '保存成功', body: '可以在历史中查看' });
       }
     } catch (err) {
       message.error('保存失败');
+    }
+  }
+
+  async function saveFile(blobUrl) {
+    if (window.isElectron) {
+      window.electronAPI.sendRaDownloadAudio(blobUrl);
+    } else {
+      const fileName = `pear-rec_${+new Date()}.webm`;
+      saveAs(blobUrl, fileName);
+      const data = await fetch(blobUrl);
+      const blob = await data.blob();
+      addRecord({ fileData: blob, fileName: fileName });
     }
   }
 

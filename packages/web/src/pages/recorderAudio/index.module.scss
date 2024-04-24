@@ -3,6 +3,7 @@
   background: linear-gradient(rgb(246, 246, 246), rgb(217, 224, 241)) no-repeat;
   width: 100%;
   height: 100vh;
+  overflow: auto;
   :global {
     .content {
       display: flex;
