@@ -4,27 +4,6 @@ import { useTranslation } from 'react-i18next';
 const SelectMedia = (props) => {
   const { t } = useTranslation();
 
-  async function getMediaElectron() {
-    const source = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
-    const constraints: any = {
-      audio: false,
-      video: {
-        mandatory: {
-          chromeMediaSource: 'desktop',
-          chromeMediaSourceId: source.id,
-        },
-      },
-    };
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        props.setMediaStream(stream);
-      })
-      .catch((error) => {
-        console.error('无法获取媒体权限：', error);
-      });
-  }
-
   function getMediaWeb() {
     navigator.mediaDevices
       .getDisplayMedia({ video: true, audio: true })
@@ -34,14 +13,6 @@ const SelectMedia = (props) => {
       .catch((error) => {
         console.error('无法获取媒体权限：', error);
       });
-  }
-
-  function handleMedia() {
-    if (window.electronAPI) {
-      getMediaElectron();
-    } else {
-      getMediaWeb();
-    }
   }
 
   function handlePage(value) {
@@ -57,7 +28,7 @@ const SelectMedia = (props) => {
         onSearch={handlePage}
         enterButton="确认"
       />
-      <Button type="primary" onClick={handleMedia}>
+      <Button type="primary" onClick={getMediaWeb}>
         屏幕
       </Button>
     </Space>

@@ -56,6 +56,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //rvWin
   sendRvCloseWin: () => ipcRenderer.send('rv:close-win'),
   sendRvOpenWin: () => ipcRenderer.send('rv:open-win'),
+  sendRvDownloadVideo: (file: string) => ipcRenderer.send('rv:download-video', file),
+  sendRvFile: (callback: any) => ipcRenderer.on('rv:send-file', (e, file) => callback(file)),
 
   //ssWin
   sendSsOpenWin: () => ipcRenderer.send('ss:open-win'),

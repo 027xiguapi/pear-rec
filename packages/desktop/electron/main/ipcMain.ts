@@ -322,6 +322,9 @@ function initIpcMain() {
   ipcMain.on('rv:close-win', () => {
     recorderVideoWin.closeRecorderVideoWin();
   });
+  ipcMain.on('rv:download-video', (e, file) => {
+    recorderVideoWin.downloadVideo(file);
+  });
 
   // 音频
   ipcMain.on('va:open-win', (e, search) => {
