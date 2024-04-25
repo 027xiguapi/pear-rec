@@ -79,10 +79,10 @@ const WaveSurferPlayer = (props) => {
   }
 
   async function saveFile(blobUrl) {
+    const fileName = `pear-rec_${+new Date()}.webm`;
     if (window.isElectron) {
-      window.electronAPI.sendRaDownloadAudio(blobUrl);
+      window.electronAPI.sendRaDownloadAudio({ url: blobUrl, fileName: fileName });
     } else {
-      const fileName = `pear-rec_${+new Date()}.webm`;
       saveAs(blobUrl, fileName);
       const data = await fetch(blobUrl);
       const blob = await data.blob();

@@ -52,6 +52,9 @@ const ScreenRecorder = (props) => {
     }
     loadFfmpeg();
     user.id || getCurrentUser();
+    window.electronAPI?.sendRsFile((file) => {
+      addRecord(file);
+    });
     return () => {
       mediaRecorder.current?.stop();
     };
@@ -327,11 +330,22 @@ const ScreenRecorder = (props) => {
   }
 
   async function saveFile(blob) {
+    const fileName = `pear-rec_${+new Date()}.${type == 'gif' ? 'gif' : 'mp4'}`;
+    if (window.isElectron) {
+      const url = URL.createObjectURL(blob);
+      window.electronAPI.sendRsDownloadVideo({ url, fileName: fileName });
+    } else {
+      saveAs(blob, fileName);
+      addRecord({ fileData: blob, fileName: fileName });
+    }
+  }
+
+  async function addRecord(file) {
     try {
-      const fileName = `pear-rec_${+new Date()}.${type == 'gif' ? 'gif' : 'mp4'}`;
       const record = {
-        fileName: fileName,
-        fileData: blob,
+        fileName: file.fileName,
+        filePath: file.filePath,
+        fileData: file.fileData,
         fileType: 'rs',
         userId: user.id,
         createdAt: new Date(),
@@ -342,24 +356,10 @@ const ScreenRecorder = (props) => {
       const recordId = await db.records.add(record);
       if (recordId) {
         setIsSave(false);
-        if (window.isElectron) {
-          saveAs(blob, fileName);
-        } else {
-          Modal.confirm({
-            title: '录屏已保存，是否查看？',
-            content: `${record.fileName}`,
-            okText: t('modal.ok'),
-            cancelText: t('modal.cancel'),
-            onOk() {
-              type == 'gif'
-                ? window.open(`/editGif.html?recordId=${recordId}`)
-                : window.open(`/viewImage.html?recordId=${recordId}`);
-            },
-          });
-        }
+        window.electronAPI?.sendNotification({ title: '保存成功', body: '可以在历史中查看' });
       }
     } catch (err) {
-      console.log('保存失败', err);
+      console.log('保存失败');
     }
   }
 
