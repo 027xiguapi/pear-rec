@@ -65,6 +65,29 @@ function setAlwaysOnTopRecorderFullScreenWin(isAlwaysOnTop: boolean) {
   recorderFullScreenWin?.setAlwaysOnTop(isAlwaysOnTop);
 }
 
+function downloadVideo(file) {
+  recorderFullScreenWin.webContents.downloadURL(file.url);
+  recorderFullScreenWin.webContents.session.once(
+    'will-download',
+    async (event, item, webContents) => {
+      item.setSaveDialogOptions({
+        defaultPath: file.fileName,
+      });
+      item.once('done', (event, state) => {
+        if (state === 'completed') {
+          const savePath = item.getSavePath();
+          const fileName = item.getFilename();
+          recorderFullScreenWin.webContents.send('rfs:send-file', {
+            fileName: fileName,
+            filePath: savePath,
+          });
+          console.log(`${savePath}:录像保存成功`);
+        }
+      });
+    },
+  );
+}
+
 export {
   closeRecorderFullScreenWin,
   createRecorderFullScreenWin,
@@ -74,4 +97,5 @@ export {
   setAlwaysOnTopRecorderFullScreenWin,
   setMovableRecorderFullScreenWin,
   showRecorderFullScreenWin,
+  downloadVideo,
 };

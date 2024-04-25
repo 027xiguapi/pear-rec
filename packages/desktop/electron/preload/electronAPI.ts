@@ -149,6 +149,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // rfs 全屏录屏
   sendRfsOpenWin: () => ipcRenderer.send('rfs:open-win'),
   sendRfsCloseWin: () => ipcRenderer.send('rfs:close-win'),
+  sendRfsDownloadVideo: (file: string) => ipcRenderer.send('rfs:download-video', file),
+  sendRfsFile: (callback: any) => ipcRenderer.on('rfs:send-file', (e, file) => callback(file)),
 
   // Eu 自动更新
   handleEuUpdateCanAvailable: (callback: any) =>

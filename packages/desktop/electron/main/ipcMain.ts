@@ -431,6 +431,9 @@ function initIpcMain() {
   ipcMain.on('rfs:close-win', () => {
     recorderFullScreenWin.closeRecorderFullScreenWin();
   });
+  ipcMain.on('rfs:download-video', (e, file) => {
+    recorderFullScreenWin.downloadVideo(file);
+  });
 }
 
 initIpcMain();
