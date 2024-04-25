@@ -79,7 +79,7 @@ function initIpcMain() {
     mainWin.closeMainWin();
     recorderScreenWin.openRecorderScreenWin(search);
   });
-  ipcMain.on('rs:close-win', (e, filePath) => {
+  ipcMain.on('rs:close-win', () => {
     recorderScreenWin.closeRecorderScreenWin();
   });
   ipcMain.on('rs:hide-win', () => {
@@ -120,12 +120,10 @@ function initIpcMain() {
   ipcMain.handle('rs:get-cursor-screen-point', () => {
     return recorderScreenWin.getCursorScreenPointRecorderScreenWin();
   });
-  ipcMain.handle('rs:is-focused', () => {
-    return recorderScreenWin.isFocusedRecorderScreenWin();
+  ipcMain.on('rs:download-video', (e, file) => {
+    recorderScreenWin.downloadVideo(file);
   });
-  ipcMain.on('rs:focus', () => {
-    recorderScreenWin.focusRecorderScreenWin();
-  });
+
   // 录屏截图
   ipcMain.on('cs:open-win', (e, search) => {
     clipScreenWin.closeClipScreenWin();
@@ -310,8 +308,8 @@ function initIpcMain() {
   ipcMain.on('ra:hide-win', () => {
     recorderAudioWin.hideRecorderAudioWin();
   });
-  ipcMain.on('ra:download-audio', (e, url) => {
-    recorderAudioWin.downloadAudio(url);
+  ipcMain.on('ra:download-audio', (e, file) => {
+    recorderAudioWin.downloadAudio(file);
   });
 
   ipcMain.on('ra:stop-record', () => {});
@@ -324,9 +322,7 @@ function initIpcMain() {
   ipcMain.on('rv:close-win', () => {
     recorderVideoWin.closeRecorderVideoWin();
   });
-  ipcMain.on('rv:download-record', (e, downloadUrl) => {
-    recorderVideoWin.downloadURLRecorderVideoWin(downloadUrl);
-  });
+
   // 音频
   ipcMain.on('va:open-win', (e, search) => {
     viewAudioWin.closeViewAudioWin();
@@ -336,6 +332,7 @@ function initIpcMain() {
     const audios = await viewAudioWin.getAudios(audioUrl);
     return audios;
   });
+
   // 设置
   ipcMain.on('se:open-win', () => {
     settingWin.closeSettingWin();

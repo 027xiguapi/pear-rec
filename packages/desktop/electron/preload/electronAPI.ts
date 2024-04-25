@@ -14,7 +14,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //raWin
   sendRaCloseWin: () => ipcRenderer.send('ra:close-win'),
   sendRaOpenWin: () => ipcRenderer.send('ra:open-win'),
-  sendRaDownloadAudio: (url: string) => ipcRenderer.send('ra:download-audio', url),
+  sendRaDownloadAudio: (file: any) => ipcRenderer.send('ra:download-audio', file),
   sendRaFile: (callback) => ipcRenderer.on('ra:send-file', (e, file) => callback(file)),
 
   //rsWin
@@ -30,14 +30,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
     return ipcRenderer.invoke('rs:get-desktop-capturer-source');
   },
   invokeRsGetCursorScreenPoint: () => ipcRenderer.invoke('rs:get-cursor-screen-point'),
-  invokeRsIsFocused: () => ipcRenderer.invoke('rs:is-focused'),
-  sendRsFocus: () => ipcRenderer.send('rs:focus'),
   sendRsSetIgnoreMouseEvents: (ignore: boolean, options: any) => {
     ipcRenderer.send('rs:set-ignore-mouse-events', ignore, options);
   },
   handleRsGetSizeClipWin: (callback: any) => ipcRenderer.on('rs:get-size-clip-win', callback),
   handleRsGetShotScreen: (callback: any) => ipcRenderer.on('rs:get-shot-screen', callback),
   handleRsGetEndRecord: (callback: any) => ipcRenderer.on('rs:get-end-record', callback),
+  sendRsDownloadVideo: (file: string) => ipcRenderer.send('rs:download-video', file),
+  sendRsFile: (callback: any) => ipcRenderer.on('rs:send-file', (e, file) => callback(file)),
 
   //csWin
   sendCsOpenWin: (search?: any) => ipcRenderer.send('cs:open-win', search),
@@ -56,7 +56,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //rvWin
   sendRvCloseWin: () => ipcRenderer.send('rv:close-win'),
   sendRvOpenWin: () => ipcRenderer.send('rv:open-win'),
-  sendRvDownloadRecord: (url: string) => ipcRenderer.send('rv:download-record', url),
 
   //ssWin
   sendSsOpenWin: () => ipcRenderer.send('ss:open-win'),

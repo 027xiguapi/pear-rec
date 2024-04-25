@@ -44,17 +44,6 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
     });
   }
 
-  // recorderScreenWin.on('move', () => {
-  //   const recorderScreenWinBounds = getBoundsRecorderScreenWin() as Rectangle;
-  //   const clipScreenWinBounds = getBoundsClipScreenWin() as Rectangle;
-  //   setBoundsClipScreenWin({
-  //     x: recorderScreenWinBounds.x,
-  //     y: recorderScreenWinBounds.y - clipScreenWinBounds.height,
-  //     width: clipScreenWinBounds.width,
-  //     height: clipScreenWinBounds.height,
-  //   });
-  // });
-
   recorderScreenWin.on('restore', () => {
     showClipScreenWin();
   });
@@ -146,6 +135,26 @@ function setIgnoreMouseEventsRecorderScreenWin(event: any, ignore: boolean, opti
   win?.setIgnoreMouseEvents(ignore, options);
 }
 
+function downloadVideo(file) {
+  recorderScreenWin.webContents.downloadURL(file.url);
+  recorderScreenWin.webContents.session.once('will-download', async (event, item, webContents) => {
+    item.setSaveDialogOptions({
+      defaultPath: file.fileName,
+    });
+    item.once('done', (event, state) => {
+      if (state === 'completed') {
+        const savePath = item.getSavePath();
+        const fileName = item.getFilename();
+        recorderScreenWin.webContents.send('rs:send-file', {
+          fileName: fileName,
+          filePath: savePath,
+        });
+        console.log(`${savePath}:录像保存成功`);
+      }
+    });
+  });
+}
+
 export {
   closeRecorderScreenWin,
   createRecorderScreenWin,
@@ -163,4 +172,5 @@ export {
   setResizableRecorderScreenWin,
   setSizeRecorderScreenWin,
   showRecorderScreenWin,
+  downloadVideo,
 };

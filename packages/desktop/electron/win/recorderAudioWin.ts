@@ -52,10 +52,12 @@ function setSizeRecorderAudioWin(width: number, height: number) {
   recorderAudioWin?.setResizable(false);
 }
 
-async function downloadAudio(audioUrl: any) {
-  recorderAudioWin.webContents.downloadURL(audioUrl);
+async function downloadAudio(file: any) {
+  recorderAudioWin.webContents.downloadURL(file.url);
   recorderAudioWin.webContents.session.once('will-download', async (event, item, webContents) => {
-    item.setSaveDialogOptions({});
+    item.setSaveDialogOptions({
+      defaultPath: file.fileName,
+    });
     item.once('done', (event, state) => {
       if (state === 'completed') {
         const savePath = item.getSavePath();
