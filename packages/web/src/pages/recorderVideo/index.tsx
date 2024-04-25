@@ -32,6 +32,9 @@ export default function UI() {
 
   useEffect(() => {
     user.id || getCurrentUser();
+    window.electronAPI?.sendRvFile((file) => {
+      addRecord(file);
+    });
     return () => {
       avCvs?.destroy();
     };
@@ -74,12 +77,13 @@ export default function UI() {
     }
   }
 
-  async function saveFile(blob) {
+  async function addRecord(file) {
     try {
       const record = {
-        fileName: `pear-rec_${+new Date()}.webm`,
-        fileData: blob,
-        fileType: 'rs',
+        fileName: file.fileName,
+        filePath: file.filePath,
+        fileData: file.fileData,
+        fileType: 'rv',
         userId: user.id,
         createdAt: new Date(),
         createdBy: user.id,
@@ -88,23 +92,21 @@ export default function UI() {
       };
       const recordId = await db.records.add(record);
       if (recordId) {
-        if (window.isElectron) {
-          window.electronAPI.sendRvCloseWin();
-          window.electronAPI.sendVvOpenWin({ recordId: recordId });
-        } else {
-          Modal.confirm({
-            title: '录屏已保存，是否查看？',
-            content: `${record.fileName}`,
-            okText: t('modal.ok'),
-            cancelText: t('modal.cancel'),
-            onOk() {
-              window.open(`/viewVideo.html?recordId=${recordId}`);
-            },
-          });
-        }
+        window.electronAPI?.sendNotification({ title: '保存成功', body: '可以在历史中查看' });
       }
     } catch (err) {
-      message.error('保存失败');
+      console.log('保存失败');
+    }
+  }
+
+  async function saveFile(blob) {
+    const fileName = `pear-rec_${+new Date()}.mp4`;
+    if (window.isElectron) {
+      const url = URL.createObjectURL(blob);
+      window.electronAPI.sendRvDownloadVideo({ url, fileName: fileName });
+    } else {
+      saveAs(blob, fileName);
+      addRecord({ fileData: blob, fileName: fileName });
     }
   }
 
@@ -144,10 +146,27 @@ export default function UI() {
           <Button
             onClick={async () => {
               if (avCvs == null) return;
-              const mediaStream = await navigator.mediaDevices.getDisplayMedia({
-                video: true,
-                audio: true,
-              });
+
+              const source = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
+              const constraints: any = {
+                audio: {
+                  mandatory: {
+                    chromeMediaSource: 'desktop',
+                  },
+                },
+                video: {
+                  mandatory: {
+                    chromeMediaSource: 'desktop',
+                    chromeMediaSourceId: source.id,
+                  },
+                },
+              };
+              const mediaStream = window.isElectron
+                ? await navigator.mediaDevices.getUserMedia(constraints)
+                : await navigator.mediaDevices.getDisplayMedia({
+                    video: true,
+                    audio: true,
+                  });
               const vs = new VideoSprite('display', mediaStream, {
                 audioCtx: avCvs.spriteManager.audioCtx,
               });

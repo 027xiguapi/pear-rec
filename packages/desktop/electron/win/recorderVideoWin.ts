@@ -16,36 +16,12 @@ function createRecorderVideoWin(): BrowserWindow {
     },
   });
 
+  recorderVideoWin.webContents.openDevTools();
   if (url) {
     recorderVideoWin.loadURL(WEB_URL + 'recorderVideo.html');
-    // recorderVideoWin.webContents.openDevTools();
   } else {
     recorderVideoWin.loadFile(WIN_CONFIG.recorderVideo.html);
   }
-
-  recorderVideoWin?.webContents.session.on(
-    'will-download',
-    async (event: any, item: any, webContents: any) => {
-      const url = item.getURL();
-      if (downloadSet.has(url)) {
-        // const fileName = item.getFilename();
-        // const filePath = (await getFilePath()) as string;
-        // const rvFilePath = join(`${filePath}/rv`, `${fileName}`);
-        // item.setSavePath(rvFilePath);
-        // item.once('done', (event: any, state: any) => {
-        //   if (state === 'completed') {
-        //     setHistoryVideo(rvFilePath);
-        //     setTimeout(() => {
-        //       closeRecorderVideoWin();
-        //       // shell.showItemInFolder(filePath);
-        //     }, 1000);
-        //   } else {
-        //     dialog.showErrorBox('下载失败', `文件 ${item.getFilename()} 因为某些原因被中断下载`);
-        //   }
-        // });
-      }
-    },
-  );
 
   return recorderVideoWin;
 }
@@ -63,14 +39,24 @@ function openRecorderVideoWin() {
   recorderVideoWin?.show();
 }
 
-function downloadURLRecorderVideoWin(downloadUrl: string) {
-  recorderVideoWin?.webContents.downloadURL(downloadUrl);
-  downloadSet.add(downloadUrl);
+function downloadVideo(file) {
+  recorderVideoWin.webContents.downloadURL(file.url);
+  recorderVideoWin.webContents.session.once('will-download', async (event, item, webContents) => {
+    item.setSaveDialogOptions({
+      defaultPath: file.fileName,
+    });
+    item.once('done', (event, state) => {
+      if (state === 'completed') {
+        const savePath = item.getSavePath();
+        const fileName = item.getFilename();
+        recorderVideoWin.webContents.send('rv:send-file', {
+          fileName: fileName,
+          filePath: savePath,
+        });
+        console.log(`${savePath}:录像保存成功`);
+      }
+    });
+  });
 }
 
-export {
-  closeRecorderVideoWin,
-  createRecorderVideoWin,
-  downloadURLRecorderVideoWin,
-  openRecorderVideoWin,
-};
+export { closeRecorderVideoWin, createRecorderVideoWin, downloadVideo, openRecorderVideoWin };
