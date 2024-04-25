@@ -29,6 +29,9 @@ const RecorderScreen = () => {
 
   useEffect(() => {
     user.id || getCurrentUser();
+    window.electronAPI?.sendRfsFile((file) => {
+      addRecord(file);
+    });
   }, []);
 
   async function getCurrentUser() {
@@ -160,11 +163,22 @@ const RecorderScreen = () => {
   }
 
   async function saveFile(blob) {
+    const fileName = `pear-rec_${+new Date()}.webm`;
+    if (window.isElectron) {
+      const url = URL.createObjectURL(blob);
+      window.electronAPI.sendRfsDownloadVideo({ url, fileName: fileName });
+    } else {
+      saveAs(blob, fileName);
+      addRecord({ fileData: blob, fileName: fileName });
+    }
+  }
+
+  async function addRecord(file) {
     try {
-      const fileName = `pear-rec_${+new Date()}.webm`;
       const record = {
-        fileName: fileName,
-        fileData: blob,
+        fileName: file.fileName,
+        filePath: file.filePath,
+        fileData: file.fileData,
         fileType: 'rs',
         userId: user.id,
         createdAt: new Date(),
@@ -175,10 +189,10 @@ const RecorderScreen = () => {
       const recordId = await db.records.add(record);
       if (recordId) {
         setIsSave(false);
-        saveAs(blob, fileName);
+        window.electronAPI?.sendNotification({ title: '保存成功', body: '可以在历史中查看' });
       }
     } catch (err) {
-      message.error('保存失败');
+      console.log('保存失败');
     }
   }
 
