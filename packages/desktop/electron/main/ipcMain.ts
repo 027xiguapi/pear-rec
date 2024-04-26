@@ -32,6 +32,7 @@ import * as globalShortcut from './globalShortcut';
 import logger from './logger';
 import { showNotification } from './notification';
 import * as utils from './utils';
+import { PEAR_FILES_PATH } from './constant';
 
 const selfWindws = async () =>
   await Promise.all(
@@ -350,6 +351,9 @@ function initIpcMain() {
     if (!res.canceled) {
       return res.filePaths[0];
     }
+  });
+  ipcMain.on('se:open-filePath', (e, filePath) => {
+    shell.openPath(filePath || PEAR_FILES_PATH);
   });
   ipcMain.on('se:set-openAtLogin', (e, isOpen) => {
     app.setLoginItemSettings({ openAtLogin: isOpen });

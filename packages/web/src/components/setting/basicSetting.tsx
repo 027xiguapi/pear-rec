@@ -28,7 +28,9 @@ const BasicSetting = (props) => {
   }
 
   function handleOpenFilePath() {
-    // setting.filePath && api.getFolder(form.getFieldValue('filePath'));
+    if (window.isElectron) {
+      window.electronAPI.sendSeOpenFilePath(setting.filePath);
+    }
   }
 
   async function getFilePath() {
