@@ -8,6 +8,7 @@ function createRecordsWin(): BrowserWindow {
     title: 'pear-rec 记录',
     icon: ICON,
     width: WIN_CONFIG.records.width,
+    height: WIN_CONFIG.records.height,
     autoHideMenuBar: WIN_CONFIG.records.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,

@@ -12,7 +12,9 @@
   files: ['dist-electron', 'dist', '.env'],
   mac: {
     icon: 'build/icons/mac/icon.icns',
-    target: { target: 'dmg' },
+    target: {
+      target: 'dmg',
+    },
     artifactName: '${productName}-Mac-${version}-Installer.${ext}',
   },
   linux: {

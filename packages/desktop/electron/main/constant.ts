@@ -137,6 +137,7 @@ export const WIN_CONFIG = {
   records: {
     html: path.join(process.env.DIST, 'records.html'),
     width: 1024,
+    height: 768,
     autoHideMenuBar: true,
   },
   setting: {

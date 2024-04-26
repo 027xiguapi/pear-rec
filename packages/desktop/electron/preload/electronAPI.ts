@@ -122,6 +122,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendSeOpenWin: () => ipcRenderer.send('se:open-win'),
   invokeSeGetUser: () => ipcRenderer.invoke('se:get-user'),
   invokeSeSetFilePath: (filePath: string) => ipcRenderer.invoke('se:set-filePath', filePath),
+  sendSeOpenFilePath: (filePath: string) => ipcRenderer.send('se:open-filePath', filePath),
   invokeSeGetFilePath: () => ipcRenderer.invoke('se:get-filePath'),
   sendSeSetOpenAtLogin: (isOpen: boolean) => ipcRenderer.send('se:set-openAtLogin', isOpen),
   sendSeSetLanguage: (lng: string) => ipcRenderer.send('se:set-language', lng),
