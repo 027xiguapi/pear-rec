@@ -54,7 +54,6 @@ const ViewImage = () => {
         okType: 'danger',
         cancelText: '取消',
         async onOk() {
-          console.log('OK');
           await db.delete();
           location.reload();
         },
@@ -146,11 +145,15 @@ const ViewImage = () => {
       }
     }
     if (recordId) {
-      let record = await db.records.where({ id: Number(recordId) }).first();
+      const record = await db.records.where({ id: Number(recordId) }).first();
+      const url = window.isElectron
+        ? 'pearrec://' + record.filePath
+        : URL.createObjectURL(record.fileData);
+      const filePath = window.isElectron ? record.filePath : URL.createObjectURL(record.fileData);
       setImgs([
         {
-          url: URL.createObjectURL(record.fileData),
-          filePath: URL.createObjectURL(record.fileData),
+          url: url,
+          filePath: filePath,
           fileName: record.fileName,
           index: 0,
         },
@@ -193,9 +196,7 @@ const ViewImage = () => {
         cancelText: t('modal.cancel'),
         onOk() {
           if (isURL(result)) {
-            window.electronAPI
-              ? window.electronAPI.sendSsOpenExternal(result)
-              : window.open(result);
+            window.isElectron ? window.electronAPI.sendSsOpenExternal(result) : window.open(result);
           }
         },
         onCancel() {
@@ -304,7 +305,7 @@ const ViewImage = () => {
           return <img className="viewImg" src={img.url} key={key} />;
         })}
       </div>
-      <div id="viewer"></div>
+      <div id="viewer" />
       <input
         accept="image/png,image/jpeg,.webp"
         type="file"

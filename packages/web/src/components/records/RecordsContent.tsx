@@ -154,22 +154,22 @@ const RecordAudioCard = forwardRef(() => {
 
   function handleOpenFilePath(record: any) {
     if (record.fileType == 'ss' || record.fileType == 'eg') {
-      window.electronAPI
+      window.isElectron
         ? window.electronAPI?.sendViOpenWin({ recordId: record.id })
         : window.open(`/viewImage.html?recordId=${record.id}`);
     }
     if (record.fileType == 'rs') {
-      window.electronAPI
+      window.isElectron
         ? window.electronAPI.sendVvOpenWin({ recordId: record.id })
         : window.open(`/viewVideo.html?recordId=${record.id}`);
     }
     if (record.fileType == 'rv') {
-      window.electronAPI
+      window.isElectron
         ? window.electronAPI.sendVvOpenWin({ recordId: record.id })
         : window.open(`/viewVideo.html?recordId=${record.id}`);
     }
     if (record.fileType == 'ra') {
-      window.electronAPI
+      window.isElectron
         ? window.electronAPI.sendVaOpenWin({ recordId: record.id })
         : window.open(`/viewAudio.html?recordId=${record.id}`);
     }
@@ -185,7 +185,11 @@ const RecordAudioCard = forwardRef(() => {
   }
 
   function handleDownloadRecord(record) {
-    saveAs(record.fileData, record.fileName);
+    if (window.isElectron) {
+      window.electronAPI.sendReOpenFile(record.filePath);
+    } else {
+      saveAs(record.fileData, record.fileName);
+    }
   }
 
   const loadMore =
@@ -217,7 +221,7 @@ const RecordAudioCard = forwardRef(() => {
                 删除
               </a>,
               <a key="list-loadmore-download" onClick={() => handleDownloadRecord(record)}>
-                下载
+                打开
               </a>,
             ]}
           >
@@ -228,7 +232,7 @@ const RecordAudioCard = forwardRef(() => {
                   <a
                     onClick={() => handleOpenFilePath(record)}
                     dangerouslySetInnerHTML={{ __html: record.filePath || record.fileName }}
-                  ></a>
+                  />
                 }
                 description={
                   <span>
@@ -237,7 +241,7 @@ const RecordAudioCard = forwardRef(() => {
                       dangerouslySetInnerHTML={{
                         __html: dayjs(record.createdAt).format('YYYY-MM-DD HH:mm:ss'),
                       }}
-                    ></span>
+                    />
                     {/* <span className="openFolder" onClick={() => openFilePath(record)}>
                       在文件夹中显示
                     </span> */}

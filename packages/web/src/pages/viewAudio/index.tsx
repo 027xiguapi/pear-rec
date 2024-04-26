@@ -59,7 +59,9 @@ const ViewAudio = () => {
     }
     if (recordId) {
       let record = await db.records.where({ id: Number(recordId) }).first();
-      audioSrc = URL.createObjectURL(record.fileData);
+      audioSrc = window.isElectron
+        ? 'pearrec://' + record.filePath
+        : URL.createObjectURL(record.fileData);
     }
     setAudioSrc(audioSrc);
   }
@@ -164,8 +166,8 @@ const ViewAudio = () => {
     <div className={styles.viewAudio}>
       <div className="container">
         <img id="bg" />
-        <canvas id="canvas" ref={canvasRef}></canvas>
-        <audio id="audio" src={audioSrc} autoPlay ref={audioRef}></audio>
+        <canvas id="canvas" ref={canvasRef} />
+        <audio id="audio" src={audioSrc} autoPlay ref={audioRef} />
         <label className="label" id="audioLabel">
           Drop audio file here to play
         </label>
@@ -210,11 +212,11 @@ const ViewAudio = () => {
           </button>
         </div>
         <div>
-          <button className="color color-1" onClick={() => changeColor(0)}></button>
-          <button className="color color-2" onClick={() => changeColor(1)}></button>
-          <button className="color color-3" onClick={() => changeColor(2)}></button>
-          <button className="color color-4" onClick={() => changeColor(3)}></button>
-          <button className="color color-5" onClick={() => changeColor(4)}></button>
+          <button className="color color-1" onClick={() => changeColor(0)} />
+          <button className="color color-2" onClick={() => changeColor(1)} />
+          <button className="color color-3" onClick={() => changeColor(2)} />
+          <button className="color color-4" onClick={() => changeColor(3)} />
+          <button className="color color-5" onClick={() => changeColor(4)} />
         </div>
         <div>
           <button className="pos-v" onClick={() => changePosV('top')}>

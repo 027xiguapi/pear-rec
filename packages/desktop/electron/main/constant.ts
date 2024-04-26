@@ -168,6 +168,8 @@ export const WIN_CONFIG = {
   },
   viewAudio: {
     html: path.join(process.env.DIST, 'viewAudio.html'),
+    height: 768,
+    width: 1024,
     autoHideMenuBar: true,
   },
   viewImage: {

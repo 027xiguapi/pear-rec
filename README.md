@@ -97,8 +97,8 @@ Features that have been ticked are the latest in the development process but may
   - [x] Customize what happens when the frame is released
   - [x] Map search by map
   - [x] QR code recognition
-  - [ ] Quick full screen capture to clipboard or custom directory
-  - [ ] Screenshot history
+  - [x] Quick full screen capture to clipboard or custom directory
+  - [x] Screenshot history
   - [ ] Window and control selection (using OpenCV edge recognition)
   - [ ] Long screen capture
   - [ ] Multi-screen
@@ -138,7 +138,7 @@ Features that have been ticked are the latest in the development process but may
   - [x] user uuid
   - [x] Save address
   - [x] Self-starting
-  - [x] internationalization(zh,en,de )
+  - [x] internationalization(zh,en,de)
 
 ## 🌍 Internationalization(I18n)
 

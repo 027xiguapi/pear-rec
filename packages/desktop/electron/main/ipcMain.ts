@@ -312,7 +312,6 @@ function initIpcMain() {
     recorderAudioWin.downloadAudio(file);
   });
 
-  ipcMain.on('ra:stop-record', () => {});
   // 录像
   ipcMain.on('rv:open-win', () => {
     recorderVideoWin.closeRecorderVideoWin();
@@ -349,9 +348,8 @@ function initIpcMain() {
       properties: ['openDirectory'],
     });
     if (!res.canceled) {
-      filePath = res.filePaths[0];
+      return res.filePaths[0];
     }
-    return filePath;
   });
   ipcMain.on('se:set-openAtLogin', (e, isOpen) => {
     app.setLoginItemSettings({ openAtLogin: isOpen });
@@ -384,6 +382,9 @@ function initIpcMain() {
   ipcMain.on('re:open-win', () => {
     recordsWin.closeRecordsWin();
     recordsWin.openRecordsWin();
+  });
+  ipcMain.on('re:open-file', (e, url) => {
+    shell.showItemInFolder(url);
   });
 
   // 钉图

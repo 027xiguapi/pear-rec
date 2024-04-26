@@ -68,7 +68,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   invokeSsGetShotScreenImg: () => ipcRenderer.invoke('ss:get-shot-screen-img'),
   sendSsDownloadImg: (file: any) => ipcRenderer.send('ss:download-img', file),
   sendSsSaveImg: (imgUrl: string) => ipcRenderer.send('ss:save-img', imgUrl),
-  sendSsOpenExternal: (tabUrl: string) => ipcRenderer.send('ss:open-external', tabUrl),
+  sendSsOpenExternal: (imgUrl: string) => ipcRenderer.send('ss:open-external', imgUrl),
   sendSsCopyImg: (imgUrl: string) => ipcRenderer.send('ss:copy-img', imgUrl),
   sendSsFile: (callback) => ipcRenderer.on('ss:send-file', (e, file) => callback(file)),
 
@@ -131,6 +131,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   //re 记录
   sendReOpenWin: () => ipcRenderer.send('re:open-win'),
+  sendReOpenFile: (url: string) => ipcRenderer.send('re:open-file', url),
 
   //pi 钉图
   sendPiSetSizeWin: (size: any) => ipcRenderer.send('pi:set-size-win', size),
