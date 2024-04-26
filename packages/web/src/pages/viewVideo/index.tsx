@@ -74,7 +74,9 @@ const ViewVideo = () => {
       }
     } else if (recordId) {
       let record = await db.records.where({ id: Number(recordId) }).first();
-      setSource(URL.createObjectURL(record.fileData));
+      setSource(
+        window.isElectron ? `pearrec://${record.filePath}` : URL.createObjectURL(record.fileData),
+      );
     }
   }
 
@@ -125,7 +127,7 @@ const ViewVideo = () => {
   return (
     <div className={styles.viewVideo}>
       {source ? (
-        <video id="player" playsInline controls src={source}></video>
+        <video id="player" playsInline controls src={source} />
       ) : (
         <Empty
           image="./imgs/svg/empty.svg"

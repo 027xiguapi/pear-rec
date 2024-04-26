@@ -8,6 +8,8 @@ function createViewAudioWin(search?: any): BrowserWindow {
   viewAudioWin = new BrowserWindow({
     title: 'pear-rec 音频',
     icon: ICON,
+    width: WIN_CONFIG.viewAudio.width,
+    height: WIN_CONFIG.viewAudio.height,
     autoHideMenuBar: WIN_CONFIG.viewAudio.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
