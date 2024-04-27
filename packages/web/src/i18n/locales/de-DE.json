@@ -21,7 +21,9 @@
     "rotateLeft": "rotateLeft",
     "rotateRight": "rotateRight",
     "flipHorizontal": "flipHorizontal",
-    "flipVertical": "flipVertical"
+    "flipVertical": "flipVertical",
+    "edit": "edit",
+    "print": "print"
   },
   "home": {
     "audioRecording": "Audioaufnahme",

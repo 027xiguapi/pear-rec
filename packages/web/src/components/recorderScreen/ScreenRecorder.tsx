@@ -346,7 +346,7 @@ const ScreenRecorder = (props) => {
         fileName: file.fileName,
         filePath: file.filePath,
         fileData: file.fileData,
-        fileType: 'rs',
+        fileType: type == 'gif' ? 'gif' : 'rs',
         userId: user.id,
         createdAt: new Date(),
         createdBy: user.id,

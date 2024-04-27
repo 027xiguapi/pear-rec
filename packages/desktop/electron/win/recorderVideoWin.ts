@@ -16,7 +16,7 @@ function createRecorderVideoWin(): BrowserWindow {
     },
   });
 
-  recorderVideoWin.webContents.openDevTools();
+  // recorderVideoWin.webContents.openDevTools();
   if (url) {
     recorderVideoWin.loadURL(WEB_URL + 'recorderVideo.html');
   } else {
