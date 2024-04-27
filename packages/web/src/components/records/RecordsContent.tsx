@@ -138,7 +138,12 @@ const RecordAudioCard = forwardRef(() => {
   }
 
   function getAvatar(record: any) {
-    if (record.fileType == 'ss' || record.fileType == 'eg' || record.fileType == 'ei') {
+    if (
+      record.fileType == 'ss' ||
+      record.fileType == 'eg' ||
+      record.fileType == 'gif' ||
+      record.fileType == 'ei'
+    ) {
       return <PictureOutlined />;
     }
     if (record.fileType == 'rs') {
@@ -153,7 +158,12 @@ const RecordAudioCard = forwardRef(() => {
   }
 
   function handleOpenFilePath(record: any) {
-    if (record.fileType == 'ss' || record.fileType == 'eg') {
+    if (
+      record.fileType == 'ss' ||
+      record.fileType == 'eg' ||
+      record.fileType == 'gif' ||
+      record.fileType == 'ei'
+    ) {
       window.isElectron
         ? window.electronAPI?.sendViOpenWin({ recordId: record.id })
         : window.open(`/viewImage.html?recordId=${record.id}`);
