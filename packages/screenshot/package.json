@@ -33,7 +33,8 @@
     "cropper",
     "react"
   ],
-  "author": "027xiguapi",
+  "author": "027xiguapi <458813868@qq.com>",
+  "homepage": "https://027xiguapi.github.io/pear-rec",
   "license": "Apache-2.0",
   "description": "a screenshot cropper tool by react"
 }

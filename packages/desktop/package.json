@@ -3,8 +3,8 @@
   "version": "1.3.16",
   "main": "dist-electron/main/index.js",
   "description": "pear-rec",
-  "author": "027xiguapi",
-  "email": "458813868@qq.com",
+  "author": "027xiguapi <458813868@qq.com>",
+  "homepage": "https://027xiguapi.github.io/pear-rec",
   "license": "Apache-2.0",
   "private": true,
   "debug": {
