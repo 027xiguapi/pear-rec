@@ -1,5 +1,6 @@
 import { BrowserWindow } from 'electron';
 import { ICON, preload, url, WEB_URL, WIN_CONFIG } from '../main/constant';
+import { existsSync } from 'node:fs';
 
 let recordsWin: BrowserWindow | null = null;
 
@@ -46,4 +47,19 @@ function hideRecordsWin() {
   recordsWin?.hide();
 }
 
-export { closeRecordsWin, createRecordsWin, hideRecordsWin, openRecordsWin, showRecordsWin };
+function getFileExists(path) {
+  try {
+    return existsSync(path);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export {
+  closeRecordsWin,
+  createRecordsWin,
+  hideRecordsWin,
+  openRecordsWin,
+  showRecordsWin,
+  getFileExists,
+};

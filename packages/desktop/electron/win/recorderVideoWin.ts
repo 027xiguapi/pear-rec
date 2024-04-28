@@ -2,7 +2,6 @@ import { BrowserWindow } from 'electron';
 import { ICON, preload, url, WEB_URL, WIN_CONFIG } from '../main/constant';
 
 let recorderVideoWin: BrowserWindow | null = null;
-let downloadSet: Set<string> = new Set();
 
 function createRecorderVideoWin(): BrowserWindow {
   recorderVideoWin = new BrowserWindow({

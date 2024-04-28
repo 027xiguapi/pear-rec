@@ -118,6 +118,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //vaWin
   sendVaOpenWin: (search?: any) => ipcRenderer.send('va:open-win', search),
   invokeVaGetAudios: (audioUrl: any) => ipcRenderer.invoke('va:get-audios', audioUrl),
+
   //seWin 设置
   sendSeOpenWin: () => ipcRenderer.send('se:open-win'),
   invokeSeGetUser: () => ipcRenderer.invoke('se:get-user'),
@@ -132,7 +133,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   //re 记录
   sendReOpenWin: () => ipcRenderer.send('re:open-win'),
-  sendReOpenFile: (url: string) => ipcRenderer.send('re:open-file', url),
+  sendReOpenFile: (path: string) => ipcRenderer.send('re:open-file', path),
+  invokeReGetExists: (path: string) => ipcRenderer.invoke('re:get-exists', path),
 
   //pi 钉图
   sendPiSetSizeWin: (size: any) => ipcRenderer.send('pi:set-size-win', size),
