@@ -4,7 +4,7 @@ import {
   PictureOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Avatar, Button, Layout, List, Skeleton } from 'antd';
+import { Avatar, Button, Layout, List, message, Skeleton } from 'antd';
 import dayjs from 'dayjs';
 import { saveAs } from 'file-saver';
 import { forwardRef, useEffect, useState } from 'react';
@@ -157,7 +157,7 @@ const RecordAudioCard = forwardRef(() => {
     }
   }
 
-  function handleOpenFilePath(record: any) {
+  async function handleOpenFilePath(record: any) {
     if (
       record.fileType == 'ss' ||
       record.fileType == 'eg' ||
@@ -165,22 +165,26 @@ const RecordAudioCard = forwardRef(() => {
       record.fileType == 'ei'
     ) {
       window.isElectron
-        ? window.electronAPI?.sendViOpenWin({ recordId: record.id })
+        ? (await handleExistsRecord(record)) &&
+          window.electronAPI.sendViOpenWin({ recordId: record.id })
         : window.open(`/viewImage.html?recordId=${record.id}`);
     }
     if (record.fileType == 'rs') {
       window.isElectron
-        ? window.electronAPI.sendVvOpenWin({ recordId: record.id })
+        ? (await handleExistsRecord(record)) &&
+          window.electronAPI.sendVvOpenWin({ recordId: record.id })
         : window.open(`/viewVideo.html?recordId=${record.id}`);
     }
     if (record.fileType == 'rv') {
       window.isElectron
-        ? window.electronAPI.sendVvOpenWin({ recordId: record.id })
+        ? (await handleExistsRecord(record)) &&
+          window.electronAPI.sendVvOpenWin({ recordId: record.id })
         : window.open(`/viewVideo.html?recordId=${record.id}`);
     }
     if (record.fileType == 'ra') {
       window.isElectron
-        ? window.electronAPI.sendVaOpenWin({ recordId: record.id })
+        ? (await handleExistsRecord(record)) &&
+          window.electronAPI.sendVaOpenWin({ recordId: record.id })
         : window.open(`/viewAudio.html?recordId=${record.id}`);
     }
   }
@@ -194,12 +198,20 @@ const RecordAudioCard = forwardRef(() => {
     window.dispatchEvent(new Event('resize'));
   }
 
-  function handleDownloadRecord(record) {
+  async function handleDownloadRecord(record) {
     if (window.isElectron) {
-      window.electronAPI.sendReOpenFile(record.filePath);
+      (await handleExistsRecord(record)) && window.electronAPI.sendReOpenFile(record.filePath);
     } else {
       saveAs(record.fileData, record.fileName);
     }
+  }
+
+  async function handleExistsRecord(record) {
+    const isExists = await window.electronAPI.invokeReGetExists(record.filePath);
+    if (!isExists) {
+      message.error('文件未找到！');
+    }
+    return isExists;
   }
 
   const loadMore =

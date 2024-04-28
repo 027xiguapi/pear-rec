@@ -390,6 +390,9 @@ function initIpcMain() {
   ipcMain.on('re:open-file', (e, url) => {
     shell.showItemInFolder(url);
   });
+  ipcMain.handle('re:get-exists', (e, path) => {
+    return recordsWin.getFileExists(path);
+  });
 
   // 钉图
   ipcMain.on('pi:set-size-win', (e, size) => {

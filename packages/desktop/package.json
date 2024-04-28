@@ -4,6 +4,7 @@
   "main": "dist-electron/main/index.js",
   "description": "pear-rec",
   "author": "027xiguapi",
+  "email": "458813868@qq.com",
   "license": "Apache-2.0",
   "private": true,
   "debug": {
