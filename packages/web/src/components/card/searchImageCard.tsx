@@ -24,16 +24,9 @@ const SearchImageCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card
-      hoverable
-      bordered={false}
-      style={{ maxWidth: 300, minWidth: 140, height: 130 }}
-      onClick={() => fileRef.current.click()}
-    >
-      <div className="cardContent">
-        <SearchOutlined className="cardIcon" />
-        <div className="cardTitle">搜图</div>
-      </div>
+    <div className="cardContent" onClick={() => fileRef.current.click()}>
+      <SearchOutlined className="cardIcon" />
+      <div className="cardTitle">搜图</div>
       <input
         type="file"
         ref={fileRef}
@@ -41,7 +34,7 @@ const SearchImageCard = forwardRef((props: any, ref: any) => {
         className="fileRef"
         onChange={handleUploadFile}
       />
-    </Card>
+    </div>
   );
 });
 

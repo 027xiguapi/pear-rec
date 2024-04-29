@@ -1,5 +1,5 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Anchor, Col, Modal, Row } from 'antd';
+import { Anchor, Modal, Card } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import EditGifCard from '../../components/card/editGifCard';
 import RecordAudioCard from '../../components/card/recordAudioCard';
@@ -29,7 +29,6 @@ const Home: React.FC = () => {
   const [user, setUser] = useState<any>({});
 
   useEffect(() => {
-    // getDevices();
     if (user.id) {
       getShortcut(user.id);
     } else {
@@ -120,11 +119,16 @@ const Home: React.FC = () => {
     return e || '#main';
   }
 
+  const gridStyle: React.CSSProperties = {
+    width: '25%',
+    textAlign: 'center',
+  };
+
   return (
     <div className={`${styles.home} ${window.isElectron ? styles.electron : styles.web}`}>
       <div className="container">
-        <div className="wavesurfer1"></div>
-        <div className="wavesurfer2"></div>
+        <div className="wavesurfer1" />
+        <div className="wavesurfer2" />
         <div className="nav">
           <Anchor
             className="anchor"
@@ -151,81 +155,77 @@ const Home: React.FC = () => {
         </div>
         <div className="content">
           <div id="main">
-            <Row className="cardRow" justify="center" gutter={16}>
-              <Col span={6}>
+            <Card>
+              <Card.Grid style={gridStyle}>
                 <CutScreenCard ref={cscRef} />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <RecordScreenCard ref={rscRef} />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <RecordVideoCard ref={rvcRef} />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <RecordAudioCard ref={racRef} />
-              </Col>
-            </Row>
-            <Row className="cardRow" justify="center" gutter={16}>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <EditGifCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <ViewImageCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <ViewVideoCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <ViewAudioCard />
-              </Col>
-            </Row>
+              </Card.Grid>
+            </Card>
           </div>
           <div id="image">
-            <Row className="cardRow" justify="center" gutter={16}>
-              <Col span={6}>
+            <Card>
+              <Card.Grid style={gridStyle}>
                 <EditGifCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <ViewImageCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <SearchImageCard user={user} />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <ScanImageCard />
-              </Col>
-            </Row>
-            <Row className="cardRow" justify="start" gutter={16}>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <SpliceImageCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <PinImageCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <EditImageCard />
-              </Col>
-            </Row>
+              </Card.Grid>
+            </Card>
           </div>
           <div id="video">
-            <Row className="cardRow" justify="start" gutter={16}>
-              <Col span={6}>
+            <Card>
+              <Card.Grid style={gridStyle}>
                 <RecordVideoCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <RecordScreenCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <VideoConverterCard />
-              </Col>
-              <Col span={6}>
+              </Card.Grid>
+              <Card.Grid style={gridStyle}>
                 <RecordCanvasCard />
-              </Col>
-            </Row>
+              </Card.Grid>
+            </Card>
           </div>
         </div>
       </div>
-      <HomeFooter></HomeFooter>
+      <HomeFooter />
     </div>
   );
 };

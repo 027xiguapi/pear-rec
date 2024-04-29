@@ -38,7 +38,7 @@ const EditGifCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
+    <div className="cardContent">
       <span className="extra" onClick={() => fileRef.current.click()}>
         {t('home.edit')}
       </span>
@@ -53,7 +53,7 @@ const EditGifCard = forwardRef((props: any, ref: any) => {
         className="fileRef"
         onChange={handleUploadFile}
       />
-    </Card>
+    </div>
   );
 });
 

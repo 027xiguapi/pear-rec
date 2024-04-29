@@ -38,16 +38,9 @@ const PinImageCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card
-      hoverable
-      bordered={false}
-      style={{ maxWidth: 300, minWidth: 140, height: 130 }}
-      onClick={() => fileRef.current.click()}
-    >
-      <div className="cardContent">
-        <PushpinOutlined className="cardIcon" />
-        <div className="cardTitle">贴图</div>
-      </div>
+    <div className="cardContent" onClick={() => fileRef.current.click()}>
+      <PushpinOutlined className="cardIcon" />
+      <div className="cardTitle">贴图</div>
       <input
         type="file"
         ref={fileRef}
@@ -55,7 +48,7 @@ const PinImageCard = forwardRef((props: any, ref: any) => {
         className="fileRef"
         onChange={handlePinImg}
       />
-    </Card>
+    </div>
   );
 });
 

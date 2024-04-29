@@ -66,17 +66,9 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
-      <div className="cardContent">
-        {/* <Dropdown menu={{ items, onClick }}>
-          <Space>
-            <BsMusicNoteBeamed className="cardIcon" onClick={() => fileRef.current.click()} />
-            <DownOutlined className="cardToggle" />
-          </Space>
-        </Dropdown> */}
-        <BsMusicNoteBeamed className="cardIcon" onClick={() => fileRef.current.click()} />
-        <div className="cardTitle">{t('home.playAudio')}</div>
-      </div>
+    <div className="cardContent">
+      <BsMusicNoteBeamed className="cardIcon" onClick={() => fileRef.current.click()} />
+      <div className="cardTitle">{t('home.playAudio')}</div>
       <input
         type="file"
         ref={fileRef}
@@ -84,16 +76,7 @@ const ViewAudioCard = forwardRef((props: any, ref: any) => {
         className="fileRef"
         onChange={handleUploadFile}
       />
-      {/* <input
-        type="file"
-        ref={directoryRef}
-        multiple
-        webkitdirectory
-        directory
-        className="directoryRef"
-        onChange={handleUploadDirectory}
-      /> */}
-    </Card>
+    </div>
   );
 });
 

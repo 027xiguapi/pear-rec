@@ -50,7 +50,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
+    <div className="cardContent">
       <span className="extra" onClick={handleFullScreenClick}>
         {t('home.fullScreen')}
       </span>
@@ -63,7 +63,7 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
         </Dropdown>
         <div className="cardTitle">{t('home.screenRecording')}</div>
       </div>
-    </Card>
+    </div>
   );
 });
 

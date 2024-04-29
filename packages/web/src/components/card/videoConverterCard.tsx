@@ -15,17 +15,10 @@ const VideoConverterCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card
-      hoverable
-      bordered={false}
-      style={{ maxWidth: 300, minWidth: 140, height: 130 }}
-      onClick={handleOpenWin}
-    >
-      <div className="cardContent">
-        <FileConversion className="cardIcon" />
-        <div className="cardTitle">视频转gif</div>
-      </div>
-    </Card>
+    <div className="cardContent" onClick={handleOpenWin}>
+      <FileConversion className="cardIcon" />
+      <div className="cardTitle">视频转gif</div>
+    </div>
   );
 });
 

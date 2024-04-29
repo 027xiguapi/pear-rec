@@ -16,12 +16,10 @@ const SpliceImageCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
-      <div className="cardContent">
-        <AlignHorizontally className="cardIcon" onClick={handleSpliceImageClick} />
-        <div className="cardTitle">图片拼接</div>
-      </div>
-    </Card>
+    <div className="cardContent" onClick={handleSpliceImageClick}>
+      <AlignHorizontally className="cardIcon" />
+      <div className="cardTitle">图片拼接</div>
+    </div>
   );
 });
 
