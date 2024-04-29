@@ -127,7 +127,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
+    <div className="cardContent">
       <span className="extra" onClick={() => imgRef.current.click()}>
         {t('home.edit')}
       </span>
@@ -161,15 +161,7 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
         className="fileRef"
         onChange={handleUploadImg}
       />
-      {/* <input
-        type="file"
-        ref={directoryRef}
-        directory="directory"
-        webkitdirectory="webkitdirectory"
-        className="directoryRef"
-        onChange={handleUploadDirectory}
-      /> */}
-    </Card>
+    </div>
   );
 });
 

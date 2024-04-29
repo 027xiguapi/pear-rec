@@ -66,29 +66,15 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
-      <div className="cardContent">
-        {/* <Dropdown menu={{ items, onClick }}>
-          <Space>
-            <Video
-              theme="outline"
-              size="32"
-              fill="#1677ff"
-              className="cardIcon"
-              onClick={() => fileRef.current.click()}
-            />
-            <DownOutlined className="cardToggle" />
-          </Space>
-        </Dropdown> */}
-        <Video
-          theme="outline"
-          size="32"
-          fill="#1677ff"
-          className="cardIcon"
-          onClick={() => fileRef.current.click()}
-        />
-        <div className="cardTitle">{t('home.watchVideo')}</div>
-      </div>
+    <div className="cardContent">
+      <Video
+        theme="outline"
+        size="32"
+        fill="#1677ff"
+        className="cardIcon"
+        onClick={() => fileRef.current.click()}
+      />
+      <div className="cardTitle">{t('home.watchVideo')}</div>
       <input
         type="file"
         ref={fileRef}
@@ -96,15 +82,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
         className="fileRef"
         onChange={handleUploadFile}
       />
-      {/* <input
-        type="file"
-        ref={directoryRef}
-        directory="directory"
-        webkitdirectory="webkitdirectory"
-        className="directoryRef"
-        onChange={handleUploadDirectory}
-      /> */}
-    </Card>
+    </div>
   );
 });
 

@@ -27,11 +27,9 @@ const EditImageCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
-      <div className="cardContent">
-        <EditOutlined className="cardIcon" onClick={() => fileRef.current.click()} />
-        <div className="cardTitle">{t('home.editImg')}</div>
-      </div>
+    <div className="cardContent">
+      <EditOutlined className="cardIcon" onClick={() => fileRef.current.click()} />
+      <div className="cardTitle">{t('home.editImg')}</div>
       <input
         type="file"
         ref={fileRef}
@@ -39,7 +37,7 @@ const EditImageCard = forwardRef((props: any, ref: any) => {
         className="fileRef"
         onChange={handleUploadFile}
       />
-    </Card>
+    </div>
   );
 });
 

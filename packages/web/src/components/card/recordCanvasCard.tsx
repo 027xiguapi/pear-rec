@@ -16,12 +16,10 @@ const RecordCanvasCard = forwardRef((props: any, ref: any) => {
   }
 
   return (
-    <Card hoverable bordered={false} style={{ maxWidth: 300, minWidth: 140, height: 130 }}>
-      <div className="cardContent">
-        <HandPaintedPlate className="cardIcon" onClick={handleRecordCanvasClick} />
-        <div className="cardTitle">{t('home.canvas')}</div>
-      </div>
-    </Card>
+    <div className="cardContent">
+      <HandPaintedPlate className="cardIcon" onClick={handleRecordCanvasClick} />
+      <div className="cardTitle">{t('home.canvas')}</div>
+    </div>
   );
 });
 
