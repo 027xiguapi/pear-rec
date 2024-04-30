@@ -222,6 +222,8 @@ function ShotScreen() {
             width: bounds.width,
             height: bounds.height,
           });
+        } else {
+          file.isShow || window.electronAPI?.sendViOpenWin({ recordId: recordId });
         }
       }
     } catch (err) {

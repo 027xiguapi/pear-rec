@@ -5,8 +5,6 @@ import path from 'node:path';
 import * as utils from '../main/utils';
 
 let shotScreenWin: BrowserWindow | null = null;
-let savePath: string = '';
-let downloadSet: Set<string> = new Set();
 
 function createShotScreenWin(): BrowserWindow {
   shotScreenWin = new BrowserWindow({
@@ -121,7 +119,7 @@ async function downloadImg(file: any) {
           fileName: defaultPath,
           filePath: imagePath,
           bounds: file.bounds,
-          isClose: file.isClose,
+          isShow: isShow,
           isPin: isPin,
         });
         console.log(`${imagePath}:图片保存成功`);
@@ -130,33 +128,15 @@ async function downloadImg(file: any) {
   }
 }
 
-async function downloadURLShotScreenWin(downloadUrl: string, isShowDialog?: boolean) {
-  savePath = '';
-  isShowDialog && (savePath = await showOpenDialogShotScreenWin());
-  downloadSet.add(downloadUrl);
-  shotScreenWin?.webContents.downloadURL(downloadUrl);
-}
-
-async function showOpenDialogShotScreenWin() {
-  let res = await dialog.showOpenDialog({
-    properties: ['openDirectory'],
-  });
-
-  const savePath = res.filePaths[0] || '';
-
-  return savePath;
-}
-
 function copyImg(filePath: string) {
-  const image = nativeImage.createFromDataURL(filePath);
-  clipboard.writeImage(image);
+  const data = Buffer.from(`file://${encodeURI(filePath)}`, 'utf-8');
+  clipboard.writeBuffer('image/png', data);
 }
 
 export {
   closeShotScreenWin,
   copyImg,
   createShotScreenWin,
-  downloadURLShotScreenWin,
   downloadImg,
   hideShotScreenWin,
   maximizeShotScreenWin,

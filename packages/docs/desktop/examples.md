@@ -23,6 +23,9 @@
 <center>
   <img src="/imgs/1700442414996.jpg" />
 </center>
+<center>
+  <img src="/imgs/webav.png" />
+</center>
 
 ## 首页
 

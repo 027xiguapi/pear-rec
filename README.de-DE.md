@@ -1,14 +1,14 @@
 <p align="center">
-  <img src="https://027xiguapi.github.io/pear-rec/logo.png"  height="120"  />
-  <h1>pear-rec</h1>
-  <p>
-    <img src="https://img.shields.io/github/stars/027xiguapi/pear-rec" alt="stars">
-    <img src="https://img.shields.io/badge/react-v18-blue" alt="react">
-    <img src="https://img.shields.io/badge/electron-v26-blue" alt="electron">
-    <img src="https://img.shields.io/badge/nestjs-v3-blue" alt="nestjs">
-    <img src="https://img.shields.io/badge/-TypeScript-blue?logo=typescript&logoColor=white" alt="typescript">
-    <img src="https://img.shields.io/badge/-Vite-blue?logo=vite&logoColor=white" alt="vite">
-  </p>
+  <img src="https://027xiguapi.github.io/pear-rec/logo.png"  height="120">
+  <h1 align="center">pear-rec</h1>
+</p>
+<p align="center">
+<img src="https://img.shields.io/github/stars/027xiguapi/pear-rec" alt="stars">
+<img src="https://img.shields.io/badge/react-v18-blue" alt="react">
+<img src="https://img.shields.io/badge/electron-v26-blue" alt="electron">
+<img src="https://img.shields.io/badge/nestjs-v3-blue" alt="nestjs">
+<img src="https://img.shields.io/badge/-TypeScript-blue?logo=typescript&logoColor=white" alt="typescript">
+<img src="https://img.shields.io/badge/-Vite-blue?logo=vite&logoColor=white" alt="vite">
 </p>
 
 ---
