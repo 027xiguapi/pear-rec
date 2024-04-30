@@ -1,14 +1,14 @@
 <p align="center">
-  <img src="https://027xiguapi.github.io/pear-rec/logo.png"  height="120"  />
-  <h1>pear-rec</h1>
-  <p>
-    <img src="https://img.shields.io/github/stars/027xiguapi/pear-rec" alt="stars">
-    <img src="https://img.shields.io/badge/react-v18-blue" alt="react">
-    <img src="https://img.shields.io/badge/electron-v26-blue" alt="electron">
-    <img src="https://img.shields.io/badge/nestjs-v3-blue" alt="nestjs">
-    <img src="https://img.shields.io/badge/-TypeScript-blue?logo=typescript&logoColor=white" alt="typescript">
-    <img src="https://img.shields.io/badge/-Vite-blue?logo=vite&logoColor=white" alt="vite">
-  </p>
+  <img src="https://027xiguapi.github.io/pear-rec/logo.png"  height="120">
+  <h1 align="center">pear-rec</h1>
+</p>
+<p align="center">
+<img src="https://img.shields.io/github/stars/027xiguapi/pear-rec" alt="stars">
+<img src="https://img.shields.io/badge/react-v18-blue" alt="react">
+<img src="https://img.shields.io/badge/electron-v26-blue" alt="electron">
+<img src="https://img.shields.io/badge/nestjs-v3-blue" alt="nestjs">
+<img src="https://img.shields.io/badge/-TypeScript-blue?logo=typescript&logoColor=white" alt="typescript">
+<img src="https://img.shields.io/badge/-Vite-blue?logo=vite&logoColor=white" alt="vite">
 </p>
 
 ---
@@ -26,6 +26,8 @@
 > More functions and APIs can be found on [the official website(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) or [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec).
 
 ## 🧱 Frameworks
+
+<img src="https://027xiguapi.github.io/pear-rec/imgs/webav.png" />
 
 The cross-Platform of `pear-rec` is based on `electronjs`, and the front-end is based on `reactjs`. The functions of screenshot, screen recording, recording, recording (dynamic image) gif are a project based on `webrtc` and `webcodecs`.
 

@@ -1,14 +1,14 @@
 <p align="center">
-  <img src="https://027xiguapi.github.io/pear-rec/logo.png"  height="120"  />
-  <h1>pear-rec</h1>
-  <p>
-    <img src="https://img.shields.io/github/stars/027xiguapi/pear-rec" alt="stars">
-    <img src="https://img.shields.io/badge/react-v18-blue" alt="react">
-    <img src="https://img.shields.io/badge/electron-v26-blue" alt="electron">
-    <img src="https://img.shields.io/badge/nestjs-v3-blue" alt="nestjs">
-    <img src="https://img.shields.io/badge/-TypeScript-blue?logo=typescript&logoColor=white" alt="typescript">
-    <img src="https://img.shields.io/badge/-Vite-blue?logo=vite&logoColor=white" alt="vite">
-  </p>
+  <img src="https://027xiguapi.github.io/pear-rec/logo.png"  height="120">
+  <h1 align="center">pear-rec</h1>
+</p>
+<p align="center">
+<img src="https://img.shields.io/github/stars/027xiguapi/pear-rec" alt="stars">
+<img src="https://img.shields.io/badge/react-v18-blue" alt="react">
+<img src="https://img.shields.io/badge/electron-v26-blue" alt="electron">
+<img src="https://img.shields.io/badge/nestjs-v3-blue" alt="nestjs">
+<img src="https://img.shields.io/badge/-TypeScript-blue?logo=typescript&logoColor=white" alt="typescript">
+<img src="https://img.shields.io/badge/-Vite-blue?logo=vite&logoColor=white" alt="vite">
 </p>
 
 ---
@@ -26,6 +26,8 @@
 > 更多功能和 api 可以查看[官网(https://027xiguapi.github.io/pear-rec)](https://027xiguapi.github.io/pear-rec) 或 [https://xiguapi027.gitee.io/pear-rec](https://xiguapi027.gitee.io/pear-rec)
 
 ## 🧱 架构
+
+<img src="https://027xiguapi.github.io/pear-rec/imgs/webav.png" />
 
 > pear-rec(梨子 rec) 的跨平台是基于 `electronjs`,前端是基于 `reactjs`,截图、录屏、录音、录像、录制(动图)gif 等功能是基于 `webrtc` 和 `webcodecs` 的一个项目。
 
