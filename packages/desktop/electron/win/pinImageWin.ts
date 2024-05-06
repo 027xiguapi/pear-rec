@@ -24,7 +24,6 @@ function createPinImageWin(search?: any): BrowserWindow {
     },
   });
 
-  // pinImageWin.webContents.openDevTools();
   if (url) {
     pinImageWin.loadURL(
       WEB_URL +
@@ -32,6 +31,7 @@ function createPinImageWin(search?: any): BrowserWindow {
           recordId ? 'recordId=' + recordId : ''
         }`,
     );
+    // pinImageWin.webContents.openDevTools();
   } else {
     pinImageWin.loadFile(WIN_CONFIG.pinImage.html, {
       search: `?${imgUrl ? 'imgUrl=' + imgUrl : ''}${recordId ? 'recordId=' + recordId : ''}`,
