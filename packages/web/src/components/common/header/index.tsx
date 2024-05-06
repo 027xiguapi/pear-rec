@@ -1,7 +1,4 @@
 import {
-  BlockOutlined,
-  BorderOutlined,
-  CloseOutlined,
   DownloadOutlined,
   EditOutlined,
   FolderOpenOutlined,
@@ -18,8 +15,7 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined,
 } from '@ant-design/icons';
-import { FlipHorizontally, FlipVertically, Close, Minus, MinusTheTop } from '@icon-park/react';
-import { Button } from 'antd';
+import { FlipHorizontally, FlipVertically } from '@icon-park/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './index.module.scss';
