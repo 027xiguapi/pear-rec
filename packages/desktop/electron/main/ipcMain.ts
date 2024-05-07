@@ -181,9 +181,6 @@ function initIpcMain() {
       shotScreenWin.showShotScreenWin();
     }, 100 * 2);
   });
-  ipcMain.on('ss:save-img', async (e, downloadUrl) => {
-    shotScreenWin.downloadURLShotScreenWin(downloadUrl);
-  });
   ipcMain.on('ss:download-img', async (e, file) => {
     shotScreenWin.downloadImg(file);
   });
@@ -195,33 +192,29 @@ function initIpcMain() {
   });
   // 图片展示
   ipcMain.on('vi:open-win', (e, search) => {
-    viewImageWin.closeViewImageWin();
-    viewImageWin.openViewImageWin(search);
+    return viewImageWin.openViewImageWin(search);
   });
-  ipcMain.on('vi:close-win', () => {
-    viewImageWin.closeViewImageWin();
+  ipcMain.on('vi:hide-win', (e) => {
+    viewImageWin.hideViewImageWin(e.sender.id);
   });
-  ipcMain.on('vi:hide-win', () => {
-    viewImageWin.hideViewImageWin();
+  ipcMain.on('vi:minimize-win', (e) => {
+    viewImageWin.minimizeViewImageWin(e.sender.id);
   });
-  ipcMain.on('vi:minimize-win', () => {
-    viewImageWin.minimizeViewImageWin();
+  ipcMain.on('vi:maximize-win', (e) => {
+    viewImageWin.maximizeViewImageWin(e.sender.id);
   });
-  ipcMain.on('vi:maximize-win', () => {
-    viewImageWin.maximizeViewImageWin();
-  });
-  ipcMain.on('vi:unmaximize-win', () => {
-    viewImageWin.unmaximizeViewImageWin();
+  ipcMain.on('vi:unmaximize-win', (e) => {
+    viewImageWin.unmaximizeViewImageWin(e.sender.id);
   });
   ipcMain.on('vi:open-file', (e, imgUrl) => {
     shell.showItemInFolder(imgUrl);
   });
   ipcMain.on('vi:alwaysOnTop-win', (e, isTop) => {
-    viewImageWin.setIsAlwaysOnTopViewImageWin(isTop);
+    viewImageWin.setIsAlwaysOnTopViewImageWin(e.sender.id, isTop);
   });
-  ipcMain.handle('vi:set-always-on-top', () => {
-    const isAlwaysOnTop = viewImageWin.getIsAlwaysOnTopViewImageWin();
-    return viewImageWin.setIsAlwaysOnTopViewImageWin(!isAlwaysOnTop);
+  ipcMain.handle('vi:set-always-on-top', (e) => {
+    let isAlwaysOnTop = !viewImageWin.getIsAlwaysOnTopViewImageWin(e.sender.id);
+    return viewImageWin.setIsAlwaysOnTopViewImageWin(e.sender.id, isAlwaysOnTop);
   });
   ipcMain.handle('vi:get-imgs', async (e, img) => {
     const imgs = await viewImageWin.getImgs(img);
