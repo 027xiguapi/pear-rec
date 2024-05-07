@@ -2,14 +2,15 @@ import { BrowserWindow, dialog } from 'electron';
 import { readFile, writeFile } from 'node:fs';
 import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 import { getImgsByImgUrl } from '../main/utils';
+import { v5 as uuidv5 } from 'uuid';
 
-let viewImageWin: BrowserWindow | null = null;
+// let viewImageWin: BrowserWindow | null = null;
+let viewImageWinMap = new Map<number, BrowserWindow | null>();
 
 function createViewImageWin(search?: any): BrowserWindow {
-  viewImageWin = new BrowserWindow({
+  let viewImageWin = new BrowserWindow({
     title: 'pear-rec 图片',
     icon: ICON,
-    // frame: WIN_CONFIG.viewImage.frame,
     autoHideMenuBar: WIN_CONFIG.viewImage.autoHideMenuBar, // 自动隐藏菜单栏
     webPreferences: {
       preload,
@@ -18,7 +19,7 @@ function createViewImageWin(search?: any): BrowserWindow {
 
   const imgUrl = search?.imgUrl || '';
   const recordId = search?.recordId || '';
-  // viewImageWin.webContents.openDevTools();
+
   if (url) {
     viewImageWin.loadURL(
       WEB_URL +
@@ -27,6 +28,7 @@ function createViewImageWin(search?: any): BrowserWindow {
         }`,
     );
     // Open devTool if the app is not packaged
+    // viewImageWin.webContents.openDevTools();
   } else {
     viewImageWin.loadFile(WIN_CONFIG.viewImage.html, {
       search: `?${imgUrl ? 'imgUrl=' + imgUrl : ''}${recordId ? 'recordId=' + recordId : ''}`,
@@ -37,46 +39,58 @@ function createViewImageWin(search?: any): BrowserWindow {
 }
 
 function openViewImageWin(search?: any) {
-  if (!viewImageWin || viewImageWin?.isDestroyed()) {
-    viewImageWin = createViewImageWin(search);
-  }
+  let viewImageWin = createViewImageWin(search);
+  const winId = viewImageWin.webContents.id;
+  viewImageWinMap.set(winId, viewImageWin);
   viewImageWin.show();
+  return winId;
 }
 
-function closeViewImageWin() {
+function closeViewImageWin(id) {
+  let viewImageWin = viewImageWinMap.get(id);
   if (!(viewImageWin && viewImageWin.isDestroyed())) {
     viewImageWin?.close();
   }
   viewImageWin = null;
 }
 
-function destroyViewImageWin() {
+function destroyViewImageWin(id) {
+  let viewImageWin = viewImageWinMap.get(id);
   viewImageWin?.destroy();
   viewImageWin = null;
 }
 
-function hideViewImageWin() {
+function hideViewImageWin(id) {
+  let viewImageWin = viewImageWinMap.get(id);
   viewImageWin?.hide();
 }
 
-function minimizeViewImageWin() {
+function minimizeViewImageWin(id) {
+  let viewImageWin = viewImageWinMap.get(id);
   viewImageWin?.minimize();
 }
 
-function maximizeViewImageWin() {
+function maximizeViewImageWin(id) {
+  let viewImageWin = viewImageWinMap.get(id);
   viewImageWin?.maximize();
 }
 
-function unmaximizeViewImageWin() {
+function unmaximizeViewImageWin(id) {
+  let viewImageWin = viewImageWinMap.get(id);
   viewImageWin?.unmaximize();
 }
 
-function getIsAlwaysOnTopViewImageWin() {
+function getIsAlwaysOnTopViewImageWin(id) {
+  let viewImageWin = viewImageWinMap.get(id);
   return viewImageWin?.isAlwaysOnTop();
 }
 
-function setIsAlwaysOnTopViewImageWin(isAlwaysOnTop: boolean) {
-  viewImageWin?.setAlwaysOnTop(isAlwaysOnTop);
+function setIsAlwaysOnTopViewImageWin(id, isAlwaysOnTop) {
+  let viewImageWin = viewImageWinMap.get(id);
+  if (viewImageWin) {
+    viewImageWin?.setAlwaysOnTop(isAlwaysOnTop);
+  }
+
   return isAlwaysOnTop;
 }
 

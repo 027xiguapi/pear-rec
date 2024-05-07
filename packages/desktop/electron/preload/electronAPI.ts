@@ -67,13 +67,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendSsHideWin: (callback) => ipcRenderer.on('ss:hide-win', () => callback()),
   invokeSsGetShotScreenImg: () => ipcRenderer.invoke('ss:get-shot-screen-img'),
   sendSsDownloadImg: (file: any) => ipcRenderer.send('ss:download-img', file),
-  sendSsSaveImg: (imgUrl: string) => ipcRenderer.send('ss:save-img', imgUrl),
   sendSsOpenExternal: (imgUrl: string) => ipcRenderer.send('ss:open-external', imgUrl),
   sendSsCopyImg: (imgUrl: string) => ipcRenderer.send('ss:copy-img', imgUrl),
   sendSsFile: (callback) => ipcRenderer.on('ss:send-file', (e, file) => callback(file)),
 
   //viWin
-  sendViCloseWin: () => ipcRenderer.send('vi:close-win'),
   sendViOpenWin: (search?: string) => ipcRenderer.send('vi:open-win', search),
   sendViMinimizeWin: () => ipcRenderer.send('vi:minimize-win'),
   sendViMaximizeWin: () => ipcRenderer.send('vi:maximize-win'),

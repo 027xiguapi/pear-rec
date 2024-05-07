@@ -154,75 +154,68 @@ const Home: React.FC = () => {
           />
         </div>
         <div className="content">
-          <div id="main">
-            <Card>
-              <Card.Grid style={gridStyle}>
-                <CutScreenCard ref={cscRef} />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <RecordScreenCard ref={rscRef} />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <RecordVideoCard ref={rvcRef} />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <RecordAudioCard ref={racRef} />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <EditGifCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <ViewImageCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <ViewVideoCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <ViewAudioCard />
-              </Card.Grid>
-            </Card>
-          </div>
-          <div id="image">
-            <Card>
-              <Card.Grid style={gridStyle}>
-                <EditGifCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <ViewImageCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <SearchImageCard user={user} />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <ScanImageCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <SpliceImageCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <PinImageCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <EditImageCard />
-              </Card.Grid>
-            </Card>
-          </div>
-          <div id="video">
-            <Card>
-              <Card.Grid style={gridStyle}>
-                <RecordVideoCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <RecordScreenCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <VideoConverterCard />
-              </Card.Grid>
-              <Card.Grid style={gridStyle}>
-                <RecordCanvasCard />
-              </Card.Grid>
-            </Card>
-          </div>
+          <Card>
+            <div id="main" />
+            <Card.Grid style={gridStyle}>
+              <CutScreenCard ref={cscRef} />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <RecordScreenCard ref={rscRef} />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <RecordVideoCard ref={rvcRef} />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <RecordAudioCard ref={racRef} />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <EditGifCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <ViewImageCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <ViewVideoCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <ViewAudioCard />
+            </Card.Grid>
+            <div id="image" />
+            <Card.Grid style={gridStyle}>
+              <EditGifCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <ViewImageCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <SearchImageCard user={user} />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <ScanImageCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <SpliceImageCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <PinImageCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <EditImageCard />
+            </Card.Grid>
+            <div id="video" />
+            <Card.Grid style={gridStyle}>
+              <RecordVideoCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <RecordScreenCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <VideoConverterCard />
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <RecordCanvasCard />
+            </Card.Grid>
+          </Card>
         </div>
       </div>
       <HomeFooter />
