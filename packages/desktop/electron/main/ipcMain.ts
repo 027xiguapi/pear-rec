@@ -269,7 +269,6 @@ function initIpcMain() {
 
   // 视频音频展示;
   ipcMain.on('vv:open-win', (e, search) => {
-    viewVideoWin.closeViewVideoWin();
     viewVideoWin.openViewVideoWin(search);
   });
   ipcMain.on('vv:close-win', () => {

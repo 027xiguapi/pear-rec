@@ -1,6 +1,6 @@
 import { Video } from '@icon-park/react';
 import type { MenuProps } from 'antd';
-import { Card, Modal } from 'antd';
+import { Modal } from 'antd';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
