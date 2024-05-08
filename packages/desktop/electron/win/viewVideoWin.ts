@@ -38,9 +38,7 @@ function createViewVideoWin(search?: any): BrowserWindow {
 }
 
 function openViewVideoWin(search?: any) {
-  if (!viewVideoWin || viewVideoWin?.isDestroyed()) {
-    viewVideoWin = createViewVideoWin(search);
-  }
+  viewVideoWin = createViewVideoWin(search);
   viewVideoWin.show();
 }
 
