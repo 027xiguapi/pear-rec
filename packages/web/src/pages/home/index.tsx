@@ -181,12 +181,12 @@ const Home: React.FC = () => {
               <ViewAudioCard />
             </Card.Grid>
             <div id="image" />
-            <Card.Grid style={gridStyle}>
-              <EditGifCard />
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              <ViewImageCard />
-            </Card.Grid>
+            {/*<Card.Grid style={gridStyle}>*/}
+            {/*  <EditGifCard />*/}
+            {/*</Card.Grid>*/}
+            {/*<Card.Grid style={gridStyle}>*/}
+            {/*  <ViewImageCard />*/}
+            {/*</Card.Grid>*/}
             <Card.Grid style={gridStyle}>
               <SearchImageCard user={user} />
             </Card.Grid>
@@ -203,12 +203,12 @@ const Home: React.FC = () => {
               <EditImageCard />
             </Card.Grid>
             <div id="video" />
-            <Card.Grid style={gridStyle}>
-              <RecordVideoCard />
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              <RecordScreenCard />
-            </Card.Grid>
+            {/*<Card.Grid style={gridStyle}>*/}
+            {/*  <RecordVideoCard />*/}
+            {/*</Card.Grid>*/}
+            {/*<Card.Grid style={gridStyle}>*/}
+            {/*  <RecordScreenCard />*/}
+            {/*</Card.Grid>*/}
             <Card.Grid style={gridStyle}>
               <VideoConverterCard />
             </Card.Grid>

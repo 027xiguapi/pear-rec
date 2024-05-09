@@ -132,12 +132,13 @@ const ViewImageCard = forwardRef((props: any, ref: any) => {
         {t('home.edit')}
       </span>
       <div className="cardContent">
-        <Dropdown menu={{ items, onClick }}>
-          <Space>
-            <PictureOutlined className="cardIcon" onClick={() => fileRef.current.click()} />
-            <DownOutlined className="cardToggle" />
-          </Space>
-        </Dropdown>
+        {/*<Dropdown menu={{ items, onClick }}>*/}
+        {/*  <Space>*/}
+        {/*    <PictureOutlined className="cardIcon" onClick={() => fileRef.current.click()} />*/}
+        {/*    <DownOutlined className="cardToggle" />*/}
+        {/*  </Space>*/}
+        {/*</Dropdown>*/}
+        <PictureOutlined className="cardIcon" onClick={() => fileRef.current.click()} />
         <div className="cardTitle">{t('home.viewImage')}</div>
       </div>
       <input

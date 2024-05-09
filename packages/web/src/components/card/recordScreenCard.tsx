@@ -55,12 +55,13 @@ const RecordScreenCard = forwardRef((props: any, ref: any) => {
         {t('home.fullScreen')}
       </span>
       <div className="cardContent">
-        <Dropdown menu={{ items, onClick }}>
-          <Space>
-            <DesktopOutlined className="cardIcon" onClick={() => handleClipScreenClick('video')} />
-            <DownOutlined className="cardToggle" />
-          </Space>
-        </Dropdown>
+        {/*<Dropdown menu={{ items, onClick }}>*/}
+        {/*  <Space>*/}
+        {/*    */}
+        {/*    <DownOutlined className="cardToggle" />*/}
+        {/*  </Space>*/}
+        {/*</Dropdown>*/}
+        <DesktopOutlined className="cardIcon" onClick={() => handleClipScreenClick('video')} />
         <div className="cardTitle">{t('home.screenRecording')}</div>
       </div>
     </div>
