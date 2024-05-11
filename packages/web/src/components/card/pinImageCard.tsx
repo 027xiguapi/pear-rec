@@ -40,7 +40,7 @@ const PinImageCard = forwardRef((props: any, ref: any) => {
   return (
     <div className="cardContent" onClick={() => fileRef.current.click()}>
       <PushpinOutlined className="cardIcon" />
-      <div className="cardTitle">贴图</div>
+      <div className="cardTitle">{t('home.pinImage')}</div>
       <input
         type="file"
         ref={fileRef}

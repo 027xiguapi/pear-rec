@@ -26,7 +26,7 @@ const SearchImageCard = forwardRef((props: any, ref: any) => {
   return (
     <div className="cardContent" onClick={() => fileRef.current.click()}>
       <SearchOutlined className="cardIcon" />
-      <div className="cardTitle">搜图</div>
+      <div className="cardTitle">{t('home.searchImage')}</div>
       <input
         type="file"
         ref={fileRef}

@@ -20,8 +20,10 @@ import HomeFooter from '../../components/home/HomeFooter';
 import { db, defaultUser, defaultShortcut } from '../../db';
 import ininitApp from '../../pages/main';
 import styles from './index.module.scss';
+import { useTranslation } from 'react-i18next';
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   const cscRef = useRef(null);
   const rscRef = useRef(null);
   const rvcRef = useRef(null);
@@ -138,17 +140,17 @@ const Home: React.FC = () => {
               {
                 key: 'main',
                 href: '#main',
-                title: '首页',
+                title: t('home.main'),
               },
               {
                 key: 'image',
                 href: '#image',
-                title: '图片',
+                title: t('home.image'),
               },
               {
                 key: 'video',
                 href: '#video',
-                title: '视频',
+                title: t('home.video'),
               },
             ]}
           />
@@ -181,12 +183,6 @@ const Home: React.FC = () => {
               <ViewAudioCard />
             </Card.Grid>
             <div id="image" />
-            {/*<Card.Grid style={gridStyle}>*/}
-            {/*  <EditGifCard />*/}
-            {/*</Card.Grid>*/}
-            {/*<Card.Grid style={gridStyle}>*/}
-            {/*  <ViewImageCard />*/}
-            {/*</Card.Grid>*/}
             <Card.Grid style={gridStyle}>
               <SearchImageCard user={user} />
             </Card.Grid>
@@ -203,12 +199,6 @@ const Home: React.FC = () => {
               <EditImageCard />
             </Card.Grid>
             <div id="video" />
-            {/*<Card.Grid style={gridStyle}>*/}
-            {/*  <RecordVideoCard />*/}
-            {/*</Card.Grid>*/}
-            {/*<Card.Grid style={gridStyle}>*/}
-            {/*  <RecordScreenCard />*/}
-            {/*</Card.Grid>*/}
             <Card.Grid style={gridStyle}>
               <VideoConverterCard />
             </Card.Grid>

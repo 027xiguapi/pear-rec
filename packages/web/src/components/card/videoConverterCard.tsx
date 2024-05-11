@@ -17,7 +17,7 @@ const VideoConverterCard = forwardRef((props: any, ref: any) => {
   return (
     <div className="cardContent" onClick={handleOpenWin}>
       <FileConversion className="cardIcon" />
-      <div className="cardTitle">视频转gif</div>
+      <div className="cardTitle">{t('home.converterGif')}</div>
     </div>
   );
 });

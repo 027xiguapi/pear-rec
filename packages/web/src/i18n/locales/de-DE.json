@@ -26,6 +26,9 @@
     "print": "print"
   },
   "home": {
+    "main": "main",
+    "image": "image",
+    "video": "video",
     "audioRecording": "Audioaufnahme",
     "screenRecording": "Bildschirmaufnahme",
     "videoRecording": "Videoaufnahme",
@@ -38,7 +41,12 @@
     "editImg": "edit image",
     "gif": "gif",
     "edit": "edit",
-    "canvas": "canvas"
+    "canvas": "canvas",
+    "searchImage": "search image",
+    "pinImage": "pin image",
+    "converterGif": "converter gif",
+    "scanCode": "scan code",
+    "spliceImage": "splice image"
   },
   "editImage": {
     "save": "speichern"
