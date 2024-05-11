@@ -30,6 +30,9 @@
     "print": "打印"
   },
   "home": {
+    "main": "首页",
+    "image": "图片",
+    "video": "视频",
     "audioRecording": "录音",
     "screenRecording": "录屏",
     "videoRecording": "录像",
@@ -42,7 +45,12 @@
     "editImg": "编辑图片",
     "gif": "录动图",
     "edit": "编辑",
-    "canvas": "画板"
+    "canvas": "画板",
+    "searchImage": "搜图",
+    "pinImage": "贴图",
+    "converterGif": "视频转gif",
+    "scanCode": "扫码",
+    "spliceImage": "图片拼接"
   },
   "editImage": {
     "save": "保存"

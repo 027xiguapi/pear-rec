@@ -33,7 +33,7 @@ const SearchImageCard = forwardRef((props: any, ref: any) => {
   return (
     <div className="cardContent" onClick={() => fileRef.current.click()}>
       <ScanOutlined className="cardIcon" />
-      <div className="cardTitle">扫码</div>
+      <div className="cardTitle">{t('home.scanCode')}</div>
       <input
         type="file"
         ref={fileRef}

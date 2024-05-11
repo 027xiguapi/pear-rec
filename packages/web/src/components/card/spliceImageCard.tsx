@@ -18,7 +18,7 @@ const SpliceImageCard = forwardRef((props: any, ref: any) => {
   return (
     <div className="cardContent" onClick={handleSpliceImageClick}>
       <AlignHorizontally className="cardIcon" />
-      <div className="cardTitle">图片拼接</div>
+      <div className="cardTitle">{t('home.spliceImage')}</div>
     </div>
   );
 });
