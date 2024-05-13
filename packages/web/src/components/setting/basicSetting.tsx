@@ -84,7 +84,7 @@ const BasicSetting = (props) => {
         </Form.Item>
         <Form.Item label={t('setting.openFilePath')}>
           <Button icon={<FolderOpenOutlined />} onClick={handleOpenFilePath}>
-            打开
+            {t('setting.open')}
           </Button>
         </Form.Item>
         <Form.Item label={t('setting.openAtLogin')} name="openAtLogin" valuePropName="checked">

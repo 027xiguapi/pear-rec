@@ -100,6 +100,7 @@
     "emptyBtn": "打开视频"
   },
   "setting": {
+    "version": "版本",
     "userSetting": "账户设置",
     "basicSetting": "通用设置",
     "serverSetting": "服务设置",
@@ -114,7 +115,8 @@
     "close": "关闭",
     "download": "浏览器下载",
     "openServer": "打开服务",
-    "serverPath": "服务地址"
+    "serverPath": "服务地址",
+    "tip": "点击设置快捷键"
   },
   "update": {
     "cancel": "取消",

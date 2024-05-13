@@ -48,8 +48,8 @@ const UserSetting = (props) => {
         <img alt="logo" src={logo} />
       </div>
       <div className="info">
-        <p>版本：1.3.17</p>
-        <p>{uuid}</p>
+        <p>{t('setting.version')}: 1.3.18</p>
+        <p>uuid: {uuid}</p>
         <p>{formatTime(createdTime)}</p>
         <Button type="primary" className="resetBtn" danger onClick={handleResetClick}>
           {t('setting.reset')}
