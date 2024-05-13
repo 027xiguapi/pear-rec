@@ -96,6 +96,7 @@
     "emptyBtn": "Video öffnen"
   },
   "setting": {
+    "version": "version",
     "userSetting": "Nutzereinstellungen",
     "basicSetting": "Basiseinstellungen",
     "serverSetting": "server",
@@ -107,7 +108,10 @@
     "openAtLogin": "Bei Anmeldung öffnen",
     "open": "öffnen",
     "close": "schließen",
-    "download": "Download"
+    "download": "Download",
+    "openServer": "open server",
+    "serverPath": "server path",
+    "tip": "click to set shortcut keys"
   },
   "update": {
     "cancel": "cancel",

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { db, defaultShortcut } from '../../db';
 
-let tip = '点击设置快捷键';
+let tip = '';
 const ShortcutSetting = (props) => {
   const { t, i18n } = useTranslation();
   const { user, setting } = props;
@@ -165,7 +165,7 @@ const ShortcutSetting = (props) => {
           label={t('home.screenshot')}
           name="screenshot"
           validateStatus={screenshotValidate.validateStatus}
-          help={screenshotValidate.errorMsg || tip}
+          help={screenshotValidate.errorMsg || t('setting.tip')}
         >
           <Input
             className="screenshotInput"
@@ -177,7 +177,7 @@ const ShortcutSetting = (props) => {
           label={t('home.videoRecording')}
           name="videoRecording"
           validateStatus={videoRecordingValidate.validateStatus}
-          help={videoRecordingValidate.errorMsg || tip}
+          help={videoRecordingValidate.errorMsg || t('setting.tip')}
         >
           <Input
             className="videoRecordingInput"
@@ -189,7 +189,7 @@ const ShortcutSetting = (props) => {
           label={t('home.screenRecording')}
           name="screenRecording"
           validateStatus={screenRecordingValidate.validateStatus}
-          help={screenRecordingValidate.errorMsg || tip}
+          help={screenRecordingValidate.errorMsg || t('setting.tip')}
         >
           <Input
             className="screenRecordingInput"
@@ -201,7 +201,7 @@ const ShortcutSetting = (props) => {
           label={t('home.audioRecording')}
           name="audioRecording"
           validateStatus={audioRecordingValidate.validateStatus}
-          help={audioRecordingValidate.errorMsg || tip}
+          help={audioRecordingValidate.errorMsg || t('setting.tip')}
         >
           <Input
             className="audioRecordingInput"
