@@ -121,5 +121,9 @@
     "progress": "Update progress",
     "version": "The last version is",
     "error": "Error downloading the latest version."
+  },
+  "shotScreen": {
+    "image": "image",
+    "screen": "screen"
   }
 }

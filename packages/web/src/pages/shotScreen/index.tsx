@@ -5,14 +5,16 @@ import { Button, Modal, Space, message } from 'antd';
 import { saveAs } from 'file-saver';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import UploadImg from '../../components/upload/UploadImg';
-import { db, defaultUser } from '../../db';
-import ininitApp from '../../pages/main';
-import { searchImg } from '../../util/searchImg';
-import { isURL } from '../../util/validate';
-import { blobToBase64 } from '../../util/file';
+import UploadImg from '@/components/upload/UploadImg';
+import { db, defaultUser } from '@/db';
+import ininitApp from '@/pages/main';
+import { searchImg } from '@/util/searchImg';
+import { isURL } from '@/util/validate';
+import { blobToBase64 } from '@/util/file.ts';
+import { Local } from '@/util/storage';
 import styles from './index.module.scss';
 
+let i18n = '';
 function ShotScreen() {
   const { t } = useTranslation();
   const [user, setUser] = useState<any>({});
@@ -65,6 +67,7 @@ function ShotScreen() {
         setScreenShotImg('');
       });
     }
+    i18n = Local.get('i18n');
   }
 
   async function getShotScreenImg() {
@@ -251,6 +254,27 @@ function ShotScreen() {
           url={screenShotImg}
           width={window.innerWidth}
           height={window.innerHeight}
+          lang={
+            i18n != 'zh'
+              ? {
+                  operation_undo_title: 'Undo',
+                  operation_mosaic_title: 'Mosaic',
+                  operation_text_title: 'Text',
+                  operation_brush_title: 'Brush',
+                  operation_arrow_title: 'Arrow',
+                  operation_ellipse_title: 'Ellipse',
+                  operation_rectangle_title: 'Rectangle',
+                  magnifier_position_label: 'Position',
+                  operation_ok_title: 'Ok',
+                  operation_cancel_title: 'Cancel',
+                  operation_save_title: 'Save',
+                  operation_redo_title: 'Redo',
+                  operation_search_title: 'Search',
+                  operation_scan_title: 'Scan',
+                  operation_pin_title: 'Pin',
+                }
+              : {}
+          }
           onSave={onSave}
           onCancel={onCancel}
           onOk={onOk}
@@ -262,9 +286,9 @@ function ShotScreen() {
         <></>
       ) : (
         <Space wrap className="btns">
-          <UploadImg handleUploadImg={handleUploadImg} />
+          <UploadImg handleUploadImg={handleUploadImg}>{t('shotScreen.image')}</UploadImg>
           <Button type="primary" onClick={getShotScreenImg}>
-            屏幕
+            {t('shotScreen.screen')}
           </Button>
         </Space>
       )}

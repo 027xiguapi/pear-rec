@@ -19,7 +19,7 @@ function UploadImg(props) {
   return (
     <Space className={className} style={style}>
       <Button type="primary" onClick={handleUpload}>
-        {children || '图片'}
+        {children || 'image'}
       </Button>
       <input
         type="file"
