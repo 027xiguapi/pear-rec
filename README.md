@@ -31,10 +31,6 @@
 
 The cross-Platform of `pear-rec` is based on `electronjs`, and the front-end is based on `reactjs`. The functions of screenshot, screen recording, recording, recording (dynamic image) gif are a project based on `webrtc` and `webcodecs`.
 
-## 🖖 Vue
-
-Screenshot implemented by community personnel based on `vue` 👉 [electron-screenshort](https://github.com/yejimeiming/electron-screenshort).
-
 ## 🌰 Example
 
 [web pages](https://pear-rec-xiguapi.vercel.app/)
@@ -153,6 +149,11 @@ Features that have been ticked are the latest in the development process but may
 | OS | Windows | Linux | Macos |
 | --- | --- | --- | --- |
 | Link | [Download](https://github.com/027xiguapi/pear-rec/releases) | [Download](https://github.com/027xiguapi/pear-rec/releases) | [Download](https://github.com/027xiguapi/pear-rec/releases) |
+
+
+## 🖖 Vue
+
+Screenshot implemented by community personnel based on `vue` 👉 [electron-screenshort](https://github.com/yejimeiming/electron-screenshort).
 
 ## 👨‍👨‍👦‍👦 Feedback
 

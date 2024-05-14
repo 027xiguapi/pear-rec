@@ -126,5 +126,9 @@
     "progress": "进度",
     "version": "最新版本",
     "error": "下载最新版本时出错。"
+  },
+  "shotScreen": {
+    "image": "图片",
+    "screen": "屏幕"
   }
 }
