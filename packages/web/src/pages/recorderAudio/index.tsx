@@ -71,9 +71,11 @@ const RecordAudio = () => {
         <AudioRecorder onSetAudios={handleSetAudios} />
         {audios.map((audio, index) => (
           <Card
-            title={`${audio.name}(创建时间:${audio.createdAt}, 时长:${
-              audio.duration ? parseInt(String(audio.duration / 1000)) : '--'
-            }秒)`}
+            title={`${audio.name}(${t('recorderAudio.createdAt')}:${audio.createdAt}, ${t(
+              'recorderAudio.duration',
+            )}:${audio.duration ? parseInt(String(audio.duration / 1000)) : '--'}${t(
+              'recorderAudio.second',
+            )}`}
             key={index}
             extra={
               <Button type="text" onClick={() => handleDeleteAudio(index)}>

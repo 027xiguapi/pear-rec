@@ -92,11 +92,11 @@ const AudioRecorder = (props) => {
       let _audioInputOptions = [
         {
           value: '',
-          label: '麦克风',
+          label: t('recorderAudio.mic'),
         },
         {
           value: 'desktop',
-          label: '系统',
+          label: t('recorderAudio.system'),
         },
       ];
       for (let i = 0; i < deviceInfos.length; i++) {
@@ -172,25 +172,29 @@ const AudioRecorder = (props) => {
   }
 
   return (
-    <Card title="设置">
+    <Card title={`${t('recorderAudio.setting')}`}>
       <Space>
-        音源
+        {t('recorderAudio.source')}
         <Select
           defaultValue=""
           style={{ width: 120 }}
           onChange={handleChangeSource}
           options={audioInputOptions.current}
         />
-        开关
-        <Switch checkedChildren="开启" unCheckedChildren="关闭" onChange={changeMic} />
-        格式
+        {t('recorderAudio.switch')}
+        <Switch
+          checkedChildren={`${t('recorderAudio.open')}`}
+          unCheckedChildren={`${t('recorderAudio.close')}`}
+          onChange={changeMic}
+        />
+        {t('recorderAudio.format')}
         <Select
           defaultValue="audio/webm"
           style={{ width: 120 }}
           onChange={handleChangeMimeType}
           options={mimeTypesOptions.current}
         />
-        计时
+        {t('recorderAudio.timer')}
         <Timer
           seconds={timer.seconds}
           minutes={timer.minutes}
@@ -201,22 +205,22 @@ const AudioRecorder = (props) => {
       </Space>
       <Divider />
       <Space>
-        操作
+        {t('recorderAudio.control')}
         <Radio.Group buttonStyle="solid" disabled={!isOpenMic} value={recordStatus}>
           <Radio.Button value="start" onClick={startRecord}>
-            开始
+            {t('recorderAudio.play')}
           </Radio.Button>
           <Radio.Button value="stop" onClick={stopRecord}>
-            保存
+            {t('recorderAudio.save')}
           </Radio.Button>
           <Radio.Button value="pause" onClick={pauseRecord}>
-            暂停
+            {t('recorderAudio.pause')}
           </Radio.Button>
           <Radio.Button value="resume" onClick={resumeRecord}>
-            继续
+            {t('recorderAudio.resume')}
           </Radio.Button>
         </Radio.Group>
-        声波
+        {t('recorderAudio.wave')}
         <Radio.Group buttonStyle="solid" value={'WaveView'}>
           <Radio.Button value="WaveView">WaveView</Radio.Button>
           <Radio.Button value="SurferView" disabled>
@@ -228,7 +232,7 @@ const AudioRecorder = (props) => {
         </Radio.Group>
       </Space>
       <Divider />
-      <div id="mic" ref={micRef}></div>
+      <div id="mic" ref={micRef} />
     </Card>
   );
 };
