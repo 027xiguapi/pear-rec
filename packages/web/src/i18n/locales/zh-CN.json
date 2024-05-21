@@ -53,7 +53,8 @@
     "spliceImage": "图片拼接"
   },
   "editImage": {
-    "save": "保存"
+    "save": "保存",
+    "upload": "上传"
   },
   "recorderAudio": {
     "mute": "静音",

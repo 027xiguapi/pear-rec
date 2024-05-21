@@ -210,9 +210,9 @@ const EditImage = (props) => {
 
   return (
     <div className={styles.container}>
-      <div id="tui-image-editor"></div>
+      <div id="tui-image-editor" />
       <UploadImg className="upload" handleUploadImg={handleUploadImg}>
-        上传
+        {t('editImage.upload')}
       </UploadImg>
       <Button className="save" type="primary" onClick={save}>
         {t('editImage.save')}

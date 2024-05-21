@@ -53,7 +53,8 @@
     "spliceImage": "splice image"
   },
   "editImage": {
-    "save": "save"
+    "save": "save",
+    "upload": "upload"
   },
   "recorderAudio": {
     "mute": "mute",
