@@ -174,10 +174,10 @@ const WaveSurferPlayer = (props) => {
       <Divider />
       <Space wrap>
         <Button type="primary" onClick={onPlayClick}>
-          {isPlaying ? '暂停' : '播放'}
+          {isPlaying ? t('recorderAudio.pause') : t('recorderAudio.play')}
         </Button>
         <Button type="primary" onClick={onDownloadClick}>
-          下载
+          {t('recorderAudio.download')}
         </Button>
       </Space>
       <p>Seconds played: {currentTime}</p>
