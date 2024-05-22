@@ -7,6 +7,7 @@
     "setting": "setting",
     "minimize": "minimize",
     "maximize": "maximize",
+    "unmaximize": "unmaximize",
     "close": "close",
     "record": "record",
     "update": "update",
