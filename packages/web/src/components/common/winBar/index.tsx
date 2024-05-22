@@ -223,7 +223,7 @@ const Header = (props) => {
               <BorderOutlined />
             )
           }
-          title={isMaximize ? '向下还原' : '最大化'}
+          title={isMaximize ? t('nav.unmaximize') : t('nav.maximize')}
           onClick={() => handleToggleMaximizeWin()}
         />
         <Button
