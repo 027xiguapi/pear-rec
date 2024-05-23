@@ -97,21 +97,6 @@ const ViewImage = () => {
     },
   };
 
-  // function handleFullScreen() {
-  //   const element = document.querySelector('#root');
-  //   if (element.requestFullscreen) {
-  //     element.requestFullscreen();
-  //     setIsFull(true);
-  //   }
-  // }
-
-  // function handleExitFullscreen() {
-  //   if (document.exitFullscreen) {
-  //     document.exitFullscreen();
-  //     setIsFull(false);
-  //   }
-  // }
-
   function handleDrop() {
     document.addEventListener('drop', (e) => {
       e.preventDefault();
@@ -139,7 +124,13 @@ const ViewImage = () => {
     const recordId = searchParams.get('recordId');
     if (imgUrl) {
       if (imgUrl.substring(0, 7) != 'pearrec' && imgUrl.substring(0, 4) != 'blob') {
-        setImgs([{ url: 'pearrec://' + imgUrl, filePath: imgUrl, index: 0 }]);
+        if (window.isElectron) {
+          let { imgs, currentIndex } = await window.electronAPI.invokeEiGetImgsWin(imgUrl);
+          setImgs([...imgs]);
+          initialViewIndexRef.current = currentIndex;
+        } else {
+          setImgs([{ url: 'pearrec://' + imgUrl, filePath: imgUrl, index: 0 }]);
+        }
       } else {
         setImgs([{ url: imgUrl, filePath: imgUrl, index: 0 }]);
       }
@@ -301,9 +292,9 @@ const ViewImage = () => {
         onDownload={handleDownload}
       />
       <div id="viewImgs">
-        {imgs.map((img, key) => {
-          return <img className="viewImg" src={img.url} key={key} />;
-        })}
+        {imgs.map((img, key) => (
+          <img className="viewImg" src={img.url} key={img.index} />
+        ))}
       </div>
       <div id="viewer" />
       <input

@@ -52,7 +52,7 @@ function getImgsByImgUrl(imgUrl: string) {
 
     if (isImageFile(filePath)) {
       filePath == imgUrl && (currentIndex = index);
-      imgs.push({ url: `pearrec:///${filePath}`, index });
+      imgs.push({ url: `pearrec://${filePath}`, filePath: filePath, index });
       index++;
     }
   });
