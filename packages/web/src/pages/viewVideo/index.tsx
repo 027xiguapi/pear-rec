@@ -70,7 +70,15 @@ const ViewVideo = () => {
       if (videoUrl.substring(0, 4) == 'blob' || videoUrl.substring(0, 7) == 'pearrec') {
         setSource(videoUrl);
       } else {
-        setSource(`pearrec://${videoUrl}`);
+        if (window.isElectron) {
+          let { videos, currentIndex } = await window.electronAPI.invokeVvGetVideos(videoUrl);
+          let _videos = [...videos];
+          setVideos(_videos);
+          setVideoIndex(currentIndex);
+          setSource(_videos[currentIndex].url);
+        } else {
+          setSource(`pearrec://${videoUrl}`);
+        }
       }
     } else if (recordId) {
       let record = await db.records.where({ id: Number(recordId) }).first();

@@ -2,7 +2,6 @@ import { BrowserWindow, dialog } from 'electron';
 import { readFile, writeFile } from 'node:fs';
 import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 import { getImgsByImgUrl } from '../main/utils';
-import { v5 as uuidv5 } from 'uuid';
 
 // let viewImageWin: BrowserWindow | null = null;
 let viewImageWinMap = new Map<number, BrowserWindow | null>();

@@ -1,6 +1,6 @@
 import { screen } from 'electron';
 import * as fs from 'node:fs';
-import path from 'node:path';
+import path, { basename, extname, join } from 'node:path';
 import { PEAR_FILES_PATH } from './constant';
 
 function getScreenSize() {
@@ -121,6 +121,33 @@ function isAudioFile(filePath: string): boolean {
   ].includes(ext);
 }
 
+function getVideosByVideoUrl(videoUrl: string) {
+  const directoryPath = path.dirname(videoUrl);
+  const files = fs.readdirSync(directoryPath); // 读取目录内容
+  let videos: any[] = [];
+  let index = 0;
+  let currentIndex = 0;
+  files.forEach((file) => {
+    const filePath = join(directoryPath, file);
+    function isVideoFile(filePath: string): boolean {
+      const ext = extname(filePath).toLowerCase();
+      return ['.mp4', '.mkv', '.avi', '.mov', '.wmv', '.webm'].includes(ext);
+    }
+    if (isVideoFile(filePath)) {
+      const fileName = basename(filePath);
+      filePath == videoUrl && (currentIndex = index);
+      videos.push({
+        url: `pearrec://${filePath}`,
+        index,
+        name: fileName,
+      });
+      index++;
+    }
+  });
+
+  return { videos, currentIndex };
+}
+
 function readDirectoryVideo(filePath: string) {
   filePath = filePath.replace(/\\/g, '/');
   return filePath && `pearrec:///${filePath}`;
@@ -134,6 +161,7 @@ function readDirectoryImg(filePath: string) {
 export {
   downloadFile,
   getAudiosByAudioUrl,
+  getVideosByVideoUrl,
   getImgsByImgUrl,
   getScreenSize,
   readDirectoryImg,

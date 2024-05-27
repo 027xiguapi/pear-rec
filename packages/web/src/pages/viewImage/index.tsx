@@ -125,7 +125,7 @@ const ViewImage = () => {
     if (imgUrl) {
       if (imgUrl.substring(0, 7) != 'pearrec' && imgUrl.substring(0, 4) != 'blob') {
         if (window.isElectron) {
-          let { imgs, currentIndex } = await window.electronAPI.invokeEiGetImgsWin(imgUrl);
+          let { imgs, currentIndex } = await window.electronAPI.invokeViGetImgs(imgUrl);
           setImgs([...imgs]);
           initialViewIndexRef.current = currentIndex;
         } else {
