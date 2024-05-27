@@ -217,8 +217,8 @@ function initIpcMain() {
     return viewImageWin.setIsAlwaysOnTopViewImageWin(e.sender.id, isAlwaysOnTop);
   });
   ipcMain.handle('vi:get-imgs', async (e, img) => {
-    const imgs = await viewImageWin.getImgs(img);
-    return imgs;
+    const res = await viewImageWin.getImgs(img);
+    return res;
   });
   ipcMain.on('vi:download-img', async (e, imgUrl) => {
     viewImageWin.downloadImg(imgUrl);
@@ -286,8 +286,9 @@ function initIpcMain() {
   ipcMain.on('vv:unmaximize-win', () => {
     viewVideoWin.unmaximizeViewVideoWin();
   });
-  ipcMain.on('vv:set-always-on-top', (e, isAlwaysOnTop) => {
-    viewVideoWin.setAlwaysOnTopViewVideoWin(isAlwaysOnTop);
+  ipcMain.handle('vv:get-videos', async (e, videoUrl) => {
+    const res = await viewVideoWin.getVideos(videoUrl);
+    return res;
   });
 
   // 录音;

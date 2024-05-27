@@ -79,7 +79,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendViAlwaysOnTopWin: (isTop: boolean) => ipcRenderer.send('vi:alwaysOnTop-win', isTop),
   sendViOpenFile: (imgUrl: string) => ipcRenderer.send('vi:open-file', imgUrl),
   invokeViSetIsAlwaysOnTop: () => ipcRenderer.invoke('vi:set-always-on-top'),
-  invokeEiGetImgsWin: (imgUrl: string) => ipcRenderer.invoke('vi:get-imgs', imgUrl),
+  invokeViGetImgs: (imgUrl: string) => ipcRenderer.invoke('vi:get-imgs', imgUrl),
   sendViDownloadImg: (img: string) => ipcRenderer.send('vi:download-img', img),
   sendViSetHistoryImg: (img: string) => {
     ipcRenderer.send('vi:set-historyImg', img);
@@ -110,7 +110,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   //vvWin
   sendVvOpenWin: (search?: string) => ipcRenderer.send('vv:open-win', search),
   sendVvCloseWin: () => ipcRenderer.send('vv:close-win'),
-  invokeVvGetHistoryVideo: () => ipcRenderer.invoke('vv:get-historyVideo'),
+  invokeVvGetVideos: (videoUrl?: string) => ipcRenderer.invoke('vv:get-videos', videoUrl),
   sendVvSetHistoryVideo: (img: string) => ipcRenderer.send('vv:set-historyVideo', img),
 
   //vaWin

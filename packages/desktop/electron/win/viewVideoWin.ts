@@ -1,5 +1,6 @@
 import { BrowserWindow } from 'electron';
 import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
+import { getVideosByVideoUrl } from '../main/utils';
 
 let viewVideoWin: BrowserWindow | null = null;
 
@@ -15,8 +16,7 @@ function createViewVideoWin(search?: any): BrowserWindow {
 
   const videoUrl = search?.videoUrl || '';
   const recordId = search?.recordId || '';
-  // Open devTool if the app is not packaged
-  // viewVideoWin.webContents.openDevTools();
+
   if (url) {
     viewVideoWin.loadURL(
       WEB_URL +
@@ -24,6 +24,8 @@ function createViewVideoWin(search?: any): BrowserWindow {
           recordId ? 'recordId=' + recordId : ''
         }`,
     );
+    // Open devTool if the app is not packaged
+    // viewVideoWin.webContents.openDevTools();
   } else {
     viewVideoWin.loadFile(WIN_CONFIG.viewVideo.html, {
       search: `?${videoUrl ? 'videoUrl=' + videoUrl : ''}${recordId ? 'recordId=' + recordId : ''}`,
@@ -69,9 +71,9 @@ function setAlwaysOnTopViewVideoWin(isAlwaysOnTop: boolean) {
   viewVideoWin?.setAlwaysOnTop(isAlwaysOnTop);
 }
 
-async function getHistoryVideoPath() {
-  // const historyVideoPath = ((await getHistoryVideo()) as string) || '';
-  // return historyVideoPath;
+async function getVideos(videoUrl: string) {
+  const res = await getVideosByVideoUrl(videoUrl);
+  return res;
 }
 
 async function sendHistoryVideo() {
@@ -90,4 +92,5 @@ export {
   sendHistoryVideo,
   setAlwaysOnTopViewVideoWin,
   unmaximizeViewVideoWin,
+  getVideos,
 };
