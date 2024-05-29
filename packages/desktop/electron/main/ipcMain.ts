@@ -29,6 +29,7 @@ import * as viewImageWin from '../win/viewImageWin';
 import * as viewVideoWin from '../win/viewVideoWin';
 import * as videoConverterWin from '../win/videoConverterWin';
 import * as globalShortcut from './globalShortcut';
+import * as editVideoWin from '../win/editVideoWin';
 import logger from './logger';
 import { showNotification } from './notification';
 import * as utils from './utils';
@@ -265,6 +266,10 @@ function initIpcMain() {
   });
   ipcMain.on('ca:open-win', () => {
     canvasWin.openCanvasWin();
+  });
+
+  ipcMain.on('ev:open-win', () => {
+    editVideoWin.openEditVideoWin();
   });
 
   // 视频音频展示;

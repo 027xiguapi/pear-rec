@@ -71,6 +71,12 @@ export const WIN_CONFIG = {
     width: 1024,
     autoHideMenuBar: true,
   },
+  editVideo: {
+    html: path.join(process.env.DIST, 'editGif.html'),
+    height: 768,
+    width: 1024,
+    autoHideMenuBar: true,
+  },
   videoConverter: {
     html: path.join(process.env.DIST, 'videoConverter.html'),
     height: 768,

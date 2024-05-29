@@ -11,6 +11,7 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 
   const { t } = useTranslation();
   const fileRef = useRef(null);
+  const videoRef = useRef(null);
   const directoryRef = useRef(null);
 
   function handleViewVideo(e: any) {
@@ -57,6 +58,25 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
     event.target.value = '';
   }
 
+  function handleUploadVideo(event) {
+    const file = event.target.files[0];
+    if (window.electronAPI) {
+      window.electronAPI.sendEvOpenWin({ videoUrl: file.path });
+    } else {
+      const url = window.URL.createObjectURL(file);
+      Modal.confirm({
+        title: '提示',
+        content: `是否打开${file.name}`,
+        okText: t('modal.ok'),
+        cancelText: t('modal.cancel'),
+        onOk() {
+          window.open(`/editVideo.html?videoUrl=${encodeURIComponent(url)}`);
+        },
+      });
+    }
+    event.target.value = '';
+  }
+
   function handleUploadDirectory(event) {
     const file = event.target.files[0];
     if (window.electronAPI) {
@@ -67,6 +87,9 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
 
   return (
     <div className="cardContent">
+      <span className="extra" onClick={() => videoRef.current.click()}>
+        {t('home.edit')}
+      </span>
       <Video
         theme="outline"
         size="32"
@@ -81,6 +104,13 @@ const ViewVideoCard = forwardRef((props: any, ref: any) => {
         accept="video/*"
         className="fileRef"
         onChange={handleUploadFile}
+      />
+      <input
+        type="file"
+        ref={videoRef}
+        accept="video/*"
+        className="fileRef"
+        onChange={handleUploadVideo}
       />
     </div>
   );
