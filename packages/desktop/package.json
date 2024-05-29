@@ -36,7 +36,7 @@
     "electron-builder": "^24.13.3",
     "electron-log": "^5.1.2",
     "jsonfile": "^6.1.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5",
     "uuid": "^9.0.1",
     "vite": "^5.1.5",
     "vite-plugin-electron": "^0.28.2"

@@ -1,4 +1,4 @@
-import { BrowserWindow, Rectangle, screen } from 'electron';
+import { BrowserWindow, Rectangle, screen, desktopCapturer } from 'electron';
 import { ICON, WEB_URL, WIN_CONFIG, preload, url } from '../main/constant';
 import {
   closeClipScreenWin,
@@ -56,7 +56,19 @@ function createRecorderScreenWin(search?: any): BrowserWindow {
     closeClipScreenWin();
   });
 
+  recorderScreenWin.webContents.on('did-finish-load', () => {
+    setSource();
+  });
+
   return recorderScreenWin;
+}
+
+async function setSource() {
+  const { id } = screen.getPrimaryDisplay();
+  let sources = [...(await desktopCapturer.getSources({ types: ['screen'] }))];
+  let source = sources.filter((e: any) => parseInt(e.display_id, 10) == id)[0];
+  source || (source = sources[0]);
+  recorderScreenWin.webContents.send('rs:set-source', source.id);
 }
 
 // 打开关闭录屏窗口

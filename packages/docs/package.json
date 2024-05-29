@@ -10,12 +10,12 @@
     "deploy": "deploy.sh"
   },
   "devDependencies": {
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^3.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "vitepress": "1.0.0-beta.1"
+    "react": "^19",
+    "react-dom": "^19",
+    "vitepress": "^1.6.3"
   },
   "keywords": [
     "pear-rec",

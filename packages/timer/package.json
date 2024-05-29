@@ -11,14 +11,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^19",
+    "react-dom": "^19"
   },
   "devDependencies": {
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@vitejs/plugin-react-swc": "^3.0.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5",
     "vite": "^5.1.5"
   },
   "main": "src/Timer/index.tsx",
