@@ -38,6 +38,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   handleRsGetEndRecord: (callback: any) => ipcRenderer.on('rs:get-end-record', callback),
   sendRsDownloadVideo: (file: string) => ipcRenderer.send('rs:download-video', file),
   sendRsFile: (callback: any) => ipcRenderer.on('rs:send-file', (e, file) => callback(file)),
+  sendRsSetSource: (callback: any) =>
+    ipcRenderer.on('rs:set-source', (e, sourceId) => callback(sourceId)),
 
   //csWin
   sendCsOpenWin: (search?: any) => ipcRenderer.send('cs:open-win', search),

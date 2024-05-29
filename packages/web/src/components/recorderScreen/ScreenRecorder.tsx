@@ -46,15 +46,18 @@ const ScreenRecorder = (props) => {
 
   useEffect(() => {
     if (window.isElectron) {
-      initElectron();
+      window.electronAPI?.sendRsFile((file) => {
+        addRecord(file);
+      });
+      window.electronAPI?.sendRsSetSource((sourceId) => {
+        initElectron(sourceId);
+      });
     } else {
       initCropArea();
     }
     loadFfmpeg();
     user.id || getCurrentUser();
-    window.electronAPI?.sendRsFile((file) => {
-      addRecord(file);
-    });
+
     return () => {
       mediaRecorder.current?.stop();
     };
@@ -97,8 +100,7 @@ const ScreenRecorder = (props) => {
     }
   }
 
-  async function initElectron() {
-    const source = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
+  async function initElectron(sourceId) {
     const constraints: any = {
       audio: {
         mandatory: {
@@ -108,7 +110,7 @@ const ScreenRecorder = (props) => {
       video: {
         mandatory: {
           chromeMediaSource: 'desktop',
-          chromeMediaSourceId: source.id,
+          chromeMediaSourceId: sourceId,
         },
       },
     };

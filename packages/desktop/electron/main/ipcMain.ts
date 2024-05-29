@@ -93,6 +93,7 @@ function initIpcMain() {
     const { id } = screen.getPrimaryDisplay();
     const sources = [...(await desktopCapturer.getSources({ types: ['screen'] }))];
     let source = sources.filter((e: any) => parseInt(e.display_id, 10) == id)[0];
+    source || (source = sources[0]);
     return source;
   });
   ipcMain.handle('rs:get-bounds-clip', async () => {
