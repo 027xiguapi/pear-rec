@@ -1,0 +1,16 @@
+.recorderVideo {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(rgb(246, 246, 246), rgb(217, 224, 241)) no-repeat;
+  :global {
+    .content {
+      max-width: 1000px;
+      margin: 15px auto;
+      .tool {
+        align-items: center;
+      }
+    }
+  }
+}
