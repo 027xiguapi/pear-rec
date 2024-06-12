@@ -8,6 +8,8 @@ import {
 } from '@xzdarcy/react-timeline-editor';
 import React, { useEffect, useRef, useState } from 'react';
 import { assetsPrefix, createFileWriter } from './utils';
+import ininitApp from '@/pages/main.tsx';
+import Home from '@/pages/home';
 
 type TLActionWithName = TimelineAction & { name: string };
 
@@ -91,6 +93,7 @@ const TimelineEditor = ({
           onOffsetChange(action);
         }}
         onClickAction={(_, { action }) => {
+          // @ts-expect-error
           setActiveAction(action);
         }}
         getActionRender={(action: TLActionWithName) => {
@@ -114,7 +117,7 @@ const actionSpriteMap = new WeakMap<TimelineAction, VisibleSprite>();
 
 const clipsSrc = assetsPrefix(['video/bunny_0.mp4', 'audio/16kHz-1chan.mp3', 'img/bunny.png']);
 
-export default function App() {
+function EditVideo() {
   const [avCvs, setAVCvs] = useState<AVCanvas | null>(null);
   const tlState = useRef<TimelineState>();
 
@@ -320,3 +323,7 @@ export default function App() {
     </div>
   );
 }
+
+ininitApp(EditVideo);
+
+export default EditVideo;

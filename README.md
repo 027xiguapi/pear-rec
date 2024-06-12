@@ -151,9 +151,11 @@ Features that have been ticked are the latest in the development process but may
 | Link | [Download](https://github.com/027xiguapi/pear-rec/releases) | [Download](https://github.com/027xiguapi/pear-rec/releases) | [Download](https://github.com/027xiguapi/pear-rec/releases) |
 
 
-## 🖖 Vue
-
-Screenshot implemented by community personnel based on `vue` 👉 [electron-screenshort](https://github.com/yejimeiming/electron-screenshort).
+## 💐 Acknowledgements
+- A screenshot plugin for electron and react. [react-screenshots](https://github.com/nashaofu/screenshots)
+- Process audio/video data in the browser using WebCodecs. [WebAV](https://github.com/hughfenghen/WebAV)
+- JavaScript GIF encoding library. [gif.js](https://github.com/jnordberg/gif.js)
+- Screenshot implemented by community personnel based on `vue`.  [electron-screenshort](https://github.com/yejimeiming/electron-screenshort).
 
 ## 👨‍👨‍👦‍👦 Feedback
 
