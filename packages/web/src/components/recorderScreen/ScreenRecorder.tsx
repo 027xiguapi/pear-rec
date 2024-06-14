@@ -1,9 +1,7 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import Timer from '@pear-rec/timer';
 import useTimer from '@pear-rec/timer/src/useTimer';
-import { mp4StreamToOPFSFile } from '@webav/av-cliper';
-import { AVRecorder } from '@webav/av-recorder';
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { saveAs } from 'file-saver';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,8 +27,8 @@ const ScreenRecorder = (props) => {
   const mediaStream = useRef<MediaStream>(); // 视频和系统声音流
   const micStream = useRef<MediaStream>(); // 麦克风声音流
   const combinedStream = useRef<MediaStream>(); // 合并流
-  const mediaRecorder = useRef<AVRecorder | null>(); // 媒体录制器对象
-  const outputStream = useRef<any>();
+  const mediaRecorder = useRef<MediaRecorder>(); // 媒体录制器对象
+  const recordedChunks = useRef<Blob[]>([]);
   const [isRecording, setIsRecording] = useState(false); // 标记是否正在录制
   const [isSave, setIsSave] = useState(false);
   const [percent, setPercent] = useState(0);
@@ -59,14 +57,6 @@ const ScreenRecorder = (props) => {
       mediaRecorder.current?.stop();
     };
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      if (outputStream.current == null) return;
-      const opfsFile = await mp4StreamToOPFSFile(outputStream.current);
-      type == 'gif' ? transcodeGif(opfsFile) : saveFile(opfsFile);
-    })();
-  }, [outputStream.current]);
 
   async function getCurrentUser() {
     try {
@@ -212,9 +202,25 @@ const ScreenRecorder = (props) => {
     } else {
       combinedStream.current = mediaStream.current;
     }
-    const recodeMS = combinedStream.current.clone();
-    const size = window.isElectron ? await window.electronAPI?.invokeRsGetBoundsClip() : props.size;
-    mediaRecorder.current = new AVRecorder(recodeMS, { width: size.width, height: size.height });
+    mediaRecorder.current = new MediaRecorder(combinedStream.current);
+    mediaRecorder.current.addEventListener('dataavailable', (e) => {
+      if (e.data.size > 0) {
+        recordedChunks.current.push(e.data);
+      }
+    });
+    mediaRecorder.current.addEventListener('stop', () => {
+      exportRecording();
+    });
+  }
+
+  // 导出录制的音频文件
+  function exportRecording() {
+    if (recordedChunks.current.length > 0) {
+      const blob = new Blob(recordedChunks.current, {
+        type: 'video/webm',
+      });
+      type == 'gif' ? transcodeGif(blob) : saveFile(blob);
+    }
   }
 
   async function handleShotScreen() {
@@ -257,8 +263,6 @@ const ScreenRecorder = (props) => {
   async function handleStartRecord() {
     await setMediaRecorder();
     await mediaRecorder.current.start();
-    outputStream.current = mediaRecorder.current.outputStream;
-
     setIsRecording(true);
     props.setIsRecording && props.setIsRecording(true);
     timer.start();
@@ -287,6 +291,7 @@ const ScreenRecorder = (props) => {
     worker.postMessage({
       status: 'stop',
     });
+    recordedChunks.current = [];
   }
 
   async function loadFfmpeg() {
@@ -330,7 +335,7 @@ const ScreenRecorder = (props) => {
   }
 
   async function saveFile(blob) {
-    const fileName = `pear-rec_${+new Date()}.${type == 'gif' ? 'gif' : 'mp4'}`;
+    const fileName = `pear-rec_${+new Date()}.${type == 'gif' ? 'gif' : 'webm'}`;
     if (window.isElectron) {
       const url = URL.createObjectURL(blob);
       window.electronAPI.sendRsDownloadVideo({ url, fileName: fileName });
