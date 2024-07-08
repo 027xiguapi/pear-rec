@@ -1,6 +1,12 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { AVCanvas, AudioSprite, ImgSprite, TextSprite, VideoSprite } from '@webav/av-canvas';
-import { mp4StreamToOPFSFile } from '@webav/av-cliper';
+import { AVCanvas } from '@webav/av-canvas';
+import {
+  ImgClip,
+  MediaStreamClip,
+  VisibleSprite,
+  createEl,
+  renderTxt2ImgBitmap,
+} from '@webav/av-cliper';
 import { AVRecorder } from '@webav/av-recorder';
 import { Button, Card, Divider, Flex, Modal, message } from 'antd';
 import { saveAs } from 'file-saver';
@@ -11,18 +17,17 @@ import initApp from '../main';
 import styles from './index.module.scss';
 
 let avCvs: AVCanvas | null = null;
-let recorder: AVRecorder | null = null;
-
 function initCvs(attchEl: HTMLDivElement | null) {
   if (attchEl == null) return;
   avCvs = new AVCanvas(attchEl, {
     bgColor: '#333',
-    resolution: {
-      width: 1920,
-      height: 1080,
-    },
+    width: 1920,
+    height: 1080,
   });
+  avCvs.play({ start: 0, end: Infinity });
 }
+
+let recorder: AVRecorder | null = null;
 
 export default function UI() {
   const { t } = useTranslation();
@@ -42,9 +47,9 @@ export default function UI() {
 
   useEffect(() => {
     (async () => {
-      if (outputStream.current == null) return;
-      const opfsFile = await mp4StreamToOPFSFile(outputStream.current);
-      window.isOffline ? saveAs(opfsFile, `pear-rec_${+new Date()}.mp4`) : saveFile(opfsFile);
+      // if (outputStream.current == null) return;
+      // const opfsFile = await mp4StreamToOPFSFile(outputStream.current);
+      // window.isOffline ? saveAs(opfsFile, `pear-rec_${+new Date()}.mp4`) : saveFile(opfsFile);
     })();
   }, [outputStream.current]);
 
@@ -112,144 +117,150 @@ export default function UI() {
 
   async function start() {
     if (avCvs == null) return;
-    recorder = new AVRecorder(avCvs.captureStream(), {
-      width: 1920,
-      height: 1080,
-      bitrate: 5e6,
-      audioCodec: 'aac',
+    const fileHandle = await window.showSaveFilePicker({
+      suggestedName: `WebAV-${Date.now()}.mp4`,
     });
-    await recorder.start();
-    outputStream.current = recorder.outputStream;
-    setStateText('录制中...');
+    const writer = await fileHandle.createWritable();
+    recorder = new AVRecorder(avCvs.captureStream(), {
+      bitrate: 5e6,
+    });
+    recorder.start().pipeTo(writer).catch(console.error);
+  }
+
+  async function loadFile(accept: Record<string, string[]>) {
+    const [fileHandle] = await (window as any).showOpenFilePicker({
+      types: [{ accept }],
+    });
+    return (await fileHandle.getFile()) as File;
   }
 
   return (
-    <div className={styles.recorderVideo}>
-      <Card className="content">
-        <Flex gap="small" wrap="wrap" className="tool">
-          添加素材：
-          <Button
-            onClick={async () => {
-              if (avCvs == null) return;
-              const mediaStream = await navigator.mediaDevices.getUserMedia({
+    <>
+      添加素材：
+      <Button
+        onClick={async () => {
+          if (avCvs == null) return;
+          const spr = new VisibleSprite(
+            new MediaStreamClip(
+              await navigator.mediaDevices.getUserMedia({
                 video: true,
                 audio: true,
-              });
-              const vs = new VideoSprite('userMedia', mediaStream, {
-                audioCtx: avCvs.spriteManager.audioCtx,
-              });
-              await avCvs.spriteManager.addSprite(vs);
-            }}
-          >
-            摄像 & 麦克风
-          </Button>
-          <Button
-            onClick={async () => {
-              if (avCvs == null) return;
+              }),
+            ),
+          );
+          await avCvs.addSprite(spr);
+        }}
+      >
+        Camera & Micphone
+      </Button>
+      &nbsp;
+      <Button
+        onClick={async () => {
+          if (avCvs == null) return;
+          const spr = new VisibleSprite(
+            new MediaStreamClip(
+              await navigator.mediaDevices.getDisplayMedia({
+                video: true,
+                audio: true,
+              }),
+            ),
+          );
+          await avCvs.addSprite(spr);
+        }}
+      >
+        Share screen
+      </Button>
+      &nbsp;
+      <Button
+        onClick={async () => {
+          if (avCvs == null) return;
+          const localFile = await loadFile({
+            'image/*': ['.png', '.gif', '.jpeg', '.jpg'],
+          });
+          const opts = /\.gif$/.test(localFile.name)
+            ? ({ type: 'image/gif', stream: localFile.stream() } as const)
+            : localFile.stream();
+          const spr = new VisibleSprite(new ImgClip(opts));
+          await avCvs.addSprite(spr);
+        }}
+      >
+        Image
+      </Button>
+      &nbsp;
+      <Button
+        onClick={async () => {
+          if (avCvs == null) return;
+          const videoEl = createEl('video') as HTMLVideoElement;
+          videoEl.src = URL.createObjectURL(
+            await loadFile({ 'video/*': ['.webm', '.mp4', '.mov', '.mkv'] }),
+          );
+          videoEl.loop = true;
+          videoEl.autoplay = true;
+          await videoEl.play();
 
-              const source = await window.electronAPI?.invokeRsGetDesktopCapturerSource();
-              const constraints: any = {
-                audio: {
-                  mandatory: {
-                    chromeMediaSource: 'desktop',
-                  },
-                },
-                video: {
-                  mandatory: {
-                    chromeMediaSource: 'desktop',
-                    chromeMediaSourceId: source.id,
-                  },
-                },
-              };
-              const mediaStream = window.isElectron
-                ? await navigator.mediaDevices.getUserMedia(constraints)
-                : await navigator.mediaDevices.getDisplayMedia({
-                    video: true,
-                    audio: true,
-                  });
-              const vs = new VideoSprite('display', mediaStream, {
-                audioCtx: avCvs.spriteManager.audioCtx,
-              });
-              await avCvs.spriteManager.addSprite(vs);
-            }}
-          >
-            屏幕
-          </Button>
-          <Button
-            onClick={async () => {
-              if (avCvs == null) return;
-              const is = new ImgSprite(
-                'img',
-                await loadFile({ 'image/*': ['.png', '.gif', '.jpeg', '.jpg'] }),
-              );
-              await avCvs.spriteManager.addSprite(is);
-            }}
-          >
-            图片
-          </Button>
-          <Button
-            onClick={async () => {
-              if (avCvs == null) return;
-              const vs = new VideoSprite(
-                'video',
-                await loadFile({ 'video/*': ['.webm', '.mp4'] }),
-                {
-                  audioCtx: avCvs.spriteManager.audioCtx,
-                },
-              );
-              await avCvs.spriteManager.addSprite(vs);
-            }}
-          >
-            视频
-          </Button>
-          <Button
-            onClick={async () => {
-              if (avCvs == null) return;
-              const as = new AudioSprite(
-                'audio',
-                await loadFile({ 'audio/*': ['.mp3', '.wav', '.ogg'] }),
-                { audioCtx: avCvs.spriteManager.audioCtx },
-              );
-              await avCvs.spriteManager.addSprite(as);
-            }}
-          >
-            音频
-          </Button>
-          <Button
-            onClick={async () => {
-              if (avCvs == null) return;
-              const fs = new TextSprite('text', '示例文字');
-              await avCvs.spriteManager.addSprite(fs);
-            }}
-          >
-            文字
-          </Button>
-        </Flex>
-        <Divider />
-        <Flex gap="small" wrap="wrap">
-          <Button
-            onClick={async () => {
-              await start();
-            }}
-          >
-            开始录制
-          </Button>
-          <Button
-            onClick={async () => {
-              await recorder?.stop();
-              setStateText('视频已保存');
-            }}
-          >
-            停止录制
-          </Button>
-          <span style={{ marginLeft: 16, color: '#666' }}>{stateText}</span>
-        </Flex>
-        <div
-          ref={initCvs}
-          style={{ width: 900, height: 500, position: 'relative', marginTop: 20 }}
-        ></div>
-      </Card>
-    </div>
+          const spr = new VisibleSprite(
+            // @ts-ignore
+            new MediaStreamClip(videoEl.captureStream()),
+          );
+          await avCvs.addSprite(spr);
+        }}
+      >
+        Video
+      </Button>
+      &nbsp;
+      <Button
+        onClick={async () => {
+          if (avCvs == null) return;
+          const audioEl = createEl('audio') as HTMLAudioElement;
+          audioEl.src = URL.createObjectURL(
+            await loadFile({ 'video/*': ['.mp3', '.wav', '.ogg', '.m4a'] }),
+          );
+          audioEl.loop = true;
+          audioEl.autoplay = true;
+          await audioEl.play();
+
+          const spr = new VisibleSprite(
+            // @ts-ignore
+            new MediaStreamClip(audioEl.captureStream()),
+          );
+          await avCvs.addSprite(spr);
+        }}
+      >
+        Audio
+      </Button>
+      &nbsp;
+      <Button
+        onClick={async () => {
+          if (avCvs == null) return;
+          const spr = new VisibleSprite(
+            new ImgClip(await renderTxt2ImgBitmap('示例文字', 'font-size: 80px; color: red;')),
+          );
+          await avCvs.addSprite(spr);
+        }}
+      >
+        Text
+      </Button>
+      <hr />
+      <Button
+        onClick={async () => {
+          await start();
+          setStateText('录制中...');
+        }}
+      >
+        Start Recod
+      </Button>
+      &nbsp;
+      <Button
+        onClick={async () => {
+          await recorder?.stop();
+          setStateText('视频已保存');
+        }}
+      >
+        Stop Recod
+      </Button>
+      <span style={{ marginLeft: 16, color: '#666' }}>{stateText}</span>
+      <div ref={initCvs} style={{ width: 900, height: 500, position: 'relative' }} />
+    </>
   );
 }
 

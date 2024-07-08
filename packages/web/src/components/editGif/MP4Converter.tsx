@@ -1,4 +1,4 @@
-import { MP4Previewer } from '@webav/av-cliper';
+import { MP4Clip } from '@webav/av-cliper';
 import { Button, Flex, InputNumber, Progress, Slider } from 'antd';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { db } from '../../db';
@@ -34,8 +34,7 @@ export default function MP4Converter(props) {
 
   async function start(videoUrl) {
     let stream = (await fetch(videoUrl)).body!;
-    previewer = new MP4Previewer(stream);
-    // let i = await previewer.getInfo();
+    previewer = new MP4Clip(stream);
   }
 
   async function loadVideo(videoUrl) {
